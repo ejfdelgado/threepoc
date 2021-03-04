@@ -1,0 +1,16 @@
+body { margin: 0; }
+
+#container_render {
+    display: block;
+    width: 100%;
+}
+
+#render_1 {
+    display: block;
+    width: 100%;
+}
+
+#render_2 {
+    display: block;
+    width: 100%;
+}

@@ -10,7 +10,7 @@ function es6Bundle() {
     browserify({
       debug: false,
     })
-      .add("./src/index.js")
+      .add("./src/pocs/threehistory/js/index.js")
       .transform(babelify, {
         only: [
           "./src/*",

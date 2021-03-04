@@ -1,9 +1,9 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
-import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
+import * as THREE from '../../node_modules/three/build/three.module.js';
+import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "../../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
 
 import { BasicRender } from "./BasicRender.js";
-import { Utiles } from "./Utiles.js";
+import { Utiles } from "../Utiles.js";
 
 export class RenderCreator extends BasicRender {
   models = [];
