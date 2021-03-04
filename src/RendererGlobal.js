@@ -1,15 +1,8 @@
-import { BasicRender } from "./BasicRender";
-import { RenderCreator } from "./RenderCreator";
-
-export interface RenderParams {
-    ifVisible?: boolean,
-    event?: any,
-    vw?: number,
-    vh?: number
-}
+import { BasicRender } from "./BasicRender.js";
+import { RenderCreator } from "./RenderCreator.js";
 
 export class RendererGlobal {
-    static renders : any[] = [];
+    static renders = [];
     constructor() {
 
     }
@@ -18,7 +11,7 @@ export class RendererGlobal {
         RendererGlobal.iterateRenders("resize");
     }
 
-    static generateParamsBBox(e : any) {
+    static generateParamsBBox(e) {
         return {
             event: e, 
             vw: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0), 
@@ -26,7 +19,7 @@ export class RendererGlobal {
         };
     }
 
-    static updateBBox(e : any) {
+    static updateBBox(e) {
         RendererGlobal.iterateRenders("computeBoundingBox", RendererGlobal.generateParamsBBox(e));
     }
 
@@ -36,7 +29,7 @@ export class RendererGlobal {
         });
     }
 
-    static iterateRenders(callbackName : string, myParams : RenderParams = {}) {
+    static iterateRenders(callbackName, myParams = {}) {
         const lista = RendererGlobal.renders;
         const promesas = [];
         for (let i=0; i<lista.length; i++) {

@@ -1,9 +1,9 @@
 
 export class Utiles {
-    static async loadJson(url: string) {
+    static async loadJson(url) {
         return new Promise((resolve, reject) => {
           $.getJSON(url, function () {})
-            .done(function (data: any) {
+            .done(function (data) {
               resolve(data);
             })
             .fail(function () {

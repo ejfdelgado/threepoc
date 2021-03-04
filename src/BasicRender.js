@@ -1,20 +1,20 @@
-const THREE = require('three/build/three.module');
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
+import * as THREE from '../node_modules/three/build/three.module.js';
+import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
+import { TrackballControls } from "../node_modules/three/examples/jsm/controls/TrackballControls.js";
 
-import { RendererGlobal } from "./RendererGlobal";
+import { RendererGlobal } from "./RendererGlobal.js";
 
 export class BasicRender {
-  renderer: any;
-  scene: any;
-  camera: any;
-  parentContainer: any = null;
-  bbox: any = null;
-  interpolacion: number = 0;
-  visible: boolean = null;
-  controls: any = null;
-  sourceJson: string;
-  constructor(parentContainer: any) {
+  renderer;
+  scene;
+  camera;
+  parentContainer = null;
+  bbox = null;
+  interpolacion = 0;
+  visible = null;
+  controls = null;
+  sourceJson;
+  constructor(parentContainer) {
     this.parentContainer = parentContainer;
     this.scene = new THREE.Scene();
 
@@ -62,7 +62,7 @@ export class BasicRender {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  async computeBoundingBox(myparams: any) {
+  async computeBoundingBox(myparams) {
     if (this.parentContainer != null) {
       this.bbox = this.parentContainer[0].getBoundingClientRect();
       const diff1 = this.bbox.height - this.bbox.top;
@@ -71,13 +71,13 @@ export class BasicRender {
     }
   }
 
-  async superAnimate(myParams: any) {
+  async superAnimate(myParams) {
     if (myParams.self.visible) {
       await myParams.self.animate();
     }
   }
 
-  protected getRenderer() {
+  getRenderer() {
     return this.renderer;
   }
 }

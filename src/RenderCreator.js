@@ -1,23 +1,13 @@
-const THREE = require("three/build/three.module");
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import * as THREE from '../node_modules/three/build/three.module.js';
+import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
 
-import { BasicRender } from "./BasicRender";
-import { Utiles } from "./Utiles";
-
-export interface ObjectDescriptor {
-  url: string;
-  position: number[];
-  scale: number[];
-}
-
-export interface SceneDescriptor {
-  objects: ObjectDescriptor[];
-}
+import { BasicRender } from "./BasicRender.js";
+import { Utiles } from "./Utiles.js";
 
 export class RenderCreator extends BasicRender {
-  models: any[] = [];
-  constructor(parentContainer: any) {
+  models = [];
+  constructor(parentContainer) {
     super(parentContainer);
     this.camera.position.z = 5;
     this.loadModel();
@@ -34,7 +24,7 @@ export class RenderCreator extends BasicRender {
   }
 
   async loadModel() {
-    const descriptor: SceneDescriptor = <SceneDescriptor>(
+    const descriptor = (
       await Utiles.loadJson(this.sourceJson)
     );
     // Instantiate a loader

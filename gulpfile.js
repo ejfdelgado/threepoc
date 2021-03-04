@@ -11,7 +11,7 @@ function es6Bundle() {
     browserify({
       debug: false,
     })
-      .add("./src/index.ts")
+      .add("./src/index.js")
       //.require(require.resolve('three/build/three.module.js'), { expose: 'three' })
       .plugin(tsify, { noImplicitAny: true })
       .transform(babelify, {

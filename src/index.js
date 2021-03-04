@@ -1,5 +1,5 @@
-import { RendererGlobal } from "./RendererGlobal"
-import { RenderCreator } from "./RenderCreator"
+import { RendererGlobal } from "./RendererGlobal.js"
+import { RenderCreator } from "./RenderCreator.js"
 
 export class App {
     static recreate() {
