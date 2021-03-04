@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp js",
+    "build-threehistory": "gulp js --poc threehistory",
     "start": "http-server"
   },
   "author": "",

@@ -3,7 +3,7 @@ import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLo
 import { DRACOLoader } from "../../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
 
 import { BasicRender } from "./BasicRender.js";
-import { Utiles } from "../Utiles.js";
+import { Utiles } from "../common/Utiles.js";
 
 export class RenderCreator extends BasicRender {
   models = [];

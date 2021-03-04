@@ -5,8 +5,4 @@
 - THREEJS: Conseguir otro objeto gltf
 
 
-1)browserify -t [ babelify --presets=es2015 ] if you are using from cli
-2) .transform(babelify,{presets: ['es2015']}) if you are using gulp
-3) transform:[['babelify', { presets: ['es2015']}] if oyu are using browserify
-
 https://gist.github.com/danharper/3ca2273125f500429945

@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "url": "./gltf/mica/mica.glb",
+            "url": "./data/gltf/mica/mica.glb",
             "position": [0,0,0],
             "scale": [1,1,1]
         }

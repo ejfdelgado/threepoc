@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "url": "./gltf/cubo/cubo.glb",
+            "url": "./data/gltf/cubo/cubo.glb",
             "position": [0,0,0],
             "scale": [1,1,1]
         }
