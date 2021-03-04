@@ -1,0 +1,48 @@
+{
+  "name": "zexercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp js",
+    "start": "http-server",
+    "server": "node static_server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "activate": "0.0.1",
+    "base": "^3.0.0",
+    "jquery": "^3.5.1",
+    "three": "^0.125.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.12.13",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-react": "^7.12.13",
+    "@types/jquery": "^3.5.5",
+    "@types/node": "^14.14.31",
+    "@types/three": "^0.125.3",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "es2015": "0.0.0",
+    "fancy-log": "^1.3.3",
+    "fs": "0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "http": "0.0.1-security",
+    "http-server": "^0.12.3",
+    "path": "^0.12.7",
+    "tsify": "^5.0.2",
+    "typedoc": "^0.20.28",
+    "typescript": "^4.2.2",
+    "url": "^0.11.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}

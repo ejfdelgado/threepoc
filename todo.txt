@@ -1,0 +1,5 @@
+- GUI: Crear una zona a la derecha para hacer scroll, que sea responsive.
+- THREEJS: Permitir hacer el ray casting.
+- THREEJS: Permitir posicionar la cámara frente a un objeto y que se vea todo
+    https://codesandbox.io/s/step-4-tweened-rxlu6?from-embed=&file=/src/index.js:1510-1529
+- THREEJS: Conseguir otro objeto gltf
