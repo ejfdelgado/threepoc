@@ -10,7 +10,7 @@ function es6Bundle() {
     browserify({
       debug: false,
     })
-      .add("./src/index.mjs")
+      .add("./src/index.js")
       .transform(babelify, {
         only: [
           "./src/*",

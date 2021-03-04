@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp js",
-    "start": "http-server",
-    "server": "node static_server.js"
+    "start": "http-server"
   },
   "author": "",
   "license": "ISC",
