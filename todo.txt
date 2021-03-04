@@ -3,3 +3,10 @@
 - THREEJS: Permitir posicionar la cámara frente a un objeto y que se vea todo
     https://codesandbox.io/s/step-4-tweened-rxlu6?from-embed=&file=/src/index.js:1510-1529
 - THREEJS: Conseguir otro objeto gltf
+
+
+1)browserify -t [ babelify --presets=es2015 ] if you are using from cli
+2) .transform(babelify,{presets: ['es2015']}) if you are using gulp
+3) transform:[['babelify', { presets: ['es2015']}] if oyu are using browserify
+
+https://gist.github.com/danharper/3ca2273125f500429945

@@ -1,5 +1,3 @@
-import { BasicRender } from "./BasicRender.js";
-import { RenderCreator } from "./RenderCreator.js";
 
 export class RendererGlobal {
     static renders = [];
