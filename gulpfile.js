@@ -33,7 +33,7 @@ function es6Bundle() {
   return browserify({
     debug: false,
   })
-    .add(`./src/pocs/${arg.poc}/js/index.js`)
+    .add(`./src/poc/${arg.poc}/js/index.js`)
     .transform(babelify, {
       only: [
         "./src/*",
@@ -65,7 +65,7 @@ function es6Bundle() {
       log("➡️  Bundle created, uploading to dist");
     })
     .pipe(source("index.min.js"))
-    .pipe(gulp.dest(`./src/pocs/${arg.poc}/js`))
+    .pipe(gulp.dest(`./src/poc/${arg.poc}/js`))
     .on("end", function () {
       log("✅  Bundle Updated");
     });

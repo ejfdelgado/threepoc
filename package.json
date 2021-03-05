@@ -1,12 +1,15 @@
 {
   "name": "zexercise",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-threehistory": "gulp js --poc threehistory",
-    "start": "http-server"
+    "build_threehistory": "gulp js --poc threehistory",
+    "start_local": "http-server",
+    "start": "node app.js",
+    "test": "mocha --exit test/*.test.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +17,8 @@
     "activate": "0.0.1",
     "base": "^3.0.0",
     "jquery": "^3.5.1",
-    "three": "^0.125.2"
+    "three": "^0.125.2",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
@@ -32,6 +36,8 @@
     "path": "^0.12.7",
     "typedoc": "^0.20.28",
     "url": "^0.11.0",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "mocha": "^8.1.3",
+    "supertest": "^6.0.0"
   }
 }
