@@ -1,8 +1,10 @@
-var browserify = require("browserify");
-var gulp = require("gulp");
-var source = require("vinyl-source-stream");
-var log = require("fancy-log");
-var babelify = require("babelify");
+const browserify = require("browserify");
+const gulp = require("gulp");
+const source = require("vinyl-source-stream");
+const log = require("fancy-log");
+const babelify = require("babelify");
+const buffer = require("vinyl-buffer");
+const uglify = require("gulp-uglify");
 
 const arg = ((argList) => {
   let arg = {},
@@ -35,9 +37,7 @@ function es6Bundle() {
   })
     .add(`./src/poc/${arg.poc}/js/index.mjs`)
     .transform(babelify, {
-      only: [
-        "./src/*",
-      ],
+      only: ["./src/*"],
       global: true,
       sourceType: "unambiguous",
       presets: [
@@ -63,6 +63,8 @@ function es6Bundle() {
       log("➡️  Bundle created, uploading to dist");
     })
     .pipe(source("index.min.js"))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest(`./src/poc/${arg.poc}/js`))
     .on("end", function () {
       log("✅  Bundle Updated");
