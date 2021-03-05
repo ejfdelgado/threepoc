@@ -33,6 +33,7 @@
     "fs": "0.0.1-security",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
+    "gulp-debug": "^4.0.0",
     "gulp-uglify": "^3.0.2",
     "http": "0.0.1-security",
     "http-server": "^0.12.3",

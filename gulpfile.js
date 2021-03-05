@@ -5,19 +5,16 @@ const log = require("fancy-log");
 const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
 const uglify = require("gulp-uglify");
+const debug = require('gulp-debug');
 
 const NODE_FILES = [
-  "node_modules/jquery/dist/jquery.min.js",
-  "node_modules/three/build/three.module.js",
-  "node_modules/three/examples/jsm/controls/OrbitControls.js",
-  "node_modules/three/examples/jsm/controls/TrackballControls.js",
-  "node_modules/three/examples/jsm/loaders/DRACOLoader.js",
-  "node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+  "./node_modules/jquery/dist/jquery.min.js",
+  "./node_modules/three/build/three.module.js",
+  "./node_modules/three/examples/jsm/controls/OrbitControls.js",
+  "./node_modules/three/examples/jsm/controls/TrackballControls.js",
+  "./node_modules/three/examples/jsm/loaders/DRACOLoader.js",
+  "./node_modules/three/examples/jsm/loaders/GLTFLoader.js",
 ];
-
-function copyNodeModulesBundle() {
-  return gulp.src(NODE_FILES).pipe(gulp.dest("./src/node_modules/"));
-}
 
 const arg = ((argList) => {
   let arg = {},
@@ -84,10 +81,16 @@ function es6Bundle() {
     });
 }
 
+function copyNodeModulesBundle() {
+  return gulp.src(NODE_FILES , { base: './node_modules' })
+  .pipe(debug())
+  .pipe(gulp.dest("./src/node_modules"));
+}
+
 gulp.task("js", function () {
   return es6Bundle();
 });
 
-gulp.task("distribute", function () {
-  copyNodeModulesBundle()
+gulp.task("node_modules", function () {
+  return copyNodeModulesBundle()
 });
