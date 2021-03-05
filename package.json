@@ -8,7 +8,8 @@
     "start": "node app.mjs",
     "test": "mocha --exit test/*.test.js",
     "deploy": "gcloud app deploy app.yaml --project paistv --version 2",
-    "config": "source /Users/jose.delgado/.bash_profile_gcp"
+    "config": "source /Users/jose.delgado/.bash_profile_gcp",
+    "node_modules": "gulp node_modules"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -33,15 +34,13 @@
     "fs": "0.0.1-security",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
-    "gulp-debug": "^4.0.0",
-    "gulp-uglify": "^3.0.2",
     "http": "0.0.1-security",
     "http-server": "^0.12.3",
     "mocha": "^8.1.3",
     "path": "^0.12.7",
     "supertest": "^6.0.0",
     "typedoc": "^0.20.28",
-    "uglify": "^0.1.5",
+    "uglify-js": "^3.13.0",
     "url": "^0.11.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"

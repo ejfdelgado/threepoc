@@ -4,8 +4,7 @@ const source = require("vinyl-source-stream");
 const log = require("fancy-log");
 const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
-const uglify = require("gulp-uglify");
-const debug = require('gulp-debug');
+//const uglify = require("gulp-uglify");
 
 const NODE_FILES = [
   "./node_modules/jquery/dist/jquery.min.js",
@@ -74,7 +73,7 @@ function es6Bundle() {
     })
     .pipe(source("index.min.js"))
     .pipe(buffer())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest(`./src/poc/${arg.poc}/js`))
     .on("end", function () {
       log("✅  Bundle Updated");
@@ -83,7 +82,6 @@ function es6Bundle() {
 
 function copyNodeModulesBundle() {
   return gulp.src(NODE_FILES , { base: './node_modules' })
-  .pipe(debug())
   .pipe(gulp.dest("./src/node_modules"));
 }
 
