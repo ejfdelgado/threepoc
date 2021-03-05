@@ -2,7 +2,7 @@ import * as THREE from '../../node_modules/three/build/three.module.js';
 import { OrbitControls } from "../../node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { TrackballControls } from "../../node_modules/three/examples/jsm/controls/TrackballControls.js";
 
-import { RendererGlobal } from "./RendererGlobal.js";
+import { RendererGlobal } from "./RendererGlobal.mjs";
 
 export class BasicRender {
   renderer;

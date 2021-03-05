@@ -1,8 +1,10 @@
-import { RendererGlobal } from "../../../node/three/RendererGlobal.js"
-import { RenderCreator } from "../../../node/three/RenderCreator.js"
+import { RendererGlobal } from "../../../node_local/three/RendererGlobal.mjs"
+import { RenderCreator } from "../../../node_local/three/RenderCreator.mjs"
+import { Utiles } from "../../../node_local/common/Utiles.mjs"
 
 export class App {
     static recreate() {
+        console.log(Utiles.getCurrentTimeNumber());
         $("[data-3d-scene]").each(function() {
             new RenderCreator($(this));
         });

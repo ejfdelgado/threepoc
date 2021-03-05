@@ -33,7 +33,7 @@ function es6Bundle() {
   return browserify({
     debug: false,
   })
-    .add(`./src/poc/${arg.poc}/js/index.js`)
+    .add(`./src/poc/${arg.poc}/js/index.mjs`)
     .transform(babelify, {
       only: [
         "./src/*",
