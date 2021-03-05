@@ -1,6 +1,6 @@
-import * as THREE from '../../node_modules/three/build/three.module.js';
-import { OrbitControls } from "../../node_modules/three/examples/jsm/controls/OrbitControls.js";
-import { TrackballControls } from "../../node_modules/three/examples/jsm/controls/TrackballControls.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { OrbitControls } from "../../../node_modules/three/examples/jsm/controls/OrbitControls.js";
+import { TrackballControls } from "../../../node_modules/three/examples/jsm/controls/TrackballControls.js";
 
 import { RendererGlobal } from "./RendererGlobal.mjs";
 
@@ -21,7 +21,7 @@ export class BasicRender {
     this.camera = new THREE.PerspectiveCamera(
       40, //fov — Camera frustum vertical field of view, in degrees. Default is 50.
       window.innerWidth / window.innerHeight,
-      1,//near — Camera frustum near plane, Default is 0.1.
+      1, //near — Camera frustum near plane, Default is 0.1.
       100 //far — Camera frustum far plane. Default is 2000.
     );
     this.camera.position.set(5, 2, 8);

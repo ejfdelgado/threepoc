@@ -1,9 +1,9 @@
-import * as THREE from '../../node_modules/three/build/three.module.js';
-import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "../../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { GLTFLoader } from "../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "../../../node_modules/three/examples/jsm/loaders/DRACOLoader.js";
 
 import { BasicRender } from "./BasicRender.mjs";
-import { Utiles } from "../common/Utiles.mjs";
+import { Utiles } from "../../common/Utiles.mjs";
 
 export class RenderCreator extends BasicRender {
   models = [];
@@ -14,7 +14,7 @@ export class RenderCreator extends BasicRender {
   }
 
   async animate() {
-    for (let i=0; i<this.models.length; i++) {
+    for (let i = 0; i < this.models.length; i++) {
       const model = this.models[i];
       let rotacion = Math.PI * 2 * this.interpolacion;
       model.rotation.y = rotacion;
@@ -24,9 +24,7 @@ export class RenderCreator extends BasicRender {
   }
 
   async loadModel() {
-    const descriptor = (
-      await Utiles.loadJson(this.sourceJson)
-    );
+    const descriptor = await Utiles.loadJson(this.sourceJson);
     // Instantiate a loader
     const loader = new GLTFLoader();
     const self = this;
@@ -46,7 +44,11 @@ export class RenderCreator extends BasicRender {
           // view-source:https://threejs.org/examples/#webgl_animation_keyframes
           const model = gltf.scene;
           self.models.push(model);
-          model.position.set(objeto.position[0], objeto.position[1], objeto.position[2]);
+          model.position.set(
+            objeto.position[0],
+            objeto.position[1],
+            objeto.position[2]
+          );
           model.scale.set(objeto.scale[0], objeto.scale[1], objeto.scale[2]);
 
           self.scene.add(model);
