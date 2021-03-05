@@ -37,8 +37,6 @@ function es6Bundle() {
     .transform(babelify, {
       only: [
         "./src/*",
-        "./node_modules/three/build/three.module.js",
-        "./node_modules/three/examples/jsm/*",
       ],
       global: true,
       sourceType: "unambiguous",

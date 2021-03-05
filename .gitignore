@@ -104,4 +104,6 @@ typings/
 .tern-port
 
 # Los compilados
-src/pocs/*/js/index.min.js
+src/poc/*/js/index.min.js
+
+.DS_Store
