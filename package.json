@@ -6,7 +6,9 @@
     "build_threehistory": "gulp js --poc threehistory",
     "start_local": "http-server",
     "start": "node app.js",
-    "test": "mocha --exit test/*.test.js"
+    "test": "mocha --exit test/*.test.js",
+    "deploy": "gcloud app deploy app.yaml --project paistv --version 2",
+    "config": "source /Users/jose.delgado/.bash_profile_gcp"
   },
   "engines": {
     "node": ">=14.0.0"
