@@ -1,4 +1,10 @@
 
+TODO
+
+https://cloud.google.com/nodejs/docs/reference
+https://github.com/GoogleCloudPlatform/nodejs-docs-samples
+
+
 Para compilar:
 gulp js
 

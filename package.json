@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build_threehistory": "gulp js --poc threehistory",
+    "build_angular": "gulp js --poc angular --pretty yes --debug yes",
     "start_local": "http-server",
     "start": "node app.mjs",
     "test": "mocha --exit test/*.test.js",
@@ -18,10 +19,12 @@
   "license": "ISC",
   "dependencies": {
     "activate": "0.0.1",
+    "angular": "^1.8.2",
+    "angular-ui-router": "^1.0.29",
     "base": "^3.0.0",
+    "express": "^4.17.1",
     "jquery": "^3.5.1",
-    "three": "^0.125.2",
-    "express": "^4.17.1"
+    "three": "^0.125.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",

@@ -13,6 +13,11 @@ const NODE_FILES = [
   "./node_modules/three/examples/jsm/controls/TrackballControls.js",
   "./node_modules/three/examples/jsm/loaders/DRACOLoader.js",
   "./node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+
+  "./node_modules/angular/angular.min.js",
+  "./node_modules/angular/angular.min.js.map",
+  "./node_modules/angular-ui-router/release/angular-ui-router.min.js",
+  "./node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
 ];
 
 const arg = ((argList) => {
@@ -41,8 +46,8 @@ const arg = ((argList) => {
 
 function es6Bundle() {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
-  return browserify({
-    debug: false,
+  let pipes1 = browserify({
+    debug: (arg.debug == "yes"),
   })
     .add(`./src/poc/${arg.poc}/js/index.mjs`)
     .transform(babelify, {
@@ -72,8 +77,12 @@ function es6Bundle() {
       log("➡️  Bundle created, uploading to dist");
     })
     .pipe(source("index.min.js"))
-    .pipe(buffer())
-    .pipe(uglify())
+    .pipe(buffer());
+  if (arg.pretty != "yes") {
+    pipes1 = pipes1.pipe(uglify());
+  }
+
+  return pipes1
     .pipe(gulp.dest(`./src/poc/${arg.poc}/js`))
     .on("end", function () {
       log("✅  Bundle Updated");
@@ -81,8 +90,9 @@ function es6Bundle() {
 }
 
 function copyNodeModulesBundle() {
-  return gulp.src(NODE_FILES , { base: './node_modules' })
-  .pipe(gulp.dest("./src/node_modules"));
+  return gulp
+    .src(NODE_FILES, { base: "./node_modules" })
+    .pipe(gulp.dest("./src/node_modules"));
 }
 
 gulp.task("js", function () {
@@ -90,5 +100,5 @@ gulp.task("js", function () {
 });
 
 gulp.task("node_modules", function () {
-  return copyNodeModulesBundle()
+  return copyNodeModulesBundle();
 });
