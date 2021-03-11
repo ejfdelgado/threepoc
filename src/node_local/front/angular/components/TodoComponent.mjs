@@ -2,8 +2,7 @@ export const TodoComponent = {
     bindings: {
       todoData: "<",
     },
-    //templateUrl,
-    template: "<p>p works!</p>",
+    templateUrl: "/node_local/front/angular/components/TodoComponent.html",
     controller: class TodoComponent {
       constructor() {
         console.log("constructor");

@@ -49,7 +49,7 @@ function es6Bundle() {
   let pipes1 = browserify({
     debug: (arg.debug == "yes"),
   })
-    .add(`./src/poc/${arg.poc}/js/index.mjs`)
+    .add(`./src/1/${arg.poc}/js/index.mjs`)
     .transform(babelify, {
       only: ["./src/*"],
       global: true,
@@ -83,7 +83,7 @@ function es6Bundle() {
   }
 
   return pipes1
-    .pipe(gulp.dest(`./src/poc/${arg.poc}/js`))
+    .pipe(gulp.dest(`./src/1/${arg.poc}/js`))
     .on("end", function () {
       log("✅  Bundle Updated");
     });

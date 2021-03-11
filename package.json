@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build_threehistory": "gulp js --poc threehistory",
-    "build_angular": "gulp js --poc angular --pretty yes --debug yes",
+    "build_angular": "gulp js --poc angular --pretty yes",
     "start_local": "http-server",
     "start": "node app.mjs",
     "test": "mocha --exit test/*.test.js",
