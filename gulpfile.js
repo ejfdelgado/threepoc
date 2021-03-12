@@ -18,6 +18,13 @@ const NODE_FILES = [
   "./node_modules/angular/angular.min.js.map",
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js",
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
+  
+  "./node_modules/firebase/firebase-auth.js",
+  "./node_modules/firebase/firebase-auth.js.map",
+  "./node_modules/firebase/firebase-app.js",
+  "./node_modules/firebase/firebase-app.js.map",
+  "./node_modules/firebaseui/dist/firebaseui.js",
+  "./node_modules/firebaseui/dist/firebaseui.css"
 ];
 
 const arg = ((argList) => {

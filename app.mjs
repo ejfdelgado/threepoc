@@ -11,7 +11,7 @@ app.use("/api/utiles", utiles);
 app.use("/api/tup", tuplaHandler);
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(
     `App listening on http://127.0.0.1:${PORT} Press Ctrl+C to quit.`
