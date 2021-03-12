@@ -1,5 +1,6 @@
 import express from "express";
 import admin from "firebase-admin";
+import { StorageHandler } from "./StorageHandler.mjs";
 var router = express.Router();
 
 admin.initializeApp({
@@ -66,6 +67,20 @@ router.get("/identidad", function (req, res) {
     .catch((error) => {
       console.log(error);
     });
+});
+
+router.get("/api-key", function (req, res) {
+  const host = req.header("Host");
+  const promesa = StorageHandler.get(`security/${host}/api-key.json`);
+  promesa.then((data) => {
+    if (data == null) {
+      res.status(202).end();
+    } else {
+      const theJson = JSON.parse(data.plainText);
+      res.setHeader("content-type", data.metadata.contentType);
+      res.status(200).json(theJson).end();
+    }
+  });
 });
 
 export default router;

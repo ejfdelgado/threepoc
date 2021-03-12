@@ -23,7 +23,6 @@ EN Run Configurations:
 miseguridad.salir().then(function() {
 	//Salió!
 });
-
  */
 
 import { Utiles } from "../../common/Utiles.mjs";
