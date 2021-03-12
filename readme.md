@@ -4,6 +4,7 @@ TODO
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
 
+export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 
 Para compilar:
 gulp js

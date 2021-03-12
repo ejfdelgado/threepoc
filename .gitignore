@@ -107,3 +107,5 @@ typings/
 src/poc/*/js/index.min.js
 
 .DS_Store
+
+/llaves
