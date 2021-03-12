@@ -1,4 +1,6 @@
+import { MiSeguridad } from "../../../node_local/front/firebase/MiSeguridad.mjs";
 
-firebase.initializeApp(FIREBASE_CONFIG);
+$(document).ready(function () {
+  MiSeguridad.inicializar();
+});
 
-var ui = new firebaseui.auth.AuthUI(firebase.auth());

@@ -23,4 +23,10 @@ export class Utiles {
       ahora.getMilliseconds() / 1000000000
     );
   }
+
+  static promiseState(p) {
+    const t = {};
+    return Promise.race([p, t])
+      .then(v => (v === t)? "pending" : "fulfilled", () => "rejected");
+  }
 }
