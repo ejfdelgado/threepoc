@@ -252,9 +252,16 @@ export class MiSeguridad {
   static firebaseConf() {
     if (MiSeguridad.diferidoConf == null) {
       // Puede que lo quiera leer desde algún lugar del back
+      const promesaSomeData = fetch("/adm/somedata", {
+        method: "GET",
+      });
       MiSeguridad.diferidoConf = new Promise((resolve, reject) => {
-        resolve({
-          config: FIREBASE_CONFIG,
+        promesaSomeData.then((response) => {
+          response.json().then((msg) => {
+            resolve({
+              config: msg,
+            });
+          });
         });
       });
     }

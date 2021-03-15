@@ -69,14 +69,19 @@ router.get("/identidad", function (req, res) {
     });
 });
 
-router.get("/api-key", function (req, res) {
+/**
+ * Se encarga de leer el api key de firebase
+ */
+router.get("/somedata", function (req, res) {
   const host = req.header("Host");
-  const promesa = StorageHandler.get(`security/${host}/api-key.json`);
+  const path = `security/${host}/api-key.json`;
+  const promesa = StorageHandler.read(path);
   promesa.then((data) => {
     if (data == null) {
+      console.log(`${path} not found`);
       res.status(202).end();
     } else {
-      const theJson = JSON.parse(data.plainText);
+      const theJson = JSON.parse(data.data);
       res.setHeader("content-type", data.metadata.contentType);
       res.status(200).json(theJson).end();
     }

@@ -60,7 +60,8 @@ export class StorageHandler {
             data: content,
           });
         },
-        function () {
+        function (err) {
+          console.log(err);
           resolve(null);
         }
       );
@@ -69,7 +70,7 @@ export class StorageHandler {
 }
 
 /**
- * name=public/hola.txt&type=text&download
+ * name=public/hola.txt&type=text&download&encoding=utf8
  */
 router.get("/read", function (req, res) {
   const key = req.query.name;
