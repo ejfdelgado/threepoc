@@ -24,7 +24,9 @@ const NODE_FILES = [
   "./node_modules/firebase/firebase-app.js",
   "./node_modules/firebase/firebase-app.js.map",
   "./node_modules/firebaseui/dist/firebaseui.js",
-  "./node_modules/firebaseui/dist/firebaseui.css"
+  "./node_modules/firebaseui/dist/firebaseui.css",
+
+  "./node_modules/json.sortify/dist/JSON.sortify.js"
 ];
 
 const arg = ((argList) => {
