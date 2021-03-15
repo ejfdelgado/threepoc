@@ -41,7 +41,7 @@ export class StorageHandler {
    * Lee un archivo de texto plano y responde con su contenido y metadata
    * @param filePath
    */
-  static read(filePath, type="buffer", encoding="utf8") {
+  static read(filePath, type = "buffer", encoding = "utf8") {
     const file = bucket.file(filePath);
     const metadataPromise = file.getMetadata();
     let contentPromise;
@@ -61,6 +61,9 @@ export class StorageHandler {
           });
         },
         function (err) {
+          // TODO diferencia con metadata si es un archivo que no existe o si es un error de verdad
+          // Probar los casos de un bad enconding, que sí se debería propagar
+          // Probar el caso de un archivo que no existe, que debería responder null
           console.log(err);
           resolve(null);
         }

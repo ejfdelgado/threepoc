@@ -26,6 +26,7 @@ miseguridad.salir().then(function() {
  */
 
 import { Utiles } from "../../common/Utiles.mjs";
+import { ModuloActividad } from "../common/ModuloActividad.mjs";
 
 export class MiSeguridad {
   static diferidoConf = null;
@@ -36,7 +37,7 @@ export class MiSeguridad {
   static diferidoDatos = null;
 
   static salir = function () {
-    //var actividad = moduloActividad.on();
+    const actividad = ModuloActividad.on();
     var promesa = firebase.auth().signOut();
     promesa.then(
       function () {
@@ -45,7 +46,7 @@ export class MiSeguridad {
         location.reload();
       },
       function (error) {
-        //actividad.resolve();
+        actividad.resolve();
       }
     );
     return promesa;
@@ -60,14 +61,22 @@ export class MiSeguridad {
         };
         MiSeguridad.insertarToken(peticion).then(
           (peticion) => {
+            const actividadIdentidad = ModuloActividad.on();
             fetch("/adm/identidad", peticion).then(
               (response) => {
-                response.json().then((msg) => {
-                  Object.assign(MiSeguridad.datosLocales, msg);
-                  resolve(MiSeguridad.datosLocales);
-                });
+                response.json().then(
+                  (msg) => {
+                    Object.assign(MiSeguridad.datosLocales, msg);
+                    resolve(MiSeguridad.datosLocales);
+                    actividadIdentidad.resolve();
+                  },
+                  () => {
+                    actividadIdentidad.resolve();
+                  }
+                );
               },
               () => {
+                actividadIdentidad.resolve();
                 MiSeguridad.borrarDatos();
                 reject(datosLocales);
               }
@@ -252,17 +261,29 @@ export class MiSeguridad {
   static firebaseConf() {
     if (MiSeguridad.diferidoConf == null) {
       // Puede que lo quiera leer desde algún lugar del back
+      const actividadSomeData = ModuloActividad.on();
       const promesaSomeData = fetch("/adm/somedata", {
         method: "GET",
       });
       MiSeguridad.diferidoConf = new Promise((resolve, reject) => {
-        promesaSomeData.then((response) => {
-          response.json().then((msg) => {
-            resolve({
-              config: msg,
-            });
-          });
-        });
+        promesaSomeData.then(
+          (response) => {
+            response.json().then(
+              (msg) => {
+                actividadSomeData.resolve();
+                resolve({
+                  config: msg,
+                });
+              },
+              () => {
+                actividadSomeData.resolve();
+              }
+            );
+          },
+          () => {
+            actividadSomeData.resolve();
+          }
+        );
       });
     }
     return MiSeguridad.diferidoConf;

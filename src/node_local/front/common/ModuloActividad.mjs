@@ -11,7 +11,7 @@ export class ModuloActividad {
 
   static actualizar(opciones) {
     if ($(".loading_micodigo_core_lib").length == 0) {
-      $("body").append($(TEMPLATE_DIV));
+      $("body").append($(ModuloActividad.TEMPLATE_DIV));
     }
     var settings = $.extend(
       true,
@@ -22,7 +22,7 @@ export class ModuloActividad {
       },
       opciones
     );
-    var tam = encolados.length;
+    var tam = ModuloActividad.encolados.length;
     if (tam > 0) {
       var imagen = $(".loading_micodigo_core_lib .imagen_micodigo_core_lib");
       imagen.attr("class", "imagen_micodigo_core_lib");
@@ -44,16 +44,16 @@ export class ModuloActividad {
 
     var settings = $.extend(true, {}, {}, opciones);
 
-    encolados.push(diferido);
+    ModuloActividad.encolados.push(diferido);
 
     diferido.promise().always(function () {
-      var indice = encolados.indexOf(diferido);
+      var indice = ModuloActividad.encolados.indexOf(diferido);
       if (indice >= 0) {
-        encolados.splice(indice, 1);
+        ModuloActividad.encolados.splice(indice, 1);
       }
-      actualizar(settings);
+      ModuloActividad.actualizar(settings);
     });
-    actualizar(settings);
+    ModuloActividad.actualizar(settings);
 
     if (typeof settings["timeout"] == "number") {
       setTimeout(function () {
