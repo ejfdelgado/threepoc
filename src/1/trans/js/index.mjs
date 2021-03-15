@@ -1,3 +1,3 @@
-import { ModuloTransformacion } from "../../../node_local/common/ModuloTransformacion.mjs";
+import { ModuloTransformacion } from "../../../js/common/ModuloTransformacion.mjs";
 
 ModuloTransformacion.test("simple");

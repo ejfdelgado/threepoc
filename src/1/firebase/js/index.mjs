@@ -1,4 +1,4 @@
-import { MiSeguridad } from "../../../node_local/front/firebase/MiSeguridad.mjs";
+import { MiSeguridad } from "../../../js/front/firebase/MiSeguridad.mjs";
 
 $(document).ready(function () {
   MiSeguridad.inicializar();

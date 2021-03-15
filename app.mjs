@@ -1,10 +1,10 @@
 "use strict";
 
 import express from "express";
-import utiles from "./src/node_local/services/UtilesSrv.mjs";
-import tuplaHandler from "./src/node_local/services/TuplaHandler.mjs";
-import adminHandler from "./src/node_local/services/AdminHandler.mjs";
-import storageHandler from "./src/node_local/services/StorageHandler.mjs";
+import utiles from "./src/js/services/UtilesSrv.mjs";
+import tuplaHandler from "./src/js/services/TuplaHandler.mjs";
+import adminHandler from "./src/js/services/AdminHandler.mjs";
+import storageHandler from "./src/js/services/StorageHandler.mjs";
 
 const app = express();
 
