@@ -7,7 +7,7 @@
     "build_angular": "gulp js --poc angular --pretty yes",
     "start_local": "http-server",
     "start": "node app.mjs",
-    "test": "mocha --exit test/*.test.js",
+    "test": "mocha --exit test/*.test.mjs",
     "deploy": "gcloud app deploy app.yaml --project paistv --version 2",
     "config": "source /Users/jose.delgado/.bash_profile_gcp",
     "node_modules": "gulp node_modules"

@@ -1,16 +1,17 @@
 import express from "express";
 import admin from "firebase-admin";
 import { StorageHandler } from "./StorageHandler.mjs";
+import { Constants } from "../common/Constants.mjs";
 var router = express.Router();
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
-  databaseURL: "https://proyeccion-colombia1.firebaseio.com",
+  databaseURL: Constants.firebase.databaseURL,
 });
 
 export class Usuario {
   metadatos;
-  static ADMINISTRADORES = ["google.com/edgar.jose.fernando.delgado@gmail.com"];
+  static ADMINISTRADORES = Constants.ADMINISTRADORES;
   constructor(metadatos) {
     this.metadatos = metadatos;
   }

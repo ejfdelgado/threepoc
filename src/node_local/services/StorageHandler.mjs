@@ -1,10 +1,11 @@
 import storagePackage from "@google-cloud/storage";
 import express from "express";
+import { Constants } from "../common/Constants.mjs";
 
 const { Storage } = storagePackage;
 const storageInstance = new Storage();
 
-const bucket = storageInstance.bucket("proyeccion-colombia1.appspot.com");
+const bucket = storageInstance.bucket(Constants.DEFAULT_BUCKET);
 
 var router = express.Router();
 

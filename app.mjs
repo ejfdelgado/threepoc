@@ -20,3 +20,5 @@ app.listen(PORT, () => {
     `App listening on http://127.0.0.1:${PORT} Press Ctrl+C to quit.`
   );
 });
+
+export default app;
