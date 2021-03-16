@@ -7,18 +7,12 @@ const storageInstance = new Storage();
 
 const bucket = storageInstance.bucket(Constants.DEFAULT_BUCKET);
 
-var router = express.Router();
+const router = express.Router();
 
 /**
  * https://googleapis.dev/nodejs/storage/latest/File.html#download
  */
 export class StorageHandler {
-  static MIME_TYPE_TEXT = ["application/json", "text/plain", "text/html"];
-
-  static isMimeTypeText(metadata) {
-    return StorageHandler.MIME_TYPE_TEXT.indexOf(metadata.contentType) >= 0;
-  }
-
   /**
    * Lee el archivo como texto y asume que existe
    * @param filePath
@@ -33,6 +27,7 @@ export class StorageHandler {
    * @param filePath
    */
   static async readBinary(filePath) {
+    filePath = filePath.replace(/^[/]/, "");
     const file = bucket.file(filePath);
     const contents = (await file.download())[0];
     return contents;
@@ -43,6 +38,7 @@ export class StorageHandler {
    * @param filePath
    */
   static read(filePath, type = "buffer", encoding = "utf8") {
+    filePath = filePath.replace(/^[/]/, "");
     const file = bucket.file(filePath);
     const metadataPromise = file.getMetadata();
     let contentPromise;
@@ -62,13 +58,36 @@ export class StorageHandler {
           });
         },
         function (err) {
-          // TODO diferencia con metadata si es un archivo que no existe o si es un error de verdad
-          // Probar los casos de un bad enconding, que sí se debería propagar
-          // Probar el caso de un archivo que no existe, que debería responder null
-          console.log(err);
-          resolve(null);
+          metadataPromise
+            .then(() => {
+              reject(err);
+            })
+            .catch((error) => {
+              if (error.code == 404) {
+                resolve(null);
+              } else {
+                reject(err);
+              }
+            });
         }
       );
+    });
+  }
+
+  static makeResponse(req, res, key, readPromise) {
+    const downloadFlag = req.query ? req.query.download : false;
+    readPromise.then(function (rta) {
+      if (rta != null) {
+        res.writeHead(200, {
+          "Content-Type": rta.metadata.contentType,
+          "Content-disposition":
+            downloadFlag != undefined ? "attachment;filename=" + key : "inline",
+          "Content-Length": rta.data.length,
+        });
+        res.end(rta.data);
+      } else {
+        res.status(202).end();
+      }
     });
   }
 }
@@ -78,22 +97,12 @@ export class StorageHandler {
  */
 router.get("/read", function (req, res) {
   const key = req.query.name;
-  const downloadFlag = req.query.download;
-  let readPromise;
-  readPromise = StorageHandler.read(key, req.query.type, req.query.encoding);
-  readPromise.then(function (rta) {
-    if (rta != null) {
-      res.writeHead(200, {
-        "Content-Type": rta.metadata.contentType,
-        "Content-disposition":
-          downloadFlag != undefined ? "attachment;filename=" + key : "inline",
-        "Content-Length": rta.data.length,
-      });
-      res.end(rta.data);
-    } else {
-      res.status(202).end();
-    }
-  });
+  const readPromise = StorageHandler.read(
+    key,
+    req.query.type,
+    req.query.encoding
+  );
+  StorageHandler.makeResponse(req, res, key, readPromise);
 });
 
 export default router;
