@@ -1,6 +1,11 @@
 
 TODO
 
+git clone https://github.com/code-kotis/qr-code-scanner
+npm install
+npm run start
+npm run build
+
 Lectura de estáticos
 - Remplazo de html
 - Cache
@@ -10,6 +15,9 @@ https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
 
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
+
+export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
+
 
 Para compilar:
 gulp js

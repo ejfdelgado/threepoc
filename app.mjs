@@ -6,16 +6,18 @@ import tuplaHandler from "./src/js/services/TuplaHandler.mjs";
 import adminHandler from "./src/js/services/AdminHandler.mjs";
 import storageHandler from "./src/js/services/StorageHandler.mjs";
 import mainHandler from "./src/js/services/MainHandler.mjs";
+import shortUrlHandler from "./src/js/services/ShortUrlHandler.mjs";
 
 const app = express();
 
 app.use("/api/utiles", utiles);
 app.use("/api/tup", tuplaHandler);
 app.use("/adm", adminHandler);
+app.use("/a", shortUrlHandler);
 app.use("/storage", storageHandler);
 app.use("/", mainHandler);
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 81;
 app.listen(PORT, () => {
   console.log(
     `App listening on http://127.0.0.1:${PORT} Press Ctrl+C to quit.`
