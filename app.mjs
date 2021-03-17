@@ -17,7 +17,7 @@ app.use("/a", shortUrlHandler);
 app.use("/storage", storageHandler);
 app.use("/", mainHandler);
 
-const PORT = process.env.PORT || 81;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(
     `App listening on http://127.0.0.1:${PORT} Press Ctrl+C to quit.`

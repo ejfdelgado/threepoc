@@ -62,25 +62,18 @@ export class MiSeguridad {
         MiSeguridad.insertarToken(peticion).then(
           (peticion) => {
             const actividadIdentidad = ModuloActividad.on();
-            fetch("/adm/identidad", peticion).then(
-              (response) => {
-                response.json().then(
-                  (msg) => {
-                    Object.assign(MiSeguridad.datosLocales, msg);
-                    resolve(MiSeguridad.datosLocales);
-                    actividadIdentidad.resolve();
-                  },
-                  () => {
-                    actividadIdentidad.resolve();
-                  }
-                );
-              },
-              () => {
-                actividadIdentidad.resolve();
-                MiSeguridad.borrarDatos();
-                reject(datosLocales);
-              }
-            );
+            let promesaIdentidad = fetch("/adm/identidad", peticion);
+            promesaIdentidad.catch(() => {
+              actividadIdentidad.resolve();
+              MiSeguridad.borrarDatos();
+              reject(datosLocales);
+            });
+            promesaIdentidad = promesaIdentidad.then((datos) => datos.json());
+            promesaIdentidad.then((msg) => {
+              Object.assign(MiSeguridad.datosLocales, msg);
+              resolve(MiSeguridad.datosLocales);
+              actividadIdentidad.resolve();
+            });
           },
           () => {
             console.log("Error insertando token");
