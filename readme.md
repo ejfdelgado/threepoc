@@ -1,6 +1,11 @@
 
 TODO
 
+Lectura de estáticos
+- Remplazo de html
+- Cache
+- Definir punto de lectura del bucket public/
+
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
 

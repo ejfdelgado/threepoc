@@ -19,7 +19,29 @@ export class StorageHandler {
    * @encoding ascii, utf8
    */
   static async readString(filePath, encoding = "utf8") {
-    return (await StorageHandler.readBinary(filePath)).toString(encoding);
+    const respuesta = await StorageHandler.readBinary(filePath);
+    if (respuesta != null) {
+      return respuesta.toString(encoding);
+    }
+    return null;
+  }
+
+  static async checkIfRedirect(filePath) {
+    let localPath = filePath.pathname;
+    const parte1 = localPath.match(/([^/]+)$/);
+    if (parte1 != null && parte1[1].indexOf(".") < 0) {
+      localPath = localPath.replace(/^[/]/, "");
+      const file = bucket.file(localPath + "/index.html");
+      const existe = await file.exists();
+      if (existe) {
+        return {
+          data: null,
+          metadata: {},
+          redirect: "/" + localPath + "/",
+        };
+      }
+    }
+    return null;
   }
 
   /**
@@ -78,13 +100,19 @@ export class StorageHandler {
     const downloadFlag = req.query ? req.query.download : false;
     readPromise.then(function (rta) {
       if (rta != null) {
-        res.writeHead(200, {
-          "Content-Type": rta.metadata.contentType,
-          "Content-disposition":
-            downloadFlag != undefined ? "attachment;filename=" + key : "inline",
-          "Content-Length": rta.data.length,
-        });
-        res.end(rta.data);
+        if (rta.redirect) {
+          res.redirect(rta.redirect);
+        } else {
+          res.writeHead(200, {
+            "Content-Type": rta.metadata.contentType,
+            "Content-disposition":
+              downloadFlag != undefined
+                ? "attachment;filename=" + key
+                : "inline",
+            "Content-Length": rta.data.length,
+          });
+          res.end(rta.data);
+        }
       } else {
         res.status(202).end();
       }

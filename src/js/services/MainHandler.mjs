@@ -186,9 +186,11 @@ export class MainHandler {
   }
 
   static async resolveLocalFileSingleString(filePath, encoding = "utf8") {
-    return (await MainHandler.resolveLocalFileSingle(filePath)).toString(
-      encoding
-    );
+    const respuesta = await MainHandler.resolveLocalFileSingle(filePath);
+    if (respuesta != null) {
+      return respuesta.toString(encoding);
+    }
+    return null;
   }
 
   /**
@@ -202,7 +204,6 @@ export class MainHandler {
       const somePath = path.join(MainHandler.ROOT_FOLDER, filename);
 
       if (!fs.existsSync(somePath)) {
-        console.log(`${somePath} no existe`);
         resolve(null);
       } else {
         if (!fs.lstatSync(somePath).isFile()) {
@@ -241,6 +242,25 @@ export class MainHandler {
     return "application/octet-stream";
   }
 
+  static async checkIfRedirect(filePath) {
+    const localPath = filePath.pathname;
+    const parte1 = localPath.match(/([^/]+)$/);
+    if (parte1 != null && parte1[1].indexOf(".") < 0) {
+      const somePath = path.join(
+        MainHandler.ROOT_FOLDER,
+        localPath + "/index.html"
+      );
+      if (fs.existsSync(somePath)) {
+        return {
+          data: null,
+          metadata: {},
+          redirect: localPath + "/",
+        };
+      }
+    }
+    return null;
+  }
+
   static async resolveLocalFile(localPath, encoding = "utf8") {
     for (let i = 0; i < localPath.files.length; i++) {
       const filename = localPath.files[i];
@@ -273,7 +293,11 @@ export class MainHandler {
   ) {
     for (let i = 0; i < localPath.files.length; i++) {
       const filename = localPath.files[i];
-      const rta = await StorageHandler.read(filename, type, encoding);
+      const rta = await StorageHandler.read(
+        "public" + filename,
+        type,
+        encoding
+      );
       if (rta != null) {
         return rta;
       }
@@ -282,8 +306,17 @@ export class MainHandler {
   }
 
   static async resolveFile(localPath, encoding = "utf8") {
-    let returnedFile = await MainHandler.resolveLocalFile(localPath, encoding);
+    let returnedFile = null;
+    returnedFile = await MainHandler.checkIfRedirect(localPath);
+    if (returnedFile != null) {
+      return returnedFile;
+    }
+    returnedFile = await MainHandler.resolveLocalFile(localPath, encoding);
     if (returnedFile == null) {
+      returnedFile = await StorageHandler.checkIfRedirect(localPath);
+      if (returnedFile != null) {
+        return returnedFile;
+      }
       returnedFile = await MainHandler.resolveBucketFile(localPath);
     }
     return returnedFile;
