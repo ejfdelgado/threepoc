@@ -5,6 +5,8 @@
   "scripts": {
     "build_threehistory": "gulp js --poc threehistory",
     "build_angular": "gulp js --poc angular --pretty yes",
+    "build_firebase": "gulp js --poc firebase --pretty yes",
+    "build_trans": "gulp js --poc trans --pretty yes",
     "start_local": "http-server",
     "start": "node app.mjs",
     "test": "mocha --exit test/*.test.mjs",

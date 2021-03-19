@@ -10,7 +10,7 @@ import { MainHandlerReplace } from "./MainHandlerReplace.mjs";
 const router = express.Router();
 
 const HOMOLOGATION_FILES = {
-  "/favicon.ico": "/assets/img/favicon.ico",
+  "/favicon.ico": "/z/img/favicon.ico",
 };
 
 export class MainHandler {

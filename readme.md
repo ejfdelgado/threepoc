@@ -11,6 +11,7 @@ Lectura de estáticos
 - Permitir guardar los datos de la página con el identificador único por usuario.
 - Remplazo de html de el título, imágen, descripción, etc.
 - Cache...
+- Bug: cuando voy a la ruta trans?local, redirige a trans/, se pierden los query params
 
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples

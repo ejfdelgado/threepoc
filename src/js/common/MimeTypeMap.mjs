@@ -129,7 +129,7 @@ export const EXTENSION_MAP = {
 };
 
 export function guessMimeType(path) {
-  const partesExt = /[.]([^/.]+)/.exec(path);
+  const partesExt = /[.]([^/.]+)$/.exec(path);
   if (partesExt == null) {
     return "application/octet-stream";
   }
