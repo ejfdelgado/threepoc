@@ -59,8 +59,8 @@ export class StorageHandler {
    * Lee un archivo de texto plano y responde con su contenido y metadata
    * @param filePath
    */
-  static read(filePath, type = "buffer", encoding = "utf8") {
-    filePath = filePath.replace(/^[/]/, "");
+  static read(filePathOriginal, type = "buffer", encoding = "utf8") {
+    const filePath = filePathOriginal.replace(/^[/]/, "");
     const file = bucket.file(filePath);
     const metadataPromise = file.getMetadata();
     let contentPromise;
@@ -73,7 +73,8 @@ export class StorageHandler {
       Promise.all([metadataPromise, contentPromise]).then(
         function (respuesta) {
           const metadata = respuesta[0][0];
-          metadata.filename=/[^/]+$/.exec(filePath)[0];
+          metadata.filename = /[^/]+$/.exec(filePath)[0];
+          metadata.fullPath = filePathOriginal;
           const content = respuesta[1];
           resolve({
             metadata: metadata,

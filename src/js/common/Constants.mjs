@@ -1,4 +1,5 @@
 export class Constants {
+  static SITE_NAME = "País TV";
   static ROOT_FOLDER = "/1/threehistory"
   static PROJECT_ID = "proyeccion-colombia1";
   //static PROJECT_ID = "paistv";

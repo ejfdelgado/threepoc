@@ -7,9 +7,10 @@ npm run start
 npm run build
 
 Lectura de estáticos
-- Remplazo de html
-- Cache
-- Definir punto de lectura del bucket public/
+- Permitir generar llave que identifica la página de forma única, por usuario.
+- Permitir guardar los datos de la página con el identificador único por usuario.
+- Remplazo de html de el título, imágen, descripción, etc.
+- Cache...
 
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
