@@ -1,4 +1,5 @@
 export class Constants {
+  static ROOT_FOLDER = "/1/threehistory"
   static PROJECT_ID = "proyeccion-colombia1";
   //static PROJECT_ID = "paistv";
   static ADMINISTRADORES = ["google.com/edgar.jose.fernando.delgado@gmail.com"];

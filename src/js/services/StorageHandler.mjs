@@ -73,6 +73,7 @@ export class StorageHandler {
       Promise.all([metadataPromise, contentPromise]).then(
         function (respuesta) {
           const metadata = respuesta[0][0];
+          metadata.filename=/[^/]+$/.exec(filePath)[0];
           const content = respuesta[1];
           resolve({
             metadata: metadata,
@@ -107,7 +108,7 @@ export class StorageHandler {
             "Content-Type": rta.metadata.contentType,
             "Content-disposition":
               downloadFlag != undefined
-                ? "attachment;filename=" + key
+                ? "attachment;filename=" + rta.metadata.filename
                 : "inline",
             "Content-Length": rta.data.length,
           });

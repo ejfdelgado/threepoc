@@ -3,6 +3,7 @@ import url from "url";
 import fs from "fs";
 import path from "path";
 import { StorageHandler } from "./StorageHandler.mjs";
+import { Constants } from "../common/Constants.mjs";
 
 const router = express.Router();
 
@@ -150,7 +151,15 @@ export class MainHandler {
       protocol: localPath.protocol,
       hostname: localPath.hostname,
     };
-    const partesName = /(.*)[/]([^/]*)$/.exec(localPath.pathname);
+    if (Constants.ROOT_FOLDER.trim().length > 0) {
+      const partesSiRaiz = /^\/([^/]*)$/.exec(ans.pathname);
+      if (partesSiRaiz != null) {
+        if (["/favicon.ico"].indexOf(ans.pathname) < 0) {
+          ans.pathname = Constants.ROOT_FOLDER + "/" + partesSiRaiz[1];
+        }
+      }
+    }
+    const partesName = /(.*)[/]([^/]*)$/.exec(ans.pathname);
     const partesName1 = partesName[1];
     const partesName2 = partesName[2];
     const files = [];
@@ -279,7 +288,7 @@ export class MainHandler {
           data: contenido,
           metadata: {
             contentType: contentType,
-            filename: /[^/]*$/.exec(filename),
+            filename: /[^/]*$/.exec(filename)[0],
           },
         };
       }
@@ -322,9 +331,25 @@ export class MainHandler {
     return returnedFile;
   }
 
+  static async replaceTokens(readPromise) {
+    const BASE_TAG = `<base href="${Constants.ROOT_FOLDER}/"></base>`;
+    const rta = await readPromise;
+    if (
+      rta != null &&
+      typeof rta.data == "string" &&
+      rta.metadata.filename == "index.html"
+    ) {
+      rta.data = rta.data.replace(/(<head>)/, "<head>" + BASE_TAG);
+    }
+    return rta;
+  }
+
   static handle(req, res) {
-    const localPath = MainHandler.decodeUrl(url.parse(req.getUrl()));
-    const readPromise = MainHandler.resolveFile(localPath);
+    let theUrl = url.parse(req.getUrl());
+    const localPath = MainHandler.decodeUrl(theUrl);
+    const readPromise = MainHandler.resolveFile(localPath).then((rta) =>
+      MainHandler.replaceTokens(rta)
+    );
     StorageHandler.makeResponse(req, res, localPath, readPromise);
   }
 }
