@@ -1,4 +1,5 @@
 import { Constants } from "../common/Constants.mjs";
+import { Utiles } from "../common/Utiles.mjs";
 
 export class MainHandlerReplace {
   static async replaceTokens(readPromise, originalUrl) {
@@ -16,11 +17,13 @@ export class MainHandlerReplace {
       },
       {
         old: /name="og:title"[\s]+content="[^"]*"/,
-        new: `name="og:title" content="${metadata.tit}"`,
+        new: `name="og:title" content="${Utiles.htmlEntities(metadata.tit)}"`,
       },
       {
         old: /name="og:description"[\s]+content="[^"]*"/,
-        new: `name="og:description" content="${metadata.desc}"`,
+        new: `name="og:description" content="${Utiles.htmlEntities(
+          metadata.desc
+        )}"`,
       },
       {
         old: /name="og:image"[\s]+content="[^"]*"/,
@@ -28,7 +31,9 @@ export class MainHandlerReplace {
       },
       {
         old: /name="og:site_name"[\s]+content="[^"]*"/,
-        new: `name="og:site_name" content="${Constants.SITE_NAME}"`,
+        new: `name="og:site_name" content="${Utiles.htmlEntities(
+          Constants.SITE_NAME
+        )}"`,
       },
       {
         old: /name="og:url"[\s]+content="[^"]*"/,
@@ -39,8 +44,8 @@ export class MainHandlerReplace {
         new: `name="keywords" content="${metadata.q}"`,
       },
       {
-        old: /<title><\/title>/,
-        new: `<title>${metadata.tit}<\/title>`,
+        old: /<title>.*?<\/title>/,
+        new: `<title>${Utiles.htmlEntities(metadata.tit)}<\/title>`,
       },
     ];
     const rta = await readPromise;
