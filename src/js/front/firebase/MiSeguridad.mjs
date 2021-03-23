@@ -36,6 +36,37 @@ export class MiSeguridad {
   static datosLocales = {};
   static diferidoDatos = null;
 
+  static async hayUsuario() {
+    try {
+      await MiSeguridad.diferidoFirebase;
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  static async obligarLogin() {
+    const hay = await MiSeguridad.hayUsuario();
+    if (!hay) {
+      MiSeguridad.showLogin();
+    } else {
+      const metadatos = await MiSeguridad.diferidoDatos;
+      return metadatos;
+    }
+  }
+
+  static async buscarUsuario(forzar) {
+    if (forzar) {
+      return await MiSeguridad.obligarLogin();
+    } else {
+      const hay = await MiSeguridad.hayUsuario();
+      if (hay) {
+        return await MiSeguridad.diferidoDatos;
+      }
+    }
+    return;
+  }
+
   static salir = function () {
     const actividad = ModuloActividad.on();
     var promesa = firebase.auth().signOut();

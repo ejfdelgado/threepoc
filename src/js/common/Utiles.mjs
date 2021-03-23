@@ -1,4 +1,16 @@
 export class Utiles {
+  /**
+   * Rotarna el path de modo: "https://paistv.appspot.com/1/scan3d"
+   */
+  static getReferer() {
+    const pathNameFromBase = document.baseURI.replace(location.origin, "");
+    const pathNameFromLocation = location.pathname;
+    if (pathNameFromLocation.length > pathNameFromBase.length) {
+      return location.origin + pathNameFromLocation;
+    }
+    return location.origin + pathNameFromBase;
+  }
+
   static htmlEntities(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -38,5 +50,9 @@ export class Utiles {
       (v) => (v === t ? "pending" : "fulfilled"),
       () => "rejected"
     );
+  }
+
+  static extend(a, b) {
+    Object.assign(a, b);
   }
 }

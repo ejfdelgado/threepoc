@@ -27,7 +27,8 @@ const NODE_FILES = [
   "./node_modules/firebaseui/dist/firebaseui.css",
 
   "./node_modules/json.sortify/dist/JSON.sortify.js",
-  "./node_modules/event-emitter-es6/dist/event-emitter.min.js"
+  "./node_modules/event-emitter-es6/dist/event-emitter.min.js",
+  "./node_modules/blueimp-md5-es6/js/md5.js"
 ];
 
 const arg = ((argList) => {

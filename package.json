@@ -26,6 +26,7 @@
     "angular": "^1.8.2",
     "angular-ui-router": "^1.0.29",
     "base": "^3.0.0",
+    "blueimp-md5-es6": "^2.7.4",
     "body-parser": "^1.19.0",
     "event-emitter-es6": "^1.1.5",
     "express": "^4.17.1",

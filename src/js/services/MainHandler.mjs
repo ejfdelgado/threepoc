@@ -6,6 +6,7 @@ import { StorageHandler } from "./StorageHandler.mjs";
 import { Constants } from "../common/Constants.mjs";
 import { guessMimeType } from "../common/MimeTypeMap.mjs";
 import { MainHandlerReplace } from "./MainHandlerReplace.mjs";
+import { Utilidades } from "../common/Utilidades.mjs";
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ export class MainHandler {
       pathname: localPath.pathname,
       protocol: localPath.protocol,
       hostname: localPath.hostname,
+      query:
+        localPath.query != null && localPath.query.length > 0
+          ? "?" + localPath.query
+          : "",
     };
     if (Constants.ROOT_FOLDER.trim().length > 0) {
       const partesSiRaiz = /^\/([^/]*)$/.exec(ans.pathname);
@@ -52,16 +57,7 @@ export class MainHandler {
         files[i] = HOMOLOGATION_FILES[file];
       }
     }
-    const patron = /([^=&]+)=([^=&]+)/g;
-    let match;
-    do {
-      match = patron.exec(localPath.query);
-      if (match != null) {
-        const llave = match[1];
-        const valor = match[2];
-        ans.params[llave] = decodeURI(valor);
-      }
-    } while (match != null);
+    ans.params = Utilidades.getQueryParams(localPath.query);
     ans.files = files;
     return ans;
   }
@@ -127,7 +123,7 @@ export class MainHandler {
         return {
           data: null,
           metadata: {},
-          redirect: localPath + "/",
+          redirect: localPath + "/" + filePath.query,
         };
       }
     }
