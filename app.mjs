@@ -19,6 +19,10 @@ app.use("/a", shortUrlHandler);
 app.use("/storage", storageHandler);
 app.use("/", mainHandler);
 
+app.use((error, req, res, next) => {
+  return res.status(500).json({ error: error.toString() });
+});
+
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(

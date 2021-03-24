@@ -30,6 +30,8 @@ source /Users/jose.delgado/.bash_profile_gcp
 
 gcloud app deploy app.yaml --project paistv --version 2
 
+gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
+
 ------------------------------------------------------------------------------------------------------------------------>>
 
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security

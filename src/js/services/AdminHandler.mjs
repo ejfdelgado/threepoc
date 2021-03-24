@@ -73,7 +73,7 @@ router.get("/identidad", function (req, res) {
 /**
  * Se encarga de leer el api key de firebase
  */
-router.get("/somedata", function (req, res) {
+router.get("/somedata", function (req, res, next) {
   const host = req.header("Host");
   const path = `security/${host}/api-key.json`;
   const promesa = StorageHandler.read(path);
@@ -86,7 +86,7 @@ router.get("/somedata", function (req, res) {
       res.setHeader("content-type", data.metadata.contentType);
       res.status(200).json(theJson).end();
     }
-  });
+  }, next);
 });
 
 export default router;
