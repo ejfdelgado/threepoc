@@ -2,6 +2,10 @@
   display: none;
 }
 
+#sign-in {
+  cursor: pointer;
+}
+
 #firebaseui-auth-container {
   overflow: scroll;
   position: fixed;

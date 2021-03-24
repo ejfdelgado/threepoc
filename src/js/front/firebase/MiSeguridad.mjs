@@ -314,7 +314,7 @@ export class MiSeguridad {
             config: MiSeguridad.config,
           });
           MiSeguridad.initApp();
-        });
+        }, function(err) {});
       });
     }
     return MiSeguridad.diferidoApp;
