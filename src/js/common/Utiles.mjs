@@ -1,14 +1,14 @@
 export class Utiles {
   /**
-   * Rotarna el path de modo: "https://paistv.appspot.com/1/scan3d"
+   * Rotarna el path de modo: "https://paistv.appspot.com/1/scan3d?algo=5"
    */
   static getReferer() {
     const pathNameFromBase = document.baseURI.replace(location.origin, "");
     const pathNameFromLocation = location.pathname;
     if (pathNameFromLocation.length > pathNameFromBase.length) {
-      return location.origin + pathNameFromLocation;
+      return location.origin + pathNameFromLocation + location.search;
     }
-    return location.origin + pathNameFromBase;
+    return location.origin + pathNameFromBase + location.search;
   }
 
   static htmlEntities(str) {

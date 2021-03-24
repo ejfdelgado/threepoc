@@ -2,6 +2,7 @@ import { Utiles } from "../../common/Utiles.mjs";
 import MD5 from "../../../node_modules/blueimp-md5-es6/js/md5.js";
 import { MiSeguridad } from "./MiSeguridad.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
+import { ModuloPagina } from "../page/ModuloPagina.mjs";
 
 export class ModuloIntMark {
   static RAIZ = "/pgs";
@@ -23,6 +24,14 @@ export class ModuloIntMark {
       ModuloIntMark.opciones["slaveLoged"] ||
       ModuloIntMark.opciones["slaveIdUsr"];
     const principal = await MiSeguridad.buscarUsuario(forzarUsuario);
+    const contextoPagina = await ModuloPagina.leerTodo(
+      ModuloIntMark.opciones.sincronizar
+    );
+    const lecturaBasica = contextoPagina[0];
+    const lecturaLarga = contextoPagina[1];
+    console.log(lecturaBasica);
+    console.log(lecturaLarga);
+    //funcionContinuar(principal, lecturaBasica, lecturaLarga);
   }
   static async getDiferidoIntMark(opcionesUsr = {}) {
     if (ModuloIntMark.diferidoId == null) {

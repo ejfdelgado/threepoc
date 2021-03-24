@@ -1,8 +1,23 @@
 export class Utilidades {
+  static generateQueryParams(attributes) {
+    const keys = Object.keys(attributes);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const val = attributes[key];
+      if ([null, undefined].indexOf(val) >= 0) {
+        delete attributes[key];
+      }
+    }
+    return new URLSearchParams(attributes).toString();
+  }
   static getQueryParams(fullUrl) {
     const params = {};
     if (typeof fullUrl != "string") {
-      return params;
+      if (typeof location != "undefined") {
+        fullUrl = location.href;
+      } else {
+        return params;
+      }
     }
     const onlyQuery = fullUrl.replace(/^[^?]+[?]/, "").replace(/[#].*$/, "");
     const patron = /([^=&]+)=([^=&]+)/g;

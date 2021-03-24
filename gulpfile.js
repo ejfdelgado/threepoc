@@ -28,7 +28,8 @@ const NODE_FILES = [
 
   "./node_modules/json.sortify/dist/JSON.sortify.js",
   "./node_modules/event-emitter-es6/dist/event-emitter.min.js",
-  "./node_modules/blueimp-md5-es6/js/md5.js"
+  "./node_modules/blueimp-md5-es6/js/md5.js",
+  "./node_modules/fetch-intercept/lib/browser.min.js",
 ];
 
 const arg = ((argList) => {
