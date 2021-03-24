@@ -8,10 +8,13 @@ import storageHandler from "./src/js/services/StorageHandler.mjs";
 import mainHandler from "./src/js/services/MainHandler.mjs";
 import shortUrlHandler from "./src/js/services/ShortUrlHandler.mjs";
 import pageHandler from "./src/js/services/PageHandler.mjs";
+import { Usuario } from "./src/js/services/AdminHandler.mjs";
 
 const app = express();
 
-app.use("/api/xpage", pageHandler)
+app.use(Usuario.authDecorator);
+
+app.use("/api/xpage", pageHandler);
 app.use("/api/utiles", utiles);
 app.use("/api/tup", tuplaHandler);
 app.use("/adm", adminHandler);

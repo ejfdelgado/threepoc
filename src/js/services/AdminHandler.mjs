@@ -52,22 +52,37 @@ export class Usuario {
     }
     return ans;
   }
+
+  static authDecorator(req, res, next) {
+    const authorization = req.header("Authorization");
+    const partes = /(OAuth|Bearer)(\s+)(.*)/.exec(authorization);
+    if (partes == null) {
+      next();
+      return;
+    }
+    admin
+      .auth()
+      .verifyIdToken(partes[3])
+      .then((decodedToken) => {
+        const usuario = new Usuario(decodedToken);
+        req._user = usuario;
+        next();
+      })
+      .catch((error) => {
+        req._user = null;
+        next();
+      });
+  }
 }
 
 router.get("/identidad", function (req, res) {
-  const authorization = req.header("Authorization");
-  const partes = /(OAuth|Bearer)(\s+)(.*)/.exec(authorization);
-  admin
-    .auth()
-    .verifyIdToken(partes[3])
-    .then((decodedToken) => {
-      const usuario = new Usuario(decodedToken);
-      const ans = usuario.getIdentity();
-      res.status(200).json(ans).end();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const usuario = req._user;
+  if (usuario != null) {
+    const ans = usuario.getIdentity();
+    res.status(200).json(ans).end();
+  } else {
+    res.status(204).json(null).end();
+  }
 });
 
 /**
