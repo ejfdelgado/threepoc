@@ -90,14 +90,14 @@ export class MiSeguridad {
         const peticion = {
           method: "GET",
         };
-        MiSeguridad.insertarToken(peticion).then(
-          (peticion) => {
+        MiSeguridad.initApp().then(
+          () => {
             const actividadIdentidad = ModuloActividad.on();
             let promesaIdentidad = fetch("/adm/identidad", peticion);
             promesaIdentidad.catch(() => {
               actividadIdentidad.resolve();
               MiSeguridad.borrarDatos();
-              reject(datosLocales);
+              reject(MiSeguridad.datosLocales);
             });
             promesaIdentidad = promesaIdentidad.then((datos) => datos.json());
             promesaIdentidad.then((msg) => {
@@ -115,29 +115,11 @@ export class MiSeguridad {
     return MiSeguridad.diferidoDatos;
   }
 
-  static insertarToken(peticion) {
-    return new Promise((resolve, reject) => {
-      MiSeguridad.darToken().then(
-        (accessToken) => {
-          if (accessToken != null) {
-            if (!("headers" in peticion)) {
-              peticion.headers = {};
-            }
-            peticion.headers["Authorization"] = "Bearer " + accessToken;
-            resolve(peticion);
-          } else {
-            reject(peticion);
-          }
-        },
-        () => {
-          reject(peticion);
-        }
-      );
-    });
-  }
-
   static darToken() {
     return new Promise((resolve, reject) => {
+      if (MiSeguridad.diferidoFirebase == null) {
+        resolve(null);
+      }
       MiSeguridad.diferidoFirebase.then(
         (usr) => {
           if (usr != null && usr != undefined) {
@@ -244,6 +226,9 @@ export class MiSeguridad {
   }
 
   static initApp() {
+    if (MiSeguridad.diferidoFirebase != null) {
+      return MiSeguridad.diferidoFirebase;
+    }
     MiSeguridad.diferidoFirebase = new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged(
         function (user) {
@@ -280,6 +265,8 @@ export class MiSeguridad {
         MiSeguridad.modoOnline(user);
       }, MiSeguridad.modoOffline);
     }, MiSeguridad.modoOffline);
+
+    return MiSeguridad.diferidoFirebase;
   }
 
   static firebaseConf() {
