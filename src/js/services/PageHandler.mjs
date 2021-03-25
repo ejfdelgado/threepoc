@@ -140,6 +140,63 @@ export class PageHandler {
       return temp;
     }
   }
+
+  /**
+def guardar(ident, usuario=None):
+    ans = {}
+    ans['error'] = 0
+    peticion = request.get_json(force=True)
+    idPagina = comun.leerNumero(ident)
+    if (idPagina is not None):
+        llave = dsclient.key(KIND, idPagina)
+        modelo = dsclient.get(llave)
+        if (modelo is not None):
+            if (usuario is None or modelo['usr'] != usuario.uid):
+                raise NoAutorizadoException()
+            else:
+                peticion['act'] = time.time()
+                comun.llenarYpersistir(modelo, peticion, ['usr', 'path', 'date', 'id', 'aut'], True)
+                dsclient.put(modelo)
+                #elpath = leerRefererPath(request, False)
+                #buscables=filtrarParametros(otro, LIGTH_WEIGHT_KEYS_ALL)
+                #Optimizar, si no ha cambiado, no recrear
+                #DocHandler.actualizar(str(idPagina), usuario, elpath, buscables)
+                ans['valor'] = modelo
+        else:
+            raise NoExisteException()
+    else:
+        raise ParametrosIncompletosException()
+    response = Response(
+        simplejson.dumps(ans), 
+        mimetype='application/json',
+        status=200)
+    return response
+
+def borrar(ident, usuario=None):
+    ans = {}
+    ans['error'] = 0
+    idPagina = comun.leerNumero(ident)
+    if (idPagina is not None):
+        llave = dsclient.key(KIND, idPagina)
+        modelo = dsclient.get(llave)
+        if (modelo is not None):
+            if (modelo['usr'] is not None and (usuario is None or modelo['usr'] != usuario.uid)):
+                raise NoAutorizadoException()
+            else:
+                dsclient.delete(llave)
+                #DocHandler.borrar(str(idPagina), usuario)
+        else:
+            raise NoExisteException()
+    else:
+        raise ParametrosIncompletosException()
+    response = Response(
+        simplejson.dumps(ans), 
+        mimetype='application/json',
+        status=200)
+    return response
+   * 
+  */
+
   static async base(req, res) {
     const ans = { ok: true };
     ans["valor"] = await PageHandler.buscarPagina(req, req._user);
