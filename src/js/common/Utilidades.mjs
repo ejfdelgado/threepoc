@@ -1,4 +1,23 @@
 export class Utilidades {
+  static leerHeader(myrequest, lista) {
+    for (let i=0; i<lista.length; i++) {
+      const a = lista[i];
+      const val = myrequest.header(a);
+      if (["", null, undefined].indexOf(val) < 0) {
+        return val;
+      }
+      return null;
+    }
+  }
+  static leerNumero(s) {
+    if (typeof s == "string" || typeof s == "number") {
+      const ans = parseInt(s);
+      if (!isNaN(ans)) {
+        return ans;
+      }
+    }
+    return null;
+  }
   static generateQueryParams(attributes) {
     const keys = Object.keys(attributes);
     for (let i = 0; i < keys.length; i++) {

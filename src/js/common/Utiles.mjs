@@ -6,9 +6,9 @@ export class Utiles {
     const pathNameFromBase = document.baseURI.replace(location.origin, "");
     const pathNameFromLocation = location.pathname;
     if (pathNameFromLocation.length > pathNameFromBase.length) {
-      return location.origin + pathNameFromLocation + location.search;
+      return location.origin + pathNameFromLocation + location.search + location.hash;
     }
-    return location.origin + pathNameFromBase + location.search;
+    return location.origin + pathNameFromBase + location.search + location.hash;
   }
 
   static htmlEntities(str) {

@@ -56,11 +56,11 @@ export class ShortUrlHandler {
     });
   }
   static async escribir(req, res) {
-    const query = datastore.createQuery(ShortUrlHandler.KIND);
     const theurl = req.body.theurl;
-    const query2 = query.filter("theurl", "=", theurl);
-
-    const datos = (await query2.run())[0];
+    const query = datastore
+      .createQuery(ShortUrlHandler.KIND)
+      .filter("theurl", "=", theurl);
+    const datos = (await query.run())[0];
 
     const ans = {};
     ans["error"] = 0;
