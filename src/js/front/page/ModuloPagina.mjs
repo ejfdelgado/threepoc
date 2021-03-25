@@ -26,7 +26,8 @@ export class ModuloPagina {
     };
     const url = new URL(`${location.origin}/api/xpage/`);
     url.search = Utilidades.generateQueryParams(queryParams);
-    const rta = await fetch(url, { method: "GET" });
+    const rta = await fetch(url, { method: "GET" }).then((res) => res.json());
+    return rta;
   }
   static async leer(opciones = {}) {
     if (ModuloPagina.diferidoLectura == null) {

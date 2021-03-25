@@ -1,6 +1,38 @@
 export class Utilidades {
+  static llenarYpersistir(
+    nuevo,
+    valoresNuevos,
+    listanegra = [],
+    puntos = false
+  ) {
+    const attrViejos = Object.keys(nuevo);
+    const llavesNuevas = Object.keys(valoresNuevos);
+
+    for (let i = 0; i < llavesNuevas.length; i++) {
+      let key = llavesNuevas[i];
+      const value = valoresNuevos[key];
+      if (puntos) {
+        key = key.replace(/[.]/g, "/");
+      }
+      if (!listanegra.includes(key)) {
+        nuevo[key] = value;
+      }
+    }
+    // Calculo los atributos que se deben borrar
+    let restantes = attrViejos.filter((n) => !listanegra.includes(n));
+    restantes = restantes.filter((n) => !llavesNuevas.includes(n));
+    for (let i = 0; i < restantes.length; i++) {
+      let key = restantes[i];
+      if (puntos) {
+        key = key.replace(/[.]/g, "/");
+      }
+      delete nuevo[key];
+    }
+    return nuevo;
+  }
+
   static leerHeader(myrequest, lista) {
-    for (let i=0; i<lista.length; i++) {
+    for (let i = 0; i < lista.length; i++) {
       const a = lista[i];
       const val = myrequest.header(a);
       if (["", null, undefined].indexOf(val) < 0) {

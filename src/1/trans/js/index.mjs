@@ -10,9 +10,7 @@ ModuloPipeline.run("post,prefix,join,post,prefix,source;source").then(function (
   console.log(JSON.stringify(ans));
 });
 
-ModuloIntMark.getDiferidoIntMark({
-  
-});
+ModuloIntMark.getDiferidoIntMark({});
 
 fetch("/a/", {
   method: "POST",

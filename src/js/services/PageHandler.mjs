@@ -1,10 +1,21 @@
 import express from "express";
 import datastorePackage from "@google-cloud/datastore";
+import bodyParser from "body-parser";
 import { Utilidades } from "../common/Utilidades.mjs";
+import { NoAutorizadoException } from "../common/Errors.mjs";
+import { NoExisteException } from "../common/Errors.mjs";
+import { ParametrosIncompletosException } from "../common/Errors.mjs";
+import { NoHayUsuarioException } from "../common/Errors.mjs";
 
 const router = express.Router();
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
 const { Datastore } = datastorePackage;
 const datastore = new Datastore();
+
+// https://googleapis.dev/nodejs/datastore/latest/Datastore.html#get
+// https://googleapis.dev/nodejs/datastore/latest/Datastore.html#delete
 
 export class PageHandler {
   static KIND = "Pagina";
@@ -124,78 +135,87 @@ export class PageHandler {
         }
         return temp;
       } else {
-        throw new Error("Usuario no identificado");
+        throw new NoHayUsuarioException();
       }
     } else {
-      const key = datastore.key([PageHandler.KIND, idPagina]);
-      temp = await new Promise((resolve, reject) => {
-        datastore.get(key, function (err, entity) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(entity);
-          }
-        });
-      });
-      return temp;
+      const entity = await PageHandler.getPageById(idPagina);
+      entity.id = entity[datastore.KEY].id;
+      return entity;
     }
   }
 
-  /**
-def guardar(ident, usuario=None):
-    ans = {}
-    ans['error'] = 0
-    peticion = request.get_json(force=True)
-    idPagina = comun.leerNumero(ident)
-    if (idPagina is not None):
-        llave = dsclient.key(KIND, idPagina)
-        modelo = dsclient.get(llave)
-        if (modelo is not None):
-            if (usuario is None or modelo['usr'] != usuario.uid):
-                raise NoAutorizadoException()
-            else:
-                peticion['act'] = time.time()
-                comun.llenarYpersistir(modelo, peticion, ['usr', 'path', 'date', 'id', 'aut'], True)
-                dsclient.put(modelo)
-                #elpath = leerRefererPath(request, False)
-                #buscables=filtrarParametros(otro, LIGTH_WEIGHT_KEYS_ALL)
-                #Optimizar, si no ha cambiado, no recrear
-                #DocHandler.actualizar(str(idPagina), usuario, elpath, buscables)
-                ans['valor'] = modelo
-        else:
-            raise NoExisteException()
-    else:
-        raise ParametrosIncompletosException()
-    response = Response(
-        simplejson.dumps(ans), 
-        mimetype='application/json',
-        status=200)
-    return response
+  static async getPageById(idPagina) {
+    const key = datastore.key([PageHandler.KIND, idPagina]);
+    const lista = await datastore.get(key);
+    if (lista.length > 0) {
+      return lista[0];
+    }
+    return null;
+  }
 
-def borrar(ident, usuario=None):
-    ans = {}
-    ans['error'] = 0
-    idPagina = comun.leerNumero(ident)
-    if (idPagina is not None):
-        llave = dsclient.key(KIND, idPagina)
-        modelo = dsclient.get(llave)
-        if (modelo is not None):
-            if (modelo['usr'] is not None and (usuario is None or modelo['usr'] != usuario.uid)):
-                raise NoAutorizadoException()
-            else:
-                dsclient.delete(llave)
-                #DocHandler.borrar(str(idPagina), usuario)
-        else:
-            raise NoExisteException()
-    else:
-        raise ParametrosIncompletosException()
-    response = Response(
-        simplejson.dumps(ans), 
-        mimetype='application/json',
-        status=200)
-    return response
-   * 
-  */
+  static async guardarInterno(request, usuario = null) {
+    const AHORA = new Date().getTime() / 1000;
+    const ans = {};
+    ans["error"] = 0;
+    const peticion = request.body;
+    const idPagina = Utilidades.leerNumero(request.query.pg);
+    if (idPagina != null) {
+      const modelo = await PageHandler.getPageById(idPagina);
+      if (modelo != null) {
+        if (usuario == null || modelo["usr"] != usuario.metadatos.uid) {
+          throw new NoAutorizadoException();
+        } else {
+          peticion["act"] = AHORA;
+          Utilidades.llenarYpersistir(
+            modelo,
+            peticion,
+            ["usr", "path", "date", "id", "aut", datastore.KEY],
+            true
+          );
+          await datastore.save(modelo);
+          //const elpath = PageHandler.leerRefererPath(request);
+          //const buscables = PageHandler.filtrarParametros(
+          //  request,
+          //  PageHandler.LIGTH_WEIGHT_KEYS_ALL
+          //);
+          //Optimizar, si no ha cambiado, no recrear
+          //DocHandler.actualizar(str(idPagina), usuario, elpath, buscables)
+          modelo.id = modelo[datastore.KEY].id;
+          ans["valor"] = modelo;
+        }
+      } else {
+        throw new NoExisteException();
+      }
+    } else {
+      throw new ParametrosIncompletosException();
+    }
+    return ans;
+  }
+
+  static async borrarInterno(request, usuario = null) {
+    const ans = {};
+    ans["error"] = 0;
+    const idPagina = Utilidades.leerNumero(request.query.pg);
+    if (idPagina != null) {
+      const modelo = await PageHandler.getPageById(idPagina);
+      if (modelo != null) {
+        if (
+          modelo["usr"] != null &&
+          (usuario == null || modelo["usr"] != usuario.metadatos.uid)
+        ) {
+          throw new NoAutorizadoException();
+        } else {
+          await datastore.delete(modelo[datastore.KEY]);
+          //DocHandler.borrar(str(idPagina), usuario)
+        }
+      } else {
+        throw new NoExisteException();
+      }
+    } else {
+      throw new ParametrosIncompletosException();
+    }
+    return ans;
+  }
 
   static async base(req, res) {
     const ans = { ok: true };
@@ -214,12 +234,12 @@ def borrar(ident, usuario=None):
   }
   //PUT
   static async guardar(req, res) {
-    const ans = { ok: true };
+    const ans = await PageHandler.guardarInterno(req, req._user);
     res.status(200).json(ans).end();
   }
   //DELETE
   static async borrar(req, res) {
-    const ans = { ok: true };
+    const ans = await PageHandler.borrarInterno(req, req._user);
     res.status(200).json(ans).end();
   }
 }
