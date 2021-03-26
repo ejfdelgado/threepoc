@@ -19,8 +19,111 @@ export class ModuloIntMark {
 
   static async computeDiferidoId() {
     const paquete = await ModuloIntMark.getDiferidoDb();
+    console.log("diferidoDB ok");
+    var db = paquete["database"];
+    var ctx = paquete["ctx"];
+    var ctx2 = paquete["ctx2"];
+    var principal = paquete["principal"];
+    var tipoCliente = paquete["tipoCliente"];
 
-    return paquete;
+    if (tipoCliente == "master") {
+      console.log("master...");
+      //Master:
+      //La ruta de firebase debe quedar /pg/usrmaster/path/idpage/users
+      var firebaseUrl =
+        ModuloIntMark.RAIZ +
+        "/" +
+        principal.uid +
+        location.pathname +
+        "/" +
+        ctx["id"]; //ruta dentro de firebase
+      var slaveUrl;
+
+      if (
+        typeof location.search == "string" &&
+        location.search.trim().length > 0
+      ) {
+        slaveUrl =
+          location.origin +
+          location.pathname +
+          location.search.replace(/(^\?|&)(pg=\d+)($|&)/, function (
+            a,
+            b,
+            c,
+            d
+          ) {
+            return b + d;
+          }) +
+          "&" +
+          $.param({ pg: ctx["id"], sl: "si" });
+        slaveUrl = slaveUrl.replace(/\?&/g, "?");
+        slaveUrl = slaveUrl.replace(/&{2,}/g, "&");
+      } else {
+        slaveUrl = location.href + "?" + $.param({ pg: ctx["id"], sl: "si" });
+      }
+    } else {
+      console.log("slave...");
+      if (ModuloIntMark.opciones.useFirebase) {
+        var nuevaLlave;
+
+        const urlParamCtx =
+          ModuloIntMark.RAIZ +
+          "/" +
+          ctx["usr"] +
+          location.pathname.replace(/[/]$/, "") +
+          "/" +
+          ctx["id"];
+
+        if (ModuloIntMark.opciones.slaveIdUsr) {
+          nuevaLlave = principal.uid;
+        } else {
+          nuevaLlave = ModuloIntMark.darIdAnonimo();
+          if (nuevaLlave == null) {
+            nuevaLlave = db
+              .ref()
+              .child(urlParamCtx + "/usr")
+              .push().key;
+            ModuloIntMark.asignarIdAnonimo(nuevaLlave);
+          }
+        }
+
+        const firebaseUrl = urlParamCtx + "/usr/" + nuevaLlave;
+
+        const crearSlaveCtx = async function () {
+          const updates = {};
+          updates[firebaseUrl] = {
+            time: new Date().getTime(),
+          };
+          return db.ref().update(updates);
+        };
+
+        const snapshot = await db.ref(firebaseUrl).once("value");
+        if (snapshot.val() == null) {
+          await crearSlaveCtx();
+        }
+        return {
+          id: nuevaLlave,
+          tipo: tipoCliente,
+          db: db,
+          firebaseUrl: firebaseUrl,
+          masterUrl: urlParamCtx,
+          ctx: ctx,
+          ctx2: ctx2,
+          principal: principal,
+        };
+      } else {
+        return {
+          id: null,
+          tipo: tipoCliente,
+          db: db,
+          firebaseUrl: null,
+          masterUrl: null,
+          ctx: ctx,
+          ctx2: ctx2,
+          principal: principal,
+        };
+      }
+    }
   }
 
   static async computeDiferidoDb() {
