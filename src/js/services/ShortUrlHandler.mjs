@@ -84,7 +84,7 @@ export class ShortUrlHandler {
         },
       };
       await datastore.save(entity);
-      ans["id"] = ShortUrlHandler.strBase(entity.key.id, BASE_CONVERSION);
+      ans["id"] = ShortUrlHandler.strBase(entity.key.id, ShortUrlHandler.BASE_CONVERSION);
     }
 
     res.status(200).json(ans).end();
