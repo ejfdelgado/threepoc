@@ -55,11 +55,62 @@ export class ModuloIntMark {
             return b + d;
           }) +
           "&" +
-          $.param({ pg: ctx["id"], sl: "si" });
+          Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
         slaveUrl = slaveUrl.replace(/\?&/g, "?");
         slaveUrl = slaveUrl.replace(/&{2,}/g, "&");
       } else {
-        slaveUrl = location.href + "?" + $.param({ pg: ctx["id"], sl: "si" });
+        slaveUrl =
+          location.href +
+          "?" +
+          Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
+      }
+
+      const respuesta = await fetch("/a/", {
+        method: "POST",
+        body: JSON.stringify({
+          theurl: slaveUrl,
+        }),
+        headers: { "Content-Type": "application/json" },
+      }).then((res) => res.json());
+
+      console.log("a ok...");
+      if (ModuloIntMark.opciones.useFirebase) {
+        const crearMasterCtx = function () {
+          var updates = {};
+          updates[firebaseUrl] = {
+            base: {
+              time: new Date().getTime(),
+            },
+          };
+          return db.ref().update(updates);
+        };
+
+        const snapshot = await db.ref(firebaseUrl).once("value");
+
+        if (snapshot.val() == null) {
+          await crearMasterCtx();
+        }
+        return {
+          slaveUrl: location.origin + "/a/" + respuesta["id"],
+          tipo: tipoCliente,
+          db: db,
+          firebaseUrl: firebaseUrl,
+          masterUrl: firebaseUrl,
+          ctx: ctx,
+          ctx2: ctx2,
+          principal: principal,
+        };
+      } else {
+        return {
+          slaveUrl: location.origin + "/a/" + respuesta["id"],
+          tipo: tipoCliente,
+          db: db,
+          firebaseUrl: null,
+          masterUrl: null,
+          ctx: ctx,
+          ctx2: ctx2,
+          principal: principal,
+        };
       }
     } else {
       console.log("slave...");
@@ -89,7 +140,7 @@ export class ModuloIntMark {
 
         const firebaseUrl = urlParamCtx + "/usr/" + nuevaLlave;
 
-        const crearSlaveCtx = async function () {
+        const crearSlaveCtx = function () {
           const updates = {};
           updates[firebaseUrl] = {
             time: new Date().getTime(),

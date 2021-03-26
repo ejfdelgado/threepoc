@@ -16,13 +16,4 @@ ModuloIntMark.getDiferidoIntMark({
   console.log(datos);
 });
 
-fetch("/a/", {
-  method: "POST",
-  body: JSON.stringify({
-    theurl:
-      "http://proyeccion-colombia1.appspot.com/1/scan3d#!/?pg=5732110983757824&sl=si&add",
-  }),
-  headers: { "Content-Type": "application/json" },
-})
-  .then((res) => res.json())
-  .then((json) => console.log(json));
+
