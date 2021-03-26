@@ -34,6 +34,7 @@
     "firebase-admin": "^9.5.0",
     "firebaseui": "^4.8.0",
     "jquery": "^3.5.1",
+    "jquery.qrcode": "^1.0.3",
     "json.sortify": "^2.2.2",
     "three": "^0.125.2"
   },

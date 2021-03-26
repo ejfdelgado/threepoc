@@ -42,10 +42,7 @@ export class ShortUrlHandler {
 
   static async leer(req, res) {
     const ident = req.params[0];
-    const miId = ShortUrlHandler.strBase(
-      ident,
-      ShortUrlHandler.BASE_CONVERSION
-    );
+    const miId = parseInt(ident, ShortUrlHandler.BASE_CONVERSION);
     const key = datastore.key([ShortUrlHandler.KIND, miId]);
     datastore.get(key, (err, modelo) => {
       let urlredireccion = "/";
