@@ -193,3 +193,35 @@ Host *github.com
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa_githubweb
+
+
+  --------
+
+
+    const modelo = lecturaBasica.valor;
+    modelo.desc += ".";
+    const urlPut = new URL(`${location.origin}/api/xpage/`);
+    urlPut.search = Utilidades.generateQueryParams({ pg: modelo.id });
+    fetch(urlPut, {
+      method: "PUT",
+      body: JSON.stringify(modelo),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        const urlDelete = new URL(`${location.origin}/api/xpage/`);
+        urlDelete.search = Utilidades.generateQueryParams({ pg: modelo.id });
+
+        fetch(urlDelete, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((res2) => res2.json())
+          .then((json2) => {
+            console.log(json2);
+          });
+      });
+
+    console.log(lecturaBasica);
+    console.log(lecturaLarga);

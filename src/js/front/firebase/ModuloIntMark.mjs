@@ -7,6 +7,7 @@ import { ModuloPagina } from "../page/ModuloPagina.mjs";
 export class ModuloIntMark {
   static RAIZ = "/pgs";
   static diferidoId = null;
+  static diferidoDB = null;
   static LLAVE_LOCAL_STORAGE = MD5(Utiles.getReferer());
   static opciones = {
     masterLoged: false,
@@ -15,7 +16,14 @@ export class ModuloIntMark {
     slaveIdUsr: false, //Usar el user uid para crear la entrada en la base de datos firebase
     useFirebase: false,
   };
+
   static async computeDiferidoId() {
+    const paquete = await ModuloIntMark.getDiferidoDb();
+
+    return paquete;
+  }
+
+  static async computeDiferidoDb() {
     await MiSeguridad.inicializar();
     console.log(`miseguridad ok`);
     const urlParam = Utilidades.getQueryParams(location.href);
@@ -27,45 +35,53 @@ export class ModuloIntMark {
     const contextoPagina = await ModuloPagina.leerTodo(
       ModuloIntMark.opciones.sincronizar
     );
-    const lecturaBasica = contextoPagina[0];
-    const lecturaLarga = contextoPagina[1];
+    const lecturaBasica = contextoPagina[0].valor;
+    const lecturaLarga = contextoPagina[1]; // Esto lo deberíamos sacar de acá
 
-    const modelo = lecturaBasica.valor;
-    modelo.desc += ".";
-    const urlPut = new URL(`${location.origin}/api/xpage/`);
-    urlPut.search = Utilidades.generateQueryParams({ pg: modelo.id });
-    fetch(urlPut, {
-      method: "PUT",
-      body: JSON.stringify(modelo),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        const urlDelete = new URL(`${location.origin}/api/xpage/`);
-        urlDelete.search = Utilidades.generateQueryParams({ pg: modelo.id });
+    var principalEsDuenio =
+      [null, undefined].indexOf(principal) < 0 &&
+      lecturaBasica["usr"] == principal["uid"];
+    var solicitudSlave = urlParam["sl"] == "si";
+    //es slave si lo solicita o si no es el duenio de la pagina
+    var tipoCliente = solicitudSlave || !principalEsDuenio ? "slave" : "master";
 
-        fetch(urlDelete, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        })
-          .then((res2) => res2.json())
-          .then((json2) => {
-            console.log(json2);
-          });
-      });
+    let database = null;
+    if (ModuloIntMark.opciones.useFirebase) {
+      database = firebase.database();
+    }
 
-    console.log(lecturaBasica);
-    console.log(lecturaLarga);
-    //funcionContinuar(principal, lecturaBasica, lecturaLarga);
+    return {
+      database: database, //Esto lo deberíamos sacar de acá
+      principal: principal,
+      ctx: lecturaBasica,
+      tipoCliente: tipoCliente,
+    };
   }
-  static async getDiferidoIntMark(opcionesUsr = {}) {
+
+  /**
+   * Retorna la promesa de la base de datos
+   * @param opcionesUsr
+   */
+  static getDiferidoDb(opcionesUsr = {}) {
+    if (ModuloIntMark.diferidoDb == null) {
+      Object.assign(ModuloIntMark.opciones, opcionesUsr);
+      ModuloIntMark.diferidoDb = ModuloIntMark.computeDiferidoDb();
+    }
+    return ModuloIntMark.diferidoDb;
+  }
+
+  static getDiferidoId(opcionesUsr = {}) {
     if (ModuloIntMark.diferidoId == null) {
       Object.assign(ModuloIntMark.opciones, opcionesUsr);
       ModuloIntMark.diferidoId = ModuloIntMark.computeDiferidoId();
     }
     return ModuloIntMark.diferidoId;
   }
+
+  static async getDiferidoIntMark(opcionesUsr = {}) {
+    return await ModuloIntMark.getDiferidoId(opcionesUsr);
+  }
+
   static darIdAnonimo() {
     var temp = localStorage[ModuloIntMark.LLAVE_LOCAL_STORAGE];
     if (temp === undefined) {

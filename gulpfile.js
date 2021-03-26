@@ -23,6 +23,8 @@ const NODE_FILES = [
   "./node_modules/firebase/firebase-auth.js.map",
   "./node_modules/firebase/firebase-app.js",
   "./node_modules/firebase/firebase-app.js.map",
+  "./node_modules/firebase/firebase-database.js",
+  "./node_modules/firebase/firebase-database.js.map",
   "./node_modules/firebaseui/dist/firebaseui.js",
   "./node_modules/firebaseui/dist/firebaseui.css",
 
