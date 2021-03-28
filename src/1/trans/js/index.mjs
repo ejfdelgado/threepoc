@@ -13,6 +13,7 @@ ModuloPipeline.run("post,prefix,join,post,prefix,source;source").then(function (
 
 ModuloIntMark.getDiferidoIntMark({
   useFirebase: true,
+  slaveLoged: true,
 }).then((datos) => {
   ModuloQR.showQR();
 });

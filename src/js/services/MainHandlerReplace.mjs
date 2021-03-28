@@ -1,14 +1,28 @@
 import { Constants } from "../common/Constants.mjs";
 import { Utiles } from "../common/Utiles.mjs";
+import { PageHandler } from "./PageHandler.mjs";
 
 export class MainHandlerReplace {
   static async replaceTokens(readPromise, originalUrl) {
+    const partes = /[?].*(pg=)([\d]+)/.exec(originalUrl);
     const metadata = {
-      tit: "Título",
-      desc: "Descripción",
-      q: "key words",
-      img: "http://dominio.com/image.png",
+      tit: "",
+      desc: "",
+      q: "",
+      img: "",
     };
+    let idPagina = null;
+    if (partes != null) {
+      idPagina = parseInt(partes[2]);
+      const pagina = await PageHandler.getPageById(idPagina);
+      if (pagina != null) {
+        metadata.tit = pagina.tit;
+        metadata.desc = pagina.desc;
+        metadata.img = pagina.img;
+        metadata.q = pagina.q;
+      }
+    }
+
     const REMPLAZOS = [
       {
         old: /<base[^>]*><\/base>/,
