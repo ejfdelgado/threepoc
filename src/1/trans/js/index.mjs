@@ -2,6 +2,7 @@ import { ModuloTransformacion } from "../../../js/common/ModuloTransformacion.mj
 import { ModuloPipeline } from "../../../js/common/Pipeline.mjs";
 import { ModuloIntMark } from "../../../js/front/firebase/ModuloIntMark.mjs";
 import { ModuloQR } from "../../../js/front/firebase/ModuloQR.mjs";
+import { ModuloPubSub } from "../../../js/front/firebase/ModuloPubSub.mjs";
 
 ModuloTransformacion.test("simple");
 
@@ -18,4 +19,12 @@ ModuloIntMark.getDiferidoIntMark({
   ModuloQR.showQR();
 });
 
+ModuloIntMark.afterMaster().then(function () {
+  ModuloPubSub.sub("ev", function (msg) {
+    console.log("Recibido:" + JSON.stringify(msg));
+  });
+});
 
+ModuloIntMark.afterSlave().then(function () {
+  ModuloPubSub.pub("ev", { txt: "Edgar!" });
+});

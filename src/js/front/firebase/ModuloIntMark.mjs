@@ -7,8 +7,10 @@ import { Deferred } from "../../common/Deferred.mjs";
 
 export class ModuloIntMark {
   static RAIZ = "/pgs";
-  static diferidoId = null;
-  static diferidoDB = null;
+  static diferidoId = new Deferred();
+  static diferidoIdDone = false;
+  static diferidoDb = new Deferred();
+  static diferidoDbDone = false;
   static LLAVE_LOCAL_STORAGE = MD5(Utiles.getReferer());
   static opciones = {
     masterLoged: false,
@@ -218,8 +220,8 @@ export class ModuloIntMark {
    * @param opcionesUsr
    */
   static getDiferidoDb(opcionesUsr = {}) {
-    if (ModuloIntMark.diferidoDb == null) {
-      ModuloIntMark.diferidoDb = new Deferred();
+    if (!ModuloIntMark.diferidoDbDone) {
+      ModuloIntMark.diferidoDbDone = true;
       Object.assign(ModuloIntMark.opciones, opcionesUsr);
       ModuloIntMark.computeDiferidoDb().then(
         function (datos) {
@@ -234,8 +236,8 @@ export class ModuloIntMark {
   }
 
   static getDiferidoId(opcionesUsr = {}) {
-    if (ModuloIntMark.diferidoId == null) {
-      ModuloIntMark.diferidoId = new Deferred();
+    if (!ModuloIntMark.diferidoIdDone) {
+      ModuloIntMark.diferidoIdDone = true;
       Object.assign(ModuloIntMark.opciones, opcionesUsr);
       ModuloIntMark.computeDiferidoId().then(
         function (datos) {
@@ -249,8 +251,8 @@ export class ModuloIntMark {
     return ModuloIntMark.diferidoId.promise;
   }
 
-  static async getDiferidoIntMark(opcionesUsr = {}) {
-    return await ModuloIntMark.getDiferidoId(opcionesUsr);
+  static getDiferidoIntMark(opcionesUsr = {}) {
+    return ModuloIntMark.getDiferidoId(opcionesUsr);
   }
 
   static darIdAnonimo() {
@@ -260,7 +262,36 @@ export class ModuloIntMark {
     }
     return temp;
   }
+
   static asignarIdAnonimo(id) {
     localStorage[ModuloIntMark.LLAVE_LOCAL_STORAGE] = id;
+  }
+
+  static afterSlave() {
+    return new Promise((resolve) => {
+      ModuloIntMark.diferidoId.promise.then(function (datos) {
+        if (datos.tipo == "slave") {
+          resolve(datos);
+        }
+      });
+    });
+  }
+
+  static afterMaster() {
+    return new Promise((resolve) => {
+      ModuloIntMark.diferidoId.promise.then(function (datos) {
+        if (datos.tipo == "master") {
+          resolve(datos);
+        }
+      });
+    });
+  }
+
+  static afterAny() {
+    return new Promise((resolve) => {
+      ModuloIntMark.diferidoId.promise.then(function (datos) {
+        resolve(datos);
+      });
+    });
   }
 }
