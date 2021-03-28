@@ -16,6 +16,9 @@ export class ModuloQR {
           height: 41 * veces,
           text: datos.slaveUrl,
         });
+        elemQrCode.on("click", function () {
+          window.open(datos.slaveUrl, "_blank");
+        });
       }
       divMaster.removeClass("invisible");
     } else {

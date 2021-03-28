@@ -3,6 +3,7 @@ import MD5 from "../../../node_modules/blueimp-md5-es6/js/md5.js";
 import { MiSeguridad } from "./MiSeguridad.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
 import { ModuloPagina } from "../page/ModuloPagina.mjs";
+import { Deferred } from "../../common/Deferred.mjs";
 
 export class ModuloIntMark {
   static RAIZ = "/pgs";
@@ -218,18 +219,34 @@ export class ModuloIntMark {
    */
   static getDiferidoDb(opcionesUsr = {}) {
     if (ModuloIntMark.diferidoDb == null) {
+      ModuloIntMark.diferidoDb = new Deferred();
       Object.assign(ModuloIntMark.opciones, opcionesUsr);
-      ModuloIntMark.diferidoDb = ModuloIntMark.computeDiferidoDb();
+      ModuloIntMark.computeDiferidoDb().then(
+        function (datos) {
+          ModuloIntMark.diferidoDb.resolve(datos);
+        },
+        function (error) {
+          ModuloIntMark.diferidoDb.reject(error);
+        }
+      );
     }
-    return ModuloIntMark.diferidoDb;
+    return ModuloIntMark.diferidoDb.promise;
   }
 
   static getDiferidoId(opcionesUsr = {}) {
     if (ModuloIntMark.diferidoId == null) {
+      ModuloIntMark.diferidoId = new Deferred();
       Object.assign(ModuloIntMark.opciones, opcionesUsr);
-      ModuloIntMark.diferidoId = ModuloIntMark.computeDiferidoId();
+      ModuloIntMark.computeDiferidoId().then(
+        function (datos) {
+          ModuloIntMark.diferidoId.resolve(datos);
+        },
+        function (error) {
+          ModuloIntMark.diferidoId.reject(error);
+        }
+      );
     }
-    return ModuloIntMark.diferidoId;
+    return ModuloIntMark.diferidoId.promise;
   }
 
   static async getDiferidoIntMark(opcionesUsr = {}) {
