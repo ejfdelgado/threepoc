@@ -28,3 +28,10 @@ ModuloIntMark.afterMaster().then(function () {
 ModuloIntMark.afterSlave().then(function () {
   ModuloPubSub.pub("ev", { txt: "Edgar!" });
 });
+
+$(document).ready(function() {
+  $("#demo1").emojioneArea({
+    container: "#container",
+    hideSource: false,
+  });
+});

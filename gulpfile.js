@@ -33,6 +33,12 @@ const NODE_FILES = [
   "./node_modules/blueimp-md5-es6/js/md5.js",
 
   "./node_modules/jquery.qrcode/jquery.qrcode.min.js",
+
+  "./node_modules/emojionearea/**",
+  "./node_modules/emojione/**",
+
+  "./node_modules/jquery-textcomplete/dist/jquery.textcomplete.min.js",
+
 ];
 
 const arg = ((argList) => {

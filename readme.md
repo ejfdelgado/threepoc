@@ -1,4 +1,7 @@
 
+npm install emojionearea@^2.1.0 --save
+https://mervick.github.io/emojionearea/
+
 TODO
 
 git clone https://github.com/code-kotis/qr-code-scanner
