@@ -35,7 +35,6 @@ const NODE_FILES = [
   "./node_modules/jquery.qrcode/jquery.qrcode.min.js",
   
   "./node_modules/emojione/lib/js/*",
-  "./node_modules/emojione/lib/emojione-awesome/*",
   "./node_modules/emojione/assets/**",
 
   "./node_modules/emojionearea/css/**",
