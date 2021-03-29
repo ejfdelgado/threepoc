@@ -33,9 +33,13 @@ const NODE_FILES = [
   "./node_modules/blueimp-md5-es6/js/md5.js",
 
   "./node_modules/jquery.qrcode/jquery.qrcode.min.js",
+  
+  "./node_modules/emojione/lib/js/*",
+  "./node_modules/emojione/lib/emojione-awesome/*",
+  "./node_modules/emojione/assets/**",
 
-  "./node_modules/emojionearea/**",
-  "./node_modules/emojione/**",
+  "./node_modules/emojionearea/css/**",
+  "./node_modules/emojionearea/js/**",//bug en línea 520 debe ser: data-name="{name}"/></i></i>
 
   "./node_modules/jquery-textcomplete/dist/jquery.textcomplete.min.js",
 

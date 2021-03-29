@@ -29,9 +29,8 @@ ModuloIntMark.afterSlave().then(function () {
   ModuloPubSub.pub("ev", { txt: "Edgar!" });
 });
 
-$(document).ready(function() {
-  $("#demo1").emojioneArea({
-    container: "#container",
-    hideSource: false,
+$(document).ready(function () {
+  $("#example1").emojioneArea({
+    autoHideFilters: true,
   });
 });
