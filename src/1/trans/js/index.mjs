@@ -3,6 +3,7 @@ import { ModuloPipeline } from "../../../js/common/Pipeline.mjs";
 import { ModuloIntMark } from "../../../js/front/firebase/ModuloIntMark.mjs";
 import { ModuloQR } from "../../../js/front/firebase/ModuloQR.mjs";
 import { ModuloPubSub } from "../../../js/front/firebase/ModuloPubSub.mjs";
+import { ModuloArchivos } from "../../../js/common/ModuloArchivos.mjs";
 
 ModuloTransformacion.test("simple");
 
@@ -16,6 +17,12 @@ ModuloIntMark.getDiferidoIntMark({
   useFirebase: true,
   slaveLoged: true,
 }).then((datos) => {
+  ModuloArchivos.uploadFile({
+    path: "/${random}/${YYYY}/${MM}/${dd}/${HH}/${mm}/${ss}/archivo.txt",
+    own: true,
+    data: "Esto es una prueba"
+  }).then(function () {});
+
   ModuloQR.showQR();
 });
 

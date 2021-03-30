@@ -1,11 +1,13 @@
 import { MiSeguridad } from "../firebase/MiSeguridad.mjs";
 import { SecurityInterceptor } from "../firebase/SecurityInterceptor.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
+import { Deferred } from "../../common/Deferred.mjs";
 
 SecurityInterceptor.register();
 
 export class ModuloPagina {
-  static diferidoLectura = null;
+  static diferidoLectura = new Deferred();
+  static diferidoLecturaDone = false;
   static async leerInterno(opcionesUsr = {}) {
     const opciones = {
       logged: false,
@@ -30,10 +32,12 @@ export class ModuloPagina {
     return rta;
   }
   static async leer(opciones = {}) {
-    if (ModuloPagina.diferidoLectura == null) {
-      ModuloPagina.diferidoLectura = ModuloPagina.leerInterno(opciones);
+    if (!ModuloPagina.diferidoLecturaDone) {
+      ModuloPagina.diferidoLecturaDone = true;
+      const rta = await ModuloPagina.leerInterno(opciones);
+      ModuloPagina.diferidoLectura.resolve(rta);
     }
-    return ModuloPagina.diferidoLectura;
+    return ModuloPagina.diferidoLectura.promise;
   }
   static async leer2(sincronizar) {}
   static async leerTodo(sincronizar) {

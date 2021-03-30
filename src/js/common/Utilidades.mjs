@@ -1,4 +1,15 @@
 export class Utilidades {
+  static trimSlashes(text) {
+    return text.replace(/^[\/\\]+/g, "").replace(/[\/\\]+$/g, "");
+  }
+  static interpolate(text, o) {
+    return text.replace(/[$]{([^{}]*)}/g,
+          function (a, b) {
+              var r = o[b];
+              return typeof r === 'string' || typeof r === 'number' ? r : a;
+          }
+      );
+  }
   static llenarYpersistir(
     nuevo,
     valoresNuevos,

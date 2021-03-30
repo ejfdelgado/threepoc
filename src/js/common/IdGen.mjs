@@ -91,22 +91,37 @@ export class IdGen {
     }
   }
 
+  static getDateParts(tiempo) {
+    var fecha = new Date(tiempo);
+    const remplazos = {
+      YYYY: fecha.getFullYear(),
+      MM: IdGen.addZero(fecha.getMonth() + 1),
+      DD: IdGen.addZero(fecha.getDate()),
+      HH: IdGen.addZero(fecha.getHours()),
+      mm: IdGen.addZero(fecha.getMinutes()),
+      ss: IdGen.addZero(fecha.getSeconds())
+    };
+    remplazos.yyyy = remplazos.YYYY;
+    remplazos.dd = remplazos.DD;
+    return remplazos;
+  }
+
   //Año/mes/día hora:mm:ss
   static epoch2Text2(tiempo) {
     if (typeof tiempo == "number") {
-      var fecha = new Date(tiempo);
+      var partes = IdGen.getDateParts(tiempo);
       return (
-        fecha.getFullYear() +
+        partes.YYYY +
         "/" +
-        IdGen.addZero(fecha.getMonth() + 1) +
+        partes.MM +
         "/" +
-        IdGen.addZero(fecha.getDate()) +
+        partes.DD +
         " " +
-        IdGen.addZero(fecha.getHours()) +
+        partes.HH +
         ":" +
-        IdGen.addZero(fecha.getMinutes()) +
+        partes.mm +
         ":" +
-        IdGen.addZero(fecha.getSeconds())
+        partes.ss
       );
     } else {
       return "";
@@ -120,7 +135,7 @@ export class IdGen {
     return i;
   }
 
-  static async nuevo(epoch, esInicio) {
+  static async nuevo(epoch = null, esInicio) {
     if (typeof epoch == "number") {
       if (typeof esInicio == "boolean") {
         if (esInicio === true) {
@@ -128,33 +143,13 @@ export class IdGen {
         } else {
           epoch = IdGen.darFinDia(epoch);
         }
-        diferido.resolve(num2ord(epoch, esInicio));
+        return IdGen.num2ord(epoch, esInicio);
       } else {
-        diferido.resolve(num2ord(epoch));
-      }
-    } else {
-      IdGen.ahora().then(function (fecha) {
-        diferido.resolve(num2ord(fecha, esInicio));
-      });
-    }
-    return diferido;
-  }
-
-  static async nuevo(epoch = null, esInicio) {
-    if (typeof epoch == "number") {
-      if (typeof esInicio == "boolean") {
-        if (esInicio === true) {
-          epoch = darInicioDia(epoch);
-        } else {
-          epoch = darFinDia(epoch);
-        }
-        return num2ord(epoch, esInicio);
-      } else {
-        return num2ord(epoch);
+        return IdGen.num2ord(epoch);
       }
     } else {
       const fecha = await IdGen.ahora();
-      return num2ord(fecha, esInicio);
+      return IdGen.num2ord(fecha, esInicio);
     }
   }
 
