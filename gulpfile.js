@@ -35,7 +35,8 @@ const NODE_FILES = [
   "./node_modules/jquery.qrcode/jquery.qrcode.min.js",
   
   "./node_modules/emojione/lib/js/*",
-  "./node_modules/emojione/assets/**",
+  "./node_modules/emojione/assets/css/**",
+  "./node_modules/emojione/assets/sprites/**",
 
   "./node_modules/emojionearea/css/**",
   "./node_modules/emojionearea/js/**",//bug en línea 520 debe ser: data-name="{name}"/></i></i>

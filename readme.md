@@ -22,6 +22,9 @@ export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/l
 
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
 
+export GAE_APPLICATION="paistv"
+
+export GAE_APPLICATION="proyeccion-colombia1"
 
 Para compilar:
 gulp js
@@ -34,6 +37,10 @@ source /Users/jose.delgado/.bash_profile_gcp
 gcloud app deploy app.yaml --project paistv --version 2
 
 gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
+
+gcloud app deploy app.yaml --project ejfexperiments --version 2
+
+https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 ------------------------------------------------------------------------------------------------------------------------>>
 
