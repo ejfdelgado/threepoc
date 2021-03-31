@@ -12,6 +12,37 @@ export class ModuloArchivos {
     console.log(markup);
   }
 
+  static askForFile(atributosIn) {
+    const atributos = Object.assign(
+      {
+        tipos: [],
+        maximoTamanio: 1024,
+      },
+      atributosIn
+    );
+    var temp = $(
+      '<input type="file" class="invisible" accept="' +
+        atributos.tipos.join(",") +
+        '">'
+    );
+    return new Promise((resolve, reject) => {
+      temp.on("change", function (e) {
+        var file = e.target.files[0];
+        if (file.size > atributos.maximoTamanio) {
+          alert(
+            "Archivo muy grande! debe ser menor a " +
+              atributos.maximoTamanio / 1024 +
+              " KB"
+          );
+          reject();
+        } else {
+          resolve(file);
+        }
+      });
+      temp.click();
+    });
+  }
+
   static async uploadFile(optionsIn = {}) {
     const options = Object.assign(
       {
@@ -21,6 +52,11 @@ export class ModuloArchivos {
       },
       optionsIn
     );
+    if (options.data == null) {
+      // Lanzar el file picker
+      options.data = await ModuloArchivos.askForFile(options);
+    }
+    console.log(options.data);
     const fullFile = {};
     // 1. check if path is an existing or a new one
     options.path = Utilidades.trimSlashes(options.path);
@@ -60,9 +96,27 @@ export class ModuloArchivos {
       const aFileParts = [];
       aFileParts.push(options.data);
       fullFile.data = new Blob(aFileParts, { type: fullFile.mimeType });
-      console.log(fullFile.data);
+    } else {
+      fullFile.data = options.data;
     }
 
-    console.log(JSON.stringify(fullFile));
+    var form = new FormData();
+    form.append(
+      "file-0",
+      fullFile.data,
+      fullFile.path.replace(/.*\/([^/]+)$/, "$1")
+    );
+    const queryParams = {
+      key: fullFile.path,
+    };
+    const response = await fetch(
+      "/storage/?" + Utilidades.generateQueryParams(queryParams),
+      {
+        method: "post",
+        body: form,
+      }
+    ).then((res) => res.json());
+
+    console.log(JSON.stringify(response));
   }
 }

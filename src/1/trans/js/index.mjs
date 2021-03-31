@@ -17,11 +17,14 @@ ModuloIntMark.getDiferidoIntMark({
   useFirebase: true,
   slaveLoged: true,
 }).then((datos) => {
-  ModuloArchivos.uploadFile({
-    path: "/${random}/${YYYY}/${MM}/${dd}/${HH}/${mm}/${ss}/archivo.txt",
-    own: true,
-    data: "Esto es una prueba"
-  }).then(function () {});
+  $("body").on("click", function () {
+    ModuloArchivos.uploadFile({
+      path: "archivo.jpg",
+      own: false,
+      tipos: [],
+      maximoTamanio: 1024 * 1024,
+    }).then(function () {});
+  });
 
   ModuloQR.showQR();
 });

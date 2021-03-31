@@ -1,13 +1,25 @@
 import storagePackage from "@google-cloud/storage";
 import express from "express";
+import bodyParser from "body-parser";
+import Multer from "multer";
 import { Constants } from "../common/Constants.mjs";
+import { Utilidades } from "../common/Utilidades.mjs";
 
 const { Storage } = storagePackage;
 const storageInstance = new Storage();
 
 const bucket = storageInstance.bucket(Constants.DEFAULT_BUCKET);
 
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+  },
+});
+
 const router = express.Router();
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 /**
  * https://googleapis.dev/nodejs/storage/latest/File.html#download
@@ -120,6 +132,39 @@ export class StorageHandler {
       }
     });
   }
+
+  static escribir(req, res, next) {
+    let key = req.query.key;
+    if (!req.file || !key) {
+      throw new ParametrosIncompletosException();
+    }
+
+    key = Utilidades.trimSlashes(key);
+
+    const blob = bucket.file(key);
+    const blobStream = blob.createWriteStream();
+
+    blobStream.on("error", (err) => {
+      next(err);
+    });
+
+    const origin = Utilidades.leerHeader(req, ["Origin"]);
+
+    blobStream.on("finish", async () => {
+      const ans = {
+        key: key,
+        local: `${origin}/storage/read?name=${blob.name}`,
+      };
+      if (key.match(/^public\/usr\/anonymous/)) {
+        await blob.makePublic();
+        const epoch = new Date().getTime();
+        ans.pub = `${Constants.GOOGLE_PUBLIC}${bucket.name}/${blob.name}?t=${epoch}`;
+      }
+      res.status(200).json(ans).end();
+    });
+
+    blobStream.end(req.file.buffer);
+  }
 }
 
 /**
@@ -133,6 +178,10 @@ router.get("/read", function (req, res) {
     req.query.encoding
   );
   StorageHandler.makeResponse(req, res, key, readPromise);
+});
+
+router.post("/", multer.single("file-0"), function (req, res, next) {
+  StorageHandler.escribir(req, res, next);
 });
 
 export default router;

@@ -27,7 +27,8 @@
     "blueimp-md5-es6": "^2.7.4",
     "body-parser": "^1.19.0",
     "event-emitter-es6": "^1.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "multer": "^1.4.2"
   },
   "devDependencies": {
     "angular": "^1.8.2",
