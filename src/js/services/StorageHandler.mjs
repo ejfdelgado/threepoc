@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import Multer from "multer";
 import { Constants } from "../common/Constants.mjs";
 import { Utilidades } from "../common/Utilidades.mjs";
+import { MalaPeticionException } from "../common/Errors.mjs";
+import { ParametrosIncompletosException } from "../common/Errors.mjs";
 
 const { Storage } = storagePackage;
 const storageInstance = new Storage();
@@ -134,12 +136,16 @@ export class StorageHandler {
   }
 
   static escribir(req, res, next) {
-    let key = req.query.key;
-    if (!req.file || !key) {
+    let tempKey = req.query.key;
+    if (!req.file || !tempKey) {
       throw new ParametrosIncompletosException();
     }
 
-    key = Utilidades.trimSlashes(key);
+    let key = Utilidades.getBucketKey(tempKey);
+
+    if (key == null) {
+      throw new MalaPeticionException();
+    }
 
     const blob = bucket.file(key);
     const blobStream = blob.createWriteStream();
@@ -152,13 +158,16 @@ export class StorageHandler {
 
     blobStream.on("finish", async () => {
       const ans = {
-        key: key,
-        local: `${origin}/storage/read?name=${blob.name}`,
+        key: encodeURI(key),
+        local: encodeURI(`${origin}/storage/read?name=${blob.name}`),
+        name: key.replace(/.*\/([^/]+)$/, "$1"),
       };
       if (key.match(/^public\/usr\/anonymous/)) {
         await blob.makePublic();
         const epoch = new Date().getTime();
-        ans.pub = `${Constants.GOOGLE_PUBLIC}${bucket.name}/${blob.name}?t=${epoch}`;
+        ans.pub = encodeURI(
+          `${Constants.GOOGLE_PUBLIC}${bucket.name}/${blob.name}?t=${epoch}`
+        );
       }
       res.status(200).json(ans).end();
     });

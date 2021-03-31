@@ -11,4 +11,14 @@ export class Constants {
   static firebase = {
     databaseURL: "https://" + Constants.PROJECT_ID + ".firebaseio.com",
   };
+  static VALID_BUCKET_KEYS = function () {
+    return [
+      // Como si fuera simplemente la llave ^public/usr/
+      /^(public\/usr\/[^?]+)/,
+      // Como si fuera una ruta local al api /storage/read?name=public/usr/
+      /\/storage\/read\?name=(public\/usr\/[^?]+)$/,
+      // Como si fuera https://storage.googleapis.com/[^/]+/public/usr/
+      new RegExp(Constants.GOOGLE_PUBLIC + "[^/]+/(public/usr/[^?]+)"),
+    ];
+  };
 }

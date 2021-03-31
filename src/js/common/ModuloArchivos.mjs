@@ -2,6 +2,7 @@ import { IdGen } from "./IdGen.mjs";
 import { Utilidades } from "./Utilidades.mjs";
 import { guessMimeType } from "./MimeTypeMap.mjs";
 import { ModuloPagina } from "../front/page/ModuloPagina.mjs";
+import { Constants } from "./Constants.mjs";
 
 export class ModuloArchivos {
   static async guardarContenidoEstatico() {
@@ -56,16 +57,21 @@ export class ModuloArchivos {
       // Lanzar el file picker
       options.data = await ModuloArchivos.askForFile(options);
     }
-    console.log(options.data);
+
     const fullFile = {};
     // 1. check if path is an existing or a new one
     options.path = Utilidades.trimSlashes(options.path);
-    if (!options.path.match(/^\/public\/usr\//)) {
+
+    const isNew = Utilidades.getBucketKey(options.path) == null;
+    if (isNew) {
       // 1.1.
       const epoch = await IdGen.ahora();
       const reemplazos = IdGen.getDateParts(epoch);
       reemplazos.random = await IdGen.nuevo(epoch);
       reemplazos.key = options.path;
+      if (options.data.name) {
+        reemplazos.name = options.data.name;
+      }
       reemplazos.key = Utilidades.interpolate(reemplazos.key, reemplazos);
 
       //1.2. Se debe completar con la ruta completa
@@ -77,12 +83,12 @@ export class ModuloArchivos {
 
       if (options.own) {
         fullFile.path = Utilidades.interpolate(
-          "/public/usr/${usr}/${path}/pg/${id}/${key}",
+          "public/usr/${usr}/${path}/pg/${id}/${key}",
           reemplazos
         );
       } else {
         fullFile.path = Utilidades.interpolate(
-          "/public/usr/anonymous/${path}/pg/${id}/${key}",
+          "public/usr/anonymous/${path}/pg/${id}/${key}",
           reemplazos
         );
       }

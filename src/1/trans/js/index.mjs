@@ -17,11 +17,20 @@ ModuloIntMark.getDiferidoIntMark({
   useFirebase: true,
   slaveLoged: true,
 }).then((datos) => {
-  $("body").on("click", function () {
+  $("#upload").on("click", function () {
+    const example = {
+      simple: "archivo.jpg",
+      key: "public/usr/anonymous/1/trans/pg/5690145009303552/archivo.jpg",
+      local:
+        "http://proyeccion-colombia1.appspot.com/storage/read?name=public/usr/anonymous/1/trans/pg/5690145009303552/archivo.jpg",
+      pub:
+        "https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/trans/pg/5690145009303552/archivo.jpg?t=1617155281635",
+    };
     ModuloArchivos.uploadFile({
-      path: "archivo.jpg",
+      //path: "mio/${YYYY}${MM}${dd}_${HH}${mm}${ss}.txt",
+      path: "mio/${name}",
       own: false,
-      tipos: [],
+      tipos: ["text/plain"],
       maximoTamanio: 1024 * 1024,
     }).then(function () {});
   });

@@ -1,14 +1,29 @@
+import { Constants } from "./Constants.mjs";
+
 export class Utilidades {
+  static getBucketKey(tempKey) {
+    const EXPRESIONES = Constants.VALID_BUCKET_KEYS();
+    let key = null;
+    for (let i = 0; i < EXPRESIONES.length; i++) {
+      if (key == null) {
+        const partes = EXPRESIONES[i].exec(tempKey);
+        if (partes != null) {
+          key = partes[1];
+        }
+      } else {
+        break;
+      }
+    }
+    return key;
+  }
   static trimSlashes(text) {
     return text.replace(/^[\/\\]+/g, "").replace(/[\/\\]+$/g, "");
   }
   static interpolate(text, o) {
-    return text.replace(/[$]{([^{}]*)}/g,
-          function (a, b) {
-              var r = o[b];
-              return typeof r === 'string' || typeof r === 'number' ? r : a;
-          }
-      );
+    return text.replace(/[$]{([^{}]*)}/g, function (a, b) {
+      var r = o[b];
+      return typeof r === "string" || typeof r === "number" ? r : a;
+    });
   }
   static llenarYpersistir(
     nuevo,
