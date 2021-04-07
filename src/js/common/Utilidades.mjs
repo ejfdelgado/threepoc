@@ -139,6 +139,12 @@ export class Utilidades {
 
   static darRutasObjeto(objOr, filtroObjetoAgregar, estructura) {
     var ans = [];
+    var iterarDentroFun = function (valor, llaveSiguiente) {
+      if (typeof filtroObjetoAgregar == "function") {
+        return filtroObjetoAgregar(valor, llaveSiguiente);
+      }
+      return true;
+    };
     var funcionRecursiva = function (obj, rutaActual, estructura) {
       if (Utilidades.esObjeto(obj)) {
         const llaves = Object.keys(obj);
@@ -151,10 +157,10 @@ export class Utilidades {
           } else {
             llaveSiguiente = rutaActual + "." + llave;
           }
-          const validado =
-            !(typeof filtroObjetoAgregar == "function") ||
-            filtroObjetoAgregar(valor, llaveSiguiente);
-          if (validado && ans.indexOf(llaveSiguiente) < 0) {
+          if (
+            iterarDentroFun(valor, llaveSiguiente) &&
+            ans.indexOf(llaveSiguiente) < 0
+          ) {
             ans.push(llaveSiguiente);
           }
           funcionRecursiva(valor, llaveSiguiente, estructura);
@@ -162,16 +168,17 @@ export class Utilidades {
         if (
           estructura === true &&
           rutaActual !== null &&
-          ans.indexOf(rutaActual) < 0
+          ans.indexOf(rutaActual) < 0 &&
+          iterarDentroFun(null, rutaActual)
         ) {
           ans.push(rutaActual);
         }
       } else {
         if (rutaActual !== null) {
-          const validado =
-            !(typeof filtroObjetoAgregar == "function") ||
-            filtroObjetoAgregar(obj, rutaActual);
-          if (validado && ans.indexOf(rutaActual) < 0) {
+          if (
+            iterarDentroFun(null, rutaActual) &&
+            ans.indexOf(rutaActual) < 0
+          ) {
             ans.push(rutaActual);
           }
         }

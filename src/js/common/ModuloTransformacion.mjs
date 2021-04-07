@@ -19,9 +19,12 @@ export class ModuloTransformacionSimple {
     let funFilter = null;
     const listaKeysNoBreak = opciones.keysNoBreak;
     if (listaKeysNoBreak.length > 0) {
-      funFilter = function (data, key) {
+      funFilter = function (data, key, addDot) {
         for (let i = 0; i < listaKeysNoBreak.length; i++) {
-          const patronText = listaKeysNoBreak[i];
+          let patronText = listaKeysNoBreak[i];
+          if (addDot !== false) {
+            patronText += "\\.";
+          }
           const patron = new RegExp(patronText);
           if (key.match(patron)) {
             return false;
@@ -32,6 +35,7 @@ export class ModuloTransformacionSimple {
     }
 
     var llaves = Utilidades.darRutasObjeto(objeto, funFilter, estruct);
+    console.log(llaves);
     if (cod === true) {
       for (var i = 0; i < llaves.length; i++) {
         var llave = llaves[i];
@@ -43,7 +47,8 @@ export class ModuloTransformacionSimple {
             val = JSON.stringify(val);
           } else if (estruct === true && [2, 3].indexOf(tipEstruct) >= 0) {
             //Es tipo estructura
-            const serializar = funFilter == null || !funFilter(null, llave);
+            const serializar =
+              funFilter != null && !funFilter(null, llave, false);
             if (serializar) {
               val = JSON.stringify(val);
             } else {
