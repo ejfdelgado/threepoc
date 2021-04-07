@@ -51,7 +51,7 @@ describe("transformacion_aplanamiento", () => {
         },
       ];
       const opciones = {
-        keysNoBreak: ["nombre.arreglo", "nombre.subobjeto"],
+        keysNoBreak: ["^nombre\\.arreglo", "^nombre\\.subobjeto"],
       };
       test_transformacion("simple", pool, done, opciones);
     });

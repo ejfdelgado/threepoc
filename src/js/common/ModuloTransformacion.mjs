@@ -22,7 +22,8 @@ export class ModuloTransformacionSimple {
       funFilter = function (data, key) {
         for (let i = 0; i < listaKeysNoBreak.length; i++) {
           const patronText = listaKeysNoBreak[i];
-          if (key.startsWith(patronText)) {
+          const patron = new RegExp(patronText);
+          if (key.match(patron)) {
             return false;
           }
         }
