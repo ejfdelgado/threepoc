@@ -1,6 +1,10 @@
 
 TODO
 
+En la tabla
+key: ..., cursor: '', k: ..., d: ...
+{data: ..., cursor: null} = read({key: ..., cursor: null, own: false})
+
 git clone https://github.com/code-kotis/qr-code-scanner
 npm install
 npm run start

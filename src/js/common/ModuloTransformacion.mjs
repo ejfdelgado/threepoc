@@ -7,10 +7,30 @@ export class ModuloTransformacionSimple {
    * @param cod
    * @param estruct
    */
-  static to(objeto, cod, estruct) {
+  static to(objeto, cod, estruct, opcionesIn = {}) {
     var respuesta = {};
+    const opciones = Object.assign(
+      {
+        keysNoBreak: [],
+      },
+      opcionesIn
+    );
 
-    var llaves = Utilidades.darRutasObjeto(objeto, null, estruct);
+    let funFilter = null;
+    const listaKeysNoBreak = opciones.keysNoBreak;
+    if (listaKeysNoBreak.length > 0) {
+      funFilter = function (data, key) {
+        for (let i = 0; i < listaKeysNoBreak.length; i++) {
+          const patronText = listaKeysNoBreak[i];
+          if (key.startsWith(patronText)) {
+            return false;
+          }
+        }
+        return true;
+      };
+    }
+
+    var llaves = Utilidades.darRutasObjeto(objeto, funFilter, estruct);
     if (cod === true) {
       for (var i = 0; i < llaves.length; i++) {
         var llave = llaves[i];
@@ -22,10 +42,15 @@ export class ModuloTransformacionSimple {
             val = JSON.stringify(val);
           } else if (estruct === true && [2, 3].indexOf(tipEstruct) >= 0) {
             //Es tipo estructura
-            if (tipEstruct == 2) {
-              val = "{}";
-            } else if (tipEstruct == 3) {
-              val = "[]";
+            const serializar = funFilter == null || !funFilter(null, llave);
+            if (serializar) {
+              val = JSON.stringify(val);
+            } else {
+              if (tipEstruct == 2) {
+                val = "{}";
+              } else if (tipEstruct == 3) {
+                val = "[]";
+              }
             }
           }
         }
@@ -94,34 +119,6 @@ export class ModuloTransformacion {
 
   static modo(llave) {
     return ModuloTransformacion.modos[llave];
-  }
-
-  static test(tipo) {
-    const pool = [
-      { nombre: { valor: 5, arreglo: ["a"] } },
-      [1, 5, 7, 8],
-      { a: 5 },
-      [{ e: "texto" }],
-      { nombre: true },
-      [true, "hey!", 4],
-    ];
-    const serializador = ModuloTransformacion.modo(tipo);
-    for (let i = 0; i < pool.length; i++) {
-      const objetoPrueba = pool[i];
-      const serializado = serializador.to(objetoPrueba, true, true);
-      const deserializado = serializador.from(serializado, true);
-      const texto1 = JSON.sortify(objetoPrueba);
-      const texto2 = JSON.sortify(deserializado);
-      if (texto1 == texto2) {
-        console.log(`Prueba ${i} ok! serializado=${JSON.sortify(serializado)}`);
-      } else {
-        console.log(
-          `Prueba ${i} error! ${texto1} no es igual a ${texto2} serializado=${JSON.sortify(
-            serializado
-          )}`
-        );
-      }
-    }
   }
 }
 

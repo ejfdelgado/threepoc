@@ -151,13 +151,11 @@ export class Utilidades {
           } else {
             llaveSiguiente = rutaActual + "." + llave;
           }
-          if (
-            typeof filtroObjetoAgregar == "function" &&
-            filtroObjetoAgregar(valor)
-          ) {
-            if (ans.indexOf(llaveSiguiente) < 0) {
-              ans.push(llaveSiguiente);
-            }
+          const validado =
+            !(typeof filtroObjetoAgregar == "function") ||
+            filtroObjetoAgregar(valor, llaveSiguiente);
+          if (validado && ans.indexOf(llaveSiguiente) < 0) {
+            ans.push(llaveSiguiente);
           }
           funcionRecursiva(valor, llaveSiguiente, estructura);
         }
@@ -170,16 +168,11 @@ export class Utilidades {
         }
       } else {
         if (rutaActual !== null) {
-          if (typeof filtroObjetoAgregar == "function") {
-            if (filtroObjetoAgregar(obj)) {
-              if (ans.indexOf(rutaActual) < 0) {
-                ans.push(rutaActual);
-              }
-            }
-          } else {
-            if (ans.indexOf(rutaActual) < 0) {
-              ans.push(rutaActual);
-            }
+          const validado =
+            !(typeof filtroObjetoAgregar == "function") ||
+            filtroObjetoAgregar(obj, rutaActual);
+          if (validado && ans.indexOf(rutaActual) < 0) {
+            ans.push(rutaActual);
           }
         }
       }

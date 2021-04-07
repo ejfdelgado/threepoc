@@ -49,13 +49,28 @@ export class ModuloArchivos {
       {
         own: true,
         path: null,
-        data: null, // Blob or text
+        data: null, // String, Blob, Canvas
       },
       optionsIn
     );
     if (options.data == null) {
       // Lanzar el file picker
       options.data = await ModuloArchivos.askForFile(options);
+    }
+
+    if (options.data.nodeName == "CANVAS") {
+      // image/webp image/jpeg image/png
+      const mimeType = guessMimeType(options.path);
+      const CANVAS_QUALITY_IMAGE = 0.92;
+      options.data = await new Promise((resolve) => {
+        options.data.toBlob(
+          function (blob) {
+            resolve(blob);
+          },
+          mimeType,
+          CANVAS_QUALITY_IMAGE
+        );
+      });
     }
 
     const fullFile = {};

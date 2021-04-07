@@ -5,8 +5,6 @@ import { ModuloQR } from "../../../js/front/firebase/ModuloQR.mjs";
 import { ModuloPubSub } from "../../../js/front/firebase/ModuloPubSub.mjs";
 import { ModuloArchivos } from "../../../js/common/ModuloArchivos.mjs";
 
-ModuloTransformacion.test("simple");
-
 ModuloPipeline.run("post,prefix,join,post,prefix,source;source").then(function (
   ans
 ) {
