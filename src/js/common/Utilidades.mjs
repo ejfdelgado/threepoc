@@ -67,14 +67,14 @@ export class Utilidades {
       return null;
     }
   }
-  static leerNumero(s) {
+  static leerNumero(s, predef=null) {
     if (typeof s == "string" || typeof s == "number") {
       const ans = parseInt(s);
       if (!isNaN(ans)) {
         return ans;
       }
     }
-    return null;
+    return predef;
   }
   static generateQueryParams(attributes) {
     const keys = Object.keys(attributes);
