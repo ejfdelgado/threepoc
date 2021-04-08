@@ -26,10 +26,10 @@ export class TuplaHandler {
     const transaction = datastore.transaction();
     await transaction.run();
     // Armo la llave padre
-    const paginaKey = datastore.key([PageHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
 
     const query = datastore
-      .createQuery(PageHandler.KIND_TUPLA)
+      .createQuery(TuplaHandler.KIND_TUPLA)
       .hasAncestor(paginaKey)
       .filter("i", "=", idPagina)
       .limit(n)
@@ -45,13 +45,13 @@ export class TuplaHandler {
 
   static async buscarTuplas(idPagina, llaves, soloLlave = false) {
     // Armo la llave padre
-    const paginaKey = datastore.key([PageHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
     const datos = [];
     // No existe la manera de hacer el operador IN..., entonces se hacen varias consultas a la vez
     for (let i = 0; i < llaves.length; i++) {
       const llave = llaves[i];
       const query = datastore
-        .createQuery(PageHandler.KIND_TUPLA)
+        .createQuery(TuplaHandler.KIND_TUPLA)
         .hasAncestor(paginaKey)
         .filter("i", "=", idPagina)
         .filter("k", "=", llave)
@@ -86,9 +86,47 @@ export class TuplaHandler {
     const siguiente = req.query.next;
     const n = Utilidades.leerNumero(req.query.n, 100);
 
-    if (TuplaHandler.VACIOS.indexOf(idPagina)) {
+    if (TuplaHandler.VACIOS.indexOf(idPagina) >= 0) {
       next(new ParametrosIncompletosException());
+      return;
     }
+
+    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+
+    const query = datastore
+      .createQuery(TuplaHandler.KIND_TUPLA)
+      .hasAncestor(paginaKey)
+      .filter("i", "=", idPagina)
+      .limit(n);
+
+    if (TuplaHandler.VACIOS.indexOf(dom) < 0) {
+      query.filter("d", "=", dom);
+    }
+    if (TuplaHandler.VACIOS.indexOf(sdom) < 0) {
+      query.filter("sd", "=", sdom);
+    }
+    if (TuplaHandler.VACIOS.indexOf(siguiente) < 0) {
+      query.start(siguiente);
+    }
+
+    const response = await query.run();
+    const datos = response[0];
+    const pages = response[1];
+
+    if (pages.moreResults == "MORE_RESULTS_AFTER_LIMIT") {
+      ans["next"] = pages.endCursor;
+    }
+
+    const dataF = [];
+    for (let i = 0; i < datos.length; i++) {
+      const dato = datos[i];
+      dataF.push({
+        k: dato.k,
+        v: dato.v,
+      });
+    }
+
+    ans["ans"] = dataF;
 
     res.status(200).json(ans).end();
   }
@@ -123,6 +161,7 @@ export class TuplaHandler {
 
     if (Object.keys(peticion).indexOf("dat") < 0) {
       next(new ParametrosIncompletosException());
+      return;
     }
 
     if (peticion["acc"] == "+") {
@@ -145,8 +184,9 @@ export class TuplaHandler {
     const idPagina = Utilidades.leerNumero(request.query.pg);
     const n = Utilidades.leerNumero(request.query.n, 100);
 
-    if (TuplaHandler.VACIOS.indexOf(idPagina)) {
+    if (TuplaHandler.VACIOS.indexOf(idPagina) >= 0) {
       next(new ParametrosIncompletosException());
+      return;
     }
 
     ans["n"] = await TuplaHandler.borrarTuplasTodas(ident, n, usuario);
