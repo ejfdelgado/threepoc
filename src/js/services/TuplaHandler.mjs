@@ -39,9 +39,47 @@ export class TuplaHandler {
     await transaction.commit();
   }
 
-  static async crearTuplas(idPagina, peticion, user) {}
+  static async crearTuplas(idPagina, peticion, user) {
+    const transaction = datastore.transaction();
+    await transaction.run();
 
-  static async borrarTuplas(idPagina, llaves, user) {}
+    // Armo la llave padre
+    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    // Saco las llaves de la peticion
+    const llaves = [];
+    const datosPayload = peticion["dat"];
+    const llavesPayload = Object.keys(datosPayload);
+    for (let i = 0; i < llavesPayload.length; i++) {
+      const llavePayload = llavesPayload[i];
+      llaves.append(llavePayload);
+    }
+
+    const datos = await TuplaHandler.buscarTuplas(idPagina, llaves);
+
+    console.log(datos);
+
+    await transaction.commit();
+  }
+
+  static async borrarTuplas(idPagina, llaves, user) {
+    const transaction = datastore.transaction();
+    await transaction.run();
+
+    const datos = await TuplaHandler.buscarTuplas(idPagina, llaves, true);
+
+    const llavesBorrar = [];
+    // Tomo las llaves
+    for (let i = 0; i < datos.length; i++) {
+      // TODO sí se accede así la llave??
+      console.log(dato.key);
+      transaction.delete(dato.key);
+      llavesBorrar.append(dato.key);
+    }
+    if (llavesBorrar.length > 0) {
+      await transaction.commit();
+    }
+    return len(llavesBorrar);
+  }
 
   static async buscarTuplas(idPagina, llaves, soloLlave = false) {
     // Armo la llave padre
@@ -146,6 +184,34 @@ export class TuplaHandler {
       next(new ParametrosIncompletosException());
       return;
     }
+
+    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+
+    const query = datastore
+      .createQuery(TuplaHandler.KIND_TUPLA)
+      .hasAncestor(paginaKey)
+      .filter("i", "=", idPagina)
+      .filter("d", "=", dom)
+      .select("sd")
+      .limit(1);
+
+    if (TuplaHandler.VACIOS.indexOf(sdom) < 0) {
+      query.filter("sd", "<", sdom);
+    }
+    query.order("sd", {
+      descending: true,
+    });
+
+    const response = await query.run();
+    const datos = response[0];
+
+    if (datos.length > 0) {
+      ans["ans"] = datos[0]["sd"];
+    } else {
+      ans["ans"] = null;
+    }
+
+    ans["ans"] = dataF;
 
     res.status(200).json(ans).end();
   }
