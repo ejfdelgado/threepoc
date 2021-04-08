@@ -14,16 +14,58 @@ router.use(bodyParser.json());
 const { Datastore } = datastorePackage;
 const datastore = new Datastore();
 
+// https://cloud.google.com/datastore/docs/concepts/transactions
+// https://cloud.google.com/datastore/docs/concepts/entities
+
 export class TuplaHandler {
   static KIND_PAGINA = "Pagina";
   static KIND_TUPLA = "Tupla";
   static VACIOS = [null, "", undefined];
 
-  static async borrarTuplasTodas(idPagina, n, user) {}
+  static async borrarTuplasTodas(idPagina, n, user) {
+    const transaction = datastore.transaction();
+    await transaction.run();
+    // Armo la llave padre
+    const paginaKey = datastore.key([PageHandler.KIND_PAGINA, idPagina]);
+
+    const query = datastore
+      .createQuery(PageHandler.KIND_TUPLA)
+      .hasAncestor(paginaKey)
+      .filter("i", "=", idPagina)
+      .limit(n)
+      .select("__key__");
+    datos = await query.run();
+    console.log(datos);
+    await transaction.commit();
+  }
 
   static async crearTuplas(idPagina, peticion, user) {}
 
   static async borrarTuplas(idPagina, llaves, user) {}
+
+  static async buscarTuplas(idPagina, llaves, soloLlave = false) {
+    // Armo la llave padre
+    const paginaKey = datastore.key([PageHandler.KIND_PAGINA, idPagina]);
+    const datos = [];
+    // No existe la manera de hacer el operador IN..., entonces se hacen varias consultas a la vez
+    for (let i = 0; i < llaves.length; i++) {
+      const llave = llaves[i];
+      const query = datastore
+        .createQuery(PageHandler.KIND_TUPLA)
+        .hasAncestor(paginaKey)
+        .filter("i", "=", idPagina)
+        .filter("k", "=", llave)
+        .limit(1);
+
+      if (soloLlave == true) {
+        query.select("__key__");
+      }
+      datos = await query.run();
+      const unapagina = datos[0];
+      datos.append(unapagina);
+    }
+    return datos;
+  }
 
   //-------------------------------------------------
 
