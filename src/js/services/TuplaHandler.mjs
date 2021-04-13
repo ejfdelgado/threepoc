@@ -31,26 +31,27 @@ export class TuplaHandler {
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
       .hasAncestor(paginaKey)
-      .filter("i", "=", idPagina)
       .limit(n)
       .select("__key__");
-    datos = await query.run();
-    console.log(datos);
+
+    let datos = await query.run();
+    const lista = datos[0];
+    for (let i = 0; i < lista.length; i++) {
+      const dato = lista[i];
+      transaction.delete(dato[datastore.KEY]);
+    }
     await transaction.commit();
   }
 
   static async crearTuplas(idPagina, peticion, user) {
     const transaction = datastore.transaction();
     await transaction.run();
-
-    // Armo la llave padre
-    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    
     // Saco las llaves de la peticion
     const datosPayload = peticion["dat"];
     const llaves = Object.keys(datosPayload);
 
     const datos = await TuplaHandler.buscarTuplas(idPagina, llaves);
-    console.log(datos);
 
     const lpatr = [];
     if (
@@ -74,7 +75,6 @@ export class TuplaHandler {
       Utilidades.remove(llaves, llave);
       if (existente["v"] != valNuevo) {
         existente.v = valNuevo;
-        console.log(`modificando ${JSON.stringify(existente)}`);
         amodificar.push(existente);
       }
     }
@@ -90,12 +90,10 @@ export class TuplaHandler {
       const unatupla = {
         key: key,
         data: {
-          i: idPagina,
           k: llave,
           v: datosPayload[llave],
         },
       };
-      console.log(`creando ${JSON.stringify(unatupla)}`);
       amodificar.push(unatupla);
     }
 
@@ -133,7 +131,6 @@ export class TuplaHandler {
       const query = datastore
         .createQuery(TuplaHandler.KIND_TUPLA)
         .hasAncestor(paginaKey)
-        .filter("i", "=", idPagina)
         .filter("k", "=", llave)
         .limit(1);
 
@@ -179,7 +176,6 @@ export class TuplaHandler {
 
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
-      .filter("i", "=", idPagina)
       .hasAncestor(paginaKey)
       .limit(n);
 
@@ -236,7 +232,6 @@ export class TuplaHandler {
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
       .hasAncestor(paginaKey)
-      .filter("i", "=", idPagina)
       .filter("d", "=", dom)
       .select("sd")
       .limit(1);

@@ -16,8 +16,7 @@ ModuloIntMark.getDiferidoIntMark({
   moduloTupla.leer().then(function (rta) {
     cronometro.toc();
     console.log(JSON.stringify(rta, null, 4));
-
-    moduloTupla.guardar({ esto: { es: 4 } });
+    moduloTupla.guardar({ esto: { es: 4, no: 9, algo: null } });
   });
 
   ModuloQR.showQR();

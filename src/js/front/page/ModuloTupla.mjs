@@ -11,10 +11,7 @@ export class ModuloTupla {
     this.diferidoLectura = null;
     this.memento = null;
     this.opciones = null;
-    this.hashActual = {
-      0: null,
-      1: null,
-    };
+    this.hashActual = null;
     this.opciones = Object.assign(
       {
         dom: "",
@@ -33,14 +30,18 @@ export class ModuloTupla {
     return ans;
   }
 
-  tomarImagen(valorActual, subllave) {
+  esDiferente = function (dato) {
+    return hashActual != ModuloTupla.darHash(dato)["md5"];
+  }
+
+  tomarImagen(valorActual) {
     const comp = ModuloTupla.darHash(valorActual);
-    this.hashActual[subllave] = comp["md5"];
+    this.hashActual = comp["md5"];
     return comp;
   }
 
   registrarMemento(plano) {
-    let temp = JSON.parse(this.tomarImagen(plano, "1")["txt"]);
+    let temp = JSON.parse(this.tomarImagen(plano)["txt"]);
     this.memento = {
       v: temp,
       k: Object.keys(temp),
