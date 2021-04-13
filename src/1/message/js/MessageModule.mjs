@@ -13,7 +13,7 @@ export const MessageModule = angular
       $stateProvider.state("/", {
         url: "/",
         component: "messageComponent",
-        bindings: { page: 'page' },
+        bindings: { page: "page" },
         resolve: {
           page: async () => {
             await ModuloIntMark.getDiferidoIntMark({
@@ -21,8 +21,8 @@ export const MessageModule = angular
               slaveLoged: true,
             });
             return await ModuloPagina.leer();
-          }
-        }
+          },
+        },
       });
       $urlRouterProvider.otherwise("/");
       console.log("configuring routing ok!");

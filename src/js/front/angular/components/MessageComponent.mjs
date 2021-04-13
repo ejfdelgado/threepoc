@@ -1,6 +1,6 @@
 export const MessageComponent = {
   bindings: {
-    page: '<',
+    page: "<",
   },
   templateUrl: "/js/front/angular/components/MessageComponent.html",
   controller: class MessageComponent {
@@ -14,10 +14,8 @@ export const MessageComponent = {
       alert("save!");
     }
     $onInit() {
-
+      console.log(this.page);
     }
-    $onChanges(changesObj) {
-
-    }
+    $onChanges(changesObj) {}
   },
 };
