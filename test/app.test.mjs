@@ -3,6 +3,7 @@ import app from "../app.mjs";
 import assert from "assert";
 import { ModuloTransformacion } from "../src/js/common/ModuloTransformacion.mjs";
 import jsonSortify from "../node_modules/json.sortify/dist/JSON.sortify.js";
+import { Amortiguar } from "../src/js/common/Amortiguar.mjs";
 
 describe("gae_node_request_example", () => {
   describe("GET /api/tup/fecha", () => {
@@ -26,6 +27,25 @@ const test_transformacion = function (tipo, pool, done, opciones) {
   }
   done();
 };
+
+describe("amortiguar", () => {
+  it("basico", function () {
+    //this.timeout(500);
+    const promesa = new Promise((resolve, reject) => {
+      const amortiguar = new Amortiguar(200);
+      setTimeout(() => {
+        console.log("Pidiendo permiso otra vez...");
+        amortiguar.darPermiso("guardar").then(() => {
+          resolve();
+        });
+      }, 100);
+      amortiguar.darPermiso("guardar").then(() => {
+        reject();
+      });
+    });
+    return promesa;
+  });
+});
 
 describe("transformacion_aplanamiento", () => {
   describe("simple", () => {

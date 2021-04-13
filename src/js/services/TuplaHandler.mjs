@@ -46,17 +46,63 @@ export class TuplaHandler {
     // Armo la llave padre
     const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
     // Saco las llaves de la peticion
-    const llaves = [];
     const datosPayload = peticion["dat"];
-    const llavesPayload = Object.keys(datosPayload);
-    for (let i = 0; i < llavesPayload.length; i++) {
-      const llavePayload = llavesPayload[i];
-      llaves.append(llavePayload);
-    }
+    const llaves = Object.keys(datosPayload);
 
     const datos = await TuplaHandler.buscarTuplas(idPagina, llaves);
-
     console.log(datos);
+
+    const lpatr = [];
+    if (
+      Object.keys(peticion).indexOf("patr") >= 0 &&
+      peticion["patr"] instanceof Array
+    ) {
+      const listaPatrones = peticion["patr"];
+      for (let j = 0; j < listaPatrones.length; j++) {
+        const unpatron = listaPatrones[j];
+        lpatr.push(new RegExp(unpatron));
+      }
+    }
+
+    const amodificar = [];
+
+    // Modifico los que existen
+    for (let k = 0; k < datos.length; k++) {
+      const existente = datos[k];
+      const llave = existente["k"];
+      const valNuevo = datosPayload[llave];
+      Utilidades.remove(llaves, llave);
+      if (existente["v"] != valNuevo) {
+        existente.v = valNuevo;
+        console.log(`modificando ${JSON.stringify(existente)}`);
+        amodificar.push(existente);
+      }
+    }
+
+    // Itero los que toca crear...
+    for (let k = 0; k < llaves.length; k++) {
+      const llave = llaves[k];
+      const key = datastore.key([
+        TuplaHandler.KIND_PAGINA,
+        idPagina,
+        TuplaHandler.KIND_TUPLA,
+      ]);
+      const unatupla = {
+        key: key,
+        data: {
+          i: idPagina,
+          k: llave,
+          v: datosPayload[llave],
+        },
+      };
+      console.log(`creando ${JSON.stringify(unatupla)}`);
+      amodificar.push(unatupla);
+    }
+
+    for (let k = 0; k < amodificar.length; k++) {
+      const entidad = amodificar[k];
+      await datastore.save(entidad);
+    }
 
     await transaction.commit();
   }
@@ -66,19 +112,15 @@ export class TuplaHandler {
     await transaction.run();
 
     const datos = await TuplaHandler.buscarTuplas(idPagina, llaves, true);
-
-    const llavesBorrar = [];
     // Tomo las llaves
     for (let i = 0; i < datos.length; i++) {
-      // TODO sí se accede así la llave??
-      console.log(dato.key);
-      transaction.delete(dato.key);
-      llavesBorrar.append(dato.key);
+      const dato = datos[i];
+      transaction.delete(dato[datastore.KEY]);
     }
-    if (llavesBorrar.length > 0) {
+    if (datos.length > 0) {
       await transaction.commit();
     }
-    return len(llavesBorrar);
+    return datos.length;
   }
 
   static async buscarTuplas(idPagina, llaves, soloLlave = false) {
@@ -98,9 +140,11 @@ export class TuplaHandler {
       if (soloLlave == true) {
         query.select("__key__");
       }
-      datos = await query.run();
-      const unapagina = datos[0];
-      datos.append(unapagina);
+      let datosParciales = await query.run();
+      const lista = datosParciales[0];
+      for (let i = 0; i < lista.length; i++) {
+        datos.push(lista[i]);
+      }
     }
     return datos;
   }
@@ -118,7 +162,7 @@ export class TuplaHandler {
     const ans = {};
     ans["error"] = 0;
 
-    const idPagina = req.query.pg;
+    let idPagina = req.query.pg;
     const dom = req.query.dom;
     const sdom = req.query.sdom;
     const siguiente = req.query.next;
@@ -129,12 +173,14 @@ export class TuplaHandler {
       return;
     }
 
+    idPagina = parseInt(idPagina);
+
     const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
 
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
-      .hasAncestor(paginaKey)
       .filter("i", "=", idPagina)
+      .hasAncestor(paginaKey)
       .limit(n);
 
     if (TuplaHandler.VACIOS.indexOf(dom) < 0) {
@@ -220,11 +266,10 @@ export class TuplaHandler {
     const ans = {};
     ans["error"] = 0;
 
-    const ident = req.params[0];
+    const ident = parseInt(req.params[0]);
     const usuario = req._user;
 
     const peticion = req.body;
-
     if (Object.keys(peticion).indexOf("dat") < 0) {
       next(new ParametrosIncompletosException());
       return;

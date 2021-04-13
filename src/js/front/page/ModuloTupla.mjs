@@ -95,4 +95,182 @@ export class ModuloTupla {
     }
     return this.diferidoLectura.promise;
   }
+
+  async guardar(modelo, lpatrones, sincronizar, misopciones) {
+    misopciones = Object.assign(
+      {
+        actividad: true,
+      },
+      misopciones
+    );
+    const diferido = new Deferred();
+
+    await this.leer();
+    const respuestaPagina = await ModuloPagina.leer();
+    const valor = respuestaPagina.valor;
+    const idPagina = valor.id;
+
+    //Debe calcular la diferencia entre:
+    const payload = {
+      "+": [], //crear
+      "*": {}, //modificar
+      "-": [], //borrar
+    };
+    var valNuevos = ModuloTupla.moduloTransformacion.to(modelo, true, true);
+    if (typeof valNuevos == "undefined") {
+      valNuevos = {};
+    }
+    var nuevoKeys = Object.keys(valNuevos);
+    var viejoKeys = this.memento["k"];
+
+    var valViejos = this.memento["v"];
+
+    //Lo que debe crear
+    payload["+"] = Utilidades.diff(nuevoKeys, viejoKeys);
+    //Lo que debe eliminar
+    payload["-"] = Utilidades.diff(viejoKeys, nuevoKeys);
+    //Lo que debe modificar
+    var restantes = nuevoKeys;
+    restantes = Utilidades.diff(restantes, payload["+"]);
+    restantes = Utilidades.diff(restantes, payload["-"]);
+
+    for (var i = 0; i < restantes.length; i++) {
+      var llave = restantes[i];
+      var cambio = false;
+      var val0 = valViejos[llave];
+      var val1 = valNuevos[llave];
+      if (val0 !== val1) {
+        if (val0 == null || val1 == null) {
+          //Alguno de los dos es nulo
+          cambio = true;
+        } else {
+          cambio = "" + val0 !== "" + val1;
+        }
+      }
+      if (cambio) {
+        payload["*"][llave] = val1;
+      }
+    }
+    //Cambio las listas por objetos
+    var mapaNuevo;
+    var listaNueva;
+
+    mapaNuevo = {};
+    listaNueva = payload["+"];
+    for (var i = 0; i < listaNueva.length; i++) {
+      var llave = listaNueva[i];
+      mapaNuevo[llave] = valNuevos[llave];
+    }
+    payload["+"] = mapaNuevo;
+
+    //Itero en grupos de 30...
+    //Google define que maximo se pueden hacer 30
+    var N = 30;
+    //Hago una copia...
+    valViejos = JSON.parse(JSON.stringify(valViejos));
+    var unionCrearModificar = {};
+    for (llave in payload["+"]) {
+      unionCrearModificar[llave] = payload["+"][llave];
+    }
+    for (llave in payload["*"]) {
+      unionCrearModificar[llave] = payload["*"][llave];
+    }
+    var funcionFinal = () => {
+      var reconstruido = this.registrarMemento(valViejos);
+      this.diferidoLectura = new Deferred();
+      this.diferidoLectura.resolve(reconstruido);
+    };
+
+    var diferidoCreacion = new Deferred();
+    var diferidoEliminacion = new Deferred();
+
+    var recursivaModificar = async () => {
+      console.log("modificando...");
+      var subgrupo = {};
+      var conteo = 0;
+      for (llave in unionCrearModificar) {
+        if (conteo >= N) {
+          break;
+        }
+        subgrupo[llave] = unionCrearModificar[llave];
+        delete unionCrearModificar[llave];
+        conteo++;
+      }
+      if (conteo == 0) {
+        //Se acabo
+        diferidoCreacion.resolve();
+      } else {
+        //Hace invocacion a servicio
+        //console.log('invocando servicio + con', JSON.stringify(subgrupo));
+        var subdatos = { dat: subgrupo, acc: "+" };
+        if (lpatrones instanceof Array) {
+          subdatos["patr"] = lpatrones;
+        }
+
+        const url = new URL(`${location.origin}/api/tup/${idPagina}`);
+        await fetch(url, {
+          method: "POST",
+          body: JSON.stringify(subdatos),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.json());
+        for (let unallave in subgrupo) {
+          valViejos[unallave] = subgrupo[unallave];
+        }
+        /*
+        if (sincronizar === true) {
+          moduloPubSub.pub('sync', subdatos);	
+        }
+        */
+        await recursivaModificar();
+      }
+    };
+
+    await recursivaModificar();
+
+    var recursivaEliminar = async () => {
+      console.log("eliminando...");
+      var subgrupo = payload["-"].splice(0, N);
+      if (subgrupo.length == 0) {
+        //Se acabo
+        diferidoEliminacion.resolve();
+      } else {
+        //Hace invocacion a servicio
+        //console.log('invocando servicio - con', JSON.stringify(subgrupo));
+        var payloadLocal = { dat: subgrupo, acc: "-" };
+        const url = new URL(`${location.origin}/api/tup/${idPagina}`);
+        await fetch(url, {
+          method: "POST",
+          body: JSON.stringify(payloadLocal),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.json());
+
+        for (var j = 0; j < subgrupo.length; j++) {
+          delete valViejos[subgrupo[j]];
+        }
+        /*
+        if (sincronizar === true) {
+          moduloPubSub.pub("sync", payloadLocal);
+        }
+        */
+        await recursivaEliminar();
+      }
+    };
+
+    await recursivaEliminar();
+
+    diferidoEliminacion.promise.then(function () {
+      diferido.resolve();
+    });
+
+    diferido.promise.then(function () {
+      console.log("terminó");
+      funcionFinal();
+    });
+
+    return diferido.promise;
+  }
 }

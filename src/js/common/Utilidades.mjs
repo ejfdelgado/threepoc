@@ -1,6 +1,23 @@
 import { Constants } from "./Constants.mjs";
 
 export class Utilidades {
+  //A la lista x le resta la lista a
+  static diff(x, a) {
+    if (!(a instanceof Array)) {
+      return x;
+    }
+    return x.filter(function (i) {
+      return a.indexOf(i) === -1;
+    });
+  }
+
+  static remove(lista, valor) {
+    const indice = lista.indexOf(valor);
+    if (indice >= 0) {
+      lista.splice(indice, 1);
+    }
+  }
+
   static getBucketKey(tempKey) {
     const EXPRESIONES = Constants.VALID_BUCKET_KEYS();
     let key = null;
@@ -67,7 +84,7 @@ export class Utilidades {
       return null;
     }
   }
-  static leerNumero(s, predef=null) {
+  static leerNumero(s, predef = null) {
     if (typeof s == "string" || typeof s == "number") {
       const ans = parseInt(s);
       if (!isNaN(ans)) {
