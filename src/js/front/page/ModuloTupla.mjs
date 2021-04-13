@@ -32,7 +32,7 @@ export class ModuloTupla {
 
   esDiferente = function (dato) {
     return hashActual != ModuloTupla.darHash(dato)["md5"];
-  }
+  };
 
   tomarImagen(valorActual) {
     const comp = ModuloTupla.darHash(valorActual);

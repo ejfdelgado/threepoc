@@ -46,7 +46,7 @@ export class TuplaHandler {
   static async crearTuplas(idPagina, peticion, user) {
     const transaction = datastore.transaction();
     await transaction.run();
-    
+
     // Saco las llaves de la peticion
     const datosPayload = peticion["dat"];
     const llaves = Object.keys(datosPayload);
