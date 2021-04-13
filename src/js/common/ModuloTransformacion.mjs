@@ -35,7 +35,6 @@ export class ModuloTransformacionSimple {
     }
 
     var llaves = Utilidades.darRutasObjeto(objeto, funFilter, estruct);
-    console.log(llaves);
     if (cod === true) {
       for (var i = 0; i < llaves.length; i++) {
         var llave = llaves[i];

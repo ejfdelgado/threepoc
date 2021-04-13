@@ -39,7 +39,6 @@ export class ModuloPagina {
     }
     return ModuloPagina.diferidoLectura.promise;
   }
-  static async leer2(sincronizar) {}
   static async leerTodo(sincronizar) {
     const promesaLeer = ModuloPagina.leer();
     const promesaLeer2 = ModuloPagina.leer2(sincronizar);

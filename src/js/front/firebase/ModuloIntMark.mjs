@@ -189,11 +189,10 @@ export class ModuloIntMark {
       ModuloIntMark.opciones["slaveLoged"] ||
       ModuloIntMark.opciones["slaveIdUsr"];
     const principal = await MiSeguridad.buscarUsuario(forzarUsuario);
-    const contextoPagina = await ModuloPagina.leerTodo(
+    const contextoPagina = await ModuloPagina.leer(
       ModuloIntMark.opciones.sincronizar
     );
-    const lecturaBasica = contextoPagina[0].valor;
-    const lecturaLarga = contextoPagina[1]; // Esto lo deberíamos sacar de acá
+    const lecturaBasica = contextoPagina.valor;
 
     var principalEsDuenio =
       [null, undefined].indexOf(principal) < 0 &&
