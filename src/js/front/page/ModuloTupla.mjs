@@ -14,8 +14,8 @@ export class ModuloTupla {
     this.hashActual = null;
     this.opciones = Object.assign(
       {
-        dom: "",
-        sdom: "",
+        dom: null,
+        sdom: null,
         N: 100,
       },
       opciones
@@ -71,6 +71,8 @@ export class ModuloTupla {
         const queryParams = {
           pg: idPagina,
           n: this.opciones.N,
+          dom: this.opciones.dom,
+          sdom: this.opciones.sdom,
         };
         if (next != null) {
           queryParams["next"] = next;
@@ -207,8 +209,11 @@ export class ModuloTupla {
         if (lpatrones instanceof Array) {
           subdatos["patr"] = lpatrones;
         }
-
-        const url = new URL(`${location.origin}/api/tup/${idPagina}`);
+        let dominio = "";
+        if (typeof this.opciones.dom == "string") {
+          dominio = "/" + this.opciones.dom;
+        }
+        const url = new URL(`${location.origin}/api/tup/${idPagina}${dominio}`);
         await fetch(url, {
           method: "POST",
           body: JSON.stringify(subdatos),

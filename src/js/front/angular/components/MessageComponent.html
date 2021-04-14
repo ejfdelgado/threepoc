@@ -1,4 +1,7 @@
-<p>Message: {{ $ctrl.dato.valor }}</p>
-<input type="text" ng-model="$ctrl.dato.valor">
+<p>SELECT * FROM `Tupla` WHERE __key__ HAS ANCESTOR KEY(Pagina, 5764529581457408)</p>
+<div ng-repeat="(llave, valor) in $ctrl.domains">
+    <input type="text" ng-model="valor.value">
+</div>
 <button ng-click="$ctrl.save()">Save!</button>
 <pre>{{ $ctrl.page | json }}</pre>
+<pre>{{ $ctrl.domains | json }}</pre>

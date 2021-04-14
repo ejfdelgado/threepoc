@@ -21,6 +21,7 @@ export class TuplaHandler {
   static KIND_PAGINA = "Pagina";
   static KIND_TUPLA = "Tupla";
   static VACIOS = [null, "", undefined];
+  static VACIOS2 = [null, undefined];
 
   static async borrarTuplasTodas(idPagina, n, user) {
     const transaction = datastore.transaction();
@@ -43,7 +44,7 @@ export class TuplaHandler {
     await transaction.commit();
   }
 
-  static async crearTuplas(idPagina, peticion, user) {
+  static async crearTuplas(idPagina, peticion, user, dominio) {
     const transaction = datastore.transaction();
     await transaction.run();
 
@@ -51,7 +52,12 @@ export class TuplaHandler {
     const datosPayload = peticion["dat"];
     const llaves = Object.keys(datosPayload);
 
-    const datos = await TuplaHandler.buscarTuplas(idPagina, llaves);
+    const datos = await TuplaHandler.buscarTuplas(
+      idPagina,
+      llaves,
+      false,
+      dominio
+    );
 
     const lpatr = [];
     if (
@@ -75,6 +81,9 @@ export class TuplaHandler {
       Utilidades.remove(llaves, llave);
       if (existente["v"] != valNuevo) {
         existente.v = valNuevo;
+        if (dominio != undefined) {
+          existente.d = dominio;
+        }
         amodificar.push(existente);
       }
     }
@@ -94,6 +103,9 @@ export class TuplaHandler {
           v: datosPayload[llave],
         },
       };
+      if (dominio != undefined) {
+        unatupla.data.d = dominio;
+      }
       amodificar.push(unatupla);
     }
 
@@ -105,11 +117,16 @@ export class TuplaHandler {
     await transaction.commit();
   }
 
-  static async borrarTuplas(idPagina, llaves, user) {
+  static async borrarTuplas(idPagina, llaves, user, dominio) {
     const transaction = datastore.transaction();
     await transaction.run();
 
-    const datos = await TuplaHandler.buscarTuplas(idPagina, llaves, true);
+    const datos = await TuplaHandler.buscarTuplas(
+      idPagina,
+      llaves,
+      true,
+      dominio
+    );
     // Tomo las llaves
     for (let i = 0; i < datos.length; i++) {
       const dato = datos[i];
@@ -121,7 +138,7 @@ export class TuplaHandler {
     return datos.length;
   }
 
-  static async buscarTuplas(idPagina, llaves, soloLlave = false) {
+  static async buscarTuplas(idPagina, llaves, soloLlave = false, dominio) {
     // Armo la llave padre
     const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
     const datos = [];
@@ -133,6 +150,10 @@ export class TuplaHandler {
         .hasAncestor(paginaKey)
         .filter("k", "=", llave)
         .limit(1);
+
+      if (typeof dominio == "string") {
+        query.filter("d", dominio);
+      }
 
       if (soloLlave == true) {
         query.select("__key__");
@@ -179,10 +200,10 @@ export class TuplaHandler {
       .hasAncestor(paginaKey)
       .limit(n);
 
-    if (TuplaHandler.VACIOS.indexOf(dom) < 0) {
+    if (TuplaHandler.VACIOS2.indexOf(dom) < 0) {
       query.filter("d", "=", dom);
     }
-    if (TuplaHandler.VACIOS.indexOf(sdom) < 0) {
+    if (TuplaHandler.VACIOS2.indexOf(sdom) < 0) {
       query.filter("sd", "=", sdom);
     }
     if (TuplaHandler.VACIOS.indexOf(siguiente) < 0) {
@@ -260,8 +281,11 @@ export class TuplaHandler {
   static async guardar(req, res, next) {
     const ans = {};
     ans["error"] = 0;
-
     const ident = parseInt(req.params[0]);
+    let dominio;
+    if (req.params[1] != undefined) {
+      dominio = /\/(.*)/.exec(req.params[1])[1];
+    }
     const usuario = req._user;
 
     const peticion = req.body;
@@ -271,10 +295,20 @@ export class TuplaHandler {
     }
 
     if (peticion["acc"] == "+") {
-      ans["n"] = await TuplaHandler.crearTuplas(ident, peticion, usuario);
+      ans["n"] = await TuplaHandler.crearTuplas(
+        ident,
+        peticion,
+        usuario,
+        dominio
+      );
     } else if (peticion["acc"] == "-") {
       const llaves = peticion["dat"];
-      ans["n"] = await TuplaHandler.borrarTuplas(ident, llaves, usuario);
+      ans["n"] = await TuplaHandler.borrarTuplas(
+        ident,
+        llaves,
+        usuario,
+        dominio
+      );
     }
 
     res.status(200).json(ans).end();
@@ -304,7 +338,7 @@ export class TuplaHandler {
 router.get("/fecha", TuplaHandler.fecha);
 router.get("/all/*", TuplaHandler.all);
 router.get("/next/*", TuplaHandler.next);
-router.post("/*", TuplaHandler.guardar);
+router.post(/\/(\d+)(\/.*)?/, TuplaHandler.guardar);
 router.delete("/*", TuplaHandler.borrar);
 
 export default router;
