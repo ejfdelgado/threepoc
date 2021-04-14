@@ -167,6 +167,9 @@ export class Utilidades {
         const llaves = Object.keys(obj);
         for (let i = 0; i < llaves.length; i++) {
           const llave = llaves[i];
+          if (llave == "$$hashKey") {
+            continue;
+          }
           const valor = obj[llave];
           var llaveSiguiente = null;
           if (rutaActual === null) {

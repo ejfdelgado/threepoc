@@ -3,6 +3,7 @@ import { ModuloTransformacion } from "../../common/ModuloTransformacion.mjs";
 import MD5 from "../../../node_modules/blueimp-md5-es6/js/md5.js";
 import { Deferred } from "../../common/Deferred.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
+import { ModuloActividad } from "../common/ModuloActividad.mjs";
 
 export class ModuloTupla {
   static moduloTransformacion = ModuloTransformacion.modo("simple");
@@ -100,12 +101,20 @@ export class ModuloTupla {
   }
 
   async guardar(modelo, lpatrones, sincronizar, misopciones) {
+    let dominio = "";
+    if (typeof this.opciones.dom == "string") {
+      dominio = "/" + this.opciones.dom;
+    }
     misopciones = Object.assign(
       {
         actividad: true,
       },
       misopciones
     );
+    let actividad = null;
+    if (misopciones.actividad) {
+      actividad = ModuloActividad.on();
+    }
     const diferido = new Deferred();
 
     await this.leer();
@@ -182,6 +191,9 @@ export class ModuloTupla {
       var reconstruido = this.registrarMemento(valViejos);
       this.diferidoLectura = new Deferred();
       this.diferidoLectura.resolve(reconstruido);
+      if (actividad != null) {
+        actividad.resolve();
+      }
     };
 
     var diferidoCreacion = new Deferred();
@@ -208,10 +220,6 @@ export class ModuloTupla {
         var subdatos = { dat: subgrupo, acc: "+" };
         if (lpatrones instanceof Array) {
           subdatos["patr"] = lpatrones;
-        }
-        let dominio = "";
-        if (typeof this.opciones.dom == "string") {
-          dominio = "/" + this.opciones.dom;
         }
         const url = new URL(`${location.origin}/api/tup/${idPagina}${dominio}`);
         await fetch(url, {
@@ -245,7 +253,7 @@ export class ModuloTupla {
         //Hace invocacion a servicio
         //console.log('invocando servicio - con', JSON.stringify(subgrupo));
         var payloadLocal = { dat: subgrupo, acc: "-" };
-        const url = new URL(`${location.origin}/api/tup/${idPagina}`);
+        const url = new URL(`${location.origin}/api/tup/${idPagina}${dominio}`);
         await fetch(url, {
           method: "POST",
           body: JSON.stringify(payloadLocal),

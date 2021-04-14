@@ -23,7 +23,7 @@ export class TuplaHandler {
   static VACIOS = [null, "", undefined];
   static VACIOS2 = [null, undefined];
 
-  static async borrarTuplasTodas(idPagina, n, user) {
+  static async borrarTuplasTodas(idPagina, n, user, dominio) {
     const transaction = datastore.transaction();
     await transaction.run();
     // Armo la llave padre
@@ -34,6 +34,10 @@ export class TuplaHandler {
       .hasAncestor(paginaKey)
       .limit(n)
       .select("__key__");
+
+    if (typeof dominio == "string") {
+      query.filter("d", dominio);
+    }
 
     let datos = await query.run();
     const lista = datos[0];
@@ -320,6 +324,10 @@ export class TuplaHandler {
 
     const ident = req.params[0];
     const usuario = req._user;
+    let dominio;
+    if (req.params[1] != undefined) {
+      dominio = /\/(.*)/.exec(req.params[1])[1];
+    }
 
     const idPagina = Utilidades.leerNumero(request.query.pg);
     const n = Utilidades.leerNumero(request.query.n, 100);
@@ -329,7 +337,7 @@ export class TuplaHandler {
       return;
     }
 
-    ans["n"] = await TuplaHandler.borrarTuplasTodas(ident, n, usuario);
+    ans["n"] = await TuplaHandler.borrarTuplasTodas(ident, n, usuario, dominio);
 
     res.status(200).json(ans).end();
   }
@@ -339,6 +347,6 @@ router.get("/fecha", TuplaHandler.fecha);
 router.get("/all/*", TuplaHandler.all);
 router.get("/next/*", TuplaHandler.next);
 router.post(/\/(\d+)(\/.*)?/, TuplaHandler.guardar);
-router.delete("/*", TuplaHandler.borrar);
+router.delete(/\/(\d+)(\/.*)?/, TuplaHandler.borrar);
 
 export default router;
