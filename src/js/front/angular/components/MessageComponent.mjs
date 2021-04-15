@@ -10,26 +10,43 @@ export class MessageComponentClass {
       this.services[domain].guardar(valor);
     }
   }
-  add(list) {
-    list.push({value: ""});
+  addRol(list) {
+    list.push({ v: "" });
   }
-  remove(list) {
-    if (list.length > 0) {
-      list.splice(list.length-1, 1);
+  removeRol(list, indice) {
+    console.log(list);
+    console.log(indice);
+    if (list.length < indice) {
+      list.splice(indice, 1);
     }
+  }
+  removeUsr(contenidoDominio, usuario) {
+    delete contenidoDominio[usuario];
+  }
+  addUsr(contenidoDominio) {
+    contenidoDominio[this.temp.name] = { roles: [] };
   }
   $onInit() {
     console.log(this.page);
-
+    this.temp = {
+      name: "google.com/edgar.jose.fernando.delgado@gmail.com".replace(
+        /\./g,
+        "_"
+      ),
+    };
     this.domains = {};
     this.services = {};
-    const PRUEBA = ["", "other", "external"];
+    const PRUEBA = [
+      { name: "security", useSubDomain: true, pred: { edgar: { roles: [] } } },
+      { name: "other", useSubDomain: false, pred: { edgar: { roles: [] } } },
+    ];
     for (let i = 0; i < PRUEBA.length; i++) {
-      this.readDomain(PRUEBA[i], { list: [] });
+      const unaPrueba = PRUEBA[i];
+      this.readDomain(unaPrueba.name, unaPrueba.pred, unaPrueba.useSubDomain);
     }
   }
-  async readDomain(domain = "", predefined = {}) {
-    const opciones = { dom: domain };
+  async readDomain(domain = "", predefined = {}, useSubDomain) {
+    const opciones = { dom: domain, useSubDomain: useSubDomain };
     if (domain == "null") {
       opciones.dom = null;
     }

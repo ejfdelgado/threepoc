@@ -154,7 +154,12 @@ export class Utilidades {
     return typeof dato == "number" || /^\s*\d+([\.,]\d*)?\s*$/.test(dato);
   }
 
-  static darRutasObjeto(objOr, filtroObjetoAgregar, estructura) {
+  static darRutasObjeto(
+    objOr,
+    filtroObjetoAgregar,
+    estructura,
+    includeBase = true
+  ) {
     var ans = [];
     var iterarDentroFun = function (valor, llaveSiguiente) {
       if (typeof filtroObjetoAgregar == "function") {
@@ -181,7 +186,9 @@ export class Utilidades {
             iterarDentroFun(valor, llaveSiguiente) &&
             ans.indexOf(llaveSiguiente) < 0
           ) {
-            ans.push(llaveSiguiente);
+            if (includeBase || llaveSiguiente.indexOf(".") >= 0) {
+              ans.push(llaveSiguiente);
+            }
           }
           funcionRecursiva(valor, llaveSiguiente, estructura);
         }
@@ -191,7 +198,9 @@ export class Utilidades {
           ans.indexOf(rutaActual) < 0 &&
           iterarDentroFun(null, rutaActual)
         ) {
-          ans.push(rutaActual);
+          if (includeBase || rutaActual.indexOf(".") >= 0) {
+            ans.push(rutaActual);
+          }
         }
       } else {
         if (rutaActual !== null) {
@@ -199,7 +208,9 @@ export class Utilidades {
             iterarDentroFun(null, rutaActual) &&
             ans.indexOf(rutaActual) < 0
           ) {
-            ans.push(rutaActual);
+            if (includeBase || rutaActual.indexOf(".") >= 0) {
+              ans.push(rutaActual);
+            }
           }
         }
       }

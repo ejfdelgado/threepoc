@@ -79,14 +79,16 @@ describe("transformacion_aplanamiento", () => {
       const pool = [
         {
           nombre: {
-            valor: 5,
-            arreglo: ["a", "b", "c"],
+            roles: ["a", "b", "c"],
             subobjeto: { a: 4, b: 6 },
+          },
+          edgar: {
+            otro: [1, 2, 3],
           },
         },
       ];
       const opciones = {
-        keysNoBreak: ["^nombre"],
+        keysNoBreak: ["^[^.]+\\.[^.]+"],
       };
       test_transformacion("simple", pool, done, opciones);
     });

@@ -6,6 +6,7 @@ import { NoAutorizadoException } from "../common/Errors.mjs";
 import { NoExisteException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
+import { PageHandler } from "./PageHandler.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +19,6 @@ const datastore = new Datastore();
 // https://cloud.google.com/datastore/docs/concepts/entities
 
 export class TuplaHandler {
-  static KIND_PAGINA = "Pagina";
   static KIND_TUPLA = "Tupla";
   static VACIOS = [null, "", undefined];
   static VACIOS2 = [null, undefined];
@@ -27,7 +27,7 @@ export class TuplaHandler {
     const transaction = datastore.transaction();
     await transaction.run();
     // Armo la llave padre
-    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([PageHandler.KIND, idPagina]);
 
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
@@ -48,42 +48,34 @@ export class TuplaHandler {
     await transaction.commit();
   }
 
-  static async crearTuplas(idPagina, peticion, user, dominio) {
+  static async crearTuplas(idPagina, peticion, user, dominio, useSd) {
     const transaction = datastore.transaction();
     await transaction.run();
 
     // Saco las llaves de la peticion
-    const datosPayload = peticion["dat"];
+    const datosPayload = peticion.dat;
     const llaves = Object.keys(datosPayload);
 
     const datos = await TuplaHandler.buscarTuplas(
       idPagina,
       llaves,
       false,
-      dominio
+      dominio,
+      useSd
     );
-
-    const lpatr = [];
-    if (
-      Object.keys(peticion).indexOf("patr") >= 0 &&
-      peticion["patr"] instanceof Array
-    ) {
-      const listaPatrones = peticion["patr"];
-      for (let j = 0; j < listaPatrones.length; j++) {
-        const unpatron = listaPatrones[j];
-        lpatr.push(new RegExp(unpatron));
-      }
-    }
 
     const amodificar = [];
 
     // Modifico los que existen
     for (let k = 0; k < datos.length; k++) {
       const existente = datos[k];
-      const llave = existente["k"];
+      let llave = existente.k;
+      if (useSd) {
+        llave = existente.sd + "." + llave;
+      }
       const valNuevo = datosPayload[llave];
       Utilidades.remove(llaves, llave);
-      if (existente["v"] != valNuevo) {
+      if (existente.v != valNuevo) {
         existente.v = valNuevo;
         if (dominio != undefined) {
           existente.d = dominio;
@@ -94,9 +86,15 @@ export class TuplaHandler {
 
     // Itero los que toca crear...
     for (let k = 0; k < llaves.length; k++) {
-      const llave = llaves[k];
+      let llave = llaves[k];
+      let sd = null;
+      if (useSd) {
+        const partes = /^([^.]+)\.(.*)$/.exec(llave);
+        sd = partes[1];
+        llave = partes[2];
+      }
       const key = datastore.key([
-        TuplaHandler.KIND_PAGINA,
+        PageHandler.KIND,
         idPagina,
         TuplaHandler.KIND_TUPLA,
       ]);
@@ -104,9 +102,12 @@ export class TuplaHandler {
         key: key,
         data: {
           k: llave,
-          v: datosPayload[llave],
+          v: datosPayload[llaves[k]],
         },
       };
+      if (useSd) {
+        unatupla.data.sd = sd;
+      }
       if (dominio != undefined) {
         unatupla.data.d = dominio;
       }
@@ -121,7 +122,7 @@ export class TuplaHandler {
     await transaction.commit();
   }
 
-  static async borrarTuplas(idPagina, llaves, user, dominio) {
+  static async borrarTuplas(idPagina, llaves, user, dominio, useSd = false) {
     const transaction = datastore.transaction();
     await transaction.run();
 
@@ -129,7 +130,8 @@ export class TuplaHandler {
       idPagina,
       llaves,
       true,
-      dominio
+      dominio,
+      useSd
     );
     // Tomo las llaves
     for (let i = 0; i < datos.length; i++) {
@@ -142,18 +144,34 @@ export class TuplaHandler {
     return datos.length;
   }
 
-  static async buscarTuplas(idPagina, llaves, soloLlave = false, dominio) {
+  static async buscarTuplas(
+    idPagina,
+    llaves,
+    soloLlave = false,
+    dominio,
+    useSd = false
+  ) {
     // Armo la llave padre
-    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([PageHandler.KIND, idPagina]);
     const datos = [];
     // No existe la manera de hacer el operador IN..., entonces se hacen varias consultas a la vez
     for (let i = 0; i < llaves.length; i++) {
-      const llave = llaves[i];
+      let llave = llaves[i];
+      let sd = null;
+      if (useSd) {
+        const partes = /^([^.]+)\.(.*)$/.exec(llave);
+        sd = partes[1];
+        llave = partes[2];
+      }
       const query = datastore
         .createQuery(TuplaHandler.KIND_TUPLA)
         .hasAncestor(paginaKey)
         .filter("k", "=", llave)
         .limit(1);
+
+      if (sd != null) {
+        query.filter("sd", sd);
+      }
 
       if (typeof dominio == "string") {
         query.filter("d", dominio);
@@ -197,7 +215,7 @@ export class TuplaHandler {
 
     idPagina = parseInt(idPagina);
 
-    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([PageHandler.KIND, idPagina]);
 
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
@@ -225,10 +243,14 @@ export class TuplaHandler {
     const dataF = [];
     for (let i = 0; i < datos.length; i++) {
       const dato = datos[i];
-      dataF.push({
+      const rta = {
         k: dato.k,
         v: dato.v,
-      });
+      };
+      if (typeof dato.sd == "string") {
+        rta.k = dato.sd + "." + rta.k;
+      }
+      dataF.push(rta);
     }
 
     ans["ans"] = dataF;
@@ -252,7 +274,7 @@ export class TuplaHandler {
       return;
     }
 
-    const paginaKey = datastore.key([TuplaHandler.KIND_PAGINA, idPagina]);
+    const paginaKey = datastore.key([PageHandler.KIND, idPagina]);
 
     const query = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
@@ -298,12 +320,14 @@ export class TuplaHandler {
       return;
     }
 
+    const useSd = peticion["useSd"] == true;
     if (peticion["acc"] == "+") {
       ans["n"] = await TuplaHandler.crearTuplas(
         ident,
         peticion,
         usuario,
-        dominio
+        dominio,
+        useSd
       );
     } else if (peticion["acc"] == "-") {
       const llaves = peticion["dat"];
@@ -311,7 +335,8 @@ export class TuplaHandler {
         ident,
         llaves,
         usuario,
-        dominio
+        dominio,
+        useSd
       );
     }
 

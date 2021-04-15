@@ -12,6 +12,7 @@ export class ModuloTransformacionSimple {
     const opciones = Object.assign(
       {
         keysNoBreak: [],
+        includeBase: true,
       },
       opcionesIn
     );
@@ -34,7 +35,12 @@ export class ModuloTransformacionSimple {
       };
     }
 
-    var llaves = Utilidades.darRutasObjeto(objeto, funFilter, estruct);
+    var llaves = Utilidades.darRutasObjeto(
+      objeto,
+      funFilter,
+      estruct,
+      opciones.includeBase
+    );
     if (cod === true) {
       for (var i = 0; i < llaves.length; i++) {
         var llave = llaves[i];
@@ -49,7 +55,12 @@ export class ModuloTransformacionSimple {
             const serializar =
               funFilter != null && !funFilter(null, llave, false);
             if (serializar) {
-              val = JSON.stringify(val);
+              val = JSON.stringify(val, function (k, v) {
+                if (k === "$$hashKey") {
+                  return undefined;
+                }
+                return v;
+              });
             } else {
               if (tipEstruct == 2) {
                 val = "{}";

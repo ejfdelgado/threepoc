@@ -18,6 +18,7 @@ export class ModuloTupla {
         dom: null,
         sdom: null,
         N: 100,
+        useSubDomain: false,
       },
       opciones
     );
@@ -105,6 +106,11 @@ export class ModuloTupla {
     if (typeof this.opciones.dom == "string") {
       dominio = "/" + this.opciones.dom;
     }
+    const opcTra = {};
+    if (this.opciones.useSubDomain) {
+      opcTra.keysNoBreak = ["^[^.]+\\.[^.]+"];
+      opcTra.includeBase = false;
+    }
     misopciones = Object.assign(
       {
         actividad: true,
@@ -128,7 +134,12 @@ export class ModuloTupla {
       "*": {}, //modificar
       "-": [], //borrar
     };
-    var valNuevos = ModuloTupla.moduloTransformacion.to(modelo, true, true);
+    var valNuevos = ModuloTupla.moduloTransformacion.to(
+      modelo,
+      true,
+      true,
+      opcTra
+    );
     if (typeof valNuevos == "undefined") {
       valNuevos = {};
     }
@@ -218,6 +229,9 @@ export class ModuloTupla {
         //Hace invocacion a servicio
         //console.log('invocando servicio + con', JSON.stringify(subgrupo));
         var subdatos = { dat: subgrupo, acc: "+" };
+        if (this.opciones.useSubDomain) {
+          subdatos.useSd = true;
+        }
         if (lpatrones instanceof Array) {
           subdatos["patr"] = lpatrones;
         }

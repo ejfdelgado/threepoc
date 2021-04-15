@@ -1,10 +1,17 @@
 <p>SELECT * FROM `Tupla` WHERE __key__ HAS ANCESTOR KEY(Pagina, 5764529581457408)</p>
-<div ng-repeat="(llave, valor) in $ctrl.domains">
-    <div ng-repeat="element in valor.list" style="display: inline;">
-        <input type="text" ng-model="element.value">
+<div ng-repeat="(dominio, contenidoDominio) in $ctrl.domains">
+
+    <div ng-repeat="(usuario, contenidoUsuario) in contenidoDominio">
+        <pre>{{ usuario }} <button ng-click="$ctrl.removeUsr(contenidoDominio, usuario)">eliminar</button></pre>
+        <div ng-repeat="(idRol, role) in contenidoUsuario.roles" style="display: inline;">
+            <input type="text" ng-model="role.v"><button ng-click="$ctrl.removeRol(contenidoUsuario.roles, idRol)">-</button>
+        </div>
+        <button ng-click="$ctrl.addRol(contenidoUsuario.roles)">Add Role</button>
     </div>
-    <button ng-click="$ctrl.add(valor.list)">+</button>
-    <button ng-click="$ctrl.remove(valor.list)">-</button>
+    <input type="text" ng-model="$ctrl.temp.name">
+    <button ng-click="$ctrl.addUsr(contenidoDominio)">Add User</button>
+
+
 </div>
 <button ng-click="$ctrl.save()">Save!</button>
 <pre>{{ $ctrl.page | json }}</pre>

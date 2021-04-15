@@ -18,6 +18,10 @@ indexes:
 
 - kind: Pagina
   properties:
+  - name: aut
+
+- kind: Pagina
+  properties:
   - name: path
   - name: usr
   - name: date
