@@ -73,7 +73,7 @@ export class Usuario {
       .limit(1);
 
     // 2. Se complementa con los permisos de la página
-    const userIdFix = userId.replace(/\./g, "_");
+    const userIdFix = Buffer.from(userId).toString("base64");
     const queryTupla = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
       .hasAncestor(paginaKey)

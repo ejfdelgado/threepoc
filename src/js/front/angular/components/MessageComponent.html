@@ -4,7 +4,7 @@
     <div ng-repeat="(usuario, contenidoUsuario) in contenidoDominio">
         <pre>{{ usuario }} <button ng-click="$ctrl.removeUsr(contenidoDominio, usuario)">eliminar</button></pre>
         <div ng-repeat="(idRol, role) in contenidoUsuario.roles" style="display: inline;">
-            <input type="text" ng-model="role.v"><button ng-click="$ctrl.removeRol(contenidoUsuario.roles, idRol)">-</button>
+            <input type="text" ng-model="role.v"><button ng-click="$ctrl.removeRol(contenidoUsuario, idRol)">-</button>
         </div>
         <button ng-click="$ctrl.addRol(contenidoUsuario.roles)">Add Role</button>
     </div>

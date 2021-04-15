@@ -13,10 +13,9 @@ export class MessageComponentClass {
   addRol(list) {
     list.push({ v: "" });
   }
-  removeRol(list, indice) {
-    console.log(list);
-    console.log(indice);
-    if (list.length < indice) {
+  removeRol(contenido, indice) {
+    const list = contenido.roles;
+    if (indice < list.length) {
       list.splice(indice, 1);
     }
   }
@@ -29,16 +28,13 @@ export class MessageComponentClass {
   $onInit() {
     console.log(this.page);
     this.temp = {
-      name: "google.com/edgar.jose.fernando.delgado@gmail.com".replace(
-        /\./g,
-        "_"
-      ),
+      name: btoa("google.com/edgar.jose.fernando.delgado@gmail.com"),
     };
     this.domains = {};
     this.services = {};
     const PRUEBA = [
-      { name: "security", useSubDomain: true, pred: { edgar: { roles: [] } } },
-      { name: "other", useSubDomain: false, pred: { edgar: { roles: [] } } },
+      { name: "security", useSubDomain: true, pred: {} },
+      { name: "other", useSubDomain: false, pred: {} },
     ];
     for (let i = 0; i < PRUEBA.length; i++) {
       const unaPrueba = PRUEBA[i];
