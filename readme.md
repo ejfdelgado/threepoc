@@ -1,9 +1,14 @@
 
 TODO
 
-En la tabla
-key: ..., cursor: '', k: ..., d: ...
-{data: ..., cursor: null} = read({key: ..., cursor: null, own: false})
+Permitir usuar dos componentes diferentes para master o slave.
+Agregar Bootbox e integrar con angular y compile html.
+Permitir hacer la edición de la Página, solo para el owner, incluir permisos.
+Permitir hacer la edición de permisos de usuarios.
+Integrar el OCR con el uplad.
+Ingerar speech to text con el upload.
+
+
 
 git clone https://github.com/code-kotis/qr-code-scanner
 npm install

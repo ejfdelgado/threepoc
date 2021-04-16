@@ -3,8 +3,33 @@ import { Utiles } from "../common/Utiles.mjs";
 import { PageHandler } from "./PageHandler.mjs";
 
 export class MainHandlerReplace {
+  static replaceComments(rta, type) {
+    let isOpen = true;
+    rta.data = rta.data.replace(
+      new RegExp(`(<\\!--)(\\s*${type}\\s*)(-->)`, "g"),
+      function (todo, abre, tipo, cierra) {
+        if (isOpen) {
+          isOpen = !isOpen;
+          return abre;
+        } else {
+          isOpen = !isOpen;
+          return cierra;
+        }
+      }
+    );
+  }
+  static replaceMasterSlave(rta, isSlave) {
+    if (isSlave) {
+      MainHandlerReplace.replaceComments(rta, "master");
+    } else {
+      MainHandlerReplace.replaceComments(rta, "slave");
+    }
+  }
   static async replaceTokens(readPromise, originalUrl) {
-    const partes = /[?].*(pg=)([\d]+)/.exec(originalUrl);
+    const partesIdPage = /[?].*(pg=)([\d]+)/.exec(originalUrl);
+    const partesSlave = /[?].*(sl=si)/.exec(originalUrl);
+    const isSlave = partesSlave !== null;
+
     const metadata = {
       tit: "",
       desc: "",
@@ -12,8 +37,8 @@ export class MainHandlerReplace {
       img: "",
     };
     let idPagina = null;
-    if (partes != null) {
-      idPagina = parseInt(partes[2]);
+    if (partesIdPage != null) {
+      idPagina = parseInt(partesIdPage[2]);
       const pagina = await PageHandler.getPageById(idPagina);
       if (pagina != null) {
         metadata.tit = pagina.tit;
@@ -77,6 +102,7 @@ export class MainHandlerReplace {
           rta.data = rta.data.replace(remplazo.old, remplazo.new);
         }
       }
+      MainHandlerReplace.replaceMasterSlave(rta, isSlave);
     }
     return rta;
   }
