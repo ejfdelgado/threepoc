@@ -41,7 +41,10 @@ export class SecurityInterceptor {
         if ([null, undefined].indexOf(config.headers) >= 0) {
           config.headers = {};
         }
-        const accessToken = await MiSeguridad.darToken();
+        let accessToken = null;
+        try {
+          accessToken = await MiSeguridad.darToken();
+        } catch (e) {}
         if (accessToken != null) {
           config.headers["Authorization"] = "Bearer " + accessToken;
         }
