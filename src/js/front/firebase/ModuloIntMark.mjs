@@ -40,15 +40,13 @@ export class ModuloIntMark {
         location.pathname +
         "/" +
         ctx["id"]; //ruta dentro de firebase
-      var slaveUrl;
+      var slaveUrl = location.origin + location.pathname;
 
       if (
         typeof location.search == "string" &&
         location.search.trim().length > 0
       ) {
-        slaveUrl =
-          location.origin +
-          location.pathname +
+        slaveUrl +=
           location.search.replace(/(^\?|&)(pg=\d+)($|&)/, function (
             a,
             b,
@@ -62,10 +60,8 @@ export class ModuloIntMark {
         slaveUrl = slaveUrl.replace(/\?&/g, "?");
         slaveUrl = slaveUrl.replace(/&{2,}/g, "&");
       } else {
-        slaveUrl =
-          location.href +
-          "?" +
-          Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
+        slaveUrl +=
+          "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
       }
 
       const respuesta = await fetch("/a/", {

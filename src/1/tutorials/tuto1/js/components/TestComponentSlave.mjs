@@ -1,0 +1,26 @@
+export class TestComponentSlaveClass {
+  constructor($scope) {
+    this.$scope = $scope;
+  }
+  $onInit() {
+    this.message = "I'm slave!";
+    console.log(this.page);
+  }
+  $onChanges(changesObj) {
+    // Replaces the $watch()
+  }
+  $onPostLink() {
+    // When the component DOM has been compiled attach you eventHandler.
+  }
+  $postLink() {
+    //
+  }
+}
+
+export const TestComponentSlave = {
+  bindings: {
+    page: "<",
+  },
+  templateUrl: "/1/tutorials/tuto1/js/components/TestComponentSlave.html",
+  controller: TestComponentSlaveClass,
+};

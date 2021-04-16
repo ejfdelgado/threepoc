@@ -1,30 +1,33 @@
-import { MessageComponent } from "/js/front/angular/components/MessageComponent.mjs";
-import { ModuloIntMark } from "/js/front/firebase/ModuloIntMark.mjs";
-import { ModuloPagina } from "/js/front/page/ModuloPagina.mjs";
+import { TestComponentSlave } from "./components/TestComponentSlave.mjs";
+import { ModuloIntMark } from "../../../../js/front/firebase/ModuloIntMark.mjs";
+import { ModuloPagina } from "../../../../js/front/page/ModuloPagina.mjs";
 
 export const MessageModule = angular
   .module("message", ["ui.router"])
-  .component("messageComponent", MessageComponent)
+  .component("testComponentSlave", TestComponentSlave)
   .config([
     "$stateProvider",
     "$urlRouterProvider",
     ($stateProvider, $urlRouterProvider) => {
-      console.log("configuring routing");
       $stateProvider.state("/", {
         url: "/",
-        component: "messageComponent",
+        component: "testComponentSlave",
         bindings: { page: "page" },
         resolve: {
           page: async () => {
             await ModuloIntMark.getDiferidoIntMark({
               useFirebase: false,
-              slaveLoged: true,
+              slaveLoged: false,
             });
             return await ModuloPagina.leer();
           },
         },
       });
       $urlRouterProvider.otherwise("/");
-      console.log("configuring routing ok!");
     },
   ]).name;
+
+export const AppModule = angular.module("app", [MessageModule, "ui.router"])
+  .name;
+
+angular.bootstrap(document, ["app"]);

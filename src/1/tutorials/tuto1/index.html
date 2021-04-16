@@ -8,15 +8,11 @@
         <title>Index</title>
 		<meta name="og:title" content="datos.detalle.titulo" />
 		<meta name="twitter:title" content="datos.detalle.titulo" />
-		
 		<meta name="og:description" content="datos.detalle.desc" />
 		<meta name="twitter:description" content="datos.detalle.desc" />
-		
 		<meta name="keywords" content="datos.detalle.q">
-		
 		<meta name="og:image" content="datos.detalle.img" />
 		<meta name="twitter:image" content="datos.detalle.img" />
-		
 		<meta name="og:site_name" content="PaisTv" />
 		<meta name="og:url" content="https://www.pais.tv" />
 		<meta name="og:type" content="website" />
@@ -29,28 +25,26 @@
         <script src="/node_modules/json.sortify/dist/JSON.sortify.js"></script>
         <script src="/node_modules/angular/angular.min.js"></script>
         <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <!--master-->
         <script type="module" src="./js/index.mjs"></script>
-        <!--script src="./js/index.min.js"></script-->
+        <!--master-->
+        <!--slave-->
+        <script type="module" src="./js/index-slave.mjs"></script>
+        <!--slave-->
         
         <link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin-ext' rel='stylesheet' type='text/css'>
         <link type="text/css" rel="stylesheet" href="/node_modules/firebaseui/dist/firebaseui.css" />
         <link type="text/css" rel="stylesheet" href="/z/css/index.css" />
         <link type="text/css" rel="stylesheet" href="./css/index.css" />
     </head>
-    <body ng-app="app">
+    <body>
         <div id="firebaseui-auth-container" class="invisible"></div>
         <div id="sign-in-status"></div>
         <div id="account-details"></div>
         <div id="sign-in"></div>
         <div id="qrcode"></div>
-        <!--master -->
-        <p>I'm master</p>
-        <!--    master -->
         <div>
             <div ui-view></div>
         </div>
-        <!-- slave-->
-        <p>I'm slave</p>
-        <!-- slave   -->
     </body>
 </html>
