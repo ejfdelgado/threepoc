@@ -1,6 +1,6 @@
-import { RendererGlobal } from "../../../js/front/three/RendererGlobal.mjs"
-import { RenderCreator } from "../../../js/front/three/RenderCreator.mjs"
-import { Utiles } from "../../../js/common/Utiles.mjs"
+import { RendererGlobal } from "/js/front/three/RendererGlobal.mjs"
+import { RenderCreator } from "/js/front/three/RenderCreator.mjs"
+import { Utiles } from "/js/common/Utiles.mjs"
 
 export class App {
     static recreate() {
