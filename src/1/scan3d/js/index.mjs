@@ -1,7 +1,7 @@
-import { ModuloIntMark } from "/js/front/firebase/ModuloIntMark.mjs";
-import { ModuloQR } from "/js/front/firebase/ModuloQR.mjs";
-import { ModuloTupla } from "/js/front/page/ModuloTupla.mjs";
-import { Cronometro } from "/js/common/Cronometro.mjs";
+import { ModuloIntMark } from "../../../js/front/firebase/ModuloIntMark.mjs";
+import { ModuloQR } from "../../../js/front/firebase/ModuloQR.mjs";
+import { ModuloTupla } from "../../../js/front/page/ModuloTupla.mjs";
+import { Cronometro } from "../../../js/common/Cronometro.mjs";
 
 const cronometro = new Cronometro("prueba");
 cronometro.tic();

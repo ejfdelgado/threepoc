@@ -1,6 +1,6 @@
-import { MessageComponent } from "/js/front/angular/components/MessageComponent.mjs";
-import { ModuloIntMark } from "/js/front/firebase/ModuloIntMark.mjs";
-import { ModuloPagina } from "/js/front/page/ModuloPagina.mjs";
+import { MessageComponent } from "../../../js/front/angular/components/MessageComponent.mjs";
+import { ModuloIntMark } from "../../../js/front/firebase/ModuloIntMark.mjs";
+import { ModuloPagina } from "../../../js/front/page/ModuloPagina.mjs";
 
 export const MessageModule = angular
   .module("message", ["ui.router"])

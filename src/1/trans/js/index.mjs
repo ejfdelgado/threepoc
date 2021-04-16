@@ -1,9 +1,9 @@
-import { ModuloTransformacion } from "/js/common/ModuloTransformacion.mjs";
-import { ModuloPipeline } from "/js/common/Pipeline.mjs";
-import { ModuloIntMark } from "/js/front/firebase/ModuloIntMark.mjs";
-import { ModuloQR } from "/js/front/firebase/ModuloQR.mjs";
-import { ModuloPubSub } from "/js/front/firebase/ModuloPubSub.mjs";
-import { ModuloArchivos } from "/js/common/ModuloArchivos.mjs";
+import { ModuloTransformacion } from "../../../js/common/ModuloTransformacion.mjs";
+import { ModuloPipeline } from "../../../js/common/Pipeline.mjs";
+import { ModuloIntMark } from "../../../js/front/firebase/ModuloIntMark.mjs";
+import { ModuloQR } from "../../../js/front/firebase/ModuloQR.mjs";
+import { ModuloPubSub } from "../../../js/front/firebase/ModuloPubSub.mjs";
+import { ModuloArchivos } from "../../../js/common/ModuloArchivos.mjs";
 
 ModuloPipeline.run("post,prefix,join,post,prefix,source;source").then(function (
   ans
