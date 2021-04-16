@@ -57,16 +57,19 @@ export class MainHandlerReplace {
       {
         old: /name="og:title"[\s]+content="[^"]*"/,
         new: `name="og:title" content="${Utiles.htmlEntities(metadata.tit)}"`,
+        empty: typeof metadata.tit != "string" || metadata.tit.length == 0,
       },
       {
         old: /name="og:description"[\s]+content="[^"]*"/,
         new: `name="og:description" content="${Utiles.htmlEntities(
           metadata.desc
         )}"`,
+        empty: typeof metadata.desc != "string" || metadata.desc.length == 0,
       },
       {
         old: /name="og:image"[\s]+content="[^"]*"/,
         new: `name="og:image" content="${metadata.img}"`,
+        empty: typeof metadata.img != "string" || metadata.img.length == 0,
       },
       {
         old: /name="og:site_name"[\s]+content="[^"]*"/,
@@ -85,6 +88,7 @@ export class MainHandlerReplace {
       {
         old: /<title>.*?<\/title>/,
         new: `<title>${Utiles.htmlEntities(metadata.tit)}<\/title>`,
+        empty: typeof metadata.tit != "string" || metadata.tit.length == 0,
       },
     ];
     const rta = await readPromise;
@@ -96,8 +100,9 @@ export class MainHandlerReplace {
       for (let i = 0; i < REMPLAZOS.length; i++) {
         const remplazo = REMPLAZOS[i];
         if (
-          !remplazo.fullPath ||
-          remplazo.fullPath.indexOf(rta.metadata.fullPath) >= 0
+          !remplazo.empty &&
+          (!remplazo.fullPath ||
+            remplazo.fullPath.indexOf(rta.metadata.fullPath) >= 0)
         ) {
           rta.data = rta.data.replace(remplazo.old, remplazo.new);
         }

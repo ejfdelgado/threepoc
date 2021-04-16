@@ -1,7 +1,7 @@
 
 TODO
 
-Permitir usuar dos componentes diferentes para master o slave.
+permitir un query param debug=1 para usar mjs o el minificado
 Agregar Bootbox e integrar con angular y compile html.
 Permitir hacer la edición de la Página, solo para el owner, incluir permisos.
 Permitir hacer la edición de permisos de usuarios.

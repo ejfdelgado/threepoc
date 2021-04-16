@@ -150,7 +150,7 @@ export class MiSeguridad {
       var quiensoy = $('<div class="presentacion"></div>');
       var titulo = $('meta[name="og:title"]').attr("content");
       var descripcion = $('meta[name="og:description"]').attr("content");
-      var urlimagen = $('meta[name="og:image"]').attr("content");
+      var urlimagen = $('meta[name="og:background_image"]').attr("content");
 
       var h1Tit = $("<h1></h1>");
       h1Tit.text(titulo);
@@ -160,11 +160,9 @@ export class MiSeguridad {
       pDesc.text(descripcion);
       quiensoy.append(pDesc);
 
-      /*
-        var myImg = $('<img/>');
-        myImg.attr('src', urlimagen);
-        quiensoy.append(myImg);
-        */
+      quiensoy.css({
+        "background-image": `url(${urlimagen})`,
+      });
 
       var fondoquiensoy = $('<div class="fondopresentacion"></div>');
       fondoquiensoy.append(quiensoy);
@@ -303,18 +301,21 @@ export class MiSeguridad {
   static inicializar() {
     if (MiSeguridad.diferidoApp == null) {
       MiSeguridad.diferidoApp = new Promise((resolve, reject) => {
-        MiSeguridad.firebaseConf().then(function (datos) {
-          //La configuración
-          Object.assign(MiSeguridad.config, datos.config);
-          //El cliente
-          //Initialize Firebase
-          var defaultApp = firebase.initializeApp(MiSeguridad.config);
-          resolve({
-            app: defaultApp,
-            config: MiSeguridad.config,
-          });
-          MiSeguridad.initApp();
-        }, function(err) {});
+        MiSeguridad.firebaseConf().then(
+          function (datos) {
+            //La configuración
+            Object.assign(MiSeguridad.config, datos.config);
+            //El cliente
+            //Initialize Firebase
+            var defaultApp = firebase.initializeApp(MiSeguridad.config);
+            resolve({
+              app: defaultApp,
+              config: MiSeguridad.config,
+            });
+            MiSeguridad.initApp();
+          },
+          function (err) {}
+        );
       });
     }
     return MiSeguridad.diferidoApp;

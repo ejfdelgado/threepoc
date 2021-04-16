@@ -13,8 +13,8 @@ export class ModuloPagina {
       logged: false,
       tit: "Título",
       desc: "Descripción",
-      img: null,
-      kw: "",
+      img: "/z/img/back.jpg",
+      kw: "palabras claves",
     };
     Object.assign(opciones, opcionesUsr);
     await MiSeguridad.buscarUsuario(opciones["logged"]);
