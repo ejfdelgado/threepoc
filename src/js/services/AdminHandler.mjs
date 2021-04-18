@@ -94,6 +94,8 @@ export class Usuario {
 
     if (userId == miPage.aut) {
       roles.push("owner");
+      roles.push("reader");
+      roles.push("writer");
     }
 
     // Se complementa con los permisos que el usuario tiene en esa página
@@ -120,7 +122,7 @@ export class Usuario {
       } catch (e) {}
     }
 
-    return roles;
+    return Utilidades.removeDoubles(roles);
   }
 
   static authDecorator(req, res, next) {

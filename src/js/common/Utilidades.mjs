@@ -1,7 +1,6 @@
 import { Constants } from "./Constants.mjs";
 
 export class Utilidades {
-
   static isSlave() {
     return /(sl=si)/.exec(location.search) != null;
   }
@@ -13,6 +12,12 @@ export class Utilidades {
     }
     return x.filter(function (i) {
       return a.indexOf(i) === -1;
+    });
+  }
+
+  static removeDoubles(list) {
+    return list.filter(function (item, pos, self) {
+      return self.indexOf(item) == pos;
     });
   }
 
