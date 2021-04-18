@@ -5,6 +5,7 @@ import { StorageHandler } from "./StorageHandler.mjs";
 import { Constants } from "../common/Constants.mjs";
 import { PageHandler } from "./PageHandler.mjs";
 import { TuplaHandler } from "./TuplaHandler.mjs";
+import { Utilidades } from "../common/Utilidades.mjs";
 var router = express.Router();
 
 const { Datastore } = datastorePackage;
@@ -57,22 +58,39 @@ export class Usuario {
     return ans;
   }
 
-  async updateRoles(idPagina) {
+  async updateRoles(req) {
     const userId = this.darId();
     this.roles = [];
     // 0. Se revisa si es administrador del sistema
     if (Usuario.ADMINISTRADORES.indexOf(userId) >= 0) {
       this.roles.push("admin");
+      this.roles.push("reader");
+      this.roles.push("writer");
     }
-    // 1. Cargar la página para ver si el usuario actual es el owner
-    const paginaKey = datastore.key([PageHandler.KIND, idPagina]);
-    const queryPage = datastore
-      .createQuery(PageHandler.KIND)
-      //.select("aut")// Requiere un índice
-      .filter("__key__", "=", paginaKey)
-      .limit(1);
+    let miPage = null;
+    try {
+      // 1. Cargar la página para ver si el usuario actual es el owner
+      miPage = await PageHandler.buscarPagina(req, this, true);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    if (miPage == null) {
+      return;
+    }
 
-    // 2. Se complementa con los permisos de la página
+    if (userId == miPage.aut) {
+      this.roles.push("owner");
+    }
+    miPage.pr = ["reader"]; //Borrar esto...
+    if (miPage.pr instanceof Array) {
+      for (let i = 0; i < miPage.pr.length; i++) {
+        this.roles.push(miPage.pr[i]);
+      }
+    }
+
+    // 2. Se complementa con los permisos que el usuario tiene en esa página
+    const paginaKey = datastore.key([PageHandler.KIND, miPage.id]);
     const userIdFix = Buffer.from(userId).toString("base64");
     const queryTupla = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
@@ -83,15 +101,7 @@ export class Usuario {
       .limit(1);
     //.select("v") // Requiere un índice
 
-    const resultados = await Promise.all([queryPage.run(), queryTupla.run()]);
-    const listaPage = resultados[0][0];
-    if (listaPage.length > 0) {
-      const isOwner = userId == listaPage[0].aut;
-      if (isOwner) {
-        this.roles.push("owner");
-      }
-    }
-    const listaTupla = resultados[1][0];
+    const listaTupla = (await queryTupla.run())[0];
     if (listaTupla.length > 0) {
       try {
         const extra = JSON.parse(listaTupla[0].v);
@@ -119,24 +129,10 @@ export class Usuario {
       .then(async (decodedToken) => {
         const usuario = new Usuario(decodedToken);
         req._user = usuario;
-        // Se intenta deducir de la url del request el idPagina
-        const path = req._parsedUrl.path;
-        // path: '/api/tup/all/?pg=5764529581457408&n=100&dom=external',
-        const ID_PAGINA_SEARCH = [
-          /\/api\/tup\/all\/.*pg=(\d+)/,
-          /\/api\/tup\/(\d+)/,
-        ];
-        let idPage = null;
-        for (let i = 0; i < ID_PAGINA_SEARCH.length; i++) {
-          const partes = ID_PAGINA_SEARCH[i].exec(path);
-          if (partes != null) {
-            idPage = partes[1];
-            break;
-          }
-        }
-        if (idPage != null) {
-          const roles = await req._user.updateRoles(parseInt(idPage));
-          console.log(`roles=${roles}`);
+        try {
+          await req._user.updateRoles(req);
+        } catch (e) {
+          console.log(e);
         }
         next();
       })
@@ -144,6 +140,31 @@ export class Usuario {
         req._user = null;
         next();
       });
+  }
+
+  static authorize(roles = []) {
+    if (typeof roles === "string") {
+      roles = [roles];
+    }
+
+    return [
+      (req, res, next) => {
+        if (req._user != null) {
+          if (roles.length > 0) {
+            console.log(`roles=${roles}`);
+            console.log(`req._user.roles=${req._user.roles}`);
+            const resta = Utilidades.diff(roles, req._user.roles);
+            if (resta.length > 0) {
+              // user's role is not authorized
+              return res.status(401).json({ message: "Unauthorized" });
+            }
+          }
+        } else {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
+        next();
+      },
+    ];
   }
 }
 

@@ -7,6 +7,7 @@ import { NoExisteException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
 import { PageHandler } from "./PageHandler.mjs";
+import { Usuario } from "./AdminHandler.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -369,9 +370,17 @@ export class TuplaHandler {
 }
 
 router.get("/fecha", TuplaHandler.fecha);
-router.get("/all/*", TuplaHandler.all);
-router.get("/next/*", TuplaHandler.next);
-router.post(/\/(\d+)(\/.*)?/, TuplaHandler.guardar);
-router.delete(/\/(\d+)(\/.*)?/, TuplaHandler.borrar);
+router.get("/all/*", Usuario.authorize("reader"), TuplaHandler.all);
+router.get("/next/*", Usuario.authorize("reader"), TuplaHandler.next);
+router.post(
+  /\/(\d+)(\/.*)?/,
+  Usuario.authorize("writer"),
+  TuplaHandler.guardar
+);
+router.delete(
+  /\/(\d+)(\/.*)?/,
+  Usuario.authorize("writer"),
+  TuplaHandler.borrar
+);
 
 export default router;

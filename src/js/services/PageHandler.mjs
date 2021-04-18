@@ -6,6 +6,7 @@ import { NoAutorizadoException } from "../common/Errors.mjs";
 import { NoExisteException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
+import { Usuario } from "./AdminHandler.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -85,9 +86,40 @@ export class PageHandler {
     temp = temp.replace(/[\/]$/, "");
     return temp;
   }
-  static async buscarPagina(request, usuario) {
+  static getQueryParamPg(request, fromReferer) {
+    if (fromReferer) {
+      const urlTotal = Utilidades.leerHeader(request, [
+        "Referer",
+        "HTTP_REFERER",
+      ]);
+      const partes = /pg=(\d+)/.exec(urlTotal);
+      if (partes != null) {
+        return partes[1];
+      }
+    } else {
+      return request.query.pg;
+    }
+  }
+  static async buscarPaginaSimple(request, fromReferer) {
+    const pgQueryParam = PageHandler.getQueryParamPg(request, fromReferer);
+    console.log(pgQueryParam);
+    const idPagina = Utilidades.leerNumero(pgQueryParam);
+    if (idPagina == null) {
+      return null;
+    }
+    const entity = await PageHandler.getPageById(idPagina);
+    if (entity == null) {
+      return null;
+    }
+    entity.id = entity[datastore.KEY].id;
+    return entity;
+  }
+  static async buscarPagina(request, usuario, fromReferer = false) {
+    const pagina = await PageHandler.buscarPaginaSimple(request, fromReferer);
+    if (pagina != null) {
+      return pagina;
+    }
     const AHORA = new Date().getTime() / 1000;
-    const idPagina = Utilidades.leerNumero(request.query.pg);
     const crear = request.query.add;
     const buscables = PageHandler.filtrarParametros(
       request,
@@ -96,51 +128,46 @@ export class PageHandler {
     const elpath = PageHandler.leerRefererPath(request);
     let temp = null;
     let unapagina = null;
-    if (idPagina == null) {
-      if (usuario != null) {
-        const elUsuario = usuario.metadatos.uid;
-        let datos = [];
-        if ([undefined, null].indexOf(crear) >= 0) {
-          // Si se manda el parámetro add, no se consulta y se crea uno nuevo...
-          // select * from Pagina where path = "/1/trans" and usr = "HHN9uJFCjeVEOitjp8BCpJ4A9KI3"
-          const query = datastore
-            .createQuery(PageHandler.KIND)
-            .filter("usr", "=", elUsuario)
-            .filter("path", "=", elpath)
-            .limit(1);
-          datos = (await query.run())[0];
-        }
-        if (datos.length > 0) {
-          // Ya existe y no lo debo crear
-          unapagina = datos[0];
-          temp = unapagina;
-          temp.id = unapagina[datastore.KEY].id;
-        } else {
-          // Se debe crear
-          const key = datastore.key([PageHandler.KIND]);
-          unapagina = {
-            key: key,
-            data: {
-              usr: elUsuario,
-              aut: usuario.darId(),
-              path: elpath,
-              date: AHORA,
-              act: AHORA,
-            },
-          };
-          Object.assign(unapagina.data, buscables);
-          await datastore.save(unapagina);
-          temp = unapagina.data;
-          temp.id = unapagina.key.id;
-        }
-        return temp;
-      } else {
-        throw new NoHayUsuarioException();
+
+    if (usuario != null) {
+      const elUsuario = usuario.metadatos.uid;
+      let datos = [];
+      if ([undefined, null].indexOf(crear) >= 0) {
+        // Si se manda el parámetro add, no se consulta y se crea uno nuevo...
+        // select * from Pagina where path = "/1/trans" and usr = "HHN9uJFCjeVEOitjp8BCpJ4A9KI3"
+        const query = datastore
+          .createQuery(PageHandler.KIND)
+          .filter("usr", "=", elUsuario)
+          .filter("path", "=", elpath)
+          .limit(1);
+        datos = (await query.run())[0];
       }
+      if (datos.length > 0) {
+        // Ya existe y no lo debo crear
+        unapagina = datos[0];
+        temp = unapagina;
+        temp.id = unapagina[datastore.KEY].id;
+      } else {
+        // Se debe crear
+        const key = datastore.key([PageHandler.KIND]);
+        unapagina = {
+          key: key,
+          data: {
+            usr: elUsuario,
+            aut: usuario.darId(),
+            path: elpath,
+            date: AHORA,
+            act: AHORA,
+          },
+        };
+        Object.assign(unapagina.data, buscables);
+        await datastore.save(unapagina);
+        temp = unapagina.data;
+        temp.id = unapagina.key.id;
+      }
+      return temp;
     } else {
-      const entity = await PageHandler.getPageById(idPagina);
-      entity.id = entity[datastore.KEY].id;
-      return entity;
+      throw new NoHayUsuarioException();
     }
   }
 
@@ -244,10 +271,10 @@ export class PageHandler {
   }
 }
 
-router.get("/q2/*", PageHandler.q2);
-router.get("/q/*", PageHandler.q);
-router.get("/*", PageHandler.base);
-router.put("/*", PageHandler.guardar);
-router.delete("/*", PageHandler.borrar);
+router.get("/q2/*", Usuario.authorize("reader"), PageHandler.q2);
+router.get("/q/*", Usuario.authorize("reader"), PageHandler.q);
+router.get("/*", Usuario.authorize("reader"), PageHandler.base);
+router.put("/*", Usuario.authorize("owner"), PageHandler.guardar);
+router.delete("/*", Usuario.authorize("owner"), PageHandler.borrar);
 
 export default router;
