@@ -66,14 +66,15 @@ export class Usuario {
       // Cargar la página para ver si el usuario actual es el owner
       miPage = await PageHandler.buscarPagina(req, req._user, true);
       if (miPage == null) {
-        return;
+        return Utilidades.removeDoubles(roles);
       }
     } catch (e) {
       console.log(e);
-      return;
+      return Utilidades.removeDoubles(roles);
     }
 
     // Se agregan los roles de la página
+    //miPage.pr = ['reader'];
     if (miPage.pr instanceof Array) {
       for (let i = 0; i < miPage.pr.length; i++) {
         roles.push(miPage.pr[i]);
@@ -81,7 +82,7 @@ export class Usuario {
     }
 
     if (req._user == null) {
-      return;
+      return Utilidades.removeDoubles(roles);
     }
 
     // Se revisa si es administrador del sistema
@@ -129,15 +130,22 @@ export class Usuario {
     const authorization = req.header("Authorization");
     const partes = /(OAuth|Bearer)(\s+)(.*)/.exec(authorization);
     if (partes == null) {
-      next();
+      Usuario.extractRoles(req).then(
+        (roles) => {
+          req._roles = roles;
+          next();
+        },
+        () => {
+          next();
+        }
+      );
       return;
     }
     admin
       .auth()
       .verifyIdToken(partes[3])
       .then(async (decodedToken) => {
-        const usuario = new Usuario(decodedToken);
-        req._user = usuario;
+        req._user = new Usuario(decodedToken);
         try {
           req._roles = await Usuario.extractRoles(req);
           if (req._user != null) {
@@ -148,7 +156,7 @@ export class Usuario {
         }
         next();
       })
-      .catch((error) => {
+      .catch(async (error) => {
         req._user = null;
         next();
       });
@@ -161,16 +169,16 @@ export class Usuario {
 
     return [
       (req, res, next) => {
-        if (req._user != null) {
+        if (req._roles instanceof Array) {
           if (roles.length > 0) {
-            const resta = Utilidades.diff(roles, req._user.roles);
+            const resta = Utilidades.diff(roles, req._roles);
             if (resta.length > 0) {
               // user's role is not authorized
-              return res.status(401).json({ message: "Unauthorized" });
+              return res.status(401).json({ message: "Unauthorized1" });
             }
           }
         } else {
-          return res.status(401).json({ message: "Unauthorized" });
+          return res.status(401).json({ message: "Unauthorized2" });
         }
         next();
       },

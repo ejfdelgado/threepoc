@@ -4,7 +4,6 @@ export class TestComponentSlaveClass {
   }
   $onInit() {
     this.message = "I'm slave!";
-    console.log(this.page);
   }
   $onChanges(changesObj) {
     // Replaces the $watch()

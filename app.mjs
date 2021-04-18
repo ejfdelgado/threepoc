@@ -12,14 +12,12 @@ import { Usuario } from "./src/js/services/AdminHandler.mjs";
 
 const app = express();
 
-app.use(Usuario.authDecorator);
-
-app.use("/api/xpage", pageHandler);
+app.use("/api/xpage", Usuario.authDecorator, pageHandler);
 app.use("/api/utiles", utiles);
-app.use("/api/tup", tuplaHandler);
-app.use("/adm", adminHandler);
+app.use("/api/tup", Usuario.authDecorator, tuplaHandler);
+app.use("/adm", Usuario.authDecorator, adminHandler);
 app.use("/a", shortUrlHandler);
-app.use("/storage", storageHandler);
+app.use("/storage", Usuario.authDecorator, storageHandler);
 app.use("/", mainHandler);
 
 app.use((error, req, res, next) => {

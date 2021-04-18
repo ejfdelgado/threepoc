@@ -16,12 +16,22 @@ export const MessageModule = angular
         bindings: { page: "page" },
         resolve: {
           page: async () => {
-            await ModuloIntMark.getDiferidoIntMark({
+            const general = await ModuloIntMark.getDiferidoIntMark({
               useFirebase: false,
-              masterLoged: true,
+              masterLoged: false,
             });
             ModuloQR.showQR();
-            return await ModuloPagina.leer();
+            if ([null, undefined].indexOf(general.principal) >= 0) {
+              return {
+                general: general,
+                page: undefined,
+              };
+            } else {
+              return {
+                general: general,
+                page: (await ModuloPagina.leer()).valor,
+              };
+            }
           },
         },
       });

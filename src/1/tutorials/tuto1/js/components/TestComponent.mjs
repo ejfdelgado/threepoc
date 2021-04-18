@@ -4,7 +4,6 @@ export class TestComponentClass {
   }
   $onInit() {
     this.message = "I'm master!";
-    console.log(this.page);
   }
   $onChanges(changesObj) {
     // Replaces the $watch()

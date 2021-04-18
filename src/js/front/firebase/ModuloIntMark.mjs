@@ -32,9 +32,11 @@ export class ModuloIntMark {
       console.log("master...");
       //Master:
       //La ruta de firebase debe quedar /pg/usrmaster/path/idpage/users
-      let slaveUrl = location.origin + location.pathname;
+      let slaveUrl = null;
+      let shortSlaveUrl = null;
 
       if (ctx != undefined) {
+        slaveUrl = location.origin + location.pathname;
         if (
           typeof location.search == "string" &&
           location.search.trim().length > 0
@@ -56,15 +58,16 @@ export class ModuloIntMark {
           slaveUrl +=
             "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
         }
-      }
+        const respuesta = await fetch("/a/", {
+          method: "POST",
+          body: JSON.stringify({
+            theurl: slaveUrl,
+          }),
+          headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json());
 
-      const respuesta = await fetch("/a/", {
-        method: "POST",
-        body: JSON.stringify({
-          theurl: slaveUrl,
-        }),
-        headers: { "Content-Type": "application/json" },
-      }).then((res) => res.json());
+        shortSlaveUrl = location.origin + "/a/" + respuesta["id"];
+      }
 
       if (ModuloIntMark.opciones.useFirebase) {
         var firebaseUrl =
@@ -90,7 +93,7 @@ export class ModuloIntMark {
           await crearMasterCtx();
         }
         return {
-          slaveUrl: location.origin + "/a/" + respuesta["id"],
+          slaveUrl: shortSlaveUrl,
           tipo: tipoCliente,
           db: db,
           firebaseUrl: firebaseUrl,
@@ -100,7 +103,7 @@ export class ModuloIntMark {
         };
       } else {
         return {
-          slaveUrl: location.origin + "/a/" + respuesta["id"],
+          slaveUrl: shortSlaveUrl,
           tipo: tipoCliente,
           db: db,
           firebaseUrl: null,

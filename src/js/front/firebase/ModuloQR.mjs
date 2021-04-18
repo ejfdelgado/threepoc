@@ -6,6 +6,9 @@ export class ModuloQR {
     console.log("diferidoId ok");
     var divSlave = $("#imslave");
     var divMaster = $("#immaster");
+    if (typeof datos.slaveUrl != "string") {
+      return;
+    }
     if (datos.tipo == "master") {
       divSlave.remove();
       var elemQrCode = $("#qrcode");

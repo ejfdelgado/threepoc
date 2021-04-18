@@ -72,6 +72,9 @@ export class PageHandler {
       "HTTP_HOST",
       "Host",
     ]);
+    if (urlTotal == null || elhost == null) {
+      return "";
+    }
     let elreferer = urlTotal;
     const elindice = elreferer.indexOf(elhost) + elhost.length;
     let temp = urlTotal.substr(elindice);
