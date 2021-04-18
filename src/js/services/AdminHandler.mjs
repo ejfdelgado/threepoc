@@ -58,38 +58,45 @@ export class Usuario {
     return ans;
   }
 
-  async updateRoles(req) {
-    const userId = this.darId();
-    this.roles = [];
-    // 0. Se revisa si es administrador del sistema
-    if (Usuario.ADMINISTRADORES.indexOf(userId) >= 0) {
-      this.roles.push("admin");
-      this.roles.push("reader");
-      this.roles.push("writer");
-    }
+  static async extractRoles(req) {
+    const roles = [];
+
     let miPage = null;
     try {
-      // 1. Cargar la página para ver si el usuario actual es el owner
-      miPage = await PageHandler.buscarPagina(req, this, true);
+      // Cargar la página para ver si el usuario actual es el owner
+      miPage = await PageHandler.buscarPagina(req, req._user, true);
+      if (miPage == null) {
+        return;
+      }
     } catch (e) {
       console.log(e);
       return;
     }
-    if (miPage == null) {
-      return;
-    }
 
-    if (userId == miPage.aut) {
-      this.roles.push("owner");
-    }
-    miPage.pr = ["reader"]; //Borrar esto...
+    // Se agregan los roles de la página
     if (miPage.pr instanceof Array) {
       for (let i = 0; i < miPage.pr.length; i++) {
-        this.roles.push(miPage.pr[i]);
+        roles.push(miPage.pr[i]);
       }
     }
 
-    // 2. Se complementa con los permisos que el usuario tiene en esa página
+    if (req._user == null) {
+      return;
+    }
+
+    // Se revisa si es administrador del sistema
+    const userId = req._user.darId();
+    if (Usuario.ADMINISTRADORES.indexOf(userId) >= 0) {
+      roles.push("admin");
+      roles.push("reader");
+      roles.push("writer");
+    }
+
+    if (userId == miPage.aut) {
+      roles.push("owner");
+    }
+
+    // Se complementa con los permisos que el usuario tiene en esa página
     const paginaKey = datastore.key([PageHandler.KIND, miPage.id]);
     const userIdFix = Buffer.from(userId).toString("base64");
     const queryTupla = datastore
@@ -107,13 +114,13 @@ export class Usuario {
         const extra = JSON.parse(listaTupla[0].v);
         if (extra instanceof Array) {
           for (let i = 0; i < extra.length; i++) {
-            this.roles.push(extra[i].v);
+            roles.push(extra[i].v);
           }
         }
       } catch (e) {}
     }
 
-    return this.roles;
+    return roles;
   }
 
   static authDecorator(req, res, next) {
@@ -130,7 +137,10 @@ export class Usuario {
         const usuario = new Usuario(decodedToken);
         req._user = usuario;
         try {
-          await req._user.updateRoles(req);
+          req._roles = await Usuario.extractRoles(req);
+          if (req._user != null) {
+            req._user.roles = req._roles;
+          }
         } catch (e) {
           console.log(e);
         }
@@ -151,8 +161,6 @@ export class Usuario {
       (req, res, next) => {
         if (req._user != null) {
           if (roles.length > 0) {
-            console.log(`roles=${roles}`);
-            console.log(`req._user.roles=${req._user.roles}`);
             const resta = Utilidades.diff(roles, req._user.roles);
             if (resta.length > 0) {
               // user's role is not authorized

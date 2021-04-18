@@ -102,7 +102,6 @@ export class PageHandler {
   }
   static async buscarPaginaSimple(request, fromReferer) {
     const pgQueryParam = PageHandler.getQueryParamPg(request, fromReferer);
-    console.log(pgQueryParam);
     const idPagina = Utilidades.leerNumero(pgQueryParam);
     if (idPagina == null) {
       return null;
