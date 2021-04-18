@@ -17,7 +17,7 @@ export const MessageModule = angular
           page: async () => {
             await ModuloIntMark.getDiferidoIntMark({
               useFirebase: false,
-              slaveLoged: false,
+              slaveLoged: false
             });
             return await ModuloPagina.leer();
           },

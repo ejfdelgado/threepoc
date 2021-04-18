@@ -13,7 +13,7 @@ export class ModuloIntMark {
   static diferidoDbDone = false;
   static LLAVE_LOCAL_STORAGE = MD5(Utiles.getReferer());
   static opciones = {
-    masterLoged: false,
+    masterLoged: true,
     slaveLoged: false,
     masterIdUsr: false,
     slaveIdUsr: false, //Usar el user uid para crear la entrada en la base de datos firebase
@@ -25,7 +25,6 @@ export class ModuloIntMark {
     console.log("diferidoDB ok");
     var db = paquete["database"];
     var ctx = paquete["ctx"];
-    var ctx2 = paquete["ctx2"];
     var principal = paquete["principal"];
     var tipoCliente = paquete["tipoCliente"];
 
@@ -33,35 +32,30 @@ export class ModuloIntMark {
       console.log("master...");
       //Master:
       //La ruta de firebase debe quedar /pg/usrmaster/path/idpage/users
-      var firebaseUrl =
-        ModuloIntMark.RAIZ +
-        "/" +
-        principal.uid +
-        location.pathname +
-        "/" +
-        ctx["id"]; //ruta dentro de firebase
-      var slaveUrl = location.origin + location.pathname;
+      let slaveUrl = location.origin + location.pathname;
 
-      if (
-        typeof location.search == "string" &&
-        location.search.trim().length > 0
-      ) {
-        slaveUrl +=
-          location.search.replace(/(^\?|&)(pg=\d+)($|&)/, function (
-            a,
-            b,
-            c,
-            d
-          ) {
-            return b + d;
-          }) +
-          "&" +
-          Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
-        slaveUrl = slaveUrl.replace(/\?&/g, "?");
-        slaveUrl = slaveUrl.replace(/&{2,}/g, "&");
-      } else {
-        slaveUrl +=
-          "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
+      if (ctx != undefined) {
+        if (
+          typeof location.search == "string" &&
+          location.search.trim().length > 0
+        ) {
+          slaveUrl +=
+            location.search.replace(/(^\?|&)(pg=\d+)($|&)/, function (
+              a,
+              b,
+              c,
+              d
+            ) {
+              return b + d;
+            }) +
+            "&" +
+            Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
+          slaveUrl = slaveUrl.replace(/\?&/g, "?");
+          slaveUrl = slaveUrl.replace(/&{2,}/g, "&");
+        } else {
+          slaveUrl +=
+            "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
+        }
       }
 
       const respuesta = await fetch("/a/", {
@@ -72,8 +66,14 @@ export class ModuloIntMark {
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json());
 
-      console.log("a ok...");
       if (ModuloIntMark.opciones.useFirebase) {
+        var firebaseUrl =
+          ModuloIntMark.RAIZ +
+          "/" +
+          principal.uid +
+          location.pathname +
+          "/" +
+          ctx["id"]; //ruta dentro de firebase
         const crearMasterCtx = function () {
           var updates = {};
           updates[firebaseUrl] = {
@@ -96,7 +96,6 @@ export class ModuloIntMark {
           firebaseUrl: firebaseUrl,
           masterUrl: firebaseUrl,
           ctx: ctx,
-          ctx2: ctx2,
           principal: principal,
         };
       } else {
@@ -107,7 +106,6 @@ export class ModuloIntMark {
           firebaseUrl: null,
           masterUrl: null,
           ctx: ctx,
-          ctx2: ctx2,
           principal: principal,
         };
       }
@@ -158,7 +156,6 @@ export class ModuloIntMark {
           firebaseUrl: firebaseUrl,
           masterUrl: urlParamCtx,
           ctx: ctx,
-          ctx2: ctx2,
           principal: principal,
         };
       } else {
@@ -169,7 +166,6 @@ export class ModuloIntMark {
           firebaseUrl: null,
           masterUrl: null,
           ctx: ctx,
-          ctx2: ctx2,
           principal: principal,
         };
       }
@@ -178,24 +174,26 @@ export class ModuloIntMark {
 
   static async computeDiferidoDb() {
     await MiSeguridad.inicializar();
-    console.log(`miseguridad ok`);
     const urlParam = Utilidades.getQueryParams(location.href);
+    const unknownPage = [null, "", undefined].indexOf(urlParam["pg"]) >= 0;
+    const isSlave = urlParam["sl"] == "si";
+    const isMaster = !isSlave;
     const forzarUsuario =
-      [null, "", undefined].indexOf(urlParam["pg"]) >= 0 ||
-      ModuloIntMark.opciones["slaveLoged"] ||
-      ModuloIntMark.opciones["slaveIdUsr"];
+      ((isMaster || unknownPage) && ModuloIntMark.opciones["masterLoged"]) ||
+      ((isSlave || unknownPage) && ModuloIntMark.opciones["slaveLoged"]);
     const principal = await MiSeguridad.buscarUsuario(forzarUsuario);
     const contextoPagina = await ModuloPagina.leer(
       ModuloIntMark.opciones.sincronizar
     );
     const lecturaBasica = contextoPagina.valor;
 
-    var principalEsDuenio =
-      [null, undefined].indexOf(principal) < 0 &&
-      lecturaBasica["usr"] == principal["uid"];
-    var solicitudSlave = urlParam["sl"] == "si";
+    const hayUsuario = [null, undefined].indexOf(principal) < 0;
+
+    var usuarioEsDuenio =
+      hayUsuario && lecturaBasica["usr"] == principal["uid"];
     //es slave si lo solicita o si no es el duenio de la pagina
-    var tipoCliente = solicitudSlave || !principalEsDuenio ? "slave" : "master";
+    var tipoCliente =
+      isSlave || (hayUsuario && !usuarioEsDuenio) ? "slave" : "master";
 
     let database = null;
     if (ModuloIntMark.opciones.useFirebase) {
