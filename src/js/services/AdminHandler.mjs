@@ -69,8 +69,9 @@ export class Usuario {
         return Utilidades.removeDoubles(roles);
       }
     } catch (e) {
+      console.log(req);
       console.log(e);
-      return Utilidades.removeDoubles(roles);
+      return roles;
     }
 
     // Se agregan los roles de la página
@@ -186,7 +187,7 @@ export class Usuario {
   }
 }
 
-router.get("/identidad", function (req, res) {
+router.get("/identidad", Usuario.authDecorator, function (req, res) {
   const usuario = req._user;
   if (usuario != null) {
     const ans = usuario.getIdentity();

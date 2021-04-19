@@ -15,7 +15,7 @@ const app = express();
 app.use("/api/xpage", Usuario.authDecorator, pageHandler);
 app.use("/api/utiles", utiles);
 app.use("/api/tup", Usuario.authDecorator, tuplaHandler);
-app.use("/adm", Usuario.authDecorator, adminHandler);
+app.use("/adm", adminHandler);
 app.use("/a", shortUrlHandler);
 app.use("/storage", Usuario.authDecorator, storageHandler);
 app.use("/", mainHandler);

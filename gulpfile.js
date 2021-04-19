@@ -43,6 +43,11 @@ const NODE_FILES = [
 
   "./node_modules/jquery-textcomplete/dist/jquery.textcomplete.min.js",
 
+  "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "./node_modules/bootstrap/dist/css/bootstrap.min.css.map",
+  "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+  "./node_modules/bootstrap/dist/js/bootstrap.min.js.map",
+
 ];
 
 const arg = ((argList) => {
