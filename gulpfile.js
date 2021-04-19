@@ -18,7 +18,7 @@ const NODE_FILES = [
   "./node_modules/angular/angular.min.js.map",
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js",
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
-  
+
   "./node_modules/firebase/firebase-auth.js",
   "./node_modules/firebase/firebase-auth.js.map",
   "./node_modules/firebase/firebase-app.js",
@@ -33,13 +33,13 @@ const NODE_FILES = [
   "./node_modules/blueimp-md5-es6/js/md5.js",
 
   "./node_modules/jquery.qrcode/jquery.qrcode.min.js",
-  
+
   "./node_modules/emojione/lib/js/*",
   "./node_modules/emojione/assets/css/**",
   "./node_modules/emojione/assets/sprites/**",
 
   "./node_modules/emojionearea/css/**",
-  "./node_modules/emojionearea/js/**",//bug en línea 520 debe ser: data-name="{name}"/></i></i>
+  "./node_modules/emojionearea/js/**", //bug en línea 520 debe ser: data-name="{name}"/></i></i>
 
   "./node_modules/jquery-textcomplete/dist/jquery.textcomplete.min.js",
 
@@ -48,6 +48,8 @@ const NODE_FILES = [
   "./node_modules/bootstrap/dist/js/bootstrap.min.js",
   "./node_modules/bootstrap/dist/js/bootstrap.min.js.map",
 
+  "./node_modules/popper.js/dist/umd/popper.min.js",
+  "./node_modules/popper.js/dist/umd/popper.min.js.map",
 ];
 
 const arg = ((argList) => {
@@ -77,7 +79,7 @@ const arg = ((argList) => {
 function es6Bundle() {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
   let pipes1 = browserify({
-    debug: (arg.debug == "yes"),
+    debug: arg.debug == "yes",
   })
     .add(`./src/1/${arg.poc}/js/index.mjs`)
     .transform(babelify, {
@@ -112,11 +114,9 @@ function es6Bundle() {
     pipes1 = pipes1.pipe(uglify());
   }
 
-  return pipes1
-    .pipe(gulp.dest(`./src/1/${arg.poc}/js`))
-    .on("end", function () {
-      log("✅  Bundle Updated");
-    });
+  return pipes1.pipe(gulp.dest(`./src/1/${arg.poc}/js`)).on("end", function () {
+    log("✅  Bundle Updated");
+  });
 }
 
 function copyNodeModulesBundle() {
