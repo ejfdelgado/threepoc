@@ -2,9 +2,11 @@
 TODO
 
 permitir un query param debug=1 para usar mjs o el minificado
-Agregar Bootbox e integrar con angular y compile html.
-Permitir hacer la edición de la Página, solo para el owner, incluir permisos.
-Permitir hacer la edición de permisos de usuarios.
+permitir importar el index.mjs o el index-slave.mjss
+Incluir permisos en la edición de la página.
+Incluir la edición de la imágen de la página, que sea pública.
+
+Permitir hacer la edición de permisos de usuarios en tupla para página
 Integrar el OCR con el uplad.
 Ingerar speech to text con el upload.
 
