@@ -92,7 +92,7 @@ export class ModuloModales {
       refFooter.append(buttonElem);
       if (typeof button.action == "function") {
         buttonElem.on("click", function () {
-          button.action(closeFunction);
+          button.action(closeFunction, elem);
         });
       }
     });

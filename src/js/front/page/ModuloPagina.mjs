@@ -4,6 +4,7 @@ import { Utilidades } from "../../common/Utilidades.mjs";
 import { Deferred } from "../../common/Deferred.mjs";
 import { ModuloHtml } from "../common/ModuloHtml.mjs";
 import { ModuloModales } from "../common/ModuloModales.mjs";
+import { ModuloActividad } from "../common/ModuloActividad.mjs";
 
 SecurityInterceptor.register();
 
@@ -73,13 +74,23 @@ export class ModuloPagina {
   }
   static async editPage(opciones = {}) {
     opciones = Object.assign({}, opciones);
+    const readPagePromise = ModuloPagina.leer();
     const urlTemplate = "/js/front/page/html/editPageProperties.html";
     return new Promise(async (resolve) => {
+      const scope = {
+        $ctrl: {
+          page: {
+            page: (await readPagePromise).valor,
+          },
+        },
+      };
       await ModuloModales.basic({
         message: await ModuloHtml.getHtml(urlTemplate),
         size: "lg",
         useHtml: true,
-        angular: opciones.angular,
+        beforeShow: async (element) => {
+          ModuloHtml.modelToHtml(scope, element);
+        },
         buttons: [
           {
             text: "Cancelar",
@@ -92,14 +103,19 @@ export class ModuloPagina {
           {
             text: "Guardar",
             class: "btn btn-primary",
-            action: async (close) => {
+            action: async (close, element) => {
+              const actividad = ModuloActividad.on();
               try {
-                await ModuloPagina.guardar(opciones.angular.ctrl.page.page);
-                ModuloPagina.setCurrentValues(opciones.angular.ctrl.page.page);
+                const nuevoValor = ModuloHtml.htmlToModel(element);
+                $.extend(true, scope, nuevoValor);
+                await ModuloPagina.guardar(scope.$ctrl.page.page);
+                ModuloPagina.setCurrentValues(scope.$ctrl.page.page);
                 resolve(true);
                 close();
+                actividad.resolve();
               } catch (err) {
                 ModuloModales.alert({ message: err });
+                actividad.resolve();
               }
             },
           },

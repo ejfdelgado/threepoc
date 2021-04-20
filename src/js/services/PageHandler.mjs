@@ -186,7 +186,7 @@ export class PageHandler {
     return null;
   }
 
-  static async guardarInterno(request, usuario = null) {
+  static async guardarInterno(request, usuario = null, next) {
     const AHORA = new Date().getTime() / 1000;
     const ans = {};
     ans["error"] = 0;
@@ -217,10 +217,10 @@ export class PageHandler {
           ans["valor"] = modelo;
         }
       } else {
-        throw new NoExisteException();
+        next(new NoExisteException());
       }
     } else {
-      throw new ParametrosIncompletosException();
+      next(new ParametrosIncompletosException());
     }
     return ans;
   }
@@ -266,8 +266,8 @@ export class PageHandler {
     res.status(200).json(ans).end();
   }
   //PUT
-  static async guardar(req, res) {
-    const ans = await PageHandler.guardarInterno(req, req._user);
+  static async guardar(req, res, next) {
+    const ans = await PageHandler.guardarInterno(req, req._user, next);
     res.status(200).json(ans).end();
   }
   //DELETE
