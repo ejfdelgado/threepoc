@@ -1,0 +1,13 @@
+<form>
+    <p>Propietario: <b>{{ $ctrl.page.page.aut }}</b></p>
+    <p>Fecha creación: <b>{{ $ctrl.page.page.date*1000 | date:'yyyy-MM-dd HH:mm:ss Z' }}</b></p>
+    <p>Fecha actualización: <b>{{ $ctrl.page.page.act*1000 | date:'yyyy-MM-dd HH:mm:ss Z' }}</b></p>
+    <div class="form-group">
+      <label class="col-form-label">Título:</label>
+      <input type="text" class="form-control" ng-model="$ctrl.page.page.tit">
+    </div>
+    <div class="form-group">
+      <label class="col-form-label">Descripción:</label>
+      <textarea class="form-control" ng-model="$ctrl.page.page.desc"></textarea>
+    </div>
+  </form>

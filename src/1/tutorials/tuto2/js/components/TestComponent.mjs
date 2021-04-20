@@ -1,6 +1,17 @@
+import { ModuloPagina } from "../../../../../js/front/page/ModuloPagina.mjs";
+
 export class TestComponentClass {
-  constructor($scope) {
+  constructor($scope, $compile) {
+    this.$compile = $compile;
     this.$scope = $scope;
+  }
+  editPage() {
+    ModuloPagina.editPage({
+      angular: {
+        scope: this.$scope,
+        compile: this.$compile,
+      },
+    });
   }
   $onInit() {
     this.message = "I'm master!";
@@ -20,6 +31,6 @@ export const TestComponent = {
   bindings: {
     page: "<",
   },
-  templateUrl: "/1/tutorials/tuto1/js/components/TestComponent.html",
-  controller: TestComponentClass,
+  templateUrl: "/1/tutorials/tuto2/js/components/TestComponent.html",
+  controller: ["$scope", "$compile", TestComponentClass],
 };

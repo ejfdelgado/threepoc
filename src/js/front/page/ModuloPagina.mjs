@@ -2,6 +2,8 @@ import { MiSeguridad } from "../firebase/MiSeguridad.mjs";
 import { SecurityInterceptor } from "../firebase/SecurityInterceptor.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
 import { Deferred } from "../../common/Deferred.mjs";
+import { ModuloHtml } from "../common/ModuloHtml.mjs";
+import { ModuloModales } from "../common/ModuloModales.mjs";
 
 SecurityInterceptor.register();
 
@@ -44,5 +46,35 @@ export class ModuloPagina {
     const promesaLeer2 = ModuloPagina.leer2(sincronizar);
     const partes = await Promise.all([promesaLeer, promesaLeer2]);
     return partes;
+  }
+  static async editPage(opciones = {}) {
+    opciones = Object.assign({}, opciones);
+    const urlTemplate = "/js/front/page/html/editPageProperties.html";
+    return new Promise(async (resolve) => {
+      await ModuloModales.basic({
+        message: await ModuloHtml.getHtml(urlTemplate),
+        size: "lg",
+        useHtml: true,
+        angular: opciones.angular,
+        buttons: [
+          {
+            text: "Cancelar",
+            class: "btn btn-secondary",
+            action: async (close) => {
+              resolve(false);
+              close();
+            },
+          },
+          {
+            text: "Guardar",
+            class: "btn btn-primary",
+            action: async (close) => {
+              resolve(true);
+              close();
+            },
+          },
+        ],
+      });
+    });
   }
 }

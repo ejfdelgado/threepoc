@@ -26,6 +26,8 @@
         <script src="/node_modules/json.sortify/dist/JSON.sortify.js"></script>
         <script src="/node_modules/angular/angular.min.js"></script>
         <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <!--master-->
         <script type="module" src="./js/index.mjs"></script>
         <!--master-->
@@ -48,36 +50,6 @@
         <div>
             <div ui-view></div>
         </div>
-
-        <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-          </button>
-          <script>
-              $('#exampleModal').on('shown.bs.modal', function () {
-                
-                });
-        </script>
-        <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
-        <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
 
