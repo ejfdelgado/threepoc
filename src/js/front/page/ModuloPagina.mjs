@@ -89,6 +89,13 @@ export class ModuloPagina {
         size: "lg",
         useHtml: true,
         beforeShow: async (element) => {
+          //Se valida la lista de permisos
+          const page = scope.$ctrl.page.page;
+          if (page.pr instanceof Array) {
+            page.pr = page.pr.join(" ");
+          } else {
+            page.pr = "";
+          }
           ModuloHtml.modelToHtml(scope, element);
         },
         buttons: [
@@ -106,8 +113,14 @@ export class ModuloPagina {
             action: async (close, element) => {
               const actividad = ModuloActividad.on();
               try {
-                const nuevoValor = ModuloHtml.htmlToModel(element);
-                $.extend(true, scope, nuevoValor);
+                const newScope = ModuloHtml.htmlToModel(element);
+                const page = newScope.$ctrl.page.page;
+                page.pr = page.pr.split(/\s+/);
+                // Se quitan duplicados y vacíos
+                page.pr = page.pr.filter(function (item, pos, self) {
+                  return item.trim().length > 0 && self.indexOf(item) == pos;
+                });
+                $.extend(true, scope, newScope);
                 await ModuloPagina.guardar(scope.$ctrl.page.page);
                 ModuloPagina.setCurrentValues(scope.$ctrl.page.page);
                 resolve(true);
