@@ -44,7 +44,7 @@ export class MainHandlerReplace {
         metadata.tit = pagina.tit;
         metadata.desc = pagina.desc;
         metadata.img = pagina.img;
-        metadata.q = pagina.q;
+        metadata.kw = pagina.kw;
       }
     }
 
@@ -83,7 +83,7 @@ export class MainHandlerReplace {
       },
       {
         old: /name="keywords"[\s]+content="[^"]*"/,
-        new: `name="keywords" content="${metadata.q}"`,
+        new: `name="keywords" content="${metadata.kw}"`,
       },
       {
         old: /<title>.*?<\/title>/,

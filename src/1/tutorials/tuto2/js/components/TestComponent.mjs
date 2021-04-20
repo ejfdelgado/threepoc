@@ -10,8 +10,12 @@ export class TestComponentClass {
       angular: {
         scope: this.$scope,
         compile: this.$compile,
+        ctrl: this,
       },
     });
+  }
+  async savePage() {
+    console.log("salvar?");
   }
   $onInit() {
     this.message = "I'm master!";

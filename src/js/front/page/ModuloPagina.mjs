@@ -10,27 +10,40 @@ SecurityInterceptor.register();
 export class ModuloPagina {
   static diferidoLectura = new Deferred();
   static diferidoLecturaDone = false;
+  static getCurrentPageValues() {
+    return {
+      tit: $('[name="og:title"]').attr("content"),
+      desc: $('[name="og:description"]').attr("content"),
+      img: $('[name="og:image"]').attr("content"),
+      kw: $('[name="keywords"]').attr("content"),
+    };
+  }
+  static setCurrentValues(values) {
+    $("title").text(values.tit);
+    $('[name="og:title"]').attr("content", values.tit);
+    $('[name="og:description"]').attr("content", values.desc);
+    $('[name="og:image"]').attr("content", values.img);
+    $('[name="keywords"]').attr("content", values.kw);
+  }
   static async leerInterno(opcionesUsr = {}) {
     const opciones = {
       logged: false,
-      tit: "Título",
-      desc: "Descripción",
-      img: "/z/img/back.jpg",
-      kw: "palabras claves",
     };
+    Object.assign(opciones, ModuloPagina.getCurrentPageValues());
     Object.assign(opciones, opcionesUsr);
     await MiSeguridad.buscarUsuario(opciones["logged"]);
     const params = Utilidades.getQueryParams();
     const queryParams = {
-      pg: params["pg"],
-      tit: opciones["tit"],
-      desc: opciones["desc"],
-      img: opciones["img"],
-      kw: opciones["kw"],
+      pg: params.pg,
+      tit: opciones.tit,
+      desc: opciones.desc,
+      img: opciones.img,
+      kw: opciones.kw,
     };
     const url = new URL(`${location.origin}/api/xpage/`);
     url.search = Utilidades.generateQueryParams(queryParams);
     const rta = await fetch(url, { method: "GET" }).then((res) => res.json());
+    ModuloPagina.setCurrentValues(rta.valor);
     return rta;
   }
   static async leer(opciones = {}) {
@@ -40,6 +53,17 @@ export class ModuloPagina {
       ModuloPagina.diferidoLectura.resolve(rta);
     }
     return ModuloPagina.diferidoLectura.promise;
+  }
+  static async guardar(modelo) {
+    const url = new URL(`${location.origin}/api/xpage/`);
+    url.search = Utilidades.generateQueryParams({ pg: modelo.id });
+    await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(modelo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
   }
   static async leerTodo(sincronizar) {
     const promesaLeer = ModuloPagina.leer();
@@ -69,8 +93,14 @@ export class ModuloPagina {
             text: "Guardar",
             class: "btn btn-primary",
             action: async (close) => {
-              resolve(true);
-              close();
+              try {
+                await ModuloPagina.guardar(opciones.angular.ctrl.page.page);
+                ModuloPagina.setCurrentValues(opciones.angular.ctrl.page.page);
+                resolve(true);
+                close();
+              } catch (err) {
+                ModuloModales.alert({ message: err });
+              }
             },
           },
         ],

@@ -27,6 +27,8 @@ miseguridad.salir().then(function() {
 
 import { Utiles } from "../../common/Utiles.mjs";
 import { ModuloActividad } from "../common/ModuloActividad.mjs";
+import { ModuloPagina } from "../page/ModuloPagina.mjs";
+import { Utilidades } from "../../common/Utilidades.mjs";
 
 export class MiSeguridad {
   static diferidoConf = null;
@@ -87,13 +89,13 @@ export class MiSeguridad {
     if (MiSeguridad.diferidoDatos == null) {
       MiSeguridad.diferidoDatos = new Promise((resolve, reject) => {
         MiSeguridad.datosLocales.usr = usuario;
-        const peticion = {
-          method: "GET",
-        };
         MiSeguridad.initApp().then(
           () => {
             const actividadIdentidad = ModuloActividad.on();
-            let promesaIdentidad = fetch("/adm/identidad", peticion);
+            const queryParams = ModuloPagina.getCurrentPageValues();
+            const url = new URL(`${location.origin}/adm/identidad`);
+            url.search = Utilidades.generateQueryParams(queryParams);
+            let promesaIdentidad = fetch(url, { method: "GET" });
             promesaIdentidad.catch(() => {
               actividadIdentidad.resolve();
               MiSeguridad.borrarDatos();

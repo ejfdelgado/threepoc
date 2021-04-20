@@ -160,6 +160,10 @@ export class PageHandler {
             path: elpath,
             date: AHORA,
             act: AHORA,
+            tit: request.query.tit,
+            desc: request.query.desc,
+            img: request.query.img,
+            kw: request.query.kw,
           },
         };
         Object.assign(unapagina.data, buscables);
