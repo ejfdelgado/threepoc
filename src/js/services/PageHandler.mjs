@@ -7,6 +7,7 @@ import { NoExisteException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
 import { Usuario } from "./AdminHandler.mjs";
+import { Utiles } from "../common/Utiles.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -20,7 +21,6 @@ const datastore = new Datastore();
 
 export class PageHandler {
   static KIND = "Pagina";
-  static LIGTH_WEIGHT_KEYS = ["tit", "desc", "img", "q", "kw"];
   static LIGTH_WEIGHT_KEYS_ALL = [
     "tit",
     "desc",
@@ -123,10 +123,6 @@ export class PageHandler {
     }
     const AHORA = new Date().getTime() / 1000;
     const crear = request.query.add;
-    const buscables = PageHandler.filtrarParametros(
-      request,
-      PageHandler.LIGTH_WEIGHT_KEYS
-    );
     const elpath = PageHandler.leerRefererPath(request);
     let temp = null;
     let unapagina = null;
@@ -163,10 +159,9 @@ export class PageHandler {
             tit: request.query.tit,
             desc: request.query.desc,
             img: request.query.img,
-            kw: request.query.kw,
+            kw: Utiles.text2List(request.query.kw),
           },
         };
-        Object.assign(unapagina.data, buscables);
         await datastore.save(unapagina);
         temp = unapagina.data;
         temp.id = unapagina.key.id;

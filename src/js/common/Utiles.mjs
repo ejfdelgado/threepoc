@@ -1,4 +1,19 @@
 export class Utiles {
+  static list2Text(list) {
+    if (list instanceof Array) {
+      return list.join(" ");
+    } else {
+      return "";
+    }
+  }
+  static text2List(text) {
+    let list = text.split(/\s+/);
+    // Se quitan duplicados y vacíos
+    list = list.filter(function (item, pos, self) {
+      return item.trim().length > 0 && self.indexOf(item) == pos;
+    });
+    return list;
+  }
   /**
    * Rotarna el path de modo: "https://paistv.appspot.com/1/scan3d?algo=5"
    */
@@ -6,7 +21,9 @@ export class Utiles {
     const pathNameFromBase = document.baseURI.replace(location.origin, "");
     const pathNameFromLocation = location.pathname;
     if (pathNameFromLocation.length > pathNameFromBase.length) {
-      return location.origin + pathNameFromLocation + location.search + location.hash;
+      return (
+        location.origin + pathNameFromLocation + location.search + location.hash
+      );
     }
     return location.origin + pathNameFromBase + location.search + location.hash;
   }

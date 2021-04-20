@@ -35,6 +35,7 @@ export class MainHandlerReplace {
       desc: "",
       q: "",
       img: "",
+      kw: "",
     };
     let idPagina = null;
     if (partesIdPage != null) {
@@ -44,7 +45,7 @@ export class MainHandlerReplace {
         metadata.tit = pagina.tit;
         metadata.desc = pagina.desc;
         metadata.img = pagina.img;
-        metadata.kw = pagina.kw;
+        metadata.kw = Utiles.list2Text(pagina.kw);
       }
     }
 
@@ -84,6 +85,7 @@ export class MainHandlerReplace {
       {
         old: /name="keywords"[\s]+content="[^"]*"/,
         new: `name="keywords" content="${metadata.kw}"`,
+        empty: typeof metadata.kw != "string" || metadata.kw.length == 0,
       },
       {
         old: /<title>.*?<\/title>/,

@@ -4,7 +4,6 @@ export class Utilidades {
   static isSlave() {
     return /(sl=si)/.exec(location.search) != null;
   }
-
   //A la lista x le resta la lista a
   static diff(x, a) {
     if (!(a instanceof Array)) {

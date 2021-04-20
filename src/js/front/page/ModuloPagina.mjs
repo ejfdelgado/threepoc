@@ -5,6 +5,7 @@ import { Deferred } from "../../common/Deferred.mjs";
 import { ModuloHtml } from "../common/ModuloHtml.mjs";
 import { ModuloModales } from "../common/ModuloModales.mjs";
 import { ModuloActividad } from "../common/ModuloActividad.mjs";
+import { Utiles } from "../../common/Utiles.mjs";
 
 SecurityInterceptor.register();
 
@@ -91,11 +92,8 @@ export class ModuloPagina {
         beforeShow: async (element) => {
           //Se valida la lista de permisos
           const page = scope.$ctrl.page.page;
-          if (page.pr instanceof Array) {
-            page.pr = page.pr.join(" ");
-          } else {
-            page.pr = "";
-          }
+          page.pr = Utiles.list2Text(page.pr);
+          page.kw = Utiles.list2Text(page.kw);
           ModuloHtml.modelToHtml(scope, element);
         },
         buttons: [
@@ -115,11 +113,8 @@ export class ModuloPagina {
               try {
                 const newScope = ModuloHtml.htmlToModel(element);
                 const page = newScope.$ctrl.page.page;
-                page.pr = page.pr.split(/\s+/);
-                // Se quitan duplicados y vacíos
-                page.pr = page.pr.filter(function (item, pos, self) {
-                  return item.trim().length > 0 && self.indexOf(item) == pos;
-                });
+                page.pr = Utiles.text2List(page.pr);
+                page.kw = Utiles.text2List(page.kw);
                 $.extend(true, scope, newScope);
                 await ModuloPagina.guardar(scope.$ctrl.page.page);
                 ModuloPagina.setCurrentValues(scope.$ctrl.page.page);
