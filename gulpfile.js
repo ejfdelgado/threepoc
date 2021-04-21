@@ -107,11 +107,11 @@ const arg = ((argList) => {
 function es6Bundle() {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
   let module = 'index';
-  const archivoSalida = `${module}.min.js`;
-  log(`* Archivo de salida: ${archivoSalida}`);
   if (typeof arg.filename == "string") {
     module = arg.filename;
   }
+  const archivoSalida = `${module}.min.js`;
+  log(`* Archivo de salida: ${archivoSalida}`);
   let pipes1 = browserify({
     debug: arg.debug == "yes",
   })
