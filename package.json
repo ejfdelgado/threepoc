@@ -3,6 +3,8 @@
   "version": "2.0.0",
   "description": "",
   "scripts": {
+    "build_tuto2": "gulp js --poc tutorials/tuto2 --pretty yes",
+    "build_tuto2_libs": "gulp jslibs --poc tutorials/tuto2",
     "build_threehistory": "gulp js --poc threehistory",
     "build_angular": "gulp js --poc angular --pretty yes",
     "build_firebase": "gulp js --poc firebase --pretty yes",
@@ -49,6 +51,7 @@
     "fs": "0.0.1-security",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
+    "gulp-concat": "^2.6.1",
     "gulp-uglify": "^3.0.2",
     "http": "0.0.1-security",
     "http-server": "^0.12.3",

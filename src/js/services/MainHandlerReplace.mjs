@@ -25,10 +25,27 @@ export class MainHandlerReplace {
       MainHandlerReplace.replaceComments(rta, "slave");
     }
   }
+  static replaceMainScript(rta, isSlave, isDebug) {
+    let type = 'type="text/javascript"';
+    let suffix = '.min.js';
+    let prefix = 'index';
+    if (isDebug) {
+      type = 'type="module"';
+      suffix = '.mjs';
+    }
+    if (isSlave) {
+      prefix = 'index-slave';
+    }
+    const PATRON = /<script\s+(.*)src=".\/js\/(index.min.js)"\s*><\/script>/i;
+    const nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
+    rta.data = rta.data.replace(PATRON, nuevo);
+  }
   static async replaceTokens(readPromise, originalUrl) {
     const partesIdPage = /[?].*(pg=)([\d]+)/.exec(originalUrl);
     const partesSlave = /[?].*(sl=si)/.exec(originalUrl);
+    const partesDubug = /[?].*debug=(\d+|si)/.exec(originalUrl);
     const isSlave = partesSlave !== null;
+    const isDebug = partesDubug !== null;
 
     const metadata = {
       tit: "",
@@ -109,7 +126,8 @@ export class MainHandlerReplace {
           rta.data = rta.data.replace(remplazo.old, remplazo.new);
         }
       }
-      MainHandlerReplace.replaceMasterSlave(rta, isSlave);
+      //MainHandlerReplace.replaceMasterSlave(rta, isSlave);
+      MainHandlerReplace.replaceMainScript(rta, isSlave, isDebug);
     }
     return rta;
   }

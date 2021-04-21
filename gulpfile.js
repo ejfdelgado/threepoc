@@ -5,6 +5,8 @@ const log = require("fancy-log");
 const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
 const uglify = require("gulp-uglify");
+const fs = require("fs");
+const concat = require('gulp-concat');
 
 const NODE_FILES = [
   "./node_modules/jquery/dist/jquery.min.js",
@@ -51,6 +53,32 @@ const NODE_FILES = [
   "./node_modules/popper.js/dist/umd/popper.min.js",
   "./node_modules/popper.js/dist/umd/popper.min.js.map",
 ];
+
+function bundleJs(filePath) {
+  // 1. Read file content
+  const content = fs.readFileSync(filePath);
+  // 2. Leer todas las ocurrencias de node_modules
+  const PATRON = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
+  let m;
+  const lista = [];
+  do {
+    m = PATRON.exec(content);
+    if (m) {
+      lista.push(`./node_modules/${m[2]}`);
+    }
+  } while (m);
+  // 3. Unir todos los scrips en uno solo
+  return lista;
+}
+
+function es6BundleLibs() {
+  log("✳️  ES6 Bundling Libs! " + JSON.stringify(arg));
+  const dependencies = bundleJs(`./src/1/${arg.poc}/index.html`);
+  return gulp
+    .src(dependencies, { base: "./node_modules" })
+    .pipe(concat('dependencies.min.js'))
+    .pipe(gulp.dest(`./src/1/${arg.poc}/js`));
+}
 
 const arg = ((argList) => {
   let arg = {},
@@ -127,6 +155,10 @@ function copyNodeModulesBundle() {
 
 gulp.task("js", function () {
   return es6Bundle();
+});
+
+gulp.task("jslibs", function () {
+  return es6BundleLibs();
 });
 
 gulp.task("node_modules", function () {
