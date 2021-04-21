@@ -1,4 +1,20 @@
 export class Utiles {
+  static LISTA_NEGRA_TOKENS = [
+    "de",
+    "en",
+    "con",
+    "para",
+    "el",
+    "él",
+    "la",
+    "sin",
+    "mas",
+    "ella",
+    "ellos",
+    "es",
+    "un",
+    "una",
+  ];
   static list2Text(list) {
     if (list instanceof Array) {
       return list.join(" ");
@@ -71,5 +87,53 @@ export class Utiles {
 
   static extend(a, b) {
     Object.assign(a, b);
+  }
+
+  static getSubWords(word, min = 2) {
+    const ans = [];
+    for (let i = min; i <= word.length; i++) {
+      const subWord = word.substr(0, i);
+      ans.push(subWord);
+    }
+    return ans;
+  }
+
+  static getSearchables(
+    phrase,
+    min = 3,
+    blacklist = Utiles.LISTA_NEGRA_TOKENS
+  ) {
+    const ans = [];
+    if (!(typeof phrase == "string")) {
+      return ans;
+    }
+    // 0. minúsculas
+    phrase = phrase.toLowerCase();
+    // 1. Reemplazar tildes y números
+    const MAPA = {
+      á: "a",
+      é: "e",
+      í: "i",
+      ó: "o",
+      ú: "u",
+      ü: "u",
+    };
+    phrase = phrase.replace(/[á-úü]/g, function (a) {
+      return MAPA[a];
+    });
+    phrase = phrase.replace(/[^\w\s]/g, "");
+
+    const partes = phrase.split(/[\s+]/g);
+    for (let i = 0; i < partes.length; i++) {
+      const word = partes[i];
+      const subpartes = Utiles.getSubWords(word, min);
+      for (let j = 0; j < subpartes.length; j++) {
+        const subword = subpartes[j];
+        if (ans.indexOf(subword) < 0 && blacklist.indexOf(subword) < 0) {
+          ans.push(subword);
+        }
+      }
+    }
+    return ans;
   }
 }

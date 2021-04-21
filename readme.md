@@ -1,13 +1,12 @@
 
 TODO
 
-permitir un query param debug=1 para usar mjs o el minificado
-permitir importar el index.mjs o el index-slave.mjss
 Incluir permisos en la edición de la página.
 Incluir la edición de la imágen de la página, que sea pública.
+Desarrollar el atributo "q" que se autogenera a partir del titulo, la descripción de la página y los key words
 
 Permitir hacer la edición de permisos de usuarios en tupla para página
-Integrar el OCR con el uplad.
+Integrar el OCR con el upload.
 Ingerar speech to text con el upload.
 
 

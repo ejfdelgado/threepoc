@@ -4,6 +4,40 @@ import assert from "assert";
 import { ModuloTransformacion } from "../src/js/common/ModuloTransformacion.mjs";
 import jsonSortify from "../node_modules/json.sortify/dist/JSON.sortify.js";
 import { Amortiguar } from "../src/js/common/Amortiguar.mjs";
+import { Utiles } from "../src/js/common/Utiles.mjs";
+
+describe("tokenizar", () => {
+  it("tokenizar ok", function (done) {
+    const partes = Utiles.getSearchables(
+      "América tiene árboles de color azúl, yo sí se",
+      3
+    );
+    const esperado = [
+      "ame",
+      "amer",
+      "ameri",
+      "americ",
+      "america",
+      "tie",
+      "tien",
+      "tiene",
+      "arb",
+      "arbo",
+      "arbol",
+      "arbole",
+      "arboles",
+      "col",
+      "colo",
+      "color",
+      "azu",
+      "azul",
+    ];
+    for (let i = 0; i < esperado.length; i++) {
+      assert.equal(esperado[i], partes[i]);
+    }
+    done();
+  });
+});
 
 describe("gae_node_request_example", () => {
   describe("GET /api/tup/fecha", () => {
