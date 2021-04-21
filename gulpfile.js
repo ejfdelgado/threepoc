@@ -107,6 +107,8 @@ const arg = ((argList) => {
 function es6Bundle() {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
   let module = 'index';
+  const archivoSalida = `${module}.min.js`;
+  log(`* Archivo de salida: ${archivoSalida}`);
   if (typeof arg.filename == "string") {
     module = arg.filename;
   }
@@ -140,7 +142,7 @@ function es6Bundle() {
     .on("end", function () {
       log("➡️  Bundle created, uploading to dist");
     })
-    .pipe(source(`${module}.min.js`))
+    .pipe(source(archivoSalida))
     .pipe(buffer());
   if (arg.pretty != "yes") {
     pipes1 = pipes1.pipe(uglify());
