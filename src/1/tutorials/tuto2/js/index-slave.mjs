@@ -40,6 +40,6 @@ export const MessageModule = angular
 export const AppModule = angular.module("app", [MessageModule, "ui.router"])
   .name;
 
-  $(document).ready(function () {
-    angular.bootstrap(document, ["app"]);
-  });
+$(document).ready(function () {
+  angular.bootstrap(document, ["app"]);
+});
