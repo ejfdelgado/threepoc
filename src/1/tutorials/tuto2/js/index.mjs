@@ -44,4 +44,6 @@ export const Tuto2Module = angular
 
 export const AppModule = angular.module("app", [Tuto2Module, "ui.router"]).name;
 
-angular.bootstrap(document, ["app"]);
+$(document).ready(function () {
+  angular.bootstrap(document, ["app"]);
+});

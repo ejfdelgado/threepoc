@@ -7,3 +7,7 @@ export const AppModule = angular.module("app", [CalendarModule, "ui.router"])
 IdGen.ahora().then((fecha) => {
   console.log(fecha);
 });
+
+$(document).ready(function () {
+  angular.bootstrap(document, ["app"]);
+});
