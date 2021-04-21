@@ -27,21 +27,21 @@ export class MainHandlerReplace {
   }
   static replaceMainScript(rta, isSlave, isDebug) {
     let type = 'type="text/javascript"';
-    let suffix = '.min.js';
-    let prefix = 'index';
+    let suffix = ".min.js";
+    let prefix = "index";
     if (isDebug) {
       type = 'type="module"';
-      suffix = '.mjs';
+      suffix = ".mjs";
     }
     if (isSlave) {
-      prefix = 'index-slave';
+      prefix = "index-slave";
     }
     const PATRON = /<script\s+(.*)src=".\/js\/(index.min.js)"\s*><\/script>/i;
     let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
-    if (isDebug) {
+    if (!isDebug) {
       const PATRON_LIBS = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
-      rta.data = rta.data.replace(PATRON_LIBS, '');
-      nuevo = `<script src="./js/dependencies.min.js"></script>\n${nuevo}`;
+      rta.data = rta.data.replace(PATRON_LIBS, "");
+      nuevo = `<script src="./js/dependencies.min.js"></script>\n        ${nuevo}`;
     }
     rta.data = rta.data.replace(PATRON, nuevo);
   }

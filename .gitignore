@@ -104,9 +104,9 @@ typings/
 .tern-port
 
 # Los compilados
-src/1/*/js/index.min.js
-src/1/*/js/index-slave.min.js
-src/1/*/js/dependencies.min.js
+src/1/**/js/index.min.js
+src/1/**/js/index-slave.min.js
+src/1/**/js/dependencies.min.js
 
 .DS_Store
 

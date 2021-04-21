@@ -106,10 +106,14 @@ const arg = ((argList) => {
 
 function es6Bundle() {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
+  let module = 'index';
+  if (typeof arg.filename == "string") {
+    module = arg.filename;
+  }
   let pipes1 = browserify({
     debug: arg.debug == "yes",
   })
-    .add(`./src/1/${arg.poc}/js/index.mjs`)
+    .add(`./src/1/${arg.poc}/js/${module}.mjs`)
     .transform(babelify, {
       only: ["./src/*"],
       global: true,
@@ -136,7 +140,7 @@ function es6Bundle() {
     .on("end", function () {
       log("➡️  Bundle created, uploading to dist");
     })
-    .pipe(source("index.min.js"))
+    .pipe(source(`${module}.min.js`))
     .pipe(buffer());
   if (arg.pretty != "yes") {
     pipes1 = pipes1.pipe(uglify());
