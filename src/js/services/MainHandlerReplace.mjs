@@ -37,7 +37,12 @@ export class MainHandlerReplace {
       prefix = 'index-slave';
     }
     const PATRON = /<script\s+(.*)src=".\/js\/(index.min.js)"\s*><\/script>/i;
-    const nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
+    let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
+    if (isDebug) {
+      const PATRON_LIBS = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
+      rta.data = rta.data.replace(PATRON_LIBS, '');
+      nuevo = `<script src="./js/dependencies.min.js"></script>\n${nuevo}`;
+    }
     rta.data = rta.data.replace(PATRON, nuevo);
   }
   static async replaceTokens(readPromise, originalUrl) {
