@@ -200,14 +200,8 @@ export class PageHandler {
             ["usr", "path", "date", "id", "aut", datastore.KEY],
             true
           );
+          modelo.q = Utiles.getSearchables(`${modelo.tit} ${modelo.desc} ${modelo.kw.join(' ')}`);
           await datastore.save(modelo);
-          //const elpath = PageHandler.leerRefererPath(request);
-          //const buscables = PageHandler.filtrarParametros(
-          //  request,
-          //  PageHandler.LIGTH_WEIGHT_KEYS_ALL
-          //);
-          //Optimizar, si no ha cambiado, no recrear
-          //DocHandler.actualizar(str(idPagina), usuario, elpath, buscables)
           modelo.id = modelo[datastore.KEY].id;
           ans["valor"] = modelo;
         }
