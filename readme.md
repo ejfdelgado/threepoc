@@ -13,6 +13,7 @@ Integrar el OCR con el upload.
 Ingerar speech to text con el upload.
 
 
+https://console.cloud.google.com/logs/query;query=resource.type%3D%22gae_app%22?project=proyeccion-colombia1
 
 git clone https://github.com/code-kotis/qr-code-scanner
 npm install
