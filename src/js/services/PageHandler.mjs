@@ -116,21 +116,24 @@ export class PageHandler {
     entity.id = entity[datastore.KEY].id;
     return entity;
   }
+  static preparePageResponse(page) {
+    delete page.q;
+    return page;
+  }
   static async buscarPagina(request, usuario, fromReferer = false) {
     const pagina = await PageHandler.buscarPaginaSimple(request, fromReferer);
     if (pagina != null) {
       return pagina;
     }
     const AHORA = new Date().getTime() / 1000;
-    const crear = request.query.add;
+    const crear = request.query.add == "1" && fromReferer == false;
     const elpath = PageHandler.leerRefererPath(request);
     let temp = null;
     let unapagina = null;
-
     if (usuario != null) {
       const elUsuario = usuario.metadatos.uid;
       let datos = [];
-      if ([undefined, null].indexOf(crear) >= 0) {
+      if (!crear) {
         // Si se manda el parámetro add, no se consulta y se crea uno nuevo...
         // select * from Pagina where path = "/1/trans" and usr = "HHN9uJFCjeVEOitjp8BCpJ4A9KI3"
         const query = datastore
@@ -162,6 +165,7 @@ export class PageHandler {
             kw: Utiles.text2List(request.query.kw),
           },
         };
+        PageHandler.computeQ(unapagina.data);
         await datastore.save(unapagina);
         temp = unapagina.data;
         temp.id = unapagina.key.id;
@@ -180,7 +184,24 @@ export class PageHandler {
     }
     return null;
   }
-
+  static computeQ(modelo) {
+    let oldQ = [];
+    if (modelo.q instanceof Array) {
+      oldQ = modelo.q;
+    }
+    let texto = `${modelo.tit} ${modelo.desc}`;
+    if (modelo.kw instanceof Array) {
+      texto += " " + modelo.kw.join(" ");
+    }
+    const newQ = Utiles.getSearchables(texto);
+    for (let i = 0; i < oldQ.length; i++) {
+      const pal = oldQ[i];
+      if (newQ.indexOf(pal) < 0) {
+        newQ.push(pal);
+      }
+    }
+    modelo.q = newQ;
+  }
   static async guardarInterno(request, usuario = null, next) {
     const AHORA = new Date().getTime() / 1000;
     const ans = {};
@@ -200,7 +221,7 @@ export class PageHandler {
             ["usr", "path", "date", "id", "aut", datastore.KEY],
             true
           );
-          modelo.q = Utiles.getSearchables(`${modelo.tit} ${modelo.desc} ${modelo.kw.join(' ')}`);
+          PageHandler.computeQ(modelo);
           await datastore.save(modelo);
           modelo.id = modelo[datastore.KEY].id;
           ans["valor"] = modelo;
@@ -239,14 +260,15 @@ export class PageHandler {
     return ans;
   }
 
-  static async base(req, res) {
+  static async base(req, res, next) {
     const ans = { ok: true };
-    ans["valor"] = await PageHandler.buscarPagina(req, req._user);
-    res.status(200).json(ans).end();
-  }
-  //GET
-  static async q2(req, res) {
-    const ans = { ok: true };
+    try {
+      const page = await PageHandler.buscarPagina(req, req._user);
+      ans.valor = PageHandler.preparePageResponse(page);
+    } catch (e) {
+      next(e);
+      return;
+    }
     res.status(200).json(ans).end();
   }
   //GET
@@ -266,7 +288,6 @@ export class PageHandler {
   }
 }
 
-router.get("/q2/*", Usuario.authorize("reader"), PageHandler.q2);
 router.get("/q/*", Usuario.authorize("reader"), PageHandler.q);
 router.get("/*", Usuario.authorize("reader"), PageHandler.base);
 router.put("/*", Usuario.authorize("owner"), PageHandler.guardar);

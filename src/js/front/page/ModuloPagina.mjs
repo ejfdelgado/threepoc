@@ -25,7 +25,21 @@ export class ModuloPagina {
     $('[name="og:title"]').attr("content", values.tit);
     $('[name="og:description"]').attr("content", values.desc);
     $('[name="og:image"]').attr("content", values.img);
-    $('[name="keywords"]').attr("content", values.kw);
+    if (values.kw instanceof Array) {
+      $('[name="keywords"]').attr("content", values.kw.join(" "));
+    } else {
+      $('[name="keywords"]').attr("content", values.kw);
+    }
+  }
+  static async createNewPage(opciones = {}) {
+    opciones.add = "1";
+    const rta = await ModuloPagina.leerInterno(opciones);
+    let url = location.origin + location.pathname;
+    const params = Utilidades.getQueryParams(location.href);
+    params.pg = rta.valor.id;
+    url += "?" + Utilidades.generateQueryParams(params);
+    rta.url = url;
+    return rta;
   }
   static async leerInterno(opcionesUsr = {}) {
     const opciones = {
@@ -33,6 +47,7 @@ export class ModuloPagina {
     };
     Object.assign(opciones, ModuloPagina.getCurrentPageValues());
     Object.assign(opciones, opcionesUsr);
+    console.log(JSON.stringify(opciones));
     await MiSeguridad.buscarUsuario(opciones["logged"]);
     const params = Utilidades.getQueryParams();
     const queryParams = {
@@ -41,6 +56,7 @@ export class ModuloPagina {
       desc: opciones.desc,
       img: opciones.img,
       kw: opciones.kw,
+      add: opciones.add,
     };
     const url = new URL(`${location.origin}/api/xpage/`);
     url.search = Utilidades.generateQueryParams(queryParams);

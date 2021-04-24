@@ -18,14 +18,21 @@ indexes:
 
 - kind: Pagina
   properties:
-  - name: aut
+  - name: path
+  - name: auth
+  - name: date
+    direction: desc
 
 - kind: Pagina
   properties:
   - name: path
-  - name: usr
-  - name: date
-    direction: desc
+  - name: q
+
+- kind: Pagina
+  properties:
+  - name: path
+  - name: aut
+  - name: q
 
 - kind: Tupla
   ancestor: yes

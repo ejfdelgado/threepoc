@@ -1,6 +1,9 @@
 
 TODO
 
+gcloud datastore indexes create index.yaml --project paistv
+gcloud datastore indexes create index.yaml --project proyeccion-colombia1
+
 Incluir permisos en la edición de la página.
 Incluir la edición de la imágen de la página, que sea pública.
 Desarrollar el atributo "q" que se autogenera a partir del titulo, la descripción de la página y los key words

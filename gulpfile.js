@@ -6,7 +6,8 @@ const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
 const uglify = require("gulp-uglify");
 const fs = require("fs");
-const concat = require('gulp-concat');
+const concat = require("gulp-concat");
+const { parallel } = require("gulp");
 
 const NODE_FILES = [
   "./node_modules/jquery/dist/jquery.min.js",
@@ -76,7 +77,7 @@ function es6BundleLibs() {
   const dependencies = bundleJs(`./src/1/${arg.poc}/index.html`);
   return gulp
     .src(dependencies, { base: "./node_modules" })
-    .pipe(concat('dependencies.min.js'))
+    .pipe(concat("dependencies.min.js"))
     .pipe(gulp.dest(`./src/1/${arg.poc}/js`));
 }
 
@@ -104,11 +105,14 @@ const arg = ((argList) => {
   return arg;
 })(process.argv);
 
-function es6Bundle() {
+function es6Bundle(opciones = {}) {
   log("✳️  ES6 Bundling! " + JSON.stringify(arg));
-  let module = 'index';
+  let module = "index";
   if (typeof arg.filename == "string") {
     module = arg.filename;
+  }
+  if (typeof opciones.filename == "string") {
+    module = opciones.filename;
   }
   const archivoSalida = `${module}.min.js`;
   log(`* Archivo de salida: ${archivoSalida}`);
@@ -163,8 +167,30 @@ gulp.task("js", function () {
   return es6Bundle();
 });
 
+gulp.task("jsSlave", function () {
+  return es6Bundle({
+    filename: "slave",
+  });
+});
+
 gulp.task("jslibs", function () {
   return es6BundleLibs();
+});
+
+gulp.task("bundle", function () {
+  return parallel(
+    function () {
+      return es6BundleLibs();
+    },
+    function () {
+      return es6Bundle();
+    },
+    function () {
+      return es6Bundle({
+        filename: "index-slave",
+      });
+    }
+  );
 });
 
 gulp.task("node_modules", function () {

@@ -14,6 +14,11 @@ export const TestComponent = {
         this.$compile = $compile;
         this.$scope = $scope;
       }
+      createNew() {
+        ModuloPagina.createNewPage().then((rta) => {
+          window.open(rta.url,'_blank');
+        });
+      }
       editPage() {
         ModuloPagina.editPage({
           angular: {
