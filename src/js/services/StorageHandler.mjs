@@ -112,7 +112,7 @@ export class StorageHandler {
     });
   }
 
-  static makeResponse(req, res, key, readPromise) {
+  static makeResponse(req, res, key, readPromise, next) {
     const downloadFlag = req.query ? req.query.download : false;
     readPromise.then(function (rta) {
       if (rta != null) {
@@ -132,6 +132,8 @@ export class StorageHandler {
       } else {
         res.status(202).end();
       }
+    }, (err) => {
+      next(err);
     });
   }
 

@@ -192,15 +192,19 @@ export class MainHandler {
     return returnedFile;
   }
 
-  static handle(req, res) {
+  static handle(req, res, next) {
     const originalUrl = req.getUrl();
     const theUrl = url.parse(originalUrl);
     const localPath = MainHandler.decodeUrl(theUrl);
     localPath.originalUrl = originalUrl;
-    const readPromise = MainHandler.resolveFile(localPath).then((rta) =>
+    const firstPromise = MainHandler.resolveFile(localPath);
+    firstPromise.catch((err) => {
+      next(err);
+    });
+    const readPromise = firstPromise.then((rta) =>
       MainHandlerReplace.replaceTokens(rta, originalUrl)
     );
-    StorageHandler.makeResponse(req, res, localPath, readPromise);
+    StorageHandler.makeResponse(req, res, localPath, readPromise, next);
   }
 }
 
