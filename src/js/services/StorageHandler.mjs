@@ -112,29 +112,35 @@ export class StorageHandler {
     });
   }
 
-  static makeResponse(req, res, key, readPromise, next) {
+  static makeResponse(req, res, key, readPromise, next, redirect) {
     const downloadFlag = req.query ? req.query.download : false;
-    readPromise.then(function (rta) {
-      if (rta != null) {
-        if (rta.redirect) {
-          res.redirect(rta.redirect);
+    readPromise.then(
+      function (rta) {
+        if (rta != null) {
+          if (rta.redirect) {
+            res.redirect(rta.redirect);
+          } else {
+            res.writeHead(200, {
+              "Content-Type": rta.metadata.contentType,
+              "Content-disposition":
+                downloadFlag != undefined
+                  ? "attachment;filename=" + rta.metadata.filename
+                  : "inline",
+            });
+            res.end(rta.data);
+          }
         } else {
-          res.writeHead(200, {
-            "Content-Type": rta.metadata.contentType,
-            "Content-disposition":
-              downloadFlag != undefined
-                ? "attachment;filename=" + rta.metadata.filename
-                : "inline",
-            //"Content-Length": rta.data.length,
-          });
-          res.end(rta.data);
+          if (typeof redirect == "string") {
+            res.redirect(redirect);
+          } else {
+            res.status(202).end();
+          }
         }
-      } else {
-        res.status(202).end();
+      },
+      (err) => {
+        next(err);
       }
-    }, (err) => {
-      next(err);
-    });
+    );
   }
 
   static escribir(req, res, next) {

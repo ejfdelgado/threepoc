@@ -58,6 +58,7 @@ export class MainHandler {
       }
     }
     ans.params = Utilidades.getQueryParams(localPath.query);
+    files.push("/z/html/404.html");
     ans.files = files;
     return ans;
   }
@@ -72,28 +73,34 @@ export class MainHandler {
     return new Promise((resolve, reject) => {
       const somePath = path.join(MainHandler.ROOT_FOLDER, filename);
 
-      if (!fs.lstatSync(somePath).isFile()) {
-        console.log(`${somePath} no es un archivo`);
-        resolve(null);
-        return;
-      }
-      if (typeof encoding == "string") {
-        fs.readFile(somePath, encoding, function (err, data) {
-          if (err) {
-            reject(err);
+      fs.access(somePath, (err) => {
+        if (err) {
+          resolve(null);
+        } else {
+          if (!fs.lstatSync(somePath).isFile()) {
+            console.log(`${somePath} no es un archivo`);
+            resolve(null);
             return;
           }
-          resolve(data);
-        });
-      } else {
-        fs.readFile(somePath, function (err, data) {
-          if (err) {
-            reject(err);
-            return;
+          if (typeof encoding == "string") {
+            fs.readFile(somePath, encoding, function (err, data) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve(data);
+            });
+          } else {
+            fs.readFile(somePath, function (err, data) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve(data);
+            });
           }
-          resolve(data);
-        });
-      }
+        }
+      });
     });
   }
 
