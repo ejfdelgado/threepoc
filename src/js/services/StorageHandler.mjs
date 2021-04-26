@@ -125,7 +125,7 @@ export class StorageHandler {
               downloadFlag != undefined
                 ? "attachment;filename=" + rta.metadata.filename
                 : "inline",
-            "Content-Length": rta.data.length,
+            //"Content-Length": rta.data.length,
           });
           res.end(rta.data);
         }
