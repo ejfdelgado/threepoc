@@ -62,46 +62,36 @@ export class MainHandler {
     return ans;
   }
 
-  static async resolveLocalFileSingleString(filePath, encoding = "utf8") {
-    const respuesta = await MainHandler.resolveLocalFileSingle(filePath);
-    if (respuesta != null) {
-      return respuesta.toString(encoding);
-    }
-    return null;
-  }
-
   /**
    * Retorna null si no existe el archivo
    * Lanza error si algo falla
    * Retorna un buffer
    * @param filename
    */
-  static async resolveLocalFileSingle(filename) {
+  static async resolveLocalFileSingle(filename, encoding) {
     return new Promise((resolve, reject) => {
       const somePath = path.join(MainHandler.ROOT_FOLDER, filename);
 
-      if (!fs.existsSync(somePath)) {
+      if (!fs.lstatSync(somePath).isFile()) {
+        console.log(`${somePath} no es un archivo`);
         resolve(null);
+        return;
+      }
+      if (typeof encoding == "string") {
+        fs.readFile(somePath, encoding, function (err, data) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(data);
+        });
       } else {
-        if (!fs.lstatSync(somePath).isFile()) {
-          console.log(`${somePath} no es un archivo`);
-          resolve(null);
-          return;
-        }
-        const readStream = fs.createReadStream(somePath, { highWaterMark: 64 });
-        const data = [];
-
-        readStream.on("data", (chunk) => {
-          data.push(chunk);
-        });
-
-        readStream.on("end", () => {
-          const buffer = Buffer.concat(data);
-          resolve(buffer);
-        });
-
-        readStream.on("error", (err) => {
-          reject(err);
+        fs.readFile(somePath, function (err, data) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(data);
         });
       }
     });
@@ -136,7 +126,7 @@ export class MainHandler {
       const contentType = guessMimeType(filename);
       let contenido;
       if (["text/html"].indexOf(contentType) >= 0) {
-        contenido = await MainHandler.resolveLocalFileSingleString(
+        contenido = await MainHandler.resolveLocalFileSingle(
           filename,
           encoding
         );
@@ -197,7 +187,8 @@ export class MainHandler {
     const theUrl = url.parse(originalUrl);
     const localPath = MainHandler.decodeUrl(theUrl);
     localPath.originalUrl = originalUrl;
-    const firstPromise = MainHandler.resolveFile(localPath);
+    const encoding = req.query.encoding;
+    const firstPromise = MainHandler.resolveFile(localPath, encoding);
     firstPromise.catch((err) => {
       next(err);
     });
