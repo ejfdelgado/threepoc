@@ -188,14 +188,14 @@ export class MainHandler {
     const localPath = MainHandler.decodeUrl(theUrl);
     localPath.originalUrl = originalUrl;
     const encoding = req.query.encoding;
-    const firstPromise = MainHandler.resolveFile(localPath, encoding);
+    let firstPromise = MainHandler.resolveFile(localPath, encoding);
     firstPromise.catch((err) => {
       next(err);
     });
-    const readPromise = firstPromise.then((rta) =>
+    firstPromise = firstPromise.then((rta) =>
       MainHandlerReplace.replaceTokens(rta, originalUrl)
     );
-    StorageHandler.makeResponse(req, res, localPath, readPromise, next);
+    StorageHandler.makeResponse(req, res, localPath, firstPromise, next);
   }
 }
 
