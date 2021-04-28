@@ -90,12 +90,15 @@ export class ModuloPagina {
     return partes;
   }
   static async search(opciones) {
-    opciones = Object.assign({
-      aut: ''
-    }, opciones);
+    opciones = Object.assign(
+      {
+        aut: "",
+      },
+      opciones
+    );
     const url = new URL(`${location.origin}/api/xpage/q/`);
     url.search = Utilidades.generateQueryParams(opciones);
-    await fetch(url, {
+    return await fetch(url, {
       method: "GET",
     }).then((res) => res.json());
   }
@@ -155,6 +158,47 @@ export class ModuloPagina {
           },
         ],
       });
+    });
+  }
+  static async showSearchPages() {
+    const urlTemplate = "/js/front/page/html/searchPages.html";
+    const cardPage = await ModuloHtml.getHtml(
+      "/js/front/page/html/cardPage.html"
+    );
+    await ModuloModales.basic({
+      message: await ModuloHtml.getHtml(urlTemplate),
+      size: "lg",
+      useHtml: true,
+      beforeShow: async (element) => {
+        const containerpages = element.find(".pages_found");
+        const boton = element.find(".accion_search");
+        const inputQ = element.find('input[name="q"]');
+        const funcionBusqueda = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          containerpages.empty();
+          ModuloPagina.search({
+            q: inputQ.val(),
+          }).then((rta) => {
+            const lista = rta.ans.ans;
+            lista.forEach(function (page) {
+              const nuevo = $(cardPage);
+              nuevo.find(".card-title").html(page.tit);
+              nuevo.find(".card-text").html(page.desc);
+              nuevo.find(".open_page").on("click", function () {
+                window.open(
+                  `${location.origin}${page.path}?pg=${page.id}`,
+                  "_blank"
+                );
+              });
+              containerpages.append(nuevo);
+            });
+          });
+        };
+        inputQ.on("enter", funcionBusqueda);
+        boton.on("click", funcionBusqueda);
+      },
+      buttons: [],
     });
   }
 }

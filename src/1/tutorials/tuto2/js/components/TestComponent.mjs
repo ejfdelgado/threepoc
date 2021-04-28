@@ -10,16 +10,11 @@ export const TestComponent = {
     "$compile",
     class TestComponentClass {
       constructor($scope, $compile) {
-        console.log("1");
         this.$compile = $compile;
         this.$scope = $scope;
       }
       search() {
-        ModuloPagina.search({
-          //q: 'perro azul y morado'
-        }).then((rta) => {
-          console.log(rta);
-        });
+        ModuloPagina.showSearchPages();
       }
       createNew() {
         ModuloPagina.createNewPage().then((rta) => {
