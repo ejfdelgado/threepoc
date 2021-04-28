@@ -354,7 +354,9 @@ export class PageHandler {
       opciones.aut = req._user.darId();
     }
 
-    ans.ans = await PageHandler.searchInterno(opciones);
+    const rta = await PageHandler.searchInterno(opciones);
+    ans.list = rta.ans;
+    ans.next = rta.next;
     res.status(200).json(ans).end();
   }
   //PUT

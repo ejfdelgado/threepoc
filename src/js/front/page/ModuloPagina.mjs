@@ -89,6 +89,25 @@ export class ModuloPagina {
     const partes = await Promise.all([promesaLeer, promesaLeer2]);
     return partes;
   }
+  static async searchAll(opciones) {
+    const all = [];
+    opciones = Object.assign(
+      {
+        aut: "",
+      },
+      opciones
+    );
+    do {
+      const rta = await ModuloPagina.search(opciones);
+      opciones.next = rta.next;
+      for (let i = 0; i < rta.list.length; i++) {
+        all.push(rta.list[i]);
+      }
+    } while (typeof opciones.next == "string");
+    return {
+      list: all,
+    };
+  }
   static async search(opciones) {
     opciones = Object.assign(
       {
@@ -178,10 +197,11 @@ export class ModuloPagina {
         const inputQ = element.find('input[name="q"]');
         const funcionBusqueda = function (event) {
           containerpages.empty();
-          ModuloPagina.search({
+          ModuloPagina.searchAll({
             q: inputQ.val(),
+            n: 1,
           }).then((rta) => {
-            const lista = rta.ans.ans;
+            const lista = rta.list;
             lista.forEach(function (page) {
               const nuevo = $(cardPage);
               nuevo.find(".card-title").html(page.tit);
