@@ -69,13 +69,11 @@ export class Usuario {
         return Utilidades.removeDoubles(roles);
       }
     } catch (e) {
-      console.log(req);
-      console.log(e);
+      console.log(req._parsedUrl.href + ' ... ' + e);
       return roles;
     }
 
     // Se agregan los roles de la página
-    //miPage.pr = ['reader'];
     if (miPage.pr instanceof Array) {
       for (let i = 0; i < miPage.pr.length; i++) {
         roles.push(miPage.pr[i]);

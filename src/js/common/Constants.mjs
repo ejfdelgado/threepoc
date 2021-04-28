@@ -21,4 +21,5 @@ export class Constants {
       new RegExp(Constants.GOOGLE_PUBLIC + "[^/]+/(public/usr/[^?]+)"),
     ];
   };
+  static SEARCH_PAGE_MIN_TOKEN = 3;
 }

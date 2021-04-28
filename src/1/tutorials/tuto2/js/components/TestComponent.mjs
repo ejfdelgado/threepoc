@@ -14,9 +14,16 @@ export const TestComponent = {
         this.$compile = $compile;
         this.$scope = $scope;
       }
+      search() {
+        ModuloPagina.search({
+          //q: 'perro azul y morado'
+        }).then((rta) => {
+          console.log(rta);
+        });
+      }
       createNew() {
         ModuloPagina.createNewPage().then((rta) => {
-          window.open(rta.url,'_blank');
+          window.open(rta.url, "_blank");
         });
       }
       editPage() {

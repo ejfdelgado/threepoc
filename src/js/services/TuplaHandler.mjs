@@ -238,6 +238,7 @@ export class TuplaHandler {
     const pages = response[1];
 
     if (pages.moreResults == "MORE_RESULTS_AFTER_LIMIT") {
+      //NO_MORE_RESULTS
       ans["next"] = pages.endCursor;
     }
 

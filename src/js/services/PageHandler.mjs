@@ -8,6 +8,7 @@ import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
 import { Usuario } from "./AdminHandler.mjs";
 import { Utiles } from "../common/Utiles.mjs";
+import { Constants } from "../common/Constants.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -271,9 +272,89 @@ export class PageHandler {
     }
     res.status(200).json(ans).end();
   }
+  static async searchInterno(opciones = {}) {
+    opciones = Object.assign(
+      {
+        next: undefined,
+        aut: undefined,
+        path: undefined,
+        q: undefined,
+        n: 10,
+      },
+      opciones
+    );
+    // Se rompen las palabras de búsqueda
+    if (typeof opciones.q == "string") {
+      opciones.q = Utiles.getSearchables(
+        opciones.q,
+        Constants.SEARCH_PAGE_MIN_TOKEN,
+        Utiles.LISTA_NEGRA_TOKENS,
+        true
+      );
+    } else {
+      opciones.q = [];
+    }
+    const ans = {};
+    ans.query = opciones;
+
+    const query = datastore.createQuery(PageHandler.KIND);
+
+    if (opciones.aut !== undefined) {
+      query.filter("aut", "=", opciones.aut);
+    }
+    if (opciones.path !== undefined) {
+      query.filter("path", "=", opciones.path);
+    }
+    for (let i = 0; i < opciones.q.length; i++) {
+      const parte = opciones.q[i];
+      query.filter("q", "=", parte);
+    }
+    if (opciones.next !== undefined) {
+      query.start(opciones.next);
+    }
+
+    //Se agrega el limit
+    query.limit(opciones.n);
+    const rta = await query.run();
+    const datos = rta[0];
+    const cursor = rta[1];
+
+    if (cursor.moreResults == "MORE_RESULTS_AFTER_LIMIT") {
+      ans.next = cursor.endCursor;
+    }
+    ans.ans = [];
+    for (let i = 0; i < datos.length; i++) {
+      const modelo = datos[i];
+      modelo.id = modelo[datastore.KEY].id;
+      delete modelo.q;
+      ans.ans.push(modelo);
+    }
+
+    return ans;
+  }
   //GET
-  static async q(req, res) {
+  // http://proyeccion-colombia1.appspot.com/api/xpage/q/?q=perro%20azul&aut&path
+  static async q(req, res, next) {
     const ans = { ok: true };
+    const opciones = {};
+    opciones.q = req.query.q;
+    opciones.aut = req.query.aut;
+    opciones.path = req.query.path;
+    opciones.next = req.query.next;
+    opciones.n = parseInt(req.query.n);
+    if (isNaN(opciones.n)) {
+      delete opciones.n;
+    }
+
+    // Se intenta sacar del referer el path si no viene
+    if (opciones.path === undefined) {
+      opciones.path = PageHandler.leerRefererPath(req);
+    }
+    if (opciones.aut === "" && req._user != null) {
+      opciones.aut = req._user.darId();
+    }
+
+    ans.ans = await PageHandler.searchInterno(opciones);
     res.status(200).json(ans).end();
   }
   //PUT
@@ -288,7 +369,7 @@ export class PageHandler {
   }
 }
 
-router.get("/q/*", Usuario.authorize("reader"), PageHandler.q);
+router.get("/q/*", PageHandler.q);
 router.get("/*", Usuario.authorize("reader"), PageHandler.base);
 router.put("/*", Usuario.authorize("owner"), PageHandler.guardar);
 router.delete("/*", Usuario.authorize("owner"), PageHandler.borrar);

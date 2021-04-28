@@ -1,3 +1,5 @@
+import { Constants } from "./Constants.mjs";
+
 export class Utiles {
   static LISTA_NEGRA_TOKENS = [
     "de",
@@ -100,8 +102,9 @@ export class Utiles {
 
   static getSearchables(
     phrase,
-    min = 3,
-    blacklist = Utiles.LISTA_NEGRA_TOKENS
+    min = Constants.SEARCH_PAGE_MIN_TOKEN,
+    blacklist = Utiles.LISTA_NEGRA_TOKENS,
+    sencillo = false
   ) {
     const ans = [];
     if (!(typeof phrase == "string")) {
@@ -126,11 +129,17 @@ export class Utiles {
     const partes = phrase.split(/[\s+]/g);
     for (let i = 0; i < partes.length; i++) {
       const word = partes[i];
-      const subpartes = Utiles.getSubWords(word, min);
-      for (let j = 0; j < subpartes.length; j++) {
-        const subword = subpartes[j];
-        if (ans.indexOf(subword) < 0 && blacklist.indexOf(subword) < 0) {
-          ans.push(subword);
+      if (sencillo) {
+        if (ans.indexOf(word) < 0 && blacklist.indexOf(word) < 0) {
+          ans.push(word);
+        }
+      } else {
+        const subpartes = Utiles.getSubWords(word, min);
+        for (let j = 0; j < subpartes.length; j++) {
+          const subword = subpartes[j];
+          if (ans.indexOf(subword) < 0 && blacklist.indexOf(subword) < 0) {
+            ans.push(subword);
+          }
         }
       }
     }

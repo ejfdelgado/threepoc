@@ -89,6 +89,16 @@ export class ModuloPagina {
     const partes = await Promise.all([promesaLeer, promesaLeer2]);
     return partes;
   }
+  static async search(opciones) {
+    opciones = Object.assign({
+      aut: ''
+    }, opciones);
+    const url = new URL(`${location.origin}/api/xpage/q/`);
+    url.search = Utilidades.generateQueryParams(opciones);
+    await fetch(url, {
+      method: "GET",
+    }).then((res) => res.json());
+  }
   static async editPage(opciones = {}) {
     opciones = Object.assign({}, opciones);
     const readPagePromise = ModuloPagina.leer();
