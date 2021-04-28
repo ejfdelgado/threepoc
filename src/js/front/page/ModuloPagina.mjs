@@ -6,6 +6,7 @@ import { ModuloHtml } from "../common/ModuloHtml.mjs";
 import { ModuloModales } from "../common/ModuloModales.mjs";
 import { ModuloActividad } from "../common/ModuloActividad.mjs";
 import { Utiles } from "../../common/Utiles.mjs";
+import { EventEmitter } from "../../common/EventEmitter.mjs";
 
 SecurityInterceptor.register();
 
@@ -89,24 +90,31 @@ export class ModuloPagina {
     const partes = await Promise.all([promesaLeer, promesaLeer2]);
     return partes;
   }
-  static async searchAll(opciones) {
+  static searchAll(opciones) {
     const all = [];
+    const em = new EventEmitter();
     opciones = Object.assign(
       {
         aut: "",
       },
       opciones
     );
-    do {
-      const rta = await ModuloPagina.search(opciones);
-      opciones.next = rta.next;
-      for (let i = 0; i < rta.list.length; i++) {
-        all.push(rta.list[i]);
-      }
-    } while (typeof opciones.next == "string");
-    return {
-      list: all,
+    const iterativa = function () {
+      const promesa = ModuloPagina.search(opciones);
+      promesa.then((rta) => {
+        opciones.next = rta.next;
+        em.emit("data", rta.list);
+        for (let i = 0; i < rta.list.length; i++) {
+          const listaParcial = rta.list[i];
+          all.push(listaParcial);
+        }
+        if (typeof opciones.next == "string") {
+          iterativa();
+        }
+      });
     };
+    iterativa();
+    return em;
   }
   static async search(opciones) {
     opciones = Object.assign(
@@ -197,11 +205,12 @@ export class ModuloPagina {
         const inputQ = element.find('input[name="q"]');
         const funcionBusqueda = function (event) {
           containerpages.empty();
-          ModuloPagina.searchAll({
+          const emmiter = ModuloPagina.searchAll({
             q: inputQ.val(),
-            n: 1,
-          }).then((rta) => {
-            const lista = rta.list;
+            n: 20,
+          });
+
+          emmiter.on("data", (lista) => {
             lista.forEach(function (page) {
               const nuevo = $(cardPage);
               nuevo.find(".card-title").html(page.tit);
