@@ -72,6 +72,7 @@ export class ModuloModales {
         centered: false,
         size: "", // lg sm
         beforeShow: null,
+        preShow: null,
         angular: null,
       },
       opciones
@@ -130,6 +131,11 @@ export class ModuloModales {
       elem.remove();
       if (typeof opciones.onClose == "function") {
         opciones.onClose();
+      }
+    });
+    elem.on("shown.bs.modal", function (e) {
+      if (typeof opciones.preShow == "function") {
+        opciones.preShow(elem);
       }
     });
   }

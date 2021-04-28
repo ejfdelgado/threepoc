@@ -169,13 +169,14 @@ export class ModuloPagina {
       message: await ModuloHtml.getHtml(urlTemplate),
       size: "lg",
       useHtml: true,
+      preShow: (element) => {
+        element.find('input[name="q"]').focus();
+      },
       beforeShow: async (element) => {
         const containerpages = element.find(".pages_found");
         const boton = element.find(".accion_search");
         const inputQ = element.find('input[name="q"]');
         const funcionBusqueda = function (event) {
-          event.preventDefault();
-          event.stopPropagation();
           containerpages.empty();
           ModuloPagina.search({
             q: inputQ.val(),
@@ -195,7 +196,12 @@ export class ModuloPagina {
             });
           });
         };
-        inputQ.on("enter", funcionBusqueda);
+        inputQ.keypress(function (event) {
+          var keycode = event.keyCode ? event.keyCode : event.which;
+          if (keycode == "13") {
+            funcionBusqueda();
+          }
+        });
         boton.on("click", funcionBusqueda);
       },
       buttons: [],
