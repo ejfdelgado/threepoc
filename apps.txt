@@ -1,8 +1,7 @@
 
-
 - Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
 - Evitar el llamado fallido cuando no hay usuario logeado.
-- Habilitar el bucket con CDN
+- Habilitar el bucket con CDN, ok
 
 APPS:
 - Servicio de conteo de días hábiles en Colombia

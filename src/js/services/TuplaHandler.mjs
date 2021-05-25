@@ -192,13 +192,6 @@ export class TuplaHandler {
 
   //-------------------------------------------------
 
-  static async fecha(req, res) {
-    const ans = {};
-    ans["error"] = 0;
-    ans["unixtime"] = new Date().getTime();
-    res.status(200).json(ans).end();
-  }
-
   static async all(req, res, next) {
     const ans = {};
     ans["error"] = 0;
@@ -370,7 +363,6 @@ export class TuplaHandler {
   }
 }
 
-router.get("/fecha", TuplaHandler.fecha);
 router.get("/all/*", Usuario.authorize("reader"), TuplaHandler.all);
 router.get("/next/*", Usuario.authorize("reader"), TuplaHandler.next);
 router.post(

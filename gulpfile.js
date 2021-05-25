@@ -173,7 +173,7 @@ gulp.task("js", function () {
 
 gulp.task("jsSlave", function () {
   return es6Bundle({
-    filename: "slave",
+    filename: "index-slave",
   });
 });
 
@@ -181,21 +181,7 @@ gulp.task("jslibs", function () {
   return es6BundleLibs();
 });
 
-gulp.task("bundle", function () {
-  return parallel(
-    function () {
-      return es6BundleLibs();
-    },
-    function () {
-      return es6Bundle();
-    },
-    function () {
-      return es6Bundle({
-        filename: "index-slave",
-      });
-    }
-  );
-});
+gulp.task("bundle", gulp.parallel("jslibs", "jsSlave", "js"));
 
 gulp.task("node_modules", function () {
   return copyNodeModulesBundle();

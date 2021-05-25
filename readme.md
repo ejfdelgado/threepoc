@@ -6,7 +6,6 @@ gcloud datastore indexes create index.yaml --project proyeccion-colombia1
 
 Incluir permisos en la edición de la página.
 Incluir la edición de la imágen de la página, que sea pública.
-Desarrollar el atributo "q" que se autogenera a partir del titulo, la descripción de la página y los key words
 
 Permitir hacer la edición de permisos de usuarios en tupla para página
 Integrar el OCR con el upload.
@@ -259,6 +258,8 @@ proyeccion-colombia1: 34.117.98.168
 gcloud compute backend-buckets create cat-backend-bucket \
     --gcs-bucket-name=proyeccion-colombia1-cdn \
     --enable-cdn
+
+gcloud compute backend-buckets update proyeccion-colombia1.appspot.com --enable-cdn
 
 gcloud compute url-maps create http-lb \
     --default-backend-bucket=cat-backend-bucket

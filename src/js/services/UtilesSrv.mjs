@@ -15,4 +15,11 @@ router.get("/about", function (req, res) {
   res.send("About birds");
 });
 
+router.get("/fecha", function (req, res) {
+  const ans = {};
+  ans["error"] = 0;
+  ans["unixtime"] = new Date().getTime();
+  res.status(200).json(ans).end();
+});
+
 export default router;
