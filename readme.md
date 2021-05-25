@@ -275,6 +275,16 @@ gcloud compute forwarding-rules create http-lb-forwarding-rule \
 http://34.117.98.168/never-fetch/three-cats.jpg
 
 
+https://cloud.google.com/cdn/docs/http-https-over-same-domain
+
+gcloud compute target-https-proxies create https-lb-proxy \
+  --url-map=http-lb --ssl-certificates=www-ssl-cert
+
+
+
+
+
+
 gcloud compute backend-buckets update cat-backend-bucket \
     --no-enable-cdn
 
@@ -288,3 +298,15 @@ gcloud compute url-maps list
 
 gcloud compute url-maps invalidate-cdn-cache http-lb \
     --path "/never-fetch/*"
+
+-----------------------
+
+gsutil cp *.txt gs://proyeccion-colombia1-cdn
+
+gsutil cp dir1/dir2/** gs://proyeccion-colombia1-cdn
+
+gsutil cp -r ./src gs://proyeccion-colombia1-cdn/v1/
+
+http://34.117.98.168/v1/src/1/tutorials/tuto2/js/dependencies.min.js
+
+<base href="http://34.117.98.168/v1/src/1/tutorials/tuto2/"></base>

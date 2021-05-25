@@ -58,7 +58,8 @@ export class ModuloIntMark {
           slaveUrl +=
             "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
         }
-        const respuesta = await fetch("/a/", {
+        const url = new URL(`${location.origin}/a/`);
+        const respuesta = await fetch(url, {
           method: "POST",
           body: JSON.stringify({
             theurl: slaveUrl,

@@ -2,19 +2,16 @@
 	// ¿Cómo generar las llaves públicas y privadas?
 	
   //1. Se genera el par:
-  //openssl genrsa -out local_par.pem 128
   //openssl genrsa -out local_par.pem 256
-  //openssl genrsa -out local_par.pem 512
-  //openssl genrsa -out local_par.pem 1024
-  //openssl genrsa -out local_par.pem 2048
-	
 	//2. Se genera la llave pública:
 	//openssl rsa -in local_par.pem -pubout -out local_publica.crt
-	
 	//3. Se genera la llave privada:
 	//openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in local_par.pem -out local_privada.key
 	
-	//openssl genrsa -out local_par.pem 256 && openssl rsa -in local_par.pem -pubout -out local_publica.crt && openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in local_par.pem -out local_privada.key
+  //openssl genrsa -out local_par.pem 256 && openssl rsa -in local_par.pem -pubout -out local_publica.crt && openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in local_par.pem -out local_privada.key
+  //openssl genrsa -out local_par.pem 2048 && openssl rsa -in local_par.pem -pubout -out local_publica.crt && openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in local_par.pem -out local_privada.key
+  //openssl req -new -x509 -key local_privada.key -out local_publica.cer
+  //openssl x509 -in local_publica.crt -out local_publica.pem -outform PEM
 
 export class ModuloDatoSeguro {
   // create a key for symmetric encryption
