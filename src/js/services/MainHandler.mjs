@@ -39,6 +39,7 @@ export class MainHandler {
     const partesName = /(.*)[/]([^/]*)$/.exec(ans.pathname);
     const partesName1 = partesName[1];
     const partesName2 = partesName[2];
+    const extension = /\.(.*)$/.exec(partesName2);
     const files = [];
     if (partesName1.length == 0 && partesName2.length == 0) {
       files.push("/index.html");
@@ -58,7 +59,10 @@ export class MainHandler {
       }
     }
     ans.params = Utilidades.getQueryParams(localPath.query);
-    files.push("/z/html/404.html");
+    if (extension == null || ["html", "htm"].indexOf(extension[1]) >= 0) {
+      // Si no tiene extensión o si es html se termina redirigiendo a la página 404
+      files.push("/z/html/404.html");
+    }
     ans.files = files;
     return ans;
   }

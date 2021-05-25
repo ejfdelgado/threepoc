@@ -1,0 +1,14 @@
+
+
+- Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
+- Evitar el llamado fallido cuando no hay usuario logeado.
+- Habilitar el bucket con CDN
+
+APPS:
+- Servicio de conteo de días hábiles en Colombia
+- Servicio de firmar archivos pdf con clave y firma digital
+- Conversor de html a pdf para hoja de vida
+- Chat
+- Hacer un simple page editor
+- Hacer una tarjeta virtual con formularios
+- Hacer un editor de cartas con firma.

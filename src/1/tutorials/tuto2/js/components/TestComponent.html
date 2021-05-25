@@ -1,6 +1,14 @@
 <h1>{{ $ctrl.message }}</h1>
 <p>https://console.cloud.google.com/datastore/entities;kind=Pagina;ns=__$DEFAULT$__/query/kind?project=proyeccion-colombia1</p>
 <p>SELECT * FROM `Pagina` where q = 'perro' and q = 'azul' and q = 'imaginarios' and q = 'pagina'</p>
+<textarea placeholder="Llave Pública" ng-model="$ctrl.cipher.pubkey"></textarea>
+<textarea placeholder="Llave Privada" ng-model="$ctrl.cipher.privkey"></textarea>
+<textarea placeholder="Datos" ng-model="$ctrl.cipher.data"></textarea>
+</br>
+<button ng-click="$ctrl.cifrar()">Cifrar</button>
+<button ng-click="$ctrl.decifrar()">Decifrar</button>
+</br>
+</br>
 <button ng-click="$ctrl.editPage()">Edit Page</button>
 <button ng-click="$ctrl.createNew()">Create Page</button>
 <button ng-click="$ctrl.search()">Buscar</button>

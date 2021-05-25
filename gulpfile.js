@@ -53,6 +53,10 @@ const NODE_FILES = [
 
   "./node_modules/popper.js/dist/umd/popper.min.js",
   "./node_modules/popper.js/dist/umd/popper.min.js.map",
+
+  "./node_modules/event-emitter-es6/dist/event-emitter.min.js",
+  "./node_modules/crypto-js/**",
+  "./node_modules/jsencrypt/bin/jsencrypt.min.js",
 ];
 
 function bundleJs(filePath) {
