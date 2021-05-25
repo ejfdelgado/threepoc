@@ -1,8 +1,12 @@
 
 	// ¿Cómo generar las llaves públicas y privadas?
 	
-	//1. Se genera el par:
-	//openssl genrsa -out local_par.pem 2048
+  //1. Se genera el par:
+  //openssl genrsa -out local_par.pem 128
+  //openssl genrsa -out local_par.pem 256
+  //openssl genrsa -out local_par.pem 512
+  //openssl genrsa -out local_par.pem 1024
+  //openssl genrsa -out local_par.pem 2048
 	
 	//2. Se genera la llave pública:
 	//openssl rsa -in local_par.pem -pubout -out local_publica.crt
@@ -28,6 +32,7 @@ export class ModuloDatoSeguro {
   };
 
   static cifrar = function (objeto, llavePublica) {
+    llavePublica = llavePublica.replace('\n', '');
     var key = ModuloDatoSeguro.generateKey(10);
     var texto = JSON.stringify(objeto); //JSON
     var aesEncrypted = CryptoJS.AES.encrypt(texto, key);
@@ -48,6 +53,7 @@ export class ModuloDatoSeguro {
   };
 
   static decifrar = function (texto, llavePrivada) {
+    llavePrivada = llavePrivada.replace('\n', '');
     var decrypt = new JSEncrypt();
     decrypt.setPrivateKey(llavePrivada);
     var parametroSinBase64 = JSON.parse(atob(texto));

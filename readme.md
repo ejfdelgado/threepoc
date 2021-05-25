@@ -29,25 +29,24 @@ Lectura de estáticos
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
 
+source /Users/jose.delgado/.bash_profile_gcp
+
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
+export GAE_APPLICATION="proyeccion-colombia1"
+gcloud config set project proyeccion-colombia1
+gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
 
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
-
 export GAE_APPLICATION="paistv"
+gcloud config set project paistv
+gcloud app deploy app.yaml --project paistv --version 2
 
-export GAE_APPLICATION="proyeccion-colombia1"
 
 Para compilar:
 gulp js
 
 Para correr el servidor:
 npm run start
-
-source /Users/jose.delgado/.bash_profile_gcp
-
-gcloud app deploy app.yaml --project paistv --version 2
-
-gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
 
 gcloud app deploy app.yaml --project ejfexperiments --version 2
 
@@ -170,6 +169,8 @@ sudo pfctl -ef /etc/pf.conf
 
 gsutil cors get gs://paistv.appspot.com
 gsutil cors set cors.json gs://paistv.appspot.com
+gsutil cors set cors.json gs://proyeccion-colombia1.appspot.com
+gsutil cors set cors.json gs://proyeccion-colombia1-cdn
 
 VNC TIGER
 gcloud beta compute ssh --zone "us-central1-b" "escannertresd-b" --project "paistv"
@@ -231,3 +232,59 @@ Host *github.com
  Bug en emojionearea data-name="{name}"/></i>
 npm install emojionearea@^2.1.0 --save
 https://mervick.github.io/emojionearea/
+
+
+Activar CDN:
+
+gcloud config set project proyeccion-colombia1
+
+gsutil mb -p proyeccion-colombia1 -c standard -l us -b on gs://proyeccion-colombia1-cdn
+
+gsutil cp gs://gcp-external-http-lb-with-bucket/three-cats.jpg gs://proyeccion-colombia1-cdn/never-fetch/
+
+gsutil iam ch allUsers:objectViewer gs://proyeccion-colombia1-cdn
+
+gcloud compute addresses create proyeccion-colombia1-cdn-ip \
+    --network-tier=PREMIUM \
+    --ip-version=IPV4 \
+    --global
+
+gcloud compute addresses describe proyeccion-colombia1-cdn-ip \
+    --format="get(address)" \
+    --global
+
+paistv: 34.120.71.125
+proyeccion-colombia1: 34.117.98.168
+
+gcloud compute backend-buckets create cat-backend-bucket \
+    --gcs-bucket-name=proyeccion-colombia1-cdn \
+    --enable-cdn
+
+gcloud compute url-maps create http-lb \
+    --default-backend-bucket=cat-backend-bucket
+
+gcloud compute target-http-proxies create http-lb-proxy \
+    --url-map=http-lb
+
+gcloud compute forwarding-rules create http-lb-forwarding-rule \
+    --address=proyeccion-colombia1-cdn-ip \
+    --global \
+    --target-http-proxy=http-lb-proxy \
+    --ports=80
+
+http://34.117.98.168/never-fetch/three-cats.jpg
+
+
+gcloud compute backend-buckets update cat-backend-bucket \
+    --no-enable-cdn
+
+gcloud compute backend-buckets update proyeccion-colombia1-cdn \
+    --enable-cdn
+
+
+¿Cómo invalido la cache?
+
+gcloud compute url-maps list
+
+gcloud compute url-maps invalidate-cdn-cache http-lb \
+    --path "/never-fetch/*"

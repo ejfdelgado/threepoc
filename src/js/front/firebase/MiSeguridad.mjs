@@ -29,6 +29,7 @@ import { Utiles } from "../../common/Utiles.mjs";
 import { ModuloActividad } from "../common/ModuloActividad.mjs";
 import { ModuloPagina } from "../page/ModuloPagina.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
+import { ModuloDatoSeguro } from "../../common/ModuloDatoSeguro.mjs";
 
 export class MiSeguridad {
   static diferidoConf = null;
@@ -37,6 +38,7 @@ export class MiSeguridad {
   static diferidoFirebase = null;
   static datosLocales = {};
   static diferidoDatos = null;
+  static PARTE_1 = 'MIHDAgEAMA0GCSqGSIb3DQEBAQUABIGuMIGrAgEAAiEAz7neOpIsZ9rBeevPmuZGzkF6DVd+Bcu0sB6wQQGSJw8CAwEAAQIgBqWK39LnitcsE6ug8/LkVwxprUbTmJGthelcnGpk4oECEQDxBmnsnP3xpVW2vK0ceTjBAhEA3KHSeoVNCYmawX5oraMDzwIRAKdwJTXS+jdc/GauPDSDogECEQC3G9pqcu1PyBNXGUlZKlzDAhASO74AOK6q8tA21NMvWu5a';
 
   static async hayUsuario() {
     try {
@@ -272,29 +274,13 @@ export class MiSeguridad {
   static firebaseConf() {
     if (MiSeguridad.diferidoConf == null) {
       // Puede que lo quiera leer desde algún lugar del back
-      const actividadSomeData = ModuloActividad.on();
-      const promesaSomeData = fetch("/adm/somedata", {
-        method: "GET",
-      });
+      const parte2 = 'eyJsbGF2ZSI6IlNWdFFpeDkvbGRKOVliSmFKTUlDdnE4dzUzTGJRekxHS3VrT1IvMjB2Q289IiwibWVuc2FqZSI6IlUyRnNkR1ZrWDE5YmVyVVhBcE5iYmcyOU5CU2Fjc25mZWVwNExvbWlQREZ6eG9oVnBVeEhUVlBhWmROdDRFbnh4aWtXTEM0ei9uSDhRZzF1cXFzTnlidHNNeGVGdDlEd3pXbHVPWkl6V0JGOVZLK3drbzZaUUFvQlFHR256amw1cDR2WlRHU1RySFNmdXRkdG16TFVMSjVqbjVibVVIbkxCL3U2UkkwWVA2QWttM0QvSW9tOENSRmVya1dEUjVuZU1zemJaMFphTTV2WjdaNzlrZHNuUmxZWTRvYS9qY2xzSEtvVytHRG10TkJSWWNHemYxZCs0WXduUUR4bzZwNEhlWUFUMkM2YzhZbVIyOXk2OVY2TDlPemxkdTRGSkE4U1JwSmlGY3FQcVVrdGl0VTh0USt4STNZaUNUSUZLd2s0dzIzWnhJc1RFTXBMSzBodDN1RGMvRUhJVmh1T3d4eG95UUZpSXJxTU45ZlVRL3F2UFRwOHNJTEVhQ2UzaVpxQ3NQSmlwTU56aW5qNWpYME1ZeWQ3ZmNkTmNsVkl3VERIRFZhTDg3REk0T3gvS2tvVlkxT3RVaGh3aWhiRkZHTmF3QVluMGZMcE82bDRXdkpuSUMzWXB2ZGNqUXJyNGRpOVRZTURUNVplNUdUbmZpZkpXem9TRXZMU0piaG1aajFhIn0=';
       MiSeguridad.diferidoConf = new Promise((resolve, reject) => {
-        promesaSomeData.then(
-          (response) => {
-            response.json().then(
-              (msg) => {
-                actividadSomeData.resolve();
-                resolve({
-                  config: msg,
-                });
-              },
-              () => {
-                actividadSomeData.resolve();
-              }
-            );
-          },
-          () => {
-            actividadSomeData.resolve();
-          }
-        );
+        const txt = ModuloDatoSeguro.decifrar(parte2, MiSeguridad.PARTE_1);
+        const msg = JSON.parse(txt);
+        resolve({
+          config: msg,
+        });
       });
     }
     return MiSeguridad.diferidoConf;
