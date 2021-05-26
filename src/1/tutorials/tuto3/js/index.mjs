@@ -5,12 +5,14 @@ import { ModuloQR } from "../../../../js/front/firebase/ModuloQR.mjs";
 import { dataImage } from "./directives/dataImage.mjs";
 import { dataHtml } from "./directives/dataHtml.mjs";
 import { safeHTML } from "./filters/safeHtml.mjs";
+import { dataText } from "./directives/dataText.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
   .component("testComponent", TestComponent)
   .directive("myImage", dataImage)
   .directive("myHtml", dataHtml)
+  .directive("myText", dataText)
   .filter("safeHtml", safeHTML)
   .config([
     "$stateProvider",

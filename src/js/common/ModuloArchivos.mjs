@@ -3,6 +3,7 @@ import { Utilidades } from "./Utilidades.mjs";
 import { guessMimeType } from "./MimeTypeMap.mjs";
 import { ModuloPagina } from "../front/page/ModuloPagina.mjs";
 import { Constants } from "./Constants.mjs";
+import { ModuloActividad } from "../front/common/ModuloActividad.mjs";
 
 export class ModuloArchivos {
   static async guardarContenidoEstatico() {
@@ -56,9 +57,15 @@ export class ModuloArchivos {
     );
     if (options.data == null) {
       // Lanzar el file picker
-      options.data = await ModuloArchivos.askForFile(options);
+      try {
+        options.data = await ModuloArchivos.askForFile(options);
+      } catch (e) {
+        console.log(e);
+        return;
+      }
     }
 
+    const actividad = ModuloActividad.on();
     if (options.data.nodeName == "CANVAS") {
       // image/webp image/jpeg image/png
       const mimeType = guessMimeType(options.path);
@@ -140,6 +147,7 @@ export class ModuloArchivos {
     ).then((res) => res.json());
 
     //console.log(JSON.stringify(response));
+    actividad.resolve();
     return response;
   }
 }

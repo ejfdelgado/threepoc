@@ -14,6 +14,12 @@ export class TestComponentClass {
     this.texts = {
       text1: {
         val: '<p><b>Hoy</b> es un día nuevo</p>'
+      },
+      text2: {
+        val: 'Mi título'
+      },
+      text3: {
+        val: 'Mi contenido'
       }
     };
   }
