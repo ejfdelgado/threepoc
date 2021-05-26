@@ -276,11 +276,16 @@ export class MiSeguridad {
       // Puede que lo quiera leer desde algún lugar del back
       const parte2 = 'eyJsbGF2ZSI6IlNWdFFpeDkvbGRKOVliSmFKTUlDdnE4dzUzTGJRekxHS3VrT1IvMjB2Q289IiwibWVuc2FqZSI6IlUyRnNkR1ZrWDE5YmVyVVhBcE5iYmcyOU5CU2Fjc25mZWVwNExvbWlQREZ6eG9oVnBVeEhUVlBhWmROdDRFbnh4aWtXTEM0ei9uSDhRZzF1cXFzTnlidHNNeGVGdDlEd3pXbHVPWkl6V0JGOVZLK3drbzZaUUFvQlFHR256amw1cDR2WlRHU1RySFNmdXRkdG16TFVMSjVqbjVibVVIbkxCL3U2UkkwWVA2QWttM0QvSW9tOENSRmVya1dEUjVuZU1zemJaMFphTTV2WjdaNzlrZHNuUmxZWTRvYS9qY2xzSEtvVytHRG10TkJSWWNHemYxZCs0WXduUUR4bzZwNEhlWUFUMkM2YzhZbVIyOXk2OVY2TDlPemxkdTRGSkE4U1JwSmlGY3FQcVVrdGl0VTh0USt4STNZaUNUSUZLd2s0dzIzWnhJc1RFTXBMSzBodDN1RGMvRUhJVmh1T3d4eG95UUZpSXJxTU45ZlVRL3F2UFRwOHNJTEVhQ2UzaVpxQ3NQSmlwTU56aW5qNWpYME1ZeWQ3ZmNkTmNsVkl3VERIRFZhTDg3REk0T3gvS2tvVlkxT3RVaGh3aWhiRkZHTmF3QVluMGZMcE82bDRXdkpuSUMzWXB2ZGNqUXJyNGRpOVRZTURUNVplNUdUbmZpZkpXem9TRXZMU0piaG1aajFhIn0=';
       MiSeguridad.diferidoConf = new Promise((resolve, reject) => {
-        const txt = ModuloDatoSeguro.decifrar(parte2, MiSeguridad.PARTE_1);
-        const msg = JSON.parse(txt);
-        resolve({
-          config: msg,
-        });
+        try {
+          const txt = ModuloDatoSeguro.decifrar(parte2, MiSeguridad.PARTE_1);
+          const msg = JSON.parse(txt);
+          resolve({
+            config: msg,
+          });
+        } catch (e) {
+          console.error(e);
+          reject(e);
+        }
       });
     }
     return MiSeguridad.diferidoConf;
