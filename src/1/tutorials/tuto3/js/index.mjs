@@ -2,10 +2,12 @@ import { TestComponent } from "./components/TestComponent.mjs";
 import { ModuloIntMark } from "../../../../js/front/firebase/ModuloIntMark.mjs";
 import { ModuloPagina } from "../../../../js/front/page/ModuloPagina.mjs";
 import { ModuloQR } from "../../../../js/front/firebase/ModuloQR.mjs";
+import { dataImage } from "./directives/dataImage.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router"])
   .component("testComponent", TestComponent)
+  .directive("myImage", dataImage)
   .config([
     "$stateProvider",
     "$urlRouterProvider",

@@ -3,7 +3,11 @@ export class TestComponentClass {
     this.$scope = $scope;
   }
   $onInit() {
-    this.message = "I'm master!";
+    this.images = {
+      image1: {
+        src: '/z/img/spacex.jpg'
+      }
+    };
   }
   $onChanges(changesObj) {
     // Replaces the $watch()
@@ -20,6 +24,6 @@ export const TestComponent = {
   bindings: {
     page: "<",
   },
-  templateUrl: "/1/tutorials/tuto1/js/components/TestComponent.html",
+  templateUrl: "/1/tutorials/tuto3/js/components/TestComponent.html",
   controller: TestComponentClass,
 };

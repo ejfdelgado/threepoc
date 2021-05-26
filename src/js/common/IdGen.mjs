@@ -99,7 +99,9 @@ export class IdGen {
       DD: IdGen.addZero(fecha.getDate()),
       HH: IdGen.addZero(fecha.getHours()),
       mm: IdGen.addZero(fecha.getMinutes()),
-      ss: IdGen.addZero(fecha.getSeconds())
+      ss: IdGen.addZero(fecha.getSeconds()),
+      zz: IdGen.addZero(fecha.getMilliseconds()),
+      EPOCH: fecha.getTime(),
     };
     remplazos.yyyy = remplazos.YYYY;
     remplazos.dd = remplazos.DD;

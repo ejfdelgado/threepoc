@@ -20,6 +20,6 @@ export const TestComponentSlave = {
   bindings: {
     page: "<",
   },
-  templateUrl: "/1/tutorials/tuto1/js/components/TestComponentSlave.html",
+  templateUrl: "/1/tutorials/tuto3/js/components/TestComponentSlave.html",
   controller: TestComponentSlaveClass,
 };

@@ -17,7 +17,7 @@ export class ModuloArchivos {
     const atributos = Object.assign(
       {
         tipos: [],
-        maximoTamanio: 1024,
+        maximoTamanio: 1024 * 1024,
       },
       atributosIn
     );
@@ -30,12 +30,13 @@ export class ModuloArchivos {
       temp.on("change", function (e) {
         var file = e.target.files[0];
         if (file.size > atributos.maximoTamanio) {
-          alert(
-            "Archivo muy grande! debe ser menor a " +
-              atributos.maximoTamanio / 1024 +
-              " KB"
+          reject(
+            new Error(
+              "Archivo muy grande! debe ser menor a " +
+                atributos.maximoTamanio / 1024 +
+                " KB"
+            )
           );
-          reject();
         } else {
           resolve(file);
         }
@@ -138,6 +139,7 @@ export class ModuloArchivos {
       }
     ).then((res) => res.json());
 
-    console.log(JSON.stringify(response));
+    //console.log(JSON.stringify(response));
+    return response;
   }
 }
