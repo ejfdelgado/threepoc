@@ -4,7 +4,7 @@ import { ModuloModales } from "../../../../../js/front/common/ModuloModales.mjs"
 
 export function dataImage() {
   return {
-    restrict: "E",
+    restrict: "A",
     scope: {
       imageDetail: "=detail",
     },

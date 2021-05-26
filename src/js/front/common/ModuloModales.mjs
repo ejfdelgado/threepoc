@@ -112,11 +112,19 @@ export class ModuloModales {
       elemDialog.addClass("modal-sm");
     }
     if (opciones.useHtml) {
-      elem.find(".modal-title").html(opciones.title);
-      elem.find(".modal-body > p").html(opciones.message);
+      if ([null, undefined, ""].indexOf(opciones.title) < 0) {
+        elem.find(".modal-title").html(opciones.title);
+      }
+      if ([null, undefined, ""].indexOf(opciones.message) < 0) {
+        elem.find(".modal-body > p").html(opciones.message);
+      }
     } else {
-      elem.find(".modal-title").text(opciones.title);
-      elem.find(".modal-body > p").text(opciones.message);
+      if ([null, undefined, ""].indexOf(opciones.title) < 0) {
+        elem.find(".modal-title").text(opciones.title);
+      }
+      if ([null, undefined, ""].indexOf(opciones.message) < 0) {
+        elem.find(".modal-body > p").text(opciones.message);
+      }
     }
     if (typeof opciones.beforeShow == "function") {
       await opciones.beforeShow(elem);
@@ -138,5 +146,8 @@ export class ModuloModales {
         opciones.preShow(elem);
       }
     });
+    return {
+      closeFunction: closeFunction,
+    };
   }
 }

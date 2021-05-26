@@ -57,6 +57,18 @@ const NODE_FILES = [
   "./node_modules/event-emitter-es6/dist/event-emitter.min.js",
   "./node_modules/crypto-js/**",
   "./node_modules/jsencrypt/bin/jsencrypt.min.js",
+
+  "./node_modules/tinymce/tinymce.min.js",
+  "./node_modules/tinymce/themes/silver/theme.min.js",
+  "./node_modules/angular-ui-tinymce/dist/tinymce.min.js",
+  "./node_modules/tinymce/plugins/link/plugin.min.js",
+  "./node_modules/tinymce/plugins/image/plugin.min.js",
+  "./node_modules/tinymce/plugins/code/plugin.min.js",
+  "./node_modules/tinymce/skins/ui/oxide/skin.min.css",
+  "./node_modules/tinymce/skins/ui/oxide/content.min.css",
+  "./node_modules/tinymce/skins/content/default/content.min.css",
+  "./node_modules/angular-sanitize/angular-sanitize.min.js",
+  "./node_modules/tinymce/icons/default/icons.min.js",
 ];
 
 function bundleJs(filePath) {

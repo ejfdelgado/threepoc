@@ -11,6 +11,11 @@ export class TestComponentClass {
         src: '/z/img/spacex.jpg'
       }
     };
+    this.texts = {
+      text1: {
+        val: '<p><b>Hoy</b> es un día nuevo</p>'
+      }
+    };
   }
   $onChanges(changesObj) {
     // Replaces the $watch()

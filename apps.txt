@@ -3,6 +3,16 @@
 - Evitar el llamado fallido cuando no hay usuario logeado.
 - Habilitar el bucket con CDN, ok
 - Que la directiva myImage sea capaz de mantener el tamaño de la imagen original.
+- Incluir permisos en la edición de la página.
+- Incluir la edición de la imágen de la página, que sea pública.
+- Permitir hacer la edición de permisos de usuarios en tupla para página
+- Integrar el OCR con el upload.
+- Ingerar speech to text con el upload.
+Lectura de estáticos
+- Permitir generar llave que identifica la página de forma única, por usuario.
+- Permitir guardar los datos de la página con el identificador único por usuario.
+- Remplazo de html de el título, imágen, descripción, etc.
+- Cache...
 
 APPS:
 - Servicio de conteo de días hábiles en Colombia

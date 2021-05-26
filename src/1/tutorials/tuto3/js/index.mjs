@@ -3,11 +3,15 @@ import { ModuloIntMark } from "../../../../js/front/firebase/ModuloIntMark.mjs";
 import { ModuloPagina } from "../../../../js/front/page/ModuloPagina.mjs";
 import { ModuloQR } from "../../../../js/front/firebase/ModuloQR.mjs";
 import { dataImage } from "./directives/dataImage.mjs";
+import { dataHtml } from "./directives/dataHtml.mjs";
+import { safeHTML } from "./filters/safeHtml.mjs";
 
 export const Tuto3Module = angular
-  .module("message", ["ui.router"])
+  .module("message", ["ui.router", "ui.tinymce"])
   .component("testComponent", TestComponent)
   .directive("myImage", dataImage)
+  .directive("myHtml", dataHtml)
+  .filter("safeHtml", safeHTML)
   .config([
     "$stateProvider",
     "$urlRouterProvider",

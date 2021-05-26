@@ -43,7 +43,9 @@
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
     "angular": "^1.8.2",
+    "angular-sanitize": "^1.8.2",
     "angular-ui-router": "^1.0.29",
+    "angular-ui-tinymce": "^0.0.19",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^10.0.0",
     "bootstrap": "^4.6.0",
@@ -68,6 +70,7 @@
     "popper.js": "^1.16.1",
     "supertest": "^6.0.0",
     "three": "^0.125.2",
+    "tinymce": "^5.8.1",
     "typedoc": "^0.20.28",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"

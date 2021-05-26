@@ -1,16 +1,10 @@
 
 TODO
 
+
+
 gcloud datastore indexes create index.yaml --project paistv
 gcloud datastore indexes create index.yaml --project proyeccion-colombia1
-
-Incluir permisos en la edición de la página.
-Incluir la edición de la imágen de la página, que sea pública.
-
-Permitir hacer la edición de permisos de usuarios en tupla para página
-Integrar el OCR con el upload.
-Ingerar speech to text con el upload.
-
 
 https://console.cloud.google.com/logs/query;query=resource.type%3D%22gae_app%22?project=proyeccion-colombia1
 
@@ -19,14 +13,9 @@ npm install
 npm run start
 npm run build
 
-Lectura de estáticos
-- Permitir generar llave que identifica la página de forma única, por usuario.
-- Permitir guardar los datos de la página con el identificador único por usuario.
-- Remplazo de html de el título, imágen, descripción, etc.
-- Cache...
-
 https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
+https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 source /Users/jose.delgado/.bash_profile_gcp
 
@@ -40,33 +29,19 @@ export GAE_APPLICATION="paistv"
 gcloud config set project paistv
 gcloud app deploy app.yaml --project paistv --version 2
 
-
-Para compilar:
-gulp js
-
 Para correr el servidor:
 npm run start
-
-gcloud app deploy app.yaml --project ejfexperiments --version 2
-
-https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 ------------------------------------------------------------------------------------------------------------------------>>
 
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
 
-
 sudo lsof -i tcp:80
 sudo kill -9 <PID>
-
 
 gsutil -m cp -R gs://proyeccion-colombia1.appspot.com .
 
 chrome://flags/#unsafely-treat-insecure-origin-as-secure
-
-/Users/jose.delgado/.bashrc
-
-sudo export GOOGLE_APPLICATION_CREDENTIALS="/Users/jose.delgado/sdks/credenciales/paistv-a16726bda177.json"
 
 brew install pyenv
 pyenv install 2.7.18
