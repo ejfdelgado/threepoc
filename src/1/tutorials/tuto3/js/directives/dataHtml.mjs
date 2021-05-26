@@ -6,13 +6,13 @@ export const dataHtml = [
     return {
       restrict: "A",
       scope: {
-        htmlDetail: "=detail",
+        ngModel: "=",
       },
       template:
-        '<div ng-bind-html="htmlDetail.val | safeHtml" ng-click="openEdit()"></div>',
+        '<div ng-bind-html="ngModel | safeHtml" ng-click="openEdit()"></div>',
       link: function link(scope, element, attrs) {
         scope.save = function () {
-          scope.htmlDetail.val = scope.text.content;
+          scope.ngModel = scope.text.content;
           scope.refModal.closeFunction();
         };
 
@@ -24,7 +24,7 @@ export const dataHtml = [
 
         scope.openEdit = async function () {
           scope.text = {
-            content: scope.htmlDetail.val,
+            content: scope.ngModel,
           };
           scope.refModal = await ModuloModales.basic({
             urlTemplate: "/1/tutorials/tuto3/js/directives/dataHtmlModal.html",

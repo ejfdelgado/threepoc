@@ -10,9 +10,9 @@ import { dataText } from "./directives/dataText.mjs";
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
   .component("testComponent", TestComponent)
-  .directive("myImage", dataImage)
-  .directive("myHtml", dataHtml)
-  .directive("myText", dataText)
+  .directive("paistvEditorImage", dataImage)
+  .directive("paistvEditorHtml", dataHtml)
+  .directive("paistvEditorText", dataText)
   .filter("safeHtml", safeHTML)
   .config([
     "$stateProvider",

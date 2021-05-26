@@ -8,7 +8,8 @@ export class TestComponentClass {
   $onInit() {
     this.images = {
       image1: {
-        src: '/z/img/spacex.jpg'
+        src: '/z/img/spacex.jpg',
+        alt: "Space X"
       }
     };
     this.texts = {
@@ -33,7 +34,11 @@ export class TestComponentClass {
     //
   }
   async save() {
-    const markup = document.documentElement.innerHTML;
+    let markup = document.documentElement.innerHTML;
+    markup = markup.replace(/contenteditable=["'][^"']+["']/ig, '');
+    markup = markup.replace(/ng-model=["'][^"']+["']/ig, '');
+    markup = markup.replace(/paistv-editor-[^\s]+/ig, '');
+    // Borrar paistv-editor-*
     const actividad = ModuloActividad.on();
     const response = await ModuloArchivos.uploadFile({
       own: false,
@@ -41,7 +46,7 @@ export class TestComponentClass {
       data: markup
     });
     actividad.resolve();
-    console.log(response);
+    console.log(JSON.stringify(response, null, 4));
   }
 }
 

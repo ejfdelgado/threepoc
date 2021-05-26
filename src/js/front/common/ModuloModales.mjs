@@ -148,6 +148,7 @@ export class ModuloModales {
     });
     return {
       closeFunction: closeFunction,
+      elem: elem,
     };
   }
 }

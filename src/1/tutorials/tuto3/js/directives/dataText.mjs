@@ -7,6 +7,7 @@ export function dataText() {
       }
 
       ngModel.$render = function () {
+        $(element).attr("contenteditable", "true");
         element.html(ngModel.$viewValue || "");
       };
 

@@ -1,6 +1,6 @@
 <button ng-click="$ctrl.save()">Save!</button>
 <p>Remplaza esta imágen!</p>
-<h1 my-text contenteditable="true" ng-model="$ctrl.texts.text2.val"></h1>
-<p my-text contenteditable="true" ng-model="$ctrl.texts.text3.val"></p>
-<div my-html detail="$ctrl.texts.text1"></div>
-<div my-image detail="$ctrl.images.image1" path="'image1.jpg'"></div>
+<h1 paistv-editor-text ng-model="$ctrl.texts.text2.val"></h1>
+<p paistv-editor-text ng-model="$ctrl.texts.text3.val"></p>
+<div paistv-editor-html ng-model="$ctrl.texts.text1.val"></div>
+<img paistv-editor-image ng-model="$ctrl.images.image1" path="'image1.jpg'">
