@@ -2,6 +2,7 @@
 - Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
 - Evitar el llamado fallido cuando no hay usuario logeado.
 - Habilitar el bucket con CDN, ok
+- Que la directiva myImage sea capaz de mantener el tamaño de la imagen original.
 
 APPS:
 - Servicio de conteo de días hábiles en Colombia

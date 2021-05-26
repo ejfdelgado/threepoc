@@ -1,3 +1,6 @@
+import { ModuloArchivos } from "../../../../../js/common/ModuloArchivos.mjs";
+import { ModuloActividad } from "../../../../../js/front/common/ModuloActividad.mjs";
+
 export class TestComponentClass {
   constructor($scope) {
     this.$scope = $scope;
@@ -17,6 +20,17 @@ export class TestComponentClass {
   }
   $postLink() {
     //
+  }
+  async save() {
+    const markup = document.documentElement.innerHTML;
+    const actividad = ModuloActividad.on();
+    const response = await ModuloArchivos.uploadFile({
+      own: false,
+      path: "index.html",
+      data: markup
+    });
+    actividad.resolve();
+    console.log(response);
   }
 }
 
