@@ -47,6 +47,16 @@ export class MainHandler {
     const partesName2 = partesName[2];
     const extension = /\.(.*)$/.exec(partesName2);
     const files = [];
+    const TEMPLATED_PATHS = ["/1/tutorials/tuto3/"];
+    if (
+      recomputedUrl.pgid != null &&
+      TEMPLATED_PATHS.indexOf(ans.pathname) >= 0
+    ) {
+      ans.startWithBucket = true;
+      files.push(
+        `/usr/anonymous${localPath.pathname}pg/${recomputedUrl.pgid}/index.html`
+      );
+    }
     if (partesName1.length == 0 && partesName2.length == 0) {
       files.push("/index.html");
     } else if (partesName2.length == 0) {
@@ -188,13 +198,21 @@ export class MainHandler {
     if (returnedFile != null) {
       return returnedFile;
     }
+    if (localPath.startWithBucket) {
+      returnedFile = await MainHandler.resolveBucketFile(localPath);
+      if (returnedFile != null) {
+        return returnedFile;
+      }
+    }
     returnedFile = await MainHandler.resolveLocalFile(localPath, encoding);
     if (returnedFile == null) {
       returnedFile = await StorageHandler.checkIfRedirect(localPath);
       if (returnedFile != null) {
         return returnedFile;
       }
-      returnedFile = await MainHandler.resolveBucketFile(localPath);
+      if (!localPath.startWithBucket) {
+        returnedFile = await MainHandler.resolveBucketFile(localPath);
+      }
     }
     return returnedFile;
   }

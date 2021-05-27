@@ -10,10 +10,12 @@ export class Utilidades {
       path: localPath.path,
       href: localPath.href,
       hash: localPath.hash,
+      pgid: null,
     };
     const pgid = /\/pg(\d+)/i.exec(localPath.pathname);
     if (pgid != null) {
       const pgidn = pgid[1];
+      ans.pgid = pgidn;
       if (localPath.search == null) {
         ans.search = "?pg=" + pgidn;
       } else {
