@@ -19,6 +19,7 @@ export const dataImage = [
           countChanges: 0,
           orientation: "horizontal",
           alignment: "center",
+          transparency: 'false',
         };
 
         scope.lookForImage = async function () {
@@ -31,6 +32,7 @@ export const dataImage = [
                 const canvas = $(modalElement).find("canvas")[0];
                 const ctx = canvas.getContext("2d");
                 scope.currentImage = new Image();
+                scope.crossOrigin="anonymous";
                 scope.currentImage.onload = function () {
                   paintImageOnCanvas(ctx, canvas, scope.currentImage, true);
                   scope.data.countChanges++;
@@ -56,10 +58,16 @@ export const dataImage = [
           if (scope.data.countChanges > 0) {
             const modalElement = scope.refModal.elem;
             const canvas = $(modalElement).find("canvas")[0];
+            let localPath = scope.path;
+            if (scope.data.transparency == 'true') {
+              localPath+='.png';
+            } else {
+              localPath+='.jpg';
+            }
             const rta = await ModuloArchivos.uploadFile({
               own: false,
               //path: '${YYYY}${MM}${DD}-${HH}${mm}${ss}${zz}.jpg'
-              path: scope.path,
+              path: localPath,
               data: canvas,
             });
             ngModel.$viewValue.src = rta.pub;
@@ -73,8 +81,10 @@ export const dataImage = [
         const paintImageOnCanvas = function (ctx, canvas, img, computeBounds) {
           ctx.fillStyle = "white";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = "rgba(255, 255, 255, 0.0)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          if (scope.data.transparency == 'true') {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.0)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
           // Se debe calcular cómo pintar la imagen
           const proporcion = canvas.width / canvas.height;
           let imgw = img.width;
