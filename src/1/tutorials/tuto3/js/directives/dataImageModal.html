@@ -18,11 +18,35 @@
             <label class="col-form-label">Texto alternativo:</label>
             <input type="text" class="form-control" ng-model="content.alt">
           </div>
-          <div class="form-group">
-            <figure class="figure">
+          <div class="form-group text-center">
+            <figure class="figure" style="position:relative;">
               <canvas width="100" height="100" class="figure-img img-fluid rounded"></canvas>
-              <button type="button" class="btn btn-secondary" ng-click="lookForImage()">Cargar imagen</button>
+              <button type="button" class="btn btn-secondary" ng-click="lookForImage()" style="position: absolute;bottom: 21px;right: 9px;">Editar</button>
             </figure>
+          </div>
+          <div class="form-group" ng-if="data.countChanges > 0">
+            <div class="form-check form-check-inline">
+              <input ng-model="data.orientation" class="form-check-input" type="radio" ng-change="updateImageBounds()" name="data-image-orientation" value="horizontal">
+              <label class="form-check-label">horizontal</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input ng-model="data.orientation" class="form-check-input" type="radio" ng-change="updateImageBounds()" name="data-image-orientation" value="vertical">
+              <label class="form-check-label">vertical</label>
+            </div>
+          </div>
+          <div class="form-group" ng-if="data.countChanges > 0">
+            <div class="form-check form-check-inline">
+              <input ng-model="data.alignment" class="form-check-input" type="radio" ng-change="updateImageBounds()" name="data-image-alignment" value="minus">
+              <label class="form-check-label">izquierda/abajo</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input ng-model="data.alignment" class="form-check-input" type="radio" ng-change="updateImageBounds()" name="data-image-alignment" value="center">
+              <label class="form-check-label">centrado</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input ng-model="data.alignment" class="form-check-input" type="radio" ng-change="updateImageBounds()" name="data-image-alignment" value="major">
+              <label class="form-check-label">derecha/arriba</label>
+            </div>
           </div>
         </form>
       </div>

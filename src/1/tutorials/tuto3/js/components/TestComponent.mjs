@@ -6,22 +6,9 @@ export class TestComponentClass {
     this.$scope = $scope;
   }
   $onInit() {
-    this.images = {
-      image1: {
-        src: '/z/img/spacex.jpg',
-        alt: "Space X"
-      }
-    };
-    this.texts = {
-      text1: {
-        val: '<p><b>Hoy</b> es un día nuevo</p>'
-      },
-      text2: {
-        val: 'Mi título'
-      },
-      text3: {
-        val: 'Mi contenido'
-      }
+    this.content = {
+      images: {},
+      texts: {},
     };
   }
   $onChanges(changesObj) {
@@ -35,15 +22,15 @@ export class TestComponentClass {
   }
   async save() {
     let markup = document.documentElement.innerHTML;
-    markup = markup.replace(/contenteditable=["'][^"']+["']/ig, '');
-    markup = markup.replace(/ng-model=["'][^"']+["']/ig, '');
-    markup = markup.replace(/paistv-editor-[^\s]+/ig, '');
+    markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
+    markup = markup.replace(/ng-model=["'][^"']+["']/gi, "");
+    markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
     // Borrar paistv-editor-*
     const actividad = ModuloActividad.on();
     const response = await ModuloArchivos.uploadFile({
       own: false,
       path: "index.html",
-      data: markup
+      data: markup,
     });
     actividad.resolve();
     console.log(JSON.stringify(response, null, 4));

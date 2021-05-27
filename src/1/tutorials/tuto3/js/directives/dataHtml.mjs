@@ -9,8 +9,9 @@ export const dataHtml = [
         ngModel: "=",
       },
       template:
-        '<div ng-bind-html="ngModel | safeHtml" ng-click="openEdit()"></div>',
+        '<div ng-bind-html="ngModel ? ngModel : predef | safeHtml" ng-click="openEdit()"></div>',
       link: function link(scope, element, attrs) {
+        scope.predef = $(element).attr("default");
         scope.save = function () {
           scope.ngModel = scope.text.content;
           scope.refModal.closeFunction();
@@ -24,7 +25,7 @@ export const dataHtml = [
 
         scope.openEdit = async function () {
           scope.text = {
-            content: scope.ngModel,
+            content: scope.ngModel ? scope.ngModel : scope.predef,
           };
           scope.refModal = await ModuloModales.basic({
             urlTemplate: "/1/tutorials/tuto3/js/directives/dataHtmlModal.html",

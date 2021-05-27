@@ -1,8 +1,18 @@
 
+- Habilitar el bucket con CDN (ok)
+- Que la directiva myImage sea capaz de alinear y hacer fit de la imagen nueva
+- Permitir que la directiva myImage pueda subir y bajar svg's.
+- Cuando se guarda el render solo se deben quitar las directivas de edición, no las de ng-model.
+- Colocar una marca a las librerías que se deben generar en gulp cuando se ve el renderizado.
+- Permitir leer el html guardado con el renderizado, siempre desde el bucket
+- Agregar directiva que permita editar la imagen de fondo con todos sus atributos
+- Permitir hacer shift+ctrl+c, shift+ctrl+v
+- Hacer una directiva para editar un modelo 3d.
+- Hacer una directiva para cargar archivos de sonido.
+
 - Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
 - Evitar el llamado fallido cuando no hay usuario logeado.
-- Habilitar el bucket con CDN, ok
-- Que la directiva myImage sea capaz de mantener el tamaño de la imagen original.
+- Cache...
 - Incluir permisos en la edición de la página.
 - Incluir la edición de la imágen de la página, que sea pública.
 - Permitir hacer la edición de permisos de usuarios en tupla para página
@@ -12,13 +22,12 @@ Lectura de estáticos
 - Permitir generar llave que identifica la página de forma única, por usuario.
 - Permitir guardar los datos de la página con el identificador único por usuario.
 - Remplazo de html de el título, imágen, descripción, etc.
-- Cache...
 
 APPS:
+- Hacer un simple page editor (wip)
 - Servicio de conteo de días hábiles en Colombia
 - Servicio de firmar archivos pdf con clave y firma digital
 - Conversor de html a pdf para hoja de vida
 - Chat
-- Hacer un simple page editor
 - Hacer una tarjeta virtual con formularios
 - Hacer un editor de cartas con firma.
