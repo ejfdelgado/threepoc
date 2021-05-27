@@ -29,6 +29,10 @@ export class MainHandlerReplace {
     let type = 'type="text/javascript"';
     let suffix = ".min.js";
     let prefix = "index";
+    const partesPubHtml = /^public\/usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+\/index.html$/i.exec(
+      rta.metadata.fullPath
+    );
+    const isPubHtml = partesPubHtml != null;
     if (isDebug) {
       type = 'type="module"';
       suffix = ".mjs";
@@ -36,11 +40,19 @@ export class MainHandlerReplace {
     if (isSlave) {
       prefix = "index-slave";
     }
-    const PATRON = /<script\s+(.*)src=".\/js\/(index.min.js)"\s*><\/script>/i;
+    if (isPubHtml) {
+      prefix = "index-public";
+    }
+    const PATRON = /<script\s+(.*)src=".\/js\/(index\.(min\.js|mjs))"\s*><\/script>/i;
     let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
+    const PATRON_LIBS = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
+    rta.data = rta.data.replace(PATRON_LIBS, function (a) {
+      if (!isDebug) {
+        return "";
+      }
+      return a;
+    });
     if (!isDebug) {
-      const PATRON_LIBS = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
-      rta.data = rta.data.replace(PATRON_LIBS, "");
       nuevo = `<script src="./js/dependencies.min.js"></script>\n        ${nuevo}`;
     }
     rta.data = rta.data.replace(PATRON, nuevo);
@@ -135,7 +147,6 @@ export class MainHandlerReplace {
           rta.data = rta.data.replace(remplazo.old, remplazo.new);
         }
       }
-      //MainHandlerReplace.replaceMasterSlave(rta, isSlave);
       MainHandlerReplace.replaceMainScript(rta, isSlave, isDebug);
     }
     return rta;

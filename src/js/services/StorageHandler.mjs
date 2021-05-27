@@ -78,7 +78,7 @@ export class StorageHandler {
     const file = bucket.file(filePath);
     const metadataPromise = file.getMetadata();
     let contentPromise;
-    if (type == "text") {
+    if (type == "text" || /\/index\.html$/i.exec(filePathOriginal) != null) {
       contentPromise = StorageHandler.readString(filePath, encoding);
     } else {
       contentPromise = StorageHandler.readBinary(filePath);
