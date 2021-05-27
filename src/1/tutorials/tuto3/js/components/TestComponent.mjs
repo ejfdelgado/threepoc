@@ -23,7 +23,6 @@ export class TestComponentClass {
   async save() {
     let markup = document.documentElement.innerHTML;
     markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
-    markup = markup.replace(/ng-model=["'][^"']+["']/gi, "");
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
     // Borrar paistv-editor-*
     const actividad = ModuloActividad.on();

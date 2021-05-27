@@ -33,6 +33,7 @@ export class MainHandlerReplace {
       rta.metadata.fullPath
     );
     const isPubHtml = partesPubHtml != null;
+    let subDomain = null;
     if (isDebug) {
       type = 'type="module"';
       suffix = ".mjs";
@@ -42,16 +43,42 @@ export class MainHandlerReplace {
     }
     if (isPubHtml) {
       prefix = "index-public";
+      subDomain = "public_html";
     }
-    const PATRON = /<script\s+(.*)src=".\/js\/(index\.(min\.js|mjs))"\s*><\/script>/i;
+    const PATRON = /<script\s+(.*)src=["'].\/js\/(index\.(min\.js|mjs))["']\s*><\/script>/i;
     let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
-    const PATRON_LIBS = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
-    rta.data = rta.data.replace(PATRON_LIBS, function (a) {
-      if (!isDebug) {
-        return "";
+    const PATRON_LIBS = /<script\s+(.*)src=["']\/node_modules\/([^"']+)["']\s*>\s*<\/script>/gi;
+    const PATRON_CSS = /<link.*type=["']text\/css["'][^>]*>/gi;
+    const funcionRemplazo = function (a, preserveByDefault) {
+      if (isDebug) {
+        if (isPubHtml) {
+          const partesSubDomain = new RegExp(
+            `sub-domain=['"].*${subDomain}.*['"]`
+          ).exec(a);
+          if (partesSubDomain != null) {
+            return a;
+          } else {
+            return "";
+          }
+        } else {
+          return a;
+        }
+      } else {
+        if (preserveByDefault) {
+          return a;
+        } else {
+          return "";
+        }
       }
-      return a;
-    });
+    };
+    const funcionRemplazoPreserve = function (a) {
+      return funcionRemplazo(a, true);
+    };
+    const funcionRemplazoNoPreserve = function (a) {
+      return funcionRemplazo(a, false);
+    };
+    rta.data = rta.data.replace(PATRON_LIBS, funcionRemplazoNoPreserve);
+    rta.data = rta.data.replace(PATRON_CSS, funcionRemplazoPreserve);
     if (!isDebug) {
       nuevo = `<script src="./js/dependencies.min.js"></script>\n        ${nuevo}`;
     }
