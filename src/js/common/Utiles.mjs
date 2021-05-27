@@ -1,4 +1,5 @@
 import { Constants } from "./Constants.mjs";
+import { Utilidades } from "./Utilidades.mjs";
 
 export class Utiles {
   static LISTA_NEGRA_TOKENS = [
@@ -36,14 +37,26 @@ export class Utiles {
    * Rotarna el path de modo: "https://paistv.appspot.com/1/scan3d?algo=5"
    */
   static getReferer() {
-    const pathNameFromBase = document.baseURI.replace(location.origin, "");
-    const pathNameFromLocation = location.pathname;
+    const LOCATION_WITHOUT_PAGE = Utilidades.recomputeUrl(location);
+    const pathNameFromBase = document.baseURI.replace(
+      LOCATION_WITHOUT_PAGE.origin,
+      ""
+    );
+    const pathNameFromLocation = LOCATION_WITHOUT_PAGE.pathname;
     if (pathNameFromLocation.length > pathNameFromBase.length) {
       return (
-        location.origin + pathNameFromLocation + location.search + location.hash
+        LOCATION_WITHOUT_PAGE.origin +
+        pathNameFromLocation +
+        LOCATION_WITHOUT_PAGE.search +
+        LOCATION_WITHOUT_PAGE.hash
       );
     }
-    return location.origin + pathNameFromBase + location.search + location.hash;
+    return (
+      LOCATION_WITHOUT_PAGE.origin +
+      pathNameFromBase +
+      LOCATION_WITHOUT_PAGE.search +
+      LOCATION_WITHOUT_PAGE.hash
+    );
   }
 
   static htmlEntities(str) {

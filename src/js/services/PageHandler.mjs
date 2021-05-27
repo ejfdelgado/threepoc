@@ -91,16 +91,21 @@ export class PageHandler {
     return temp;
   }
   static getQueryParamPg(request, fromReferer) {
+    let refererPgId = null;
+    const urlTotal = Utilidades.leerHeader(request, [
+      "Referer",
+      "HTTP_REFERER",
+    ]);
+    const partes = /pg=(\d+)/.exec(urlTotal);
+    if (partes != null) {
+      refererPgId = partes[1];
+    }
     if (fromReferer) {
-      const urlTotal = Utilidades.leerHeader(request, [
-        "Referer",
-        "HTTP_REFERER",
-      ]);
-      const partes = /pg=(\d+)/.exec(urlTotal);
-      if (partes != null) {
-        return partes[1];
-      }
+      return refererPgId;
     } else {
+      if (refererPgId != null) {
+        return refererPgId;
+      }
       return request.query.pg;
     }
   }

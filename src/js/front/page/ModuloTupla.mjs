@@ -7,6 +7,7 @@ import { ModuloActividad } from "../common/ModuloActividad.mjs";
 
 export class ModuloTupla {
   static moduloTransformacion = ModuloTransformacion.modo("simple");
+  static LOCATION_WITHOUT_PAGE = Utilidades.recomputeUrl(location);
 
   constructor(opciones = {}) {
     this.diferidoLectura = null;
@@ -79,7 +80,9 @@ export class ModuloTupla {
         if (next != null) {
           queryParams["next"] = next;
         }
-        const someurl = new URL(`${location.origin}/api/tup/all/`);
+        const someurl = new URL(
+          `${ModuloTupla.LOCATION_WITHOUT_PAGE.origin}/api/tup/all/`
+        );
         someurl.search = Utilidades.generateQueryParams(queryParams);
         const rta = await fetch(someurl, { method: "GET" }).then((res) =>
           res.json()
@@ -235,7 +238,9 @@ export class ModuloTupla {
         if (lpatrones instanceof Array) {
           subdatos["patr"] = lpatrones;
         }
-        const url = new URL(`${location.origin}/api/tup/${idPagina}${dominio}`);
+        const url = new URL(
+          `${ModuloTupla.LOCATION_WITHOUT_PAGE.origin}/api/tup/${idPagina}${dominio}`
+        );
         await fetch(url, {
           method: "POST",
           body: JSON.stringify(subdatos),
@@ -267,7 +272,9 @@ export class ModuloTupla {
         //Hace invocacion a servicio
         //console.log('invocando servicio - con', JSON.stringify(subgrupo));
         var payloadLocal = { dat: subgrupo, acc: "-" };
-        const url = new URL(`${location.origin}/api/tup/${idPagina}${dominio}`);
+        const url = new URL(
+          `${ModuloTupla.LOCATION_WITHOUT_PAGE.origin}/api/tup/${idPagina}${dominio}`
+        );
         await fetch(url, {
           method: "POST",
           body: JSON.stringify(payloadLocal),

@@ -1,11 +1,11 @@
 
 - Habilitar el bucket con CDN (ok)
-- Que la directiva myImage sea capaz de alinear y hacer fit de la imagen nueva
+- Que la directiva myImage sea capaz de alinear y hacer fit de la imagen nueva (ok)
 - Permitir que la directiva myImage pueda subir y bajar svg's.
 - Cuando se guarda el render solo se deben quitar las directivas de edición, no las de ng-model.
 - Colocar una marca a las librerías que se deben generar en gulp cuando se ve el renderizado.
-- Permitir leer el html guardado con el renderizado, siempre desde el bucket
-- Agregar directiva que permita editar la imagen de fondo con todos sus atributos
+- Permitir leer el html guardado con el renderizado, siempre desde el bucket, usando /p234324/ al final del path en vez de ?p=123
+- Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
 - Permitir hacer shift+ctrl+c, shift+ctrl+v
 - Hacer una directiva para editar un modelo 3d.
 - Hacer una directiva para cargar archivos de sonido.

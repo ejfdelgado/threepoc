@@ -17,6 +17,12 @@ const HOMOLOGATION_FILES = {
 export class MainHandler {
   static ROOT_FOLDER = path.resolve() + "/src";
   static decodeUrl(localPath) {
+    const recomputedUrl = Utilidades.recomputeUrl(localPath);
+    localPath.search = recomputedUrl.search;
+    localPath.query = recomputedUrl.query;
+    localPath.pathname = recomputedUrl.pathname;
+    localPath.path = recomputedUrl.path;
+    localPath.href = recomputedUrl.href;
     //Leo los parámetros
     const ans = {
       params: {},
@@ -197,14 +203,14 @@ export class MainHandler {
     const originalUrl = req.getUrl();
     const theUrl = url.parse(originalUrl);
     const localPath = MainHandler.decodeUrl(theUrl);
-    localPath.originalUrl = originalUrl;
+    // localPath.originalUrl = originalUrl;
     const encoding = req.query.encoding;
     let firstPromise = MainHandler.resolveFile(localPath, encoding);
     firstPromise.catch((err) => {
       next(err);
     });
     firstPromise = firstPromise.then((rta) =>
-      MainHandlerReplace.replaceTokens(rta, originalUrl)
+      MainHandlerReplace.replaceTokens(rta, originalUrl, localPath.pathname)
     );
     StorageHandler.makeResponse(req, res, localPath, firstPromise, next);
   }

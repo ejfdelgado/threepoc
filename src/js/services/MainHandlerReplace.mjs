@@ -45,7 +45,7 @@ export class MainHandlerReplace {
     }
     rta.data = rta.data.replace(PATRON, nuevo);
   }
-  static async replaceTokens(readPromise, originalUrl) {
+  static async replaceTokens(readPromise, originalUrl, path) {
     const partesIdPage = /[?].*(pg=)([\d]+)/.exec(originalUrl);
     const partesSlave = /[?].*(sl=si)/.exec(originalUrl);
     const partesDubug = /[?].*debug=(\d+|si)/.exec(originalUrl);
@@ -72,6 +72,10 @@ export class MainHandlerReplace {
     }
 
     const REMPLAZOS = [
+      {
+        old: /<base[^>]*><\/base>/,
+        new: `<base href="${path}"></base>`,
+      },
       {
         old: /<base[^>]*><\/base>/,
         new: `<base href="${Constants.ROOT_FOLDER}/"></base>`,

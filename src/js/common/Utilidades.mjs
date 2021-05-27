@@ -1,6 +1,37 @@
 import { Constants } from "./Constants.mjs";
 
 export class Utilidades {
+  static recomputeUrl(localPath) {
+    const ans = {
+      origin: localPath.origin,
+      search: localPath.search,
+      query: localPath.query,
+      pathname: localPath.pathname,
+      path: localPath.path,
+      href: localPath.href,
+      hash: localPath.hash,
+    };
+    const pgid = /\/pg(\d+)/i.exec(localPath.pathname);
+    if (pgid != null) {
+      const pgidn = pgid[1];
+      if (localPath.search == null) {
+        ans.search = "?pg=" + pgidn;
+      } else {
+        ans.search = localPath.search + "&pg=" + pgidn;
+      }
+      if (localPath.query == null) {
+        ans.query = "pg=" + pgidn;
+      } else {
+        ans.query = localPath.query + "&pg=" + pgidn;
+      }
+      const remplazo = new RegExp(`/pg${pgidn}`, "i");
+      ans.pathname = localPath.pathname.replace(remplazo, "");
+      ans.path = localPath.pathname + localPath.search;
+      ans.href =
+        localPath.protocol + "//" + localPath.hostname + localPath.path;
+    }
+    return ans;
+  }
   static isSlave() {
     return /(sl=si)/.exec(location.search) != null;
   }

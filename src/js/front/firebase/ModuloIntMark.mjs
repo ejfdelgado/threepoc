@@ -12,6 +12,7 @@ export class ModuloIntMark {
   static diferidoDb = new Deferred();
   static diferidoDbDone = false;
   static LLAVE_LOCAL_STORAGE = MD5(Utiles.getReferer());
+  static LOCATION_WITHOUT_PAGE = Utilidades.recomputeUrl(location);
   static opciones = {
     masterLoged: true,
     slaveLoged: false,
@@ -36,20 +37,20 @@ export class ModuloIntMark {
       let shortSlaveUrl = null;
 
       if (ctx != undefined) {
-        slaveUrl = location.origin + location.pathname;
+        slaveUrl =
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.origin +
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.pathname;
         if (
-          typeof location.search == "string" &&
-          location.search.trim().length > 0
+          typeof ModuloIntMark.LOCATION_WITHOUT_PAGE.search == "string" &&
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.search.trim().length > 0
         ) {
           slaveUrl +=
-            location.search.replace(/(^\?|&)(pg=\d+)($|&)/, function (
-              a,
-              b,
-              c,
-              d
-            ) {
-              return b + d;
-            }) +
+            ModuloIntMark.LOCATION_WITHOUT_PAGE.search.replace(
+              /(^\?|&)(pg=\d+)($|&)/,
+              function (a, b, c, d) {
+                return b + d;
+              }
+            ) +
             "&" +
             Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
           slaveUrl = slaveUrl.replace(/\?&/g, "?");
@@ -58,7 +59,7 @@ export class ModuloIntMark {
           slaveUrl +=
             "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
         }
-        const url = new URL(`${location.origin}/a/`);
+        const url = new URL(`${ModuloIntMark.LOCATION_WITHOUT_PAGE.origin}/a/`);
         const respuesta = await fetch(url, {
           method: "POST",
           body: JSON.stringify({
@@ -67,7 +68,8 @@ export class ModuloIntMark {
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json());
 
-        shortSlaveUrl = location.origin + "/a/" + respuesta["id"];
+        shortSlaveUrl =
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.origin + "/a/" + respuesta["id"];
       }
 
       if (ModuloIntMark.opciones.useFirebase) {
@@ -75,7 +77,7 @@ export class ModuloIntMark {
           ModuloIntMark.RAIZ +
           "/" +
           principal.uid +
-          location.pathname +
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.pathname +
           "/" +
           ctx["id"]; //ruta dentro de firebase
         const crearMasterCtx = function () {
@@ -122,7 +124,7 @@ export class ModuloIntMark {
           ModuloIntMark.RAIZ +
           "/" +
           ctx["usr"] +
-          location.pathname.replace(/[/]$/, "") +
+          ModuloIntMark.LOCATION_WITHOUT_PAGE.pathname.replace(/[/]$/, "") +
           "/" +
           ctx["id"];
 
@@ -178,7 +180,9 @@ export class ModuloIntMark {
 
   static async computeDiferidoDb() {
     await MiSeguridad.inicializar();
-    const urlParam = Utilidades.getQueryParams(location.href);
+    const urlParam = Utilidades.getQueryParams(
+      ModuloIntMark.LOCATION_WITHOUT_PAGE.href
+    );
     const unknownPage = [null, "", undefined].indexOf(urlParam["pg"]) >= 0;
     const isSlave = urlParam["sl"] == "si";
     const isMaster = !isSlave;

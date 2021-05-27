@@ -13,6 +13,7 @@ SecurityInterceptor.register();
 export class ModuloPagina {
   static diferidoLectura = new Deferred();
   static diferidoLecturaDone = false;
+  static LOCATION_WITHOUT_PAGE = Utilidades.recomputeUrl(location);
   static getCurrentPageValues() {
     return {
       tit: $('[name="og:title"]').attr("content"),
@@ -35,8 +36,12 @@ export class ModuloPagina {
   static async createNewPage(opciones = {}) {
     opciones.add = "1";
     const rta = await ModuloPagina.leerInterno(opciones);
-    let url = location.origin + location.pathname;
-    const params = Utilidades.getQueryParams(location.href);
+    let url =
+      ModuloPagina.LOCATION_WITHOUT_PAGE.origin +
+      ModuloPagina.LOCATION_WITHOUT_PAGE.pathname;
+    const params = Utilidades.getQueryParams(
+      ModuloPagina.LOCATION_WITHOUT_PAGE.href
+    );
     params.pg = rta.valor.id;
     url += "?" + Utilidades.generateQueryParams(params);
     rta.url = url;
@@ -59,7 +64,9 @@ export class ModuloPagina {
       kw: opciones.kw,
       add: opciones.add,
     };
-    const url = new URL(`${location.origin}/api/xpage/`);
+    const url = new URL(
+      `${ModuloPagina.LOCATION_WITHOUT_PAGE.origin}/api/xpage/`
+    );
     url.search = Utilidades.generateQueryParams(queryParams);
     const rta = await fetch(url, { method: "GET" }).then((res) => res.json());
     ModuloPagina.setCurrentValues(rta.valor);
@@ -74,7 +81,9 @@ export class ModuloPagina {
     return ModuloPagina.diferidoLectura.promise;
   }
   static async guardar(modelo) {
-    const url = new URL(`${location.origin}/api/xpage/`);
+    const url = new URL(
+      `${ModuloPagina.LOCATION_WITHOUT_PAGE.origin}/api/xpage/`
+    );
     url.search = Utilidades.generateQueryParams({ pg: modelo.id });
     await fetch(url, {
       method: "PUT",
@@ -123,7 +132,9 @@ export class ModuloPagina {
       },
       opciones
     );
-    const url = new URL(`${location.origin}/api/xpage/q/`);
+    const url = new URL(
+      `${ModuloPagina.LOCATION_WITHOUT_PAGE.origin}/api/xpage/q/`
+    );
     url.search = Utilidades.generateQueryParams(opciones);
     return await fetch(url, {
       method: "GET",
@@ -217,7 +228,7 @@ export class ModuloPagina {
               nuevo.find(".card-text").html(page.desc);
               nuevo.find(".open_page").on("click", function () {
                 window.open(
-                  `${location.origin}${page.path}?pg=${page.id}`,
+                  `${ModuloPagina.LOCATION_WITHOUT_PAGE.origin}${page.path}?pg=${page.id}`,
                   "_blank"
                 );
               });
