@@ -7,7 +7,9 @@
 - Actualizar gulp.js para que genere los scripts para modo template html y ajustar el modo NO debug. (ok)
 - Permitir reutilizar el index.min.js y el index.mjs de un path en otro path. (ok)
 - Hacer guardado de las tuplas (ok)
+- Evitar el llamado fallido cuando no hay usuario logeado. (ok)
 
+- Leer variables de entorno: https://cloud.google.com/appengine/docs/standard/nodejs/runtime
 - Organizar el menú superior:
     - Permitir editar página
     - Colocar botón guardar
@@ -19,17 +21,16 @@
 - Hacer una directiva para cargar archivos de sonido.
 
 - Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
-- Evitar el llamado fallido cuando no hay usuario logeado.
 - Cache...
 - Incluir permisos en la edición de la página.
 - Incluir la edición de la imágen de la página, que sea pública.
 - Permitir hacer la edición de permisos de usuarios en tupla para página
 - Integrar el OCR con el upload.
-- Ingerar speech to text con el upload.
+- Integrar speech to text con el upload.
 Lectura de estáticos
 - Permitir generar llave que identifica la página de forma única, por usuario.
 - Permitir guardar los datos de la página con el identificador único por usuario.
-- Remplazo de html de el título, imágen, descripción, etc.
+- Remplazo de html del título, imágen, descripción, etc.
 
 APPS:
 - Hacer un simple page editor (wip)

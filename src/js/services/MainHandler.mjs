@@ -11,7 +11,7 @@ import { Utilidades } from "../common/Utilidades.mjs";
 const router = express.Router();
 
 export class MainHandler {
-  static ROOT_FOLDER = path.resolve() + "/src";
+  static LOCAL_FOLDER = path.resolve() + "/src";
   static decodeUrl(localPath) {
     const recomputedUrl = Utilidades.recomputeUrl(localPath);
     localPath.search = recomputedUrl.search;
@@ -86,7 +86,7 @@ export class MainHandler {
    */
   static async resolveLocalFileSingle(filename, encoding) {
     return new Promise((resolve, reject) => {
-      const somePath = path.join(MainHandler.ROOT_FOLDER, filename);
+      const somePath = path.join(MainHandler.LOCAL_FOLDER, filename);
 
       fs.access(somePath, (err) => {
         if (err) {
@@ -128,7 +128,7 @@ export class MainHandler {
     const parte1 = localPath.match(/([^/]+)$/);
     if (parte1 != null && parte1[1].indexOf(".") < 0) {
       const somePath = path.join(
-        MainHandler.ROOT_FOLDER,
+        MainHandler.LOCAL_FOLDER,
         localPath + "/index.html"
       );
       if (fs.existsSync(somePath)) {

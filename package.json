@@ -6,7 +6,6 @@
     "build_tuto1": "gulp bundle --poc tutorials/tuto1 --pretty yes",
     "build_tuto2": "gulp bundle --poc tutorials/tuto2 --pretty yes",
     "build_html_base": "gulp bundle --poc html/base --pretty yes",
-    "build_html_base_public": "gulp bundle_public --poc html/base --pretty yes",
     "build_html_simple_public": "gulp bundle_public --poc html/simple --pretty yes",
     "build_threehistory": "gulp bundle --poc threehistory --pretty yes",
     "build_angular": "gulp bundle --poc angular --pretty yes",

@@ -82,17 +82,16 @@ export class HtmlEditorComponentClass {
     });
     const partesId = /(\d+)\/index\.html/.exec(response.key);
     const pgid = partesId[1];
-    const pubUrl = location.href.replace(
-      location.pathname,
-      `${location.pathname}pg${pgid}/`
-    );
+    const pubUrl = `${location.origin}${location.pathname}pg${pgid}/`;
     response.pubUrl = pubUrl;
     console.log(JSON.stringify(response, null, 4));
     actividad.resolve();
   }
 }
 
-let RECOMPUTED_PATH = Utilidades.recomputeUrl(location);
+let RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $('base').attr('href'));
+
+console.log(RECOMPUTED_PATH);
 
 export const HtmlEditorComponent = {
   bindings: {

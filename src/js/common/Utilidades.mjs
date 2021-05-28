@@ -1,7 +1,7 @@
 import { Constants } from "./Constants.mjs";
 
 export class Utilidades {
-  static recomputeUrl(localPath) {
+  static recomputeUrl(localPath, pathname = null) {
     const ans = {
       origin: localPath.origin,
       search: localPath.search,
@@ -12,6 +12,9 @@ export class Utilidades {
       hash: localPath.hash,
       pgid: null,
     };
+    if (pathname != null) {
+      ans.pathname = pathname;
+    }
     const pgid = /\/pg(\d+)/i.exec(localPath.pathname);
     if (pgid != null) {
       const pgidn = pgid[1];
@@ -27,8 +30,9 @@ export class Utilidades {
         ans.query = localPath.query + "&pg=" + pgidn;
       }
       const remplazo = new RegExp(`/pg${pgidn}`, "i");
-      ans.pathname = localPath.pathname.replace(remplazo, "");
-      ans.path = localPath.pathname + localPath.search;
+      const old_pathname = ans.pathname;
+      ans.pathname = old_pathname.replace(remplazo, "");
+      ans.path = old_pathname + localPath.search;
       ans.href =
         localPath.protocol + "//" + localPath.hostname + localPath.path;
     }
