@@ -23,6 +23,9 @@ export class ModuloPagina {
     };
   }
   static setCurrentValues(values) {
+    if ([undefined, null].indexOf(values) >= 0) {
+      return;
+    }
     $("title").text(values.tit);
     $('[name="og:title"]').attr("content", values.tit);
     $('[name="og:description"]').attr("content", values.desc);
@@ -54,7 +57,10 @@ export class ModuloPagina {
     Object.assign(opciones, ModuloPagina.getCurrentPageValues());
     Object.assign(opciones, opcionesUsr);
     console.log(JSON.stringify(opciones));
-    await MiSeguridad.buscarUsuario(opciones["logged"]);
+    const datosUsuario = await MiSeguridad.buscarUsuario(opciones["logged"]);
+    if ([undefined, null].indexOf(datosUsuario) >= 0) {
+      throw new Error("No hay usuario logeado");
+    }
     const params = Utilidades.getQueryParams();
     const queryParams = {
       pg: params.pg,

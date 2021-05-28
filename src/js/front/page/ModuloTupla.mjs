@@ -61,6 +61,10 @@ export class ModuloTupla {
     if (this.diferidoLectura == null) {
       this.diferidoLectura = new Deferred();
       const respuestaPagina = await ModuloPagina.leer();
+      if ([undefined, null].indexOf(respuestaPagina.valor) >= 0) {
+        this.diferidoLectura.reject(new Error("No hay página"));
+        return this.diferidoLectura.promise;
+      }
       const idPagina = respuestaPagina.valor.id;
       const todo = {};
       let next = null;

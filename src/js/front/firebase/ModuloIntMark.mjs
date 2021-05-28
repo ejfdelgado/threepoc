@@ -190,10 +190,16 @@ export class ModuloIntMark {
       ((isMaster || unknownPage) && ModuloIntMark.opciones["masterLoged"]) ||
       ((isSlave || unknownPage) && ModuloIntMark.opciones["slaveLoged"]);
     const principal = await MiSeguridad.buscarUsuario(forzarUsuario);
-    const contextoPagina = await ModuloPagina.leer(
-      ModuloIntMark.opciones.sincronizar
-    );
-    const lecturaBasica = contextoPagina.valor;
+    let contextoPagina = null;
+    let lecturaBasica = null;
+    try {
+      contextoPagina = await ModuloPagina.leer(
+        ModuloIntMark.opciones.sincronizar
+      );
+      lecturaBasica = contextoPagina.valor;
+    } catch (e) {
+      lecturaBasica = {};
+    }
 
     const hayUsuario = [null, undefined].indexOf(principal) < 0;
 
