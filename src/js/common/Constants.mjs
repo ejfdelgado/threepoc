@@ -24,6 +24,9 @@ export class Constants {
   static SEARCH_PAGE_MIN_TOKEN = 3;
   static HTML_404 = "/z/html/404.html";
   static getSavedTemplateUrl(pathname, pgid) {
+    if (pathname.trim() == "/") {
+      pathname = Constants.ROOT_FOLDER + "/";
+    }
     return `/usr/anonymous${pathname}pg/${pgid}/index.html`;
   }
   static getSavedTemplateRegexp() {
