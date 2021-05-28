@@ -1,7 +1,8 @@
-import { ModuloArchivos } from "../../../../../js/common/ModuloArchivos.mjs";
-import { ModuloActividad } from "../../../../../js/front/common/ModuloActividad.mjs";
+import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
+import { ModuloActividad } from "../../common/ModuloActividad.mjs";
+import { Utilidades } from "../../../common/Utilidades.mjs";
 
-export class TestComponentClass {
+export class HtmlEditorComponentClass {
   constructor($scope) {
     this.$scope = $scope;
   }
@@ -36,15 +37,24 @@ export class TestComponentClass {
       path: "index.html",
       data: markup,
     });
-    actividad.resolve();
+    const partesId = /(\d+)\/index\.html/.exec(response.key);
+    const pgid = partesId[1];
+    const pubUrl = location.href.replace(
+      location.pathname,
+      `${location.pathname}pg${pgid}/`
+    );
+    response.pubUrl = pubUrl;
     console.log(JSON.stringify(response, null, 4));
+    actividad.resolve();
   }
 }
 
-export const TestComponent = {
+let RECOMPUTED_PATH = Utilidades.recomputeUrl(location);
+
+export const HtmlEditorComponent = {
   bindings: {
     page: "<",
   },
-  templateUrl: "/1/tutorials/tuto3/js/components/TestComponent.html",
-  controller: TestComponentClass,
+  templateUrl: `${RECOMPUTED_PATH.pathname}html/index.html`,
+  controller: HtmlEditorComponentClass,
 };

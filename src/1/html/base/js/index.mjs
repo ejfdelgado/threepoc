@@ -1,15 +1,15 @@
-import { TestComponent } from "./components/TestComponent.mjs";
 import { ModuloIntMark } from "../../../../js/front/firebase/ModuloIntMark.mjs";
 import { ModuloPagina } from "../../../../js/front/page/ModuloPagina.mjs";
 import { ModuloQR } from "../../../../js/front/firebase/ModuloQR.mjs";
-import { dataImage } from "./directives/dataImage.mjs";
-import { dataHtml } from "./directives/dataHtml.mjs";
-import { safeHTML } from "./filters/safeHtml.mjs";
-import { dataText } from "./directives/dataText.mjs";
+import { dataImage } from "../../../../js/front/angular/directives/dataImage.mjs";
+import { dataHtml } from "../../../../js/front/angular/directives/dataHtml.mjs";
+import { dataText } from "../../../../js/front/angular/directives/dataText.mjs";
+import { safeHTML } from "../../../../js/front/angular/filters/safeHtml.mjs";
+import { HtmlEditorComponent } from "../../../../js/front/angular/components/HtmlEditorComponent.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
-  .component("testComponent", TestComponent)
+  .component("htmlEditorComponent", HtmlEditorComponent)
   .directive("paistvEditorImage", dataImage)
   .directive("paistvEditorHtml", dataHtml)
   .directive("paistvEditorText", dataText)
@@ -20,7 +20,7 @@ export const Tuto3Module = angular
     ($stateProvider, $urlRouterProvider) => {
       $stateProvider.state("/", {
         url: "/",
-        component: "testComponent",
+        component: "htmlEditorComponent",
         bindings: { page: "page" },
         resolve: {
           page: async () => {

@@ -29,7 +29,7 @@ export class MainHandlerReplace {
     let type = 'type="text/javascript"';
     let suffix = ".min.js";
     let prefix = "index";
-    const partesPubHtml = /^public\/usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+\/index.html$/i.exec(
+    const partesPubHtml = Constants.getSavedTemplateRegexp().exec(
       rta.metadata.fullPath
     );
     const isPubHtml = partesPubHtml != null;

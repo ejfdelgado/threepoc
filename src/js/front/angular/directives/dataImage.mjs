@@ -1,5 +1,5 @@
-import { ModuloArchivos } from "../../../../../js/common/ModuloArchivos.mjs";
-import { ModuloModales } from "../../../../../js/front/common/ModuloModales.mjs";
+import { ModuloModales } from "../../common/ModuloModales.mjs";
+import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
 
 export const dataImage = [
   "$compile",
@@ -19,7 +19,7 @@ export const dataImage = [
           countChanges: 0,
           orientation: "horizontal",
           alignment: "center",
-          transparency: 'false',
+          transparency: "false",
         };
 
         scope.lookForImage = async function () {
@@ -32,7 +32,7 @@ export const dataImage = [
                 const canvas = $(modalElement).find("canvas")[0];
                 const ctx = canvas.getContext("2d");
                 scope.currentImage = new Image();
-                scope.crossOrigin="anonymous";
+                scope.crossOrigin = "anonymous";
                 scope.currentImage.onload = function () {
                   paintImageOnCanvas(ctx, canvas, scope.currentImage, true);
                   scope.data.countChanges++;
@@ -59,10 +59,10 @@ export const dataImage = [
             const modalElement = scope.refModal.elem;
             const canvas = $(modalElement).find("canvas")[0];
             let localPath = scope.path;
-            if (scope.data.transparency == 'true') {
-              localPath+='.png';
+            if (scope.data.transparency == "true") {
+              localPath += ".png";
             } else {
-              localPath+='.jpg';
+              localPath += ".jpg";
             }
             const rta = await ModuloArchivos.uploadFile({
               own: false,
@@ -81,7 +81,7 @@ export const dataImage = [
         const paintImageOnCanvas = function (ctx, canvas, img, computeBounds) {
           ctx.fillStyle = "white";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          if (scope.data.transparency == 'true') {
+          if (scope.data.transparency == "true") {
             ctx.fillStyle = "rgba(255, 255, 255, 0.0)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
           }
@@ -161,7 +161,7 @@ export const dataImage = [
             src: ngModel.$viewValue.src,
           };
           scope.refModal = await ModuloModales.basic({
-            urlTemplate: "/1/tutorials/tuto3/js/directives/dataImageModal.html",
+            urlTemplate: "/js/front/angular/directives/dataImageModal.html",
             size: "lg",
             preShow: function (modalElement) {
               const canvas = $(modalElement).find("canvas")[0];

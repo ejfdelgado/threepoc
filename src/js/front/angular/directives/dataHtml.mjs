@@ -1,4 +1,4 @@
-import { ModuloModales } from "../../../../../js/front/common/ModuloModales.mjs";
+import { ModuloModales } from "../../common/ModuloModales.mjs";
 
 export const dataHtml = [
   "$compile",
@@ -28,7 +28,7 @@ export const dataHtml = [
             content: scope.ngModel ? scope.ngModel : scope.predef,
           };
           scope.refModal = await ModuloModales.basic({
-            urlTemplate: "/1/tutorials/tuto3/js/directives/dataHtmlModal.html",
+            urlTemplate: "/js/front/angular/directives/dataHtmlModal.html",
             size: "lg",
             preShow: function () {
               scope.$digest();

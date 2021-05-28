@@ -10,10 +10,6 @@ import { Utilidades } from "../common/Utilidades.mjs";
 
 const router = express.Router();
 
-const HOMOLOGATION_FILES = {
-  "/favicon.ico": "/z/img/favicon.ico",
-};
-
 export class MainHandler {
   static ROOT_FOLDER = path.resolve() + "/src";
   static decodeUrl(localPath) {
@@ -47,14 +43,13 @@ export class MainHandler {
     const partesName2 = partesName[2];
     const extension = /\.(.*)$/.exec(partesName2);
     const files = [];
-    const TEMPLATED_PATHS = ["/1/tutorials/tuto3/"];
     if (
       recomputedUrl.pgid != null &&
-      TEMPLATED_PATHS.indexOf(ans.pathname) >= 0
+      Constants.TEMPLATED_PATHS.indexOf(ans.pathname) >= 0
     ) {
       ans.startWithBucket = true;
       files.push(
-        `/usr/anonymous${localPath.pathname}pg/${recomputedUrl.pgid}/index.html`
+        Constants.getSavedTemplateUrl(localPath.pathname, recomputedUrl.pgid)
       );
     }
     if (partesName1.length == 0 && partesName2.length == 0) {
@@ -67,17 +62,17 @@ export class MainHandler {
         files.push(partesName1 + "/" + partesName2 + "/index.html");
       }
     }
-    const HOMOLOGACIONES = Object.keys(HOMOLOGATION_FILES);
+    const HOMOLOGACIONES = Object.keys(Constants.HOMOLOGATION_FILES);
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       if (HOMOLOGACIONES.indexOf(file) >= 0) {
-        files[i] = HOMOLOGATION_FILES[file];
+        files[i] = Constants.HOMOLOGATION_FILES[file];
       }
     }
     ans.params = Utilidades.getQueryParams(localPath.query);
     if (extension == null || ["html", "htm"].indexOf(extension[1]) >= 0) {
       // Si no tiene extensión o si es html se termina redirigiendo a la página 404
-      files.push("/z/html/404.html");
+      files.push(Constants.HTML_404);
     }
     ans.files = files;
     return ans;

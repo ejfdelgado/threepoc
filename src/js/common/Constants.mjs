@@ -22,4 +22,21 @@ export class Constants {
     ];
   };
   static SEARCH_PAGE_MIN_TOKEN = 3;
+  static HTML_404 = "/z/html/404.html";
+  static getSavedTemplateUrl(pathname, pgid) {
+    return `/usr/anonymous${pathname}pg/${pgid}/index.html`;
+  }
+  static getSavedTemplateRegexp() {
+    return /^public\/usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+\/index.html$/i;
+  }
+  static TEMPLATED_PATHS = ["/1/html/simple/"];
+  static HTML_EDITOR_PATH = "/1/html/base";
+  static HOMOLOGATION_FILES = {
+    "/favicon.ico": "/z/img/favicon.ico",
+    "/1/html/simple/js/index.mjs": Constants.HTML_EDITOR_PATH + "/js/index.mjs",
+    "/1/html/simple/js/index.min.js":
+      Constants.HTML_EDITOR_PATH + "/js/index.min.js",
+    "/1/html/simple/js/dependencies.min.js":
+      Constants.HTML_EDITOR_PATH + "/js/dependencies.min.js",
+  };
 }

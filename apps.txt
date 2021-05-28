@@ -2,10 +2,13 @@
 - Habilitar el bucket con CDN (ok)
 - Que la directiva myImage sea capaz de alinear y hacer fit de la imagen nueva (ok)
 - Permitir leer el html guardado con el renderizado, siempre desde el bucket, usando /pg234324/ al final del path en vez de ?pg=123 (ok)
-- Actualizar gulp.js para que genere los scripts para modo template html y ajustar el modo NO debug. (wip)
+- Cuando se guarda el render solo se deben quitar las directivas de edición, no las de ng-model. (ok)
+- Colocar una marca a las librerías que se deben generar en gulp cuando se ve el renderizado.(ok)
+- Actualizar gulp.js para que genere los scripts para modo template html y ajustar el modo NO debug. (ok)
+
+- Permitir reutilizar el index.min.js y el index.mjs de un path en otro path.
+- Hacer guardado de las tuplas
 - Permitir que la directiva myImage pueda subir y bajar svg's.
-- Cuando se guarda el render solo se deben quitar las directivas de edición, no las de ng-model.
-- Colocar una marca a las librerías que se deben generar en gulp cuando se ve el renderizado.
 - Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
 - Permitir hacer shift+ctrl+c, shift+ctrl+v
 - Hacer una directiva para editar un modelo 3d.
