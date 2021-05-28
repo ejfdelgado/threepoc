@@ -24,6 +24,11 @@ export class TestComponentClass {
     let markup = document.documentElement.innerHTML;
     markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
+    markup = markup.replace(
+      /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,
+      ""
+    );
+
     // Borrar paistv-editor-*
     const actividad = ModuloActividad.on();
     const response = await ModuloArchivos.uploadFile({

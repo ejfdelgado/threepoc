@@ -45,9 +45,7 @@ export class MainHandlerReplace {
       prefix = "index-public";
       subDomain = "public_html";
     }
-    const PATRON = /<script\s+(.*)src=["'].\/js\/(index\.(min\.js|mjs))["']\s*><\/script>/i;
-    let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
-    const PATRON_LIBS = /<script\s+(.*)src=["']\/node_modules\/([^"']+)["']\s*>\s*<\/script>/gi;
+    const PATRON_LIBS = /<script\s+(.*)src=["']\/node_modules\/([^"']+)["'][^>]*>\s*<\/script>/gi;
     const PATRON_CSS = /<link.*type=["']text\/css["'][^>]*>/gi;
     const funcionRemplazo = function (a, preserveByDefault) {
       if (isDebug) {
@@ -79,8 +77,16 @@ export class MainHandlerReplace {
     };
     rta.data = rta.data.replace(PATRON_LIBS, funcionRemplazoNoPreserve);
     rta.data = rta.data.replace(PATRON_CSS, funcionRemplazoPreserve);
+
+    // Se remplaza el index y se le agrega antes el bundle si no es debug
+    const PATRON = /<script\s+(.*)src=["'].\/js\/(index\.(min\.js|mjs))["']\s*><\/script>/i;
+    let nuevo = `<script ${type} src="./js/${prefix}${suffix}"></script>`;
     if (!isDebug) {
-      nuevo = `<script src="./js/dependencies.min.js"></script>\n        ${nuevo}`;
+      if (isPubHtml) {
+        nuevo = `<script src="./js/dependencies-public_html.min.js"></script>\n        ${nuevo}`;
+      } else {
+        nuevo = `<script src="./js/dependencies.min.js"></script>\n        ${nuevo}`;
+      }
     }
     rta.data = rta.data.replace(PATRON, nuevo);
   }

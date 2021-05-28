@@ -107,6 +107,8 @@ typings/
 src/1/**/js/index.min.js
 src/1/**/js/index-slave.min.js
 src/1/**/js/dependencies.min.js
+src/1/**/js/dependencies-public_html.min.js
+src/1/**/js/index-public.min.js
 
 .DS_Store
 

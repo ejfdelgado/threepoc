@@ -68,32 +68,40 @@ const NODE_FILES = [
   "./node_modules/tinymce/skins/ui/oxide/content.min.css",
   "./node_modules/tinymce/skins/content/default/content.min.css",
   "./node_modules/angular-sanitize/angular-sanitize.min.js",
+  "./node_modules/angular-sanitize/angular-sanitize.min.js.map",
   "./node_modules/tinymce/icons/default/icons.min.js",
 ];
 
-function bundleJs(filePath) {
+function bundleJs(filePath, subDomain=null) {
   // 1. Read file content
   const content = fs.readFileSync(filePath);
   // 2. Leer todas las ocurrencias de node_modules
-  const PATRON = /<script\s+(.*)src="\/node_modules\/([^"]+)"\s*>\s*<\/script>/gi;
+  const PATRON = /<script\s+(.*)src=["']\/node_modules\/([^"']+)["'][^>]*>\s*<\/script>/gi;
   let m;
   const lista = [];
   do {
     m = PATRON.exec(content);
     if (m) {
-      lista.push(`./node_modules/${m[2]}`);
+      if (subDomain == null || new RegExp(`sub-domain=['"].*${subDomain}.*['"]`).exec(m[0]) != null) {
+        lista.push(`./node_modules/${m[2]}`);
+      }
     }
   } while (m);
   // 3. Unir todos los scrips en uno solo
+  console.log(`Join ${lista}`);
   return lista;
 }
 
-function es6BundleLibs() {
-  log("✳️  ES6 Bundling Libs! " + JSON.stringify(arg));
-  const dependencies = bundleJs(`./src/1/${arg.poc}/index.html`);
+function es6BundleLibs(opciones = {}) {
+  let outputFile = 'dependencies.min.js';
+  if (typeof opciones.subDomain == 'string') {
+    outputFile = `dependencies-${opciones.subDomain}.min.js`;
+  }
+  log("✳️  ES6 Bundling Libs! " + JSON.stringify(arg) + " - " + JSON.stringify(opciones));
+  const dependencies = bundleJs(`./src/1/${arg.poc}/index.html`, opciones.subDomain);
   return gulp
     .src(dependencies, { base: "./node_modules" })
-    .pipe(concat("dependencies.min.js"))
+    .pipe(concat(outputFile))
     .pipe(gulp.dest(`./src/1/${arg.poc}/js`));
 }
 
@@ -189,11 +197,26 @@ gulp.task("jsSlave", function () {
   });
 });
 
+gulp.task("jsPublic", function () {
+  return es6Bundle({
+    filename: "index-public",
+  });
+});
+
 gulp.task("jslibs", function () {
   return es6BundleLibs();
 });
 
+gulp.task("jslibs_public", function () {
+  const opciones = {
+    subDomain: 'public_html'
+  };
+  return es6BundleLibs(opciones);
+});
+
 gulp.task("bundle", gulp.parallel("jslibs", "jsSlave", "js"));
+
+gulp.task("bundle_public", gulp.parallel("jslibs_public", "jsPublic"));
 
 gulp.task("node_modules", function () {
   return copyNodeModulesBundle();
