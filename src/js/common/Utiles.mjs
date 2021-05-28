@@ -158,4 +158,14 @@ export class Utiles {
     }
     return ans;
   }
+
+  static fixTinyMceBugWithBootstrapModal() {
+    $(document).on("focusin", function (e) {
+      if (
+        $(e.target).closest("body>.tox.tox-silver-sink.tox-tinymce-aux").length
+      ) {
+        e.stopImmediatePropagation();
+      }
+    });
+  }
 }

@@ -6,6 +6,7 @@ import { dataHtml } from "../../../../js/front/angular/directives/dataHtml.mjs";
 import { dataText } from "../../../../js/front/angular/directives/dataText.mjs";
 import { safeHTML } from "../../../../js/front/angular/filters/safeHtml.mjs";
 import { HtmlEditorComponent } from "../../../../js/front/angular/components/HtmlEditorComponent.mjs";
+import { Utiles } from "../../../../js/common/Utiles.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -54,5 +55,6 @@ export const Tuto3Module = angular
 export const AppModule = angular.module("app", [Tuto3Module, "ui.router"]).name;
 
 $(document).ready(function () {
+  Utiles.fixTinyMceBugWithBootstrapModal();
   angular.bootstrap(document, ["app"]);
 });

@@ -19,6 +19,9 @@ export const dataHtml = [
 
         scope.tinymceOptions = {
           plugins: "link image code",
+          skin_url: "/node_modules/tinymce/skins/ui/oxide",
+          theme_url: "/node_modules/tinymce/themes/silver/theme.min.js",
+          icons_url: "/node_modules/tinymce/icons/default/icons.min.js",
           toolbar:
             "undo redo | bold italic | alignleft aligncenter alignright | code",
         };
