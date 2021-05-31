@@ -7,6 +7,7 @@ import { dataText } from "../../../../js/front/angular/directives/dataText.mjs";
 import { safeHTML } from "../../../../js/front/angular/filters/safeHtml.mjs";
 import { HtmlEditorComponent } from "../../../../js/front/angular/components/HtmlEditorComponent.mjs";
 import { Utiles } from "../../../../js/common/Utiles.mjs";
+import { dataMessage } from "../../../../js/front/angular/directives/dataMessage.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -14,6 +15,7 @@ export const Tuto3Module = angular
   .directive("paistvEditorImage", dataImage)
   .directive("paistvEditorHtml", dataHtml)
   .directive("paistvEditorText", dataText)
+  .directive("paistvDataMessage", dataMessage)
   .filter("safeHtml", safeHTML)
   .config([
     "$stateProvider",

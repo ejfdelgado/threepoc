@@ -8,13 +8,13 @@
 - Permitir reutilizar el index.min.js y el index.mjs de un path en otro path. (ok)
 - Hacer guardado de las tuplas (ok)
 - Evitar el llamado fallido cuando no hay usuario logeado. (ok)
+- Permitir que la página principal sea uno de los templates (ok)
 
-- Leer variables de entorno: https://cloud.google.com/appengine/docs/standard/nodejs/runtime
 - Organizar el menú superior:
-    - Permitir editar página
-    - Colocar botón guardar
+    - Permitir editar propiedades de página
+    - Agregar botón guardar
 
-- Permitir que la directiva myImage pueda subir y bajar svg's.
+- Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
 - Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
 - Permitir hacer shift+ctrl+c, shift+ctrl+v
 - Hacer una directiva para editar un modelo 3d.
@@ -31,6 +31,7 @@ Lectura de estáticos
 - Permitir generar llave que identifica la página de forma única, por usuario.
 - Permitir guardar los datos de la página con el identificador único por usuario.
 - Remplazo de html del título, imágen, descripción, etc.
+- Leer variables de entorno: https://cloud.google.com/appengine/docs/standard/nodejs/runtime
 
 APPS:
 - Hacer un simple page editor (wip)

@@ -2,9 +2,24 @@ import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
 import { ModuloActividad } from "../../common/ModuloActividad.mjs";
 import { Utilidades } from "../../../common/Utilidades.mjs";
 import { ModuloTupla } from "../../page/ModuloTupla.mjs";
+import { ModuloPagina } from "../../page/ModuloPagina.mjs";
 
 export class HtmlEditorComponentClass {
-  constructor($scope) {
+  constructor($scope, $rootScope) {
+    $rootScope.$on("saveAll", (datos) => {
+      this.save();
+    });
+    $rootScope.$on("editPage", function (datos) {
+      ModuloPagina.editPage({});
+    });
+    $rootScope.$on("newPage", function (datos) {
+      ModuloPagina.createNewPage().then((rta) => {
+        window.open(rta.url, "_blank");
+      });
+    });
+    $rootScope.$on("searchPages", function (datos) {
+      ModuloPagina.showSearchPages();
+    });
     this.$scope = $scope;
   }
   $onInit() {
@@ -89,7 +104,7 @@ export class HtmlEditorComponentClass {
   }
 }
 
-let RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $('base').attr('href'));
+let RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $("base").attr("href"));
 
 console.log(RECOMPUTED_PATH);
 
@@ -98,5 +113,5 @@ export const HtmlEditorComponent = {
     page: "<",
   },
   templateUrl: `${RECOMPUTED_PATH.pathname}html/index.html`,
-  controller: HtmlEditorComponentClass,
+  controller: ["$scope", "$rootScope", HtmlEditorComponentClass],
 };
