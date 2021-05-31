@@ -20,6 +20,11 @@ export class HtmlEditorComponentClass {
     $rootScope.$on("searchPages", function (datos) {
       ModuloPagina.showSearchPages();
     });
+    $rootScope.$on("viewPage", async function (datos) {
+      const ref = await ModuloPagina.leer();
+      const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
+      window.open(pubUrl, '_blank');
+    });
     this.$scope = $scope;
   }
   $onInit() {
@@ -82,6 +87,10 @@ export class HtmlEditorComponentClass {
   async save() {
     let markup = document.documentElement.innerHTML;
     markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
+    markup = markup.replace(
+      /paistv-editor-(navbar)/gi,
+      ' style="display: none;"'
+    );
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
     markup = markup.replace(
       /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,
