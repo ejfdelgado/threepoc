@@ -122,6 +122,15 @@ export class MiSeguridad {
     return MiSeguridad.diferidoDatos;
   }
 
+  static actualizarVisibilidad(logged) {
+    const recursos = $(".not_visible_if_not_logged");
+    if (logged) {
+      recursos.removeClass("invisible");
+    } else {
+      recursos.addClass("invisible");
+    }
+  }
+
   static darToken() {
     return new Promise((resolve, reject) => {
       if (MiSeguridad.diferidoFirebase == null) {
@@ -206,6 +215,7 @@ export class MiSeguridad {
   }
 
   static modoOffline() {
+    MiSeguridad.actualizarVisibilidad(false);
     var elementoAccion = $("#sign-in");
     var elementoUsuario = $("#firebase_usr_id");
     elementoUsuario.text("");
@@ -218,6 +228,7 @@ export class MiSeguridad {
   }
 
   static modoOnline(user) {
+    MiSeguridad.actualizarVisibilidad(true);
     var elementoAccion = $("#sign-in");
     var elementoUsuario = $("#firebase_usr_id");
     var provider = user.providerData[0];

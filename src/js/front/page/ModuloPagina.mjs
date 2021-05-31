@@ -7,6 +7,8 @@ import { ModuloModales } from "../common/ModuloModales.mjs";
 import { ModuloActividad } from "../common/ModuloActividad.mjs";
 import { Utiles } from "../../common/Utiles.mjs";
 import { EventEmitter } from "../../common/EventEmitter.mjs";
+import { ModuloImg } from "../common/ModuloImg.mjs";
+import { ModuloArchivos } from "../../common/ModuloArchivos.mjs";
 
 SecurityInterceptor.register();
 
@@ -158,6 +160,8 @@ export class ModuloPagina {
           },
         },
       };
+      let edicionesImagen = 0;
+      let canvasEl = null;
       await ModuloModales.basic({
         message: await ModuloHtml.getHtml(urlTemplate),
         size: "lg",
@@ -168,6 +172,13 @@ export class ModuloPagina {
           page.pr = Utiles.list2Text(page.pr);
           page.kw = Utiles.list2Text(page.kw);
           ModuloHtml.modelToHtml(scope, element);
+          canvasEl = $("canvas.og_page_image_icon");
+          const canvas = canvasEl[0];
+          ModuloImg.loadImageOnCanvas(canvas, page.img);
+          canvasEl.on("click", async function () {
+            await ModuloImg.loadImageOnCanvas(canvas);
+            edicionesImagen++;
+          });
         },
         buttons: [
           {
@@ -188,6 +199,16 @@ export class ModuloPagina {
                 const page = newScope.$ctrl.page.page;
                 page.pr = Utiles.text2List(page.pr);
                 page.kw = Utiles.text2List(page.kw);
+                // Se mira si el icono cambió, si sí, se escribe:
+                if (edicionesImagen > 0) {
+                  // Se debe armar la ruta única para este
+                  const rta = await ModuloArchivos.uploadFile({
+                    own: false,
+                    path: "og_icon.ico",
+                    data: canvasEl[0],
+                  });
+                  page.img = rta.pub;
+                }
                 $.extend(true, scope, newScope);
                 await ModuloPagina.guardar(scope.$ctrl.page.page);
                 ModuloPagina.setCurrentValues(scope.$ctrl.page.page);

@@ -13,8 +13,11 @@
 - Organizar el menú superior: (ok)
     - Permitir editar propiedades de página (ok)
     - Agregar botón guardar (ok)
+- Editar el ícono de la página (ok)
 
-- Editar el ícono de la página
+
+
+
 - Ver el ícono en la búsqueda de páginas
 
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias

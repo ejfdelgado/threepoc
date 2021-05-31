@@ -1,5 +1,6 @@
 import { ModuloModales } from "../../common/ModuloModales.mjs";
 import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
+import { ModuloImg } from "../../common/ModuloImg.mjs";
 
 export const dataImage = [
   "$compile",
@@ -23,35 +24,39 @@ export const dataImage = [
         };
 
         scope.lookForImage = async function () {
-          try {
-            const myfile = await ModuloArchivos.askForFile({});
-            if (myfile) {
-              var reader = new FileReader();
-              reader.onload = function (e) {
-                const modalElement = scope.refModal.elem;
-                const canvas = $(modalElement).find("canvas")[0];
-                const ctx = canvas.getContext("2d");
-                scope.currentImage = new Image();
-                scope.crossOrigin = "anonymous";
-                scope.currentImage.onload = function () {
-                  paintImageOnCanvas(ctx, canvas, scope.currentImage, true);
-                  scope.data.countChanges++;
-                  scope.$digest();
-                };
-                scope.currentImage.src = e.target.result;
-              };
-              reader.readAsDataURL(myfile);
-            }
-          } catch (e) {
-            ModuloModales.alert({ message: e });
-          }
+          const e = await ModuloImg.lookForImage();
+          const modalElement = scope.refModal.elem;
+          const canvas = $(modalElement).find("canvas")[0];
+          scope.currentImage = new Image();
+          scope.currentImage.crossOrigin = "anonymous";
+          scope.currentImage.onload = function () {
+            const data1 = ModuloImg.computeDefaultOrientation(
+              canvas,
+              scope.currentImage
+            );
+            scope.data.orientation = data1.orientation;
+            scope.data.alignment = data1.alignment;
+            ModuloImg.paintImageOnCanvas(
+              canvas,
+              scope.currentImage,
+              true,
+              scope.data
+            );
+            scope.data.countChanges++;
+            scope.$digest();
+          };
+          scope.currentImage.src = e.target.result;
         };
 
         scope.updateImageBounds = function () {
           const modalElement = scope.refModal.elem;
           const canvas = $(modalElement).find("canvas")[0];
-          const ctx = canvas.getContext("2d");
-          paintImageOnCanvas(ctx, canvas, scope.currentImage, true);
+          ModuloImg.paintImageOnCanvas(
+            canvas,
+            scope.currentImage,
+            true,
+            scope.data
+          );
         };
 
         scope.save = async function () {
@@ -78,80 +83,6 @@ export const dataImage = [
           scope.refModal.closeFunction();
         };
 
-        const paintImageOnCanvas = function (ctx, canvas, img, computeBounds) {
-          ctx.fillStyle = "white";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          if (scope.data.transparency == "true") {
-            ctx.fillStyle = "rgba(255, 255, 255, 0.0)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-          }
-          // Se debe calcular cómo pintar la imagen
-          const proporcion = canvas.width / canvas.height;
-          let imgw = img.width;
-          let imgx = 0;
-          let imgh = img.height;
-          let imgy = 0;
-          let canvasx = 0;
-          let canvasy = 0;
-          if (computeBounds) {
-            if (scope.data.orientation == "vertical") {
-              // Se debe hacer fit de la altura
-              imgw = img.height * proporcion;
-              imgh = img.height;
-              if (imgw < img.width) {
-                // La imagen resulta más grande, toca reubicar en la imagen
-                const diff = img.width - imgw;
-                if (scope.data.alignment == "major") {
-                  imgx += diff;
-                } else if (scope.data.alignment == "center") {
-                  imgx += diff / 2;
-                }
-              } else {
-                // La imagen resulta más pequeña, toca reubicar el canvas
-                const diff = canvas.width - imgw * (canvas.width / img.width);
-                if (scope.data.alignment == "major") {
-                  canvasx -= diff / 2;
-                } else if (scope.data.alignment == "center") {
-                  canvasx -= diff / 4;
-                }
-              }
-            } else {
-              // Se asume horizontal
-              imgw = img.width;
-              imgh = img.width / proporcion;
-              if (imgh < img.height) {
-                // La imagen resulta más grande, toca reubicar en la imagen
-                const diff = img.height - imgh;
-                if (scope.data.alignment == "major") {
-                  imgy += diff;
-                } else if (scope.data.alignment == "center") {
-                  imgy += diff / 2;
-                }
-              } else {
-                // La imagen resulta más pequeña, toca reubicar el canvas
-                const diff =
-                  canvas.height - imgh * (canvas.height / img.height);
-                if (scope.data.alignment == "major") {
-                  canvasy -= diff / 2;
-                } else if (scope.data.alignment == "center") {
-                  canvasy -= diff / 4;
-                }
-              }
-            }
-          }
-          ctx.drawImage(
-            img,
-            imgx,
-            imgy,
-            imgw,
-            imgh, // source rectangle
-            canvasx,
-            canvasy,
-            canvas.width,
-            canvas.height
-          ); // destination rectangle
-        };
-
         scope.openEditor = async function () {
           if (!ngModel.$viewValue) {
             ngModel.$setViewValue(scope.predef);
@@ -165,13 +96,12 @@ export const dataImage = [
             size: "lg",
             preShow: function (modalElement) {
               const canvas = $(modalElement).find("canvas")[0];
-              const ctx = canvas.getContext("2d");
               const img = $(element)[0];
 
               canvas.width = img.width;
               canvas.height = img.height;
 
-              paintImageOnCanvas(ctx, canvas, img, false);
+              ModuloImg.paintImageOnCanvas(canvas, img, false);
 
               scope.$digest();
             },
