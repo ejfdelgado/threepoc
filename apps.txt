@@ -14,12 +14,10 @@
     - Permitir editar propiedades de página (ok)
     - Agregar botón guardar (ok)
 - Editar el ícono de la página (ok)
+- Meter dentro de "<html></html>" la versión renderizada (ok)
+- Ver el ícono en la búsqueda de páginas. (ok)
 
-
-
-
-- Ver el ícono en la búsqueda de páginas
-
+- La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
 - Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
 - Permitir hacer shift+ctrl+c, shift+ctrl+v

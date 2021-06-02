@@ -23,7 +23,7 @@ export class HtmlEditorComponentClass {
     $rootScope.$on("viewPage", async function (datos) {
       const ref = await ModuloPagina.leer();
       const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
-      window.open(pubUrl, '_blank');
+      window.open(pubUrl, "_blank");
     });
     this.$scope = $scope;
   }
@@ -99,10 +99,12 @@ export class HtmlEditorComponentClass {
 
     const actividad = ModuloActividad.on();
     await this.saveTupla();
+    const header = '<!DOCTYPE html><html lang="es">';
+    const footer = "</html>";
     const response = await ModuloArchivos.uploadFile({
       own: false,
       path: "index.html",
-      data: markup,
+      data: `${header}${markup}${footer}`,
     });
     const partesId = /(\d+)\/index\.html/.exec(response.key);
     const pgid = partesId[1];

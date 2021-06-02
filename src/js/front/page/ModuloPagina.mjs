@@ -58,7 +58,6 @@ export class ModuloPagina {
     };
     Object.assign(opciones, ModuloPagina.getCurrentPageValues());
     Object.assign(opciones, opcionesUsr);
-    console.log(JSON.stringify(opciones));
     const datosUsuario = await MiSeguridad.buscarUsuario(opciones["logged"]);
     if ([undefined, null].indexOf(datosUsuario) >= 0) {
       throw new Error("No hay usuario logeado");
@@ -252,6 +251,7 @@ export class ModuloPagina {
             lista.forEach(function (page) {
               const nuevo = $(cardPage);
               nuevo.find(".card-title").html(page.tit);
+              nuevo.find(".card-img").attr("src", page.img);
               nuevo.find(".card-text").html(page.desc);
               nuevo.find(".open_page").on("click", function () {
                 window.open(
