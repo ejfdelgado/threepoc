@@ -9,6 +9,7 @@ import { HtmlEditorComponent } from "../../../../js/front/angular/components/Htm
 import { Utiles } from "../../../../js/common/Utiles.mjs";
 import { dataMessage } from "../../../../js/front/angular/directives/dataMessage.mjs";
 import { htmlEditorNavBar } from "../../../../js/front/angular/directives/htmlEditorNavBar.mjs";
+import { orderItem } from "../../../../js/front/angular/filters/orderItem.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -19,6 +20,7 @@ export const Tuto3Module = angular
   .directive("paistvDataMessage", dataMessage)
   .directive("paistvEditorNavbar", htmlEditorNavBar)
   .filter("safeHtml", safeHTML)
+  .filter("orderItem", orderItem)
   .config([
     "$stateProvider",
     "$urlRouterProvider",

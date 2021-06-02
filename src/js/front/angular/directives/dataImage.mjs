@@ -79,7 +79,9 @@ export const dataImage = [
           }
           ngModel.$viewValue.alt = scope.content.alt;
           ngModel.$render();
-          scope.$digest();
+          try {
+            scope.$digest();
+          } catch (e) {}
           scope.refModal.closeFunction();
         };
 
