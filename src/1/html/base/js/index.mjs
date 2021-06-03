@@ -11,6 +11,7 @@ import { dataMessage } from "../../../../js/front/angular/directives/dataMessage
 import { htmlEditorNavBar } from "../../../../js/front/angular/directives/htmlEditorNavBar.mjs";
 import { orderItem } from "../../../../js/front/angular/filters/orderItem.mjs";
 import { dataEditItems } from "../../../../js/front/angular/directives/dataEditItems.mjs";
+import { ngRepeatDirective } from "../../../../js/front/angular/directives/ngRepeat.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -21,6 +22,7 @@ export const Tuto3Module = angular
   .directive("paistvDataMessage", dataMessage)
   .directive("paistvEditorNavbar", htmlEditorNavBar)
   .directive("paistvEditorEditItems", dataEditItems)
+  .directive("paistvEditorRepeat", ngRepeatDirective)
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
   .config([
