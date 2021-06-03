@@ -3,8 +3,6 @@ import { ModuloActividad } from "../../common/ModuloActividad.mjs";
 import { Utilidades } from "../../../common/Utilidades.mjs";
 import { ModuloTupla } from "../../page/ModuloTupla.mjs";
 import { ModuloPagina } from "../../page/ModuloPagina.mjs";
-import { IdGen } from "../../../common/IdGen.mjs";
-import { ModuloModales } from "../../common/ModuloModales.mjs";
 
 export class HtmlEditorComponentClass {
   constructor($scope, $rootScope, $filter) {
@@ -67,68 +65,6 @@ export class HtmlEditorComponentClass {
   }
   $postLink() {
     //
-  }
-  async moveUpItem(domain, subDomain, key) {
-    const subDomains = this.domains[domain].subDomain;
-    let theSubDomain = subDomains[subDomain];
-    const arreglo = this.$filter("orderItem")(theSubDomain);
-    let actual = null;
-    let indice = -1;
-    for (let i = 0; i < arreglo.length; i++) {
-      if (arreglo[i].order == key) {
-        actual = arreglo[i];
-        indice = i;
-        break;
-      }
-    }
-    if (indice <= 0) {
-      return;
-    }
-    const otroElemento = arreglo[indice - 1];
-    actual.order = otroElemento.order;
-    otroElemento.order = key;
-  }
-  async moveDownItem(domain, subDomain, key) {
-    const subDomains = this.domains[domain].subDomain;
-    let theSubDomain = subDomains[subDomain];
-    const arreglo = this.$filter("orderItem")(theSubDomain);
-    let actual = null;
-    let indice = -1;
-    for (let i = 0; i < arreglo.length; i++) {
-      if (arreglo[i].order == key) {
-        actual = arreglo[i];
-        indice = i;
-        break;
-      }
-    }
-    if (indice < 0 || indice == arreglo.length - 1) {
-      return;
-    }
-    const otroElemento = arreglo[indice + 1];
-    actual.order = otroElemento.order;
-    otroElemento.order = key;
-  }
-  async removeItem(domain, subDomain, key) {
-    const acepto = await ModuloModales.confirm();
-    if (!acepto) {
-      return;
-    }
-    const subDomains = this.domains[domain].subDomain;
-    let theSubDomain = subDomains[subDomain];
-    delete theSubDomain[key];
-    this.$scope.$digest();
-  }
-  async addItem(domain, subDomain, predef = {}) {
-    const subDomains = this.domains[domain].subDomain;
-    let theSubDomain = subDomains[subDomain];
-    if (theSubDomain == undefined) {
-      subDomains[subDomain] = {};
-      theSubDomain = subDomains[subDomain];
-    }
-    const newId = await IdGen.nuevo();
-    theSubDomain[newId] = predef;
-    predef.order = newId;
-    this.$scope.$digest();
   }
   async readDomain(domain = "", predefined = {}, useSubDomain) {
     const opciones = { dom: domain, useSubDomain: useSubDomain };

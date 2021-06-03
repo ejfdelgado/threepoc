@@ -1,15 +1,10 @@
 <br/><br/><br/><br/><br/><br/>
 <div ng-repeat="value in $ctrl.domains.content.subDomain.comments | orderItem">
+    <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
     <div paistv-editor-html ng-model="value.txt" default="Otro textico"></div>
-    <button ng-click="$ctrl.removeItem('content', 'comments', value.order)">x</button>
-    <button ng-click="$ctrl.moveUpItem('content', 'comments', value.order)">up</button>
-    <button ng-click="$ctrl.moveDownItem('content', 'comments', value.order)">down</button>
 </div>
-<button ng-click="$ctrl.addItem('content', 'comments', {'txt': 'Contenido'})">Agregar item</button>
 <h1 paistv-editor-text ng-model="$ctrl.domains.content.texts.text2.val" default="Un título"></h1>
 <p paistv-editor-text ng-model="$ctrl.domains.content.texts.text3.val" default="Un textico"></p>
 <div paistv-editor-html ng-model="$ctrl.domains.content.texts.text1.val" default="Otro textico"></div>
 <img paistv-editor-image ng-model="$ctrl.domains.content.images.image1" path="'image1'" default="/z/img/spacex.jpg" crossorigin="anonymous">
-
-
 <pre>{{ $ctrl.domains.content | json }}</pre>
