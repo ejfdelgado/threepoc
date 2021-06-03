@@ -1,3 +1,6 @@
+import { ModuloModales } from "../../common/ModuloModales.mjs";
+import { IdGen } from "../../../common/IdGen.mjs";
+
 let uid;
 const slice = [].slice;
 
@@ -5,7 +8,8 @@ export const ngRepeatDirective = [
   "$parse",
   "$animate",
   "$compile",
-  function ($parse, $animate, $compile) {
+  "$filter",
+  function ($parse, $animate, $compile, $filter) {
     var NG_REMOVED = "$$NG_REMOVED";
     var ngRepeatMinErr = minErr("ngRepeat");
 
@@ -50,10 +54,10 @@ export const ngRepeatDirective = [
       multiElement: true,
       transclude: "element",
       priority: 1000,
-      terminal: true,
       $$tlb: true,
       compile: function ngRepeatCompile($element, $attr) {
         var expression = $attr.paistvEditorRepeat;
+        var predefined = $attr.predefined;
         var ngRepeatEndComment = $compile.$$createComment(
           "end ngRepeat",
           expression
@@ -136,6 +140,80 @@ export const ngRepeatDirective = [
           // hasOwnProperty.
           var lastBlockMap = createMap();
 
+          const partes = /^[^|\s]+/.exec(rhs);
+          const refModelo = partes[0];
+          let originalCollection = null;
+          $scope.removeItem = async function (key) {
+            const acepto = await ModuloModales.confirm();
+            if (!acepto) {
+              return;
+            }
+            const llaves = Object.keys(originalCollection);
+            for (let i = 0; i < llaves.length; i++) {
+              const llave = llaves[i];
+              const item = originalCollection[llave];
+              if (item.order == key) {
+                delete originalCollection[llave];
+                $scope.$digest();
+                break;
+              }
+            }
+          };
+          $scope.addItem = async function () {
+            if ([null, undefined].indexOf(originalCollection) >= 0) {
+              //ngModel.$setViewValue({});
+              return;
+            }
+            const newId = await IdGen.nuevo();
+            const nuevo = JSON.parse(predefined);
+            originalCollection[newId] = nuevo;
+            // Acá se debería ajustar el order de los que sean necesarios para
+            // ubicarlo en el lugar correcto; antes o después
+            nuevo.order = newId;
+            $scope.$digest();
+          };
+          $scope.moveUpItem = function (key) {
+            const arreglo = $filter("orderItem")(originalCollection);
+            let actual = null;
+            let indice = -1;
+            for (let i = 0; i < arreglo.length; i++) {
+              if (arreglo[i].order == key) {
+                actual = arreglo[i];
+                indice = i;
+                break;
+              }
+            }
+            if (indice <= 0) {
+              return;
+            }
+            const otroElemento = arreglo[indice - 1];
+            actual.order = otroElemento.order;
+            otroElemento.order = key;
+          };
+          $scope.moveDownItem = function (key) {
+            const arreglo = $filter("orderItem")(originalCollection);
+            let actual = null;
+            let indice = -1;
+            for (let i = 0; i < arreglo.length; i++) {
+              if (arreglo[i].order == key) {
+                actual = arreglo[i];
+                indice = i;
+                break;
+              }
+            }
+            if (indice < 0 || indice == arreglo.length - 1) {
+              return;
+            }
+            const otroElemento = arreglo[indice + 1];
+            actual.order = otroElemento.order;
+            otroElemento.order = key;
+          };
+          $scope.$watchCollection(refModelo, function ngRepeatAction(
+            localCollection
+          ) {
+            originalCollection = localCollection;
+          });
+
           //watch props
           $scope.$watchCollection(rhs, function ngRepeatAction(collection) {
             var index,
@@ -185,6 +263,7 @@ export const ngRepeatDirective = [
               key =
                 collection === collectionKeys ? index : collectionKeys[index];
               value = collection[key];
+              // Value es: {"txt": "<p>Contenido 5</p>","order": "00fz6pjj2kaa"}
               trackById = trackByIdFn($scope, key, value, index);
               if (lastBlockMap[trackById]) {
                 // found previously seen block
@@ -275,6 +354,19 @@ export const ngRepeatDirective = [
               } else {
                 // new item which we don't know about
                 $transclude(function ngRepeatTransclude(clone, scope) {
+                  // clone es el nuevo elemento
+                  // scope es el scope del clone
+                  // <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
+
+                  var nuevoElem = $(`<div>\
+                  <button ng-click="removeItem(value.order)">x</button>\
+                  <button ng-click="addItem()">+</button>\
+                  <button ng-click="moveUpItem(value.order)">up</button>\
+                  <button ng-click="moveDownItem(value.order)">down</button>\
+                  </div>`);
+                  $(clone[0]).append(nuevoElem);
+                  $compile(nuevoElem)(scope);
+
                   block.scope = scope;
                   // http://jsperf.com/clone-vs-createcomment
                   var endNode = ngRepeatEndComment.cloneNode(false);

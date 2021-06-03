@@ -1,6 +1,5 @@
 <br/><br/><br/><br/><br/><br/>
-<div paistv-editor-repeat="value in $ctrl.domains.content.subDomain.comments | orderItem track by $index">
-    <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
+<div paistv-editor-repeat="value in $ctrl.domains.content.subDomain.comments | orderItem track by $index" predefined='{"txt": "Contenido"}'>
     <div paistv-editor-html ng-model="value.txt" default="Otro textico"></div>
 </div>
 <h1 paistv-editor-text ng-model="$ctrl.domains.content.texts.text2.val" default="Un título"></h1>
