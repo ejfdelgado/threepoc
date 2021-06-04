@@ -17,7 +17,9 @@
 - Meter dentro de "<html></html>" la versión renderizada (ok)
 - Ver el ícono en la búsqueda de páginas. (ok)
 
-- Eliminar la directiva <paistv-editor-edit-items> al escribir
+- Eliminar la directiva <paistv-editor-edit-items> al escribir o esconderla con invisible
+- eliminar el botón de agregar nuevo elemento de ngRepeat
+- Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Permitir agregar después o antes de el item actual.
 
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.

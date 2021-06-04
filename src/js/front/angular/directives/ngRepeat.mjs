@@ -130,6 +130,23 @@ export const ngRepeatDirective = [
           ctrl,
           $transclude
         ) {
+          const partes = /^[^|\s]+/.exec(rhs);
+          const refModelo = partes[0];
+          $scope.hey = function () {
+            alert("hila");
+          };
+          const opcionesVacio = $(`<button class="invisible">+</button>`);
+          opcionesVacio.on("click", function () {
+            $scope.addItem();
+            $scope.$digest();
+          });
+          const elemOpcionesVacio = opcionesVacio.get(0);
+          const comentario = $element[0];
+          comentario.parentNode.insertBefore(
+            elemOpcionesVacio,
+            comentario.nextSibling
+          );
+
           // Store a list of elements from previous run. This is a hash where key is the item from the
           // iterator, and the value is objects with following properties.
           //   - scope: bound scope
@@ -140,9 +157,24 @@ export const ngRepeatDirective = [
           // hasOwnProperty.
           var lastBlockMap = createMap();
 
-          const partes = /^[^|\s]+/.exec(rhs);
-          const refModelo = partes[0];
           let originalCollection = null;
+          $scope.updateEmptyOptions = function () {
+            if ($scope.isEmpty()) {
+              opcionesVacio.removeClass("invisible");
+            } else {
+              opcionesVacio.addClass("invisible");
+            }
+          };
+          $scope.isEmpty = function () {
+            if (originalCollection instanceof Array) {
+              return originalCollection.length == 0;
+            } else if (originalCollection instanceof Object) {
+              const llaves = Object.keys(originalCollection);
+              return llaves.length == 0;
+            } else {
+              return true;
+            }
+          };
           $scope.removeItem = async function (key) {
             const acepto = await ModuloModales.confirm();
             if (!acepto) {
@@ -212,6 +244,7 @@ export const ngRepeatDirective = [
             localCollection
           ) {
             originalCollection = localCollection;
+            $scope.updateEmptyOptions();
           });
 
           //watch props
@@ -233,6 +266,8 @@ export const ngRepeatDirective = [
               block, // last object information {scope, element, id}
               nextBlockOrder,
               elementsToRemove;
+
+            $scope.updateEmptyOptions();
 
             if (aliasAs) {
               $scope[aliasAs] = collection;
@@ -357,7 +392,6 @@ export const ngRepeatDirective = [
                   // clone es el nuevo elemento
                   // scope es el scope del clone
                   // <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
-
                   var nuevoElem = $(`<div>\
                   <button ng-click="removeItem(value.order)">x</button>\
                   <button ng-click="addItem()">+</button>\
