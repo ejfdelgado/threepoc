@@ -31,6 +31,7 @@ export class HtmlEditorComponentClass {
   $onInit() {
     this.domains = {};
     this.services = {};
+    window.ALL_MODEL = this.domains;
 
     const PREDEFINED = {
       images: {},
@@ -98,6 +99,12 @@ export class HtmlEditorComponentClass {
       /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,
       ""
     );
+    markup = markup.replace(/paistv-only-editor"/gi, "invisible");
+    const json_model = JSON.stringify(this.domains);
+    markup = markup.replace(
+      "<head>",
+      `<head><script>const ALL_MODEL=${json_model}</script>`
+    );
 
     const actividad = ModuloActividad.on();
     await this.saveTupla();
@@ -112,7 +119,6 @@ export class HtmlEditorComponentClass {
     const pgid = partesId[1];
     const pubUrl = `${location.origin}${location.pathname}pg${pgid}/`;
     response.pubUrl = pubUrl;
-    console.log(JSON.stringify(response, null, 4));
     actividad.resolve();
   }
 }

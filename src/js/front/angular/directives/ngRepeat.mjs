@@ -135,7 +135,9 @@ export const ngRepeatDirective = [
           $scope.hey = function () {
             alert("hila");
           };
-          const opcionesVacio = $(`<button class="invisible">+</button>`);
+          const opcionesVacio = $(
+            `<button class="invisible paistv-only-editor">+</button>`
+          );
           opcionesVacio.on("click", function () {
             $scope.addItem();
             $scope.$digest();
@@ -392,7 +394,7 @@ export const ngRepeatDirective = [
                   // clone es el nuevo elemento
                   // scope es el scope del clone
                   // <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
-                  var nuevoElem = $(`<div>\
+                  var nuevoElem = $(`<div class="paistv-only-editor">\
                   <button ng-click="removeItem(value.order)">x</button>\
                   <button ng-click="addItem()">+</button>\
                   <button ng-click="moveUpItem(value.order)">up</button>\
