@@ -70,6 +70,9 @@ const NODE_FILES = [
   "./node_modules/angular-sanitize/angular-sanitize.min.js",
   "./node_modules/angular-sanitize/angular-sanitize.min.js.map",
   "./node_modules/tinymce/icons/default/icons.min.js",
+
+  "./node_modules/font-awesome/css/font-awesome.css",
+  "./node_modules/font-awesome/fonts/**",
 ];
 
 function bundleJs(filePath, subDomain=null) {

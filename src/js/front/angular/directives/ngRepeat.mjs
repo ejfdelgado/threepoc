@@ -393,12 +393,17 @@ export const ngRepeatDirective = [
                 $transclude(function ngRepeatTransclude(clone, scope) {
                   // clone es el nuevo elemento
                   // scope es el scope del clone
-                  // <paistv-editor-edit-items ng-model="$ctrl.domains.content.subDomain.comments" key="value.order" predefined="{'txt': 'Contenido'}"></paistv-editor-edit-items>
-                  var nuevoElem = $(`<div class="paistv-only-editor">\
-                  <button ng-click="removeItem(value.order)">x</button>\
-                  <button ng-click="addItem()">+</button>\
-                  <button ng-click="moveUpItem(value.order)">up</button>\
-                  <button ng-click="moveDownItem(value.order)">down</button>\
+
+                  var nuevoElem = $(`<div class="dropdown">\
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                      <i class="fa fa-pencil"></i>\
+                    </button>\
+                    <div class="dropdown-menu">\
+                      <a class="manito dropdown-item" ng-click="addItem()">Agregar</a>\
+                      <a class="manito dropdown-item" ng-click="moveUpItem(value.order)">Mover arriba</a>\
+                      <a class="manito dropdown-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
+                      <a class="manito dropdown-item" ng-click="removeItem(value.order)">Borrar</a>\
+                    </div>\
                   </div>`);
                   $(clone[0]).append(nuevoElem);
                   $compile(nuevoElem)(scope);

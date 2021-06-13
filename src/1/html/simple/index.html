@@ -35,6 +35,8 @@
         <link type='text/css' rel='stylesheet' href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin-ext' sub-domain="public_html">
         <link type="text/css" rel="stylesheet" href="/node_modules/firebaseui/dist/firebaseui.css"/>
         <link type="text/css" rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" sub-domain="public_html" />
+        <link type="text/css" rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.css" />
+        <link type="text/css" rel="stylesheet" href="/z/css/index-editor.css"/>
         <link type="text/css" rel="stylesheet" href="/z/css/index.css" sub-domain="public_html"/>
         <link type="text/css" rel="stylesheet" href="./css/index.css" sub-domain="public_html"/>
     </head>
@@ -42,10 +44,14 @@
         <div id="firebaseui-auth-container" class="invisible"></div>
         <div id="sign-in-status"></div>
         <div id="account-details"></div>
-        <div paistv-editor-navbar class="not_visible_if_not_logged invisible"></div>
         <div id="qrcode"></div>
-        <div>
-            <div ui-view></div>
+        <div class="wrapper">
+            <div paistv-editor-navbar class="not_visible_if_not_logged invisible"></div>
+
+            <div id="content">
+                <button type="button" id="paistv-editor-sidebar-collapse" class="btn btn-sm btn-info not_visible_if_not_logged invisible"><i class="fa fa-bars"></i></button>
+                <div ui-view></div>
+            </div>
         </div>
     </body>
 </html>

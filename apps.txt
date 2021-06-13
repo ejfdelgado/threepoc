@@ -1,4 +1,6 @@
 
+https://fontawesome.com/v4.7/icons/
+
 - Habilitar el bucket con CDN (ok)
 - Que la directiva myImage sea capaz de alinear y hacer fit de la imagen nueva (ok)
 - Permitir leer el html guardado con el renderizado, siempre desde el bucket, usando /pg234324/ al final del path en vez de ?pg=123 (ok)
@@ -9,6 +11,7 @@
 - Hacer guardado de las tuplas (ok)
 - Evitar el llamado fallido cuando no hay usuario logeado. (ok)
 - Permitir que la página principal sea uno de los templates (ok)
+- Usar el pop up menú para la edicion de ng-repeat https://getbootstrap.com/docs/4.5/components/dropdowns/ ok
 
 - Organizar el menú superior: (ok)
     - Permitir editar propiedades de página (ok)
@@ -17,6 +20,8 @@
 - Meter dentro de "<html></html>" la versión renderizada (ok)
 - Ver el ícono en la búsqueda de páginas. (ok)
 
+- Hacer un sidebar
+- Hacer un componente angular que reciba el JSON de la data.
 - A los elementos con clase paistv-only-editor agregarles la clase invisible
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Permitir agregar después o antes de el item actual.

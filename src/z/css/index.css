@@ -2,6 +2,10 @@
   display: none;
 }
 
+.manito {
+  cursor: pointer;
+}
+
 #sign-in {
   cursor: pointer;
 }
