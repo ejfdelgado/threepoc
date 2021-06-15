@@ -19,14 +19,18 @@ https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 source /Users/jose.delgado/.bash_profile_gcp
 
+export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 export GAE_APPLICATION="proyeccion-colombia1"
 gcloud config set project proyeccion-colombia1
+
 gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
 
+export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
 export GAE_APPLICATION="paistv"
 gcloud config set project paistv
+
 gcloud app deploy app.yaml --project paistv --version 2
 
 Para correr el servidor:
