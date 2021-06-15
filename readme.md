@@ -36,6 +36,9 @@ npm run start
 
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
 
+for linux:
+google-chrome --disable-web-security
+
 sudo lsof -i tcp:80
 sudo kill -9 <PID>
 
