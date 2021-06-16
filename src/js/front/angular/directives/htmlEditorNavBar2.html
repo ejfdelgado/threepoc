@@ -1,9 +1,21 @@
 <nav id="sidebar" class="active">
+    <div class="sidebar-brand">
+        <a>Editor HTML</a>
+        <div class="close-sidebar">
+          <i class="fa fa-times"></i>
+        </div>
+      </div>
     <div class="sidebar-header">
-        <h3>Editor de Páginas</h3>
-    </div>
+        <div class="user-pic">
+          <img class="img-responsive img-rounded" src="{{ user.photoURL }}" alt="User picture">
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ user.displayName }}</span>
+          <a class="article manito" ng-click="logout($event)" style="text-decoration: underline;">Salir</a>
+        </div>
+      </div>
     <ul class="list-unstyled components">
-        <p>Edita la página</p>
+        <p>Edición de página!</p>
         <li class="active">
             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Página</a>
             <ul class="list-unstyled collapse show" id="homeSubmenu">
@@ -27,8 +39,8 @@
         <li>
             <a href="#" class="download" paistv-data-message event-name="'saveAll'">Guardar</a>
         </li>
-        <li>
-            <a href="#" class="article" paistv-data-message event-name="'logout'">Salir</a>
-        </li>
+        <!--li>
+            <a class="article manito">Salir</a>
+        </li-->
     </ul>
 </nav>

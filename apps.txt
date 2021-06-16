@@ -21,12 +21,12 @@ https://fontawesome.com/v4.7/icons/
 - Hacer un sidebar ok
 - Que cuando se agrega un item al ng-repeat, se agrege inmediatamente despúes del actual ok
 - Borrar el botón de open sidebar ok
+- Borrar botón de edición de ng-repeat ok
+- A los elementos con clase paistv-only-editor agregarles la clase invisible ok
+- Agregar al sidebar información de la persona logeada y el botón de logout ok
 
-- Borrar botón de edición de ng-repeat
 - Qué pasa si no hay modelo? angular cómo agrega el elemento?
-- Agregar al sidebar información de la persona logeada y el botón de logout
 - Hacer un componente angular que reciba el JSON de la data.
-- A los elementos con clase paistv-only-editor agregarles la clase invisible
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.

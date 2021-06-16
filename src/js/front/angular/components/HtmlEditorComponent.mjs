@@ -89,21 +89,27 @@ export class HtmlEditorComponentClass {
   }
   async save() {
     let markup = document.documentElement.innerHTML;
-    markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
+
+    // Se quita todo lo que hay entre <!-- paistv-editor { --> y <!-- paistv-editor } -->
     markup = markup.replace(
-      /paistv-editor-(navbar)/gi,
-      ' style="display: none;"'
-    );
-    markup = markup.replace(
-      /<button[\s\S]*?paistv-editor-sidebar-collapse[\s\S]*?<\/button>/i,
+      /<!--[\s]*paistv-editor[\s]*{[\s]*-->[\s\S]*?<!--[\s]*paistv-editor[\s]*}[\s]*-->/g,
       ""
     );
+
+    // Se quitan todos los contenteditable
+    markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
+    // Se quitan todos los atributos que comienzan con paistv-editor-
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
+    // Se remplaza todas las clases que tienen paistv-only-editor con invisible
+    markup = markup.replace(
+      /(class="[^"]*?)(paistv-only-editor)([^"]*?")/g,
+      "$1invisible$3"
+    );
+    // Se eliminan el script de dependencias
     markup = markup.replace(
       /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,
       ""
     );
-    markup = markup.replace(/paistv-only-editor"/gi, "invisible");
     const json_model = JSON.stringify(this.domains);
     markup = markup.replace(
       "<head>",

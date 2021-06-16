@@ -1,155 +1,205 @@
 .wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
+  display: flex;
+  width: 100%;
+  align-items: stretch;
 }
 
 [paistv-editor-navbar] {
-    background: #7386D5;
+  background: #7386d5;
 }
 
 #content {
-    width: 100%;
-    min-height: 100vh;
-    transition: all 0.3s;
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s;
 }
 
-
-
 [paistv-editor-repeat] {
-    position: relative;
+  position: relative;
 }
 
 [paistv-editor-repeat] .paistv-editor-repeat-action {
-    position: absolute;
-    right: 0;
-    top: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
+#sidebar .sidebar-header {
+  display: flex;
+}
 
+#sidebar .sidebar-header .user-pic {
+  float: left;
+  width: 60px;
+  padding: 2px;
+  border-radius: 12px;
+  margin-right: 15px;
+  overflow: hidden;
+}
+
+#sidebar .sidebar-header .user-pic img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+#sidebar .sidebar-header .user-info {
+  float: left;
+}
+
+#sidebar .sidebar-header .user-info > span {
+  display: block;
+}
+
+#sidebar .sidebar-header .user-info .user-role {
+  font-size: 12px;
+}
+
+#sidebar .sidebar-header .user-info .user-status {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+#sidebar .sidebar-header .user-info .user-status i {
+  font-size: 8px;
+  margin-right: 4px;
+  color: #5cb85c;
+}
+
+#sidebar .sidebar-brand {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+#sidebar .sidebar-brand > a {
+  text-transform: uppercase;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+#sidebar .sidebar-brand .close-sidebar {
+  cursor: pointer;
+  font-size: 20px;
+}
 
 #sidebar .navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 15px 10px;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 #sidebar .navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
+  box-shadow: none;
+  outline: none !important;
+  border: none;
 }
 
 #sidebar .line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 40px 0;
 }
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
 
-
-
-
-
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #7386D5;
-    color: #fff;
-    transition: all 0.3s;
+  min-width: 250px;
+  max-width: 250px;
+  background: #7386d5;
+  color: #fff;
+  transition: all 0.3s;
 }
-
 
 #sidebar a,
 #sidebar a:hover,
 #sidebar a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
 }
 
 #sidebar.active {
-    margin-left: -250px;
+  margin-left: -250px;
 }
 
 #sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
+  padding: 20px;
+  background: #6d7fcc;
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #7c8cd0;
+  padding: 20px 0;
+  border-bottom: 1px solid #7c8cd0;
 }
 
 #sidebar ul p {
-    color: #fff;
-    padding: 10px;
+  color: #fff;
+  padding: 10px;
 }
 
 #sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+  color: #7386d5;
+  background: #fff;
 }
 
-#sidebar ul li.active>a,
+#sidebar ul li.active > a,
 #sidebar a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
+  color: #fff;
+  background: #6d7fcc;
 }
 
 #sidebar a[data-toggle="collapse"] {
-    position: relative;
+  position: relative;
 }
 
 #sidebar .dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
 }
 
 #sidebar ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
+  font-size: 0.9em !important;
+  padding-left: 30px !important;
+  background: #6d7fcc;
 }
 
 #sidebar ul.CTAs {
-    padding: 20px;
+  padding: 20px;
 }
 
 #sidebar ul.CTAs a {
-    text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
+  text-align: center;
+  font-size: 0.9em !important;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 #sidebar a.download {
-    background: #fff;
-    color: #7386D5;
+  background: #fff;
+  color: #7386d5;
 }
 
 #sidebar a.article,
 #sidebar a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
+  background: #6d7fcc !important;
+  color: #fff !important;
 }
 
 /* ---------------------------------------------------
@@ -157,9 +207,9 @@
 ----------------------------------------------------- */
 
 #paistv-editor-sidebar-collapse {
-    float: left;
-    margin-left: 10px;
-    margin-top: 10px;
+  float: left;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 /* ---------------------------------------------------
@@ -167,13 +217,13 @@
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #paistv-editor-sidebar-collapse span {
-        display: none;
-    }
+  #sidebar {
+    margin-left: -250px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #paistv-editor-sidebar-collapse span {
+    display: none;
+  }
 }

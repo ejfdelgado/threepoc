@@ -196,7 +196,7 @@ export const ngRepeatDirective = [
           $scope.addItem = async function (afterThisOrder) {
             if ([null, undefined].indexOf(originalCollection) >= 0) {
               //ngModel.$setViewValue({});
-              console.log('El modelo no existe! nada que hacer!');
+              console.log("El modelo no existe! nada que hacer!");
               return;
             }
             const newId = await IdGen.nuevo();
@@ -210,7 +210,10 @@ export const ngRepeatDirective = [
               let currentIndex = arreglo.length - 2;
               while (currentIndex > 0) {
                 let actual = arreglo[currentIndex];
-                if (nuevo.order > actual.order && actual.order != afterThisOrder) {
+                if (
+                  nuevo.order > actual.order &&
+                  actual.order != afterThisOrder
+                ) {
                   let paso = actual.order;
                   actual.order = nuevo.order;
                   nuevo.order = paso;
@@ -411,6 +414,7 @@ export const ngRepeatDirective = [
                   // scope es el scope del clone
 
                   var nuevoElem = $(`<div class=" dropleft paistv-editor-repeat-action">\
+                    <!-- paistv-editor { -->\
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
                       <i class="fa fa-pencil"></i>\
                     </button>\
@@ -420,6 +424,7 @@ export const ngRepeatDirective = [
                       <a class="manito dropdown-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
                       <a class="manito dropdown-item" ng-click="removeItem(value.order)">Borrar</a>\
                     </div>\
+                    <!-- paistv-editor } -->\
                   </div>`);
                   $(clone[0]).append(nuevoElem);
                   $compile(nuevoElem)(scope);
