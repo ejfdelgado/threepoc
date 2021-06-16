@@ -193,9 +193,10 @@ export const ngRepeatDirective = [
               }
             }
           };
-          $scope.addItem = async function () {
+          $scope.addItem = async function (afterThisOrder) {
             if ([null, undefined].indexOf(originalCollection) >= 0) {
               //ngModel.$setViewValue({});
+              console.log('El modelo no existe! nada que hacer!');
               return;
             }
             const newId = await IdGen.nuevo();
@@ -204,6 +205,21 @@ export const ngRepeatDirective = [
             // Acá se debería ajustar el order de los que sean necesarios para
             // ubicarlo en el lugar correcto; antes o después
             nuevo.order = newId;
+            if (afterThisOrder) {
+              const arreglo = $filter("orderItem")(originalCollection);
+              let currentIndex = arreglo.length - 2;
+              while (currentIndex > 0) {
+                let actual = arreglo[currentIndex];
+                if (nuevo.order > actual.order && actual.order != afterThisOrder) {
+                  let paso = actual.order;
+                  actual.order = nuevo.order;
+                  nuevo.order = paso;
+                  currentIndex--;
+                } else {
+                  break;
+                }
+              }
+            }
             $scope.$digest();
           };
           $scope.moveUpItem = function (key) {
@@ -394,12 +410,12 @@ export const ngRepeatDirective = [
                   // clone es el nuevo elemento
                   // scope es el scope del clone
 
-                  var nuevoElem = $(`<div class="dropdown">\
+                  var nuevoElem = $(`<div class=" dropleft paistv-editor-repeat-action">\
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
                       <i class="fa fa-pencil"></i>\
                     </button>\
                     <div class="dropdown-menu">\
-                      <a class="manito dropdown-item" ng-click="addItem()">Agregar</a>\
+                      <a class="manito dropdown-item" ng-click="addItem(value.order)">Agregar</a>\
                       <a class="manito dropdown-item" ng-click="moveUpItem(value.order)">Mover arriba</a>\
                       <a class="manito dropdown-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
                       <a class="manito dropdown-item" ng-click="removeItem(value.order)">Borrar</a>\

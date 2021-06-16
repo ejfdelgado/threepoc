@@ -94,6 +94,10 @@ export class HtmlEditorComponentClass {
       /paistv-editor-(navbar)/gi,
       ' style="display: none;"'
     );
+    markup = markup.replace(
+      /<button[\s\S]*?paistv-editor-sidebar-collapse[\s\S]*?<\/button>/i,
+      ""
+    );
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
     markup = markup.replace(
       /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,

@@ -14,6 +14,20 @@
     transition: all 0.3s;
 }
 
+
+
+[paistv-editor-repeat] {
+    position: relative;
+}
+
+[paistv-editor-repeat] .paistv-editor-repeat-action {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+
 #sidebar .navbar {
     padding: 15px 10px;
     background: #fff;
