@@ -11,7 +11,12 @@ export function htmlEditorNavBar() {
 
       const funcionToggle = function () {
         sideBar.toggleClass("active");
-        botonOpenSidebar.toggleClass("invisible");
+        if (sideBar.hasClass("active")) {
+          botonOpenSidebar.addClass("invisible");
+        } else {
+          botonOpenSidebar.removeClass("invisible");
+        }
+        
       };
 
       botonOpenSidebar.on("click", funcionToggle);

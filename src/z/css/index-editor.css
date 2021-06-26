@@ -5,6 +5,7 @@
 }
 
 [paistv-editor-navbar] {
+  z-index: 9999;
   background: #7386d5;
 }
 
@@ -261,5 +262,11 @@
   }
   #paistv-editor-sidebar-collapse span {
     display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #paistv-editor-sidebar-collapse.invisible {
+    display: inline-block !important;
   }
 }

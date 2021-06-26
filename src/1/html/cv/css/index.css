@@ -7615,6 +7615,7 @@ header {
   display: flex; }
   @media (max-width: 767px) {
     .content-wrapper {
+      display: contents;
       flex-direction: column; } }
 
 aside {
