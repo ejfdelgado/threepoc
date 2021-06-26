@@ -37,20 +37,22 @@ export class ModuloImg {
     }
     // Se debe calcular cómo pintar la imagen
     const proporcion = canvas.width / canvas.height;
-    let imgw = img.width;
+    const IMAGE_WIDTH = img.naturalWidth;
+    const IMAGE_HEIGHT = img.naturalHeight;
+    let imgw = IMAGE_WIDTH;
     let imgx = 0;
-    let imgh = img.height;
+    let imgh = IMAGE_HEIGHT;
     let imgy = 0;
     let canvasx = 0;
     let canvasy = 0;
     if (computeBounds) {
       if (scope_data.orientation == "vertical") {
         // Se debe hacer fit de la altura
-        imgw = img.height * proporcion;
-        imgh = img.height;
-        if (imgw < img.width) {
+        imgw = IMAGE_HEIGHT * proporcion;
+        imgh = IMAGE_HEIGHT;
+        if (imgw < IMAGE_WIDTH) {
           // La imagen resulta más grande, toca reubicar en la imagen
-          const diff = img.width - imgw;
+          const diff = IMAGE_WIDTH - imgw;
           if (scope_data.alignment == "major") {
             imgx += diff;
           } else if (scope_data.alignment == "center") {
@@ -58,7 +60,7 @@ export class ModuloImg {
           }
         } else {
           // La imagen resulta más pequeña, toca reubicar el canvas
-          const diff = canvas.width - imgw * (canvas.width / img.width);
+          const diff = canvas.width - imgw * (canvas.width / IMAGE_WIDTH);
           if (scope_data.alignment == "major") {
             canvasx -= diff / 2;
           } else if (scope_data.alignment == "center") {
@@ -67,11 +69,11 @@ export class ModuloImg {
         }
       } else {
         // Se asume horizontal
-        imgw = img.width;
-        imgh = img.width / proporcion;
-        if (imgh < img.height) {
+        imgw = IMAGE_WIDTH;
+        imgh = IMAGE_WIDTH / proporcion;
+        if (imgh < IMAGE_HEIGHT) {
           // La imagen resulta más grande, toca reubicar en la imagen
-          const diff = img.height - imgh;
+          const diff = IMAGE_HEIGHT - imgh;
           if (scope_data.alignment == "major") {
             imgy += diff;
           } else if (scope_data.alignment == "center") {
@@ -79,7 +81,7 @@ export class ModuloImg {
           }
         } else {
           // La imagen resulta más pequeña, toca reubicar el canvas
-          const diff = canvas.height - imgh * (canvas.height / img.height);
+          const diff = canvas.height - imgh * (canvas.height / IMAGE_HEIGHT);
           if (scope_data.alignment == "major") {
             canvasy -= diff / 2;
           } else if (scope_data.alignment == "center") {

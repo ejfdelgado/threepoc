@@ -100,8 +100,8 @@ export const dataImage = [
               const canvas = $(modalElement).find("canvas")[0];
               const img = $(element)[0];
 
-              canvas.width = img.width;
-              canvas.height = img.height;
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
 
               ModuloImg.paintImageOnCanvas(canvas, img, false);
 

@@ -132,14 +132,11 @@ export const ngRepeatDirective = [
         ) {
           const partes = /^[^|\s]+/.exec(rhs);
           const refModelo = partes[0];
-          $scope.hey = function () {
-            alert("hila");
-          };
           const opcionesVacio = $(
-            `<button class="invisible paistv-only-editor">+</button>`
+            `<button class="invisible btn btn-secondary btn-sm paistv-class-btn-add paistv-only-editor">+<i class="fa fa-pencil"></i></button>`
           );
           opcionesVacio.on("click", function () {
-            $scope.addItem();
+            addItem();
             $scope.$digest();
           });
           const elemOpcionesVacio = opcionesVacio.get(0);
@@ -160,14 +157,14 @@ export const ngRepeatDirective = [
           var lastBlockMap = createMap();
 
           let originalCollection = null;
-          $scope.updateEmptyOptions = function () {
-            if ($scope.isEmpty()) {
+          const updateEmptyOptions = function () {
+            if (isEmpty()) {
               opcionesVacio.removeClass("invisible");
             } else {
               opcionesVacio.addClass("invisible");
             }
           };
-          $scope.isEmpty = function () {
+          const isEmpty = function () {
             if (originalCollection instanceof Array) {
               return originalCollection.length == 0;
             } else if (originalCollection instanceof Object) {
@@ -177,7 +174,7 @@ export const ngRepeatDirective = [
               return true;
             }
           };
-          $scope.removeItem = async function (key) {
+          const removeItem = async function (key) {
             const acepto = await ModuloModales.confirm();
             if (!acepto) {
               return;
@@ -193,11 +190,12 @@ export const ngRepeatDirective = [
               }
             }
           };
-          $scope.addItem = async function (afterThisOrder) {
+          const addItem = async function (afterThisOrder) {
             if ([null, undefined].indexOf(originalCollection) >= 0) {
               //ngModel.$setViewValue({});
-              console.log("El modelo no existe! nada que hacer!");
-              return;
+              var modelValueSetter = $parse(refModelo).assign;
+              originalCollection = {};
+              modelValueSetter($scope, originalCollection);
             }
             const newId = await IdGen.nuevo();
             const nuevo = JSON.parse(predefined);
@@ -225,7 +223,7 @@ export const ngRepeatDirective = [
             }
             $scope.$digest();
           };
-          $scope.moveUpItem = function (key) {
+          const moveUpItem = function (key) {
             const arreglo = $filter("orderItem")(originalCollection);
             let actual = null;
             let indice = -1;
@@ -243,7 +241,7 @@ export const ngRepeatDirective = [
             actual.order = otroElemento.order;
             otroElemento.order = key;
           };
-          $scope.moveDownItem = function (key) {
+          const moveDownItem = function (key) {
             const arreglo = $filter("orderItem")(originalCollection);
             let actual = null;
             let indice = -1;
@@ -265,7 +263,7 @@ export const ngRepeatDirective = [
             localCollection
           ) {
             originalCollection = localCollection;
-            $scope.updateEmptyOptions();
+            updateEmptyOptions();
           });
 
           //watch props
@@ -288,7 +286,7 @@ export const ngRepeatDirective = [
               nextBlockOrder,
               elementsToRemove;
 
-            $scope.updateEmptyOptions();
+            updateEmptyOptions();
 
             if (aliasAs) {
               $scope[aliasAs] = collection;
@@ -412,6 +410,10 @@ export const ngRepeatDirective = [
                 $transclude(function ngRepeatTransclude(clone, scope) {
                   // clone es el nuevo elemento
                   // scope es el scope del clone
+                  scope.addItem = addItem;
+                  scope.moveUpItem = moveUpItem;
+                  scope.moveDownItem = moveDownItem;
+                  scope.removeItem = removeItem;
 
                   var nuevoElem = $(`<div class=" dropleft paistv-editor-repeat-action">\
                     <!-- paistv-editor { -->\
@@ -419,10 +421,10 @@ export const ngRepeatDirective = [
                       <i class="fa fa-pencil"></i>\
                     </button>\
                     <div class="dropdown-menu">\
-                      <a class="manito dropdown-item" ng-click="addItem(value.order)">Agregar</a>\
-                      <a class="manito dropdown-item" ng-click="moveUpItem(value.order)">Mover arriba</a>\
-                      <a class="manito dropdown-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
-                      <a class="manito dropdown-item" ng-click="removeItem(value.order)">Borrar</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="addItem(value.order)">Agregar</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveUpItem(value.order)">Mover arriba</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="removeItem(value.order)">Borrar</a>\
                     </div>\
                     <!-- paistv-editor } -->\
                   </div>`);

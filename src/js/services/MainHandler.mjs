@@ -62,11 +62,12 @@ export class MainHandler {
         files.push(partesName1 + "/" + partesName2 + "/index.html");
       }
     }
-    const HOMOLOGACIONES = Object.keys(Constants.HOMOLOGATION_FILES);
+    const HOMOLOGATION_FILES = Constants.HOMOLOGATION_FILES();
+    const HOMOLOGACIONES = Object.keys(HOMOLOGATION_FILES);
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       if (HOMOLOGACIONES.indexOf(file) >= 0) {
-        files[i] = Constants.HOMOLOGATION_FILES[file];
+        files[i] = HOMOLOGATION_FILES[file];
       }
     }
     ans.params = Utilidades.getQueryParams(localPath.query);

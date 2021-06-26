@@ -3,5 +3,5 @@ runtime: nodejs14
 handlers:
 - url: /.*
   script: auto
-  secure: always
+  secure: optional
   redirect_http_response_code: 301

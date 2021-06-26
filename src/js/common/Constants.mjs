@@ -32,14 +32,21 @@ export class Constants {
   static getSavedTemplateRegexp() {
     return /^public\/usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+\/index.html$/i;
   }
-  static TEMPLATED_PATHS = ["/1/html/simple/"];
+  static TEMPLATED_PATHS = ["/1/html/simple/", "/1/html/cv/"];
   static HTML_EDITOR_PATH = "/1/html/base";
-  static HOMOLOGATION_FILES = {
-    "/favicon.ico": "/z/img/favicon.ico",
-    "/1/html/simple/js/index.mjs": Constants.HTML_EDITOR_PATH + "/js/index.mjs",
-    "/1/html/simple/js/index.min.js":
-      Constants.HTML_EDITOR_PATH + "/js/index.min.js",
-    "/1/html/simple/js/dependencies.min.js":
-      Constants.HTML_EDITOR_PATH + "/js/dependencies.min.js",
-  };
+  static HOMOLOGATION_FILES() {
+    const ans = {
+      "/favicon.ico": "/z/img/favicon.ico",
+    };
+    for (let i = 0; i < Constants.TEMPLATED_PATHS.length; i++) {
+      const path = Constants.TEMPLATED_PATHS[i];
+      ans[path + "js/index.mjs"] =
+        Constants.HTML_EDITOR_PATH + "/js/index.mjs";
+      ans[path + "js/index.min.js"] =
+        Constants.HTML_EDITOR_PATH + "/js/index.min.js";
+      ans[path + "js/dependencies.min.js"] =
+        Constants.HTML_EDITOR_PATH + "/js/dependencies.min.js";
+    }
+    return ans;
+  }
 }
