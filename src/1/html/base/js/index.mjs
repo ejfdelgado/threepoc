@@ -12,11 +12,13 @@ import { htmlEditorNavBar } from "../../../../js/front/angular/directives/htmlEd
 import { orderItem } from "../../../../js/front/angular/filters/orderItem.mjs";
 import { dataEditItems } from "../../../../js/front/angular/directives/dataEditItems.mjs";
 import { ngRepeatDirective } from "../../../../js/front/angular/directives/ngRepeat.mjs";
+import { dataSelectImage } from "../../../../js/front/angular/directives/dataSelectImage.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
   .component("htmlEditorComponent", HtmlEditorComponent)
   .directive("paistvEditorImage", dataImage)
+  .directive("paistvEditorSelectImage", dataSelectImage)
   .directive("paistvEditorHtml", dataHtml)
   .directive("paistvEditorText", dataText)
   .directive("paistvDataMessage", dataMessage)

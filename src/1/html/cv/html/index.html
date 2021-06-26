@@ -1,3 +1,24 @@
+<script>
+    const PAIS_EDITOR_POOL_DATABASE = {
+        blueIcons: [
+            {"src":"/z/cv/images/001-target.svg"}, 
+            {"src":"/z/cv/images/002-development.svg"}, 
+            {"src":"/z/cv/images/003-idea.svg"}, 
+            {"src":"/z/cv/images/004-smartphone.svg"}
+        ],
+        waterMarkIcons: [
+            {"src":"/z/cv/images/Clients_1.svg"},
+            {"src":"/z/cv/images/Clients_2.svg"},
+            {"src":"/z/cv/images/Clients_3.svg"},
+            {"src":"/z/cv/images/Clients_4.svg"},
+        ],
+        coloredSvg: [
+            {"src":"/z/cv/images/puzzle.svg"},
+            {"src":"/z/cv/images/team.svg"},
+            {"src":"/z/cv/images/trophy.svg"},
+        ]
+    };
+</script>
 <header>
     <button class="btn btn-white btn-share ml-auto mr-3 ml-md-0 mr-md-auto"><img src="/z/cv/images/share.svg" alt="share" class="btn-img">
         SHARE</button>
@@ -14,7 +35,7 @@
 <div class="content-wrapper">
     <aside>
         <div class="profile-img-wrapper">
-            <img paistv-editor-image ng-model="$ctrl.domains.content.data.photo" path="'photo'" default="/z/cv/images/me.jpg" crossorigin="anonymous" alt="profile">
+            <img paistv-editor-image ng-model="$ctrl.domains.content.data.photo" path="'photo'" default="/z/cv/images/me.jpg" crossorigin="anonymous" alt="">
         </div>
         <h1 class="profile-name" paistv-editor-text ng-model="$ctrl.domains.content.data.name" default="Edgar Delgado">Edgar Delgado</h1>
         <div class="text-center">
@@ -106,7 +127,7 @@
             <div class="row">
                 <div class="media service-card col-lg-6" paistv-editor-repeat="value in $ctrl.domains.content.subDomain.skills | orderItem track by $index" predefined='{"title": "web designing", "desc": "<p>My gift</p>"}'>
                     <div class="service-icon">
-                        <img src="/z/cv/images/001-target.svg" alt="target">
+                        <img paistv-editor-select-image ng-model="value.img" options='PAIS_EDITOR_POOL_DATABASE.blueIcons' crossorigin="anonymous">
                     </div>
                     <div class="media-body">
                         <h5 class="service-title" paistv-editor-text ng-model="value.title" default="web designing">web designing</h5>
@@ -122,7 +143,7 @@
             <h2 class="section-title">EXPERIENCE WITH</h2>
             <div class="client-logos-wrapper">
                 <div class="client-logo" paistv-editor-repeat="value in $ctrl.domains.content.subDomain.tools | orderItem track by $index" predefined='{}'>
-                    <img src="/z/cv/images/Clients_1.svg" alt="logo" class="w-100">
+                    <img paistv-editor-select-image ng-model="value.img" options='PAIS_EDITOR_POOL_DATABASE.waterMarkIcons' crossorigin="anonymous" class="w-100">
                 </div>
             </div>
         </section>
@@ -130,70 +151,43 @@
             <h6 class="section-subtitle">WHAT I DO</h6>
             <h2 class="section-title">ACHIEVEMENTS</h2>
             <div class="achievement-cards-wrapper">
-                <div class="media achievement-card">
-                    <img src="/z/cv/images/puzzle.svg" alt="puzzle" class="achievement-card-icon">
+                <div class="media achievement-card" paistv-editor-repeat="value in $ctrl.domains.content.subDomain.achieve | orderItem track by $index" predefined='{}'>
+                    <img paistv-editor-select-image ng-model="value.img" options='PAIS_EDITOR_POOL_DATABASE.coloredSvg' crossorigin="anonymous" class="achievement-card-icon">
                     <div class="media-body">
-                        <h4 class="achievement-card-title">550+</h4>
-                        <p class="achievement-card-description">COMPLETED PROJECTS</p>
-                    </div>
-                </div>
-                <div class="media achievement-card">
-                    <img src="/z/cv/images/team.svg" alt="puzzle" class="achievement-card-icon">
-                    <div class="media-body">
-                        <h4 class="achievement-card-title">23K</h4>
-                        <p class="achievement-card-description">HAPPY CLIENTS</p>
-                    </div>
-                </div>
-                <div class="media achievement-card">
-                    <img src="/z/cv/images/trophy.svg" alt="puzzle" class="achievement-card-icon">
-                    <div class="media-body">
-                        <h4 class="achievement-card-title">55</h4>
-                        <p class="achievement-card-description">AWARDS RECIEVED</p>
+                        <h4 class="achievement-card-title" paistv-editor-text ng-model="value.number" default="550+">550+</h4>
+                        <p class="achievement-card-description" paistv-editor-text ng-model="value.detail" default="COMPLETED PROJECTS">COMPLETED PROJECTS</p>
                     </div>
                 </div>
             </div>
         </section>
         <section class="testimonial-section">
-            <div id="testimonialCarousel" class="testimonial-carousel carousel slide" data-ride="carousel">
+            <div id="testimonialCarousel" class="testimonial-carousel carousel slide paistv-class-editor-button-inherit" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <p class="testimonial-content">Mauris magna sapien, pharetra consectetur fringilla vitae,
-                            interdum sed tortor.</p>
+                    <div class="carousel-item" ng-class="{'active': $last}" paistv-editor-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index" predefined='{}'>
+                        <p class="testimonial-content" paistv-editor-text ng-model="value.said" default="What some one else says">What some one else says</p>
                         <img src="/z/cv/images/Profile.png" alt="profile" class="testimonial-img">
-                        <p class="testimonial-name">Nout Golstein</p>
-                    </div>
-                    <div class="carousel-item">
-                        <p class="testimonial-content">Mauris magna sapien, pharetra consectetur fringilla vitae,
-                            interdum sed tortor.</p>
-                        <img src="/z/cv/images/Profile.png" alt="profile" class="testimonial-img">
-                        <p class="testimonial-name">Nout Golstein</p>
-                    </div>
-                    <div class="carousel-item">
-                        <p class="testimonial-content">Mauris magna sapien, pharetra consectetur fringilla vitae,
-                            interdum sed tortor.</p>
-                        <img src="/z/cv/images/Profile.png" alt="profile" class="testimonial-img">
-                        <p class="testimonial-name">Nout Golstein</p>
+                        <p class="testimonial-name" paistv-editor-text ng-model="value.who" default="Who">Who</p>
                     </div>
                 </div>
                 <ol class="carousel-indicators">
-                    <li data-target="#testimonialCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#testimonialCarousel" data-slide-to="1"></li>
-                    <li data-target="#testimonialCarousel" data-slide-to="2"></li>
+                    <li data-target="#testimonialCarousel" data-slide-to="{{ $$index }}" ng-class="{'active': $last}" ng-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index"></li>
                 </ol>
             </div>
         </section>
         <section class="contact-section">
             <h2 class="section-title">GET IN TOUCH</h2>
-            <p class="mb-4">If you’d like to talk about a project, our work or anything else then get in touch.</p>
+            <div paistv-editor-html ng-model="$ctrl.domains.content.texts.contactme" default="<p>Talk with me</p>">
+                <p class="mb-4">Talk with me.</p>
+            </div>
             
             <div class="contact-cards-wrapper">
                 <div class="contact-card">
                     <h6 class="contact-card-title">CALL ME</h6>
-                    <p class="contact-card-content">+987 654 3210 , +987 654 3210</p>
+                    <p class="contact-card-content" paistv-editor-text ng-model="$ctrl.domains.content.data.phones" default="+987 654 3210 , +987 654 3210">+987 654 3210 , +987 654 3210</p>
                 </div>
                 <div class="contact-card">
                     <h6 class="contact-card-title">Email Me</h6>
-                    <p class="contact-card-content">hello@liveresume.com</p>
+                    <p class="contact-card-content" paistv-editor-text ng-model="$ctrl.domains.content.data.mails" default="hello@liveresume.com">hello@liveresume.com</p>
                 </div>
             </div>
 

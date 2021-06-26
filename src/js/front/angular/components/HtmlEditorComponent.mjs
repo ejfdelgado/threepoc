@@ -26,6 +26,7 @@ export class HtmlEditorComponentClass {
       const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
       window.open(pubUrl, "_blank");
     });
+    $scope.PAIS_EDITOR_POOL_DATABASE = PAIS_EDITOR_POOL_DATABASE;
     this.$scope = $scope;
   }
   $onInit() {

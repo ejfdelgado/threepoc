@@ -12,6 +12,28 @@
   line-height: 1.5;
 }
 
+.paistv-class-editor-button-inherit .paistv-class-btn-add {
+  position: inherit;
+}
+
+.paistv-editor-repeat-action .dropdown-menu {
+  padding: 0.1rem 1.0rem;
+  
+}
+
+.paistv-editor-repeat-action .dropdown-item.pais-tv-menu-item {
+  font-size: 0.8rem;
+}
+
+.pais-class-editor-select-images .myselected {
+  border: 1px solid;
+  border-color: blue;
+}
+
+.pais-class-editor-select-images .pais-class-editor-some-option {
+  cursor: pointer;
+}
+
 #paistv-class-editor-content {
   width: 100%;
   min-height: 100vh;

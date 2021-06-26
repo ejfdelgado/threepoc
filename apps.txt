@@ -24,8 +24,11 @@ https://fontawesome.com/v4.7/icons/
 - Borrar botón de edición de ng-repeat ok
 - A los elementos con clase paistv-only-editor agregarles la clase invisible ok
 - Agregar al sidebar información de la persona logeada y el botón de logout ok
+- Qué pasa si no hay modelo? angular cómo agrega el elemento? ok
 
-- Qué pasa si no hay modelo? angular cómo agrega el elemento?
+
+- Editor de enlace con archivo para descargar (Download CV)
+- Galería de imágenes con una lista de urls ["/z/share.svg", "/z/otro.svg"]
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 
