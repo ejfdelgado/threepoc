@@ -125,8 +125,13 @@ export class HtmlEditorComponentClass {
 
     // Se quitan todos los contenteditable
     markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
-    // Se quitan todos los atributos que comienzan con paistv-editor-
+
+    // Se quitan los ng-if que tengan message al lado
+    markup = markup.replace(/ng-if="[^"]+"[^>]+message="[^"]+"/gi, "");
+
+    // Se quitan todos los atributos que comienzan con paistv-editor-algo
     markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
+
     // Se remplaza todas las clases que tienen paistv-only-editor con invisible
     markup = markup.replace(
       /(class="[^"]*?)(paistv-only-editor)([^"]*?")/g,
