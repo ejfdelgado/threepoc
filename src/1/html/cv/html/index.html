@@ -42,11 +42,11 @@
             <span class="badge badge-white badge-pill profile-designation" paistv-editor-text ng-model="$ctrl.domains.content.data.profile" default="Full Stack Developer">Full Stack Developer</span>
         </div>
         <nav class="social-links">
-            <a href="#!" class="social-link"><i class="fa fa-facebook"></i></a>
-            <a href="#!" class="social-link"><i class="fa fa-twitter"></i></a>
-            <a href="#!" class="social-link"><i class="fa fa-behance"></i></a>
-            <a href="#!" class="social-link"><i class="fa fa-dribbble"></i></a>
-            <a href="#!" class="social-link"><i class="fa fa-github"></i></a>
+            <a href="#!" class="social-link" ng-if="$ctrl.domains.ifs.social.facebook" message="Social Facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#!" class="social-link" ng-if="$ctrl.domains.ifs.social.twitter" message="Social Twitter"><i class="fa fa-twitter"></i></a>
+            <a href="#!" class="social-link" ng-if="$ctrl.domains.ifs.social.behance" message="Social Behance"><i class="fa fa-behance"></i></a>
+            <a href="#!" class="social-link" ng-if="$ctrl.domains.ifs.social.dribbble" message="Social Dribbble"><i class="fa fa-dribbble"></i></a>
+            <a href="#!" class="social-link" ng-if="$ctrl.domains.ifs.social.github" message="Social GitHub"><i class="fa fa-github"></i></a>
         </nav>
         <div class="widget">
             <h5 class="widget-title">personal information</h5>

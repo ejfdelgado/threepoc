@@ -13,6 +13,9 @@ import { orderItem } from "../../../../js/front/angular/filters/orderItem.mjs";
 import { dataEditItems } from "../../../../js/front/angular/directives/dataEditItems.mjs";
 import { ngRepeatDirective } from "../../../../js/front/angular/directives/ngRepeat.mjs";
 import { dataSelectImage } from "../../../../js/front/angular/directives/dataSelectImage.mjs";
+import { templateDiscoverInterceptor } from "../../../../js/front/angular/interceptors/templateDiscover.mjs";
+import { ngifSearch } from "../../../../js/front/angular/services/ngifSearch.mjs";
+import { ngModelDynamic } from "../../../../js/front/angular/directives/ngModelDynamic.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -25,12 +28,16 @@ export const Tuto3Module = angular
   .directive("paistvEditorNavbar", htmlEditorNavBar)
   .directive("paistvEditorEditItems", dataEditItems)
   .directive("paistvEditorRepeat", ngRepeatDirective)
+  .directive("ngModelDynamic", ngModelDynamic)
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
+  .service("ngifSearch", ngifSearch)
   .config([
     "$stateProvider",
     "$urlRouterProvider",
-    ($stateProvider, $urlRouterProvider) => {
+    "$httpProvider",
+    ($stateProvider, $urlRouterProvider, $httpProvider) => {
+      $httpProvider.interceptors.push(templateDiscoverInterceptor);
       $stateProvider.state("/", {
         url: "/",
         component: "htmlEditorComponent",

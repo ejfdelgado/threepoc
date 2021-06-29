@@ -3,9 +3,14 @@ import { ModuloActividad } from "../../common/ModuloActividad.mjs";
 import { Utilidades } from "../../../common/Utilidades.mjs";
 import { ModuloTupla } from "../../page/ModuloTupla.mjs";
 import { ModuloPagina } from "../../page/ModuloPagina.mjs";
+import { ModuloModales } from "../../common/ModuloModales.mjs";
+import { ModuloHtml } from "../../common/ModuloHtml.mjs";
+import { Utiles } from "../../../common/Utiles.mjs";
 
 export class HtmlEditorComponentClass {
-  constructor($scope, $rootScope, $filter) {
+  constructor($scope, $rootScope, $filter, $parse, $compile, ngifSearch) {
+    const self = this;
+    this.ngifSearch = ngifSearch;
     this.$filter = $filter;
     $rootScope.$on("saveAll", (datos) => {
       this.save();
@@ -26,6 +31,23 @@ export class HtmlEditorComponentClass {
       const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
       window.open(pubUrl, "_blank");
     });
+    $rootScope.$on("editPageOptions", async function () {
+      const urlTemplate = "/js/front/page/html/editPageOptions.html";
+      await ModuloModales.basic({
+        title: "Selecciona las opciones",
+        message: await ModuloHtml.getHtml(urlTemplate),
+        size: "sm",
+        useHtml: true,
+        preShow: function () {
+          self.$scope.$digest();
+        },
+        angular: {
+          scope: self.$scope,
+          compile: $compile,
+        },
+      });
+    });
+
     $scope.PAIS_EDITOR_POOL_DATABASE = PAIS_EDITOR_POOL_DATABASE;
     this.$scope = $scope;
   }
@@ -55,6 +77,7 @@ export class HtmlEditorComponentClass {
     $(document).bind("keyup keydown", this.keyBoardInterpreter);
 
     this.readDomain("content", PREDEFINED).catch((e) => {});
+    this.readDomain("ifs", PREDEFINED).catch((e) => {});
   }
   $onDestroy() {
     $(document).unbind("keyup keydown", this.keyBoardInterpreter);
@@ -62,11 +85,14 @@ export class HtmlEditorComponentClass {
   $onChanges(changesObj) {
     // Replaces the $watch()
   }
-  $onPostLink() {
-    // When the component DOM has been compiled attach you eventHandler.
-  }
+  $onPostLink() {}
   $postLink() {
-    //
+    const referer = Utiles.getReferer();
+    const partes = /\/1\/html([^?#]*)/.exec(referer);
+    const indexFile = partes[0] + "html/index.html";
+    this.ngifSearch.registerListener((valores) => {
+      this.$scope.$ctrl.ifs = valores;
+    }, indexFile);
   }
   async readDomain(domain = "", predefined = {}, useSubDomain) {
     const opciones = { dom: domain, useSubDomain: useSubDomain };
@@ -143,5 +169,13 @@ export const HtmlEditorComponent = {
     page: "<",
   },
   templateUrl: `${RECOMPUTED_PATH.pathname}html/index.html`,
-  controller: ["$scope", "$rootScope", "$filter", HtmlEditorComponentClass],
+  controller: [
+    "$scope",
+    "$rootScope",
+    "$filter",
+    "$parse",
+    "$compile",
+    "ngifSearch",
+    HtmlEditorComponentClass,
+  ],
 };

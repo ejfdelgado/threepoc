@@ -192,7 +192,6 @@ export const ngRepeatDirective = [
           };
           const addItem = async function (afterThisOrder) {
             if ([null, undefined].indexOf(originalCollection) >= 0) {
-              //ngModel.$setViewValue({});
               var modelValueSetter = $parse(refModelo).assign;
               originalCollection = {};
               modelValueSetter($scope, originalCollection);
