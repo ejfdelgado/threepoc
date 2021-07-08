@@ -27,6 +27,7 @@ export class HtmlEditorComponentClass {
       ModuloPagina.showSearchPages();
     });
     $rootScope.$on("viewPage", async function (datos) {
+      // TODO usar el subdominio
       const ref = await ModuloPagina.leer();
       const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
       window.open(pubUrl, "_blank");
@@ -56,11 +57,6 @@ export class HtmlEditorComponentClass {
     this.services = {};
     window.ALL_MODEL = this.domains;
 
-    const PREDEFINED = {
-      images: {},
-      texts: {},
-      subDomain: {},
-    };
     const self = this;
     this.keyBoardInterpreter = async function (e) {
       if (e.ctrlKey && e.which == 83) {
@@ -76,8 +72,24 @@ export class HtmlEditorComponentClass {
     };
     $(document).bind("keyup keydown", this.keyBoardInterpreter);
 
-    this.readDomain("content", PREDEFINED).catch((e) => {});
-    this.readDomain("ifs", PREDEFINED).catch((e) => {});
+    const THE_DOMAINS = [
+      {
+        key: "content",
+        pred: {
+          images: {},
+          texts: {},
+          subDomain: {},
+        },
+      },
+      {
+        key: "ifs",
+        pred: {},
+      },
+    ];
+    for (let i = 0; i < THE_DOMAINS.length; i++) {
+      const domainSpec = THE_DOMAINS[i];
+      this.readDomain(domainSpec.key, domainSpec.pred).catch((e) => {});
+    }
   }
   $onDestroy() {
     $(document).unbind("keyup keydown", this.keyBoardInterpreter);
@@ -115,6 +127,14 @@ export class HtmlEditorComponentClass {
     }
   }
   async save() {
+    let publicSubDomain = null;
+    if (
+      this.domains &&
+      this.domains.content &&
+      this.domains.content.subdomain
+    ) {
+      publicSubDomain = this.domains.content.subdomain;
+    }
     let markup = document.documentElement.innerHTML;
 
     // Se quita todo lo que hay entre <!-- paistv-editor { --> y <!-- paistv-editor } -->
@@ -153,7 +173,7 @@ export class HtmlEditorComponentClass {
     const header = '<!DOCTYPE html><html lang="es">';
     const footer = "</html>";
     const response = await ModuloArchivos.uploadFile({
-      subDomainPrefix: "/p/ejfdelgado",
+      subDomainPrefix: `/p/${publicSubDomain}`,
       own: false,
       path: "index.html",
       data: `${header}${markup}${footer}`,
@@ -169,8 +189,6 @@ export class HtmlEditorComponentClass {
 }
 
 let RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $("base").attr("href"));
-
-console.log(RECOMPUTED_PATH);
 
 export const HtmlEditorComponent = {
   bindings: {

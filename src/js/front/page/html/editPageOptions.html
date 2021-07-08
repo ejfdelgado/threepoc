@@ -1,5 +1,9 @@
 <form>
   <div class="form-group">
+    <div class="form-group">
+      <label class="col-form-label">Subdomain:</label>
+      <input type="text" class="form-control" ng-model="$ctrl.domains.content.subdomain">
+    </div>
     <div class="form-check" ng-repeat="value in $ctrl.ifs">
       <input class="form-check-input" type="checkbox" ng-model-dynamic="{{ value.key }}" ng-true-value="true" ng-false-value="false">
       <label class="form-check-label">{{ value.message }}</label>
