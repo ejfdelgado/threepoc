@@ -1,3 +1,29 @@
+
+@keyframes pending_color_indicator {
+  from {background-color: #dedede;}
+  to {background-color: #7d7d7d;}
+}
+
+@keyframes saving_color_indicator {
+  from {background-color: #72ca8d;}
+  to {background-color: #04d644;}
+}
+
+.indicador_guardado.no_al_dia {
+  border-color: #ffffff;
+  animation: pending_color_indicator 5s infinite;
+}
+
+.indicador_guardado.guardado_ok {
+  border-color: #00902c;
+  background-color: #00902c;
+}
+
+.indicador_guardado.guardado_en_progreso {
+  border-color: #ffffff;
+  animation: saving_color_indicator 5s infinite;
+}
+
 .wrapper {
   display: flex;
   width: 100%;
