@@ -200,6 +200,31 @@ export class Utilidades {
     return typeof dato == "number" || /^\s*\d+([\.,]\d*)?\s*$/.test(dato);
   }
 
+  static sortify(dato) {
+    var cache = [];
+    var prohibidos = ["$$hashKey"];
+    var text = JSON.sortify(
+      circ,
+      function (key, value) {
+        if (prohibidos.indexOf(key) >= 0) {
+          return;
+        }
+        if (typeof value === "object" && value !== null) {
+          if (cache.indexOf(value) !== -1) {
+            // Duplicate reference found, discard key
+            return;
+          }
+          // Store value in our collection
+          cache.push(value);
+        }
+        return value;
+      },
+      indent
+    );
+    cache = null; // Enable garbage collection
+    return text;
+  }
+
   static darRutasObjeto(
     objOr,
     filtroObjetoAgregar,
@@ -407,6 +432,100 @@ export class Utilidades {
       } else {
         //if (debug) {console.log('Aborta en ', llave);}
         break;
+      }
+    }
+  }
+}
+
+export class Encolar {
+  //Solo ejecuta la funFinal después de pasar un periodo (milis) de tiempo sin haber recibido un llamado
+  //funFinal puede retornar un diferido
+  //funFinal puede ejecutarse inmediatamente
+  static tiposUltimosPeriodos = {};
+  static encolar(tipo, funFinal, periodo, opciones) {
+    opciones = $.extend(
+      true,
+      {},
+      {
+        reintentos: 0,
+        espera: 0,
+      },
+      opciones
+    );
+    //console.log('encolar', tipo);
+    var ahora = new Date().getTime();
+    //Caso base, no existe antes
+    if (!(tipo in Encolar.tiposUltimosPeriodos)) {
+      Encolar.tiposUltimosPeriodos[tipo] = {
+        now: ahora,
+        timer: null,
+        dif: null,
+      };
+    }
+    var actual = Encolar.tiposUltimosPeriodos[tipo];
+    if (actual["now"] == null) {
+      actual["now"] = ahora;
+    }
+    var diferencia = ahora - actual["now"];
+
+    var terminarTodo = function () {
+      var temp = actual["dif"];
+      actual["dif"] = null;
+      actual["timer"] = null;
+      actual["now"] = null;
+      temp.resolve();
+    };
+
+    var funInterna = function () {
+      actual["dif"] = $.Deferred();
+      //console.log('llamando función final...');
+      var temp = funFinal();
+      if (
+        typeof temp == "object" &&
+        temp != null &&
+        typeof temp["always"] == "function"
+      ) {
+        //Es diferido
+        temp.then(
+          function () {},
+          function () {
+            //Falló, valida si toca reintentar...
+            if (
+              typeof opciones["reintentos"] == "number" &&
+              opciones["reintentos"] > 0
+            ) {
+              setTimeout(function () {
+                opciones["reintentos"] = opciones["reintentos"] - 1;
+                encolar(tipo, funFinal, periodo, opciones);
+              }, opciones["espera"]);
+            }
+          }
+        );
+        temp.always(function () {
+          terminarTodo();
+        });
+      } else {
+        terminarTodo();
+      }
+    };
+
+    var cancelarTimer = function () {
+      if (actual["timer"] != null) {
+        clearTimeout(actual["timer"]);
+        actual["timer"] = null;
+      }
+    };
+
+    if (actual["dif"] != null) {
+      actual["dif"].then(function () {
+        encolar(tipo, funFinal, periodo, opciones);
+      });
+    } else {
+      if (diferencia < periodo) {
+        cancelarTimer();
+        //Se debe postergar el llamado...
+        actual["now"] = ahora;
+        actual["timer"] = setTimeout(funInterna, periodo);
       }
     }
   }

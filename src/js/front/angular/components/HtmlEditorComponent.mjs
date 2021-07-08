@@ -1,6 +1,7 @@
 import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
 import { ModuloActividad } from "../../common/ModuloActividad.mjs";
 import { Utilidades } from "../../../common/Utilidades.mjs";
+import { Encolar } from "../../../common/Utilidades.mjs";
 import { ModuloTupla } from "../../page/ModuloTupla.mjs";
 import { ModuloPagina } from "../../page/ModuloPagina.mjs";
 import { ModuloModales } from "../../common/ModuloModales.mjs";
@@ -54,6 +55,7 @@ export class HtmlEditorComponentClass {
   }
   $onInit() {
     this.domains = {};
+    this.domainsState = {};
     this.services = {};
     window.ALL_MODEL = this.domains;
 
@@ -90,12 +92,36 @@ export class HtmlEditorComponentClass {
       const domainSpec = THE_DOMAINS[i];
       this.readDomain(domainSpec.key, domainSpec.pred).catch((e) => {});
     }
+    this.$scope.$watch(
+      `$ctrl.domainsState`,
+      (newVal, oldVal, scope) => {
+        const llaves = Object.keys(newVal);
+        const ans = {
+          sync: true,
+        };
+        for (let i = 0; i < llaves.length; i++) {
+          const llave = llaves[i];
+          const contenido = newVal[llave];
+          if (contenido.sync === false) {
+            ans.sync = false;
+          }
+        }
+        const indicadorGuardado = $(".indicador_guardado");
+        indicadorGuardado.removeClass("al_dia");
+        indicadorGuardado.removeClass("no_al_dia");
+        if (ans.sync) {
+          // Todo está al día
+          indicadorGuardado.addClass("al_dia");
+        } else {
+          // Hay cosas pendientes
+          indicadorGuardado.addClass("no_al_dia");
+        }
+      },
+      true
+    );
   }
   $onDestroy() {
     $(document).unbind("keyup keydown", this.keyBoardInterpreter);
-  }
-  $onChanges(changesObj) {
-    // Replaces the $watch()
   }
   $onPostLink() {}
   $postLink() {
@@ -118,13 +144,35 @@ export class HtmlEditorComponentClass {
     delete rta.value;
     this.domains[domain] = rta;
     await servicio.guardar(rta);
+    this.domainsState[domain] = { sync: true };
+    const llaveEncolamiento = `save.domain.${domain}`;
+    // Se agrega el listener del modelo para guardar activamente
+    this.$scope.$watch(
+      `$ctrl.domains.${domain}`,
+      (newVal, oldVal, scope) => {
+        this.domainsState[domain].sync = false;
+        Encolar.encolar(
+          llaveEncolamiento,
+          async () => {
+            this.domainsState[domain].sync = true;
+            this.$scope.$digest();
+            const indicadorGuardado = $(".indicador_guardado");
+            indicadorGuardado.addClass("guardado_en_progreso");
+            await this.services[domain].guardar(newVal, undefined, undefined, {
+              actividad: false,
+            });
+            indicadorGuardado.removeClass("guardado_en_progreso");
+            indicadorGuardado.addClass("guardado_ok");
+            setTimeout(() => {
+              indicadorGuardado.removeClass("guardado_ok");
+            }, 1000);
+          },
+          2000
+        );
+      },
+      true
+    );
     this.$scope.$digest();
-  }
-  async saveTupla() {
-    for (let domain in this.domains) {
-      const valor = this.domains[domain];
-      await this.services[domain].guardar(valor);
-    }
   }
   async save() {
     let publicSubDomain = null;
@@ -169,7 +217,6 @@ export class HtmlEditorComponentClass {
     );
 
     const actividad = ModuloActividad.on();
-    await this.saveTupla();
     const header = '<!DOCTYPE html><html lang="es">';
     const footer = "</html>";
     const response = await ModuloArchivos.uploadFile({
