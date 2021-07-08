@@ -25,12 +25,19 @@ https://fontawesome.com/v4.7/icons/
 - A los elementos con clase paistv-only-editor agregarles la clase invisible ok
 - Agregar al sidebar información de la persona logeada y el botón de logout ok
 - Qué pasa si no hay modelo? angular cómo agrega el elemento? ok
-
-
-- Editor de enlace con archivo para descargar (Download CV)
 - Galería de imágenes con una lista de urls ["/z/share.svg", "/z/otro.svg"]
+- Hacer el manejo de subdominios, que un subdominio mapee una url del bucket
+- Permitir que cuando uno guarda una página, esta escriba en la ruta del bucket
+
+
+- Permitir tener un arbol de archivos que explore el bucket
+- Hacer ng-if del mapa de google
+- Permitir modificar el mapa de google
+- Editor de enlace con archivo para descargar (Download CV)
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
+- Hacer el envío de correo
+- Permitir almacenar información como de una encuesta o invitación
 
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
@@ -59,4 +66,5 @@ APPS:
 - Conversor de html a pdf para hoja de vida
 - Chat
 - Hacer una tarjeta virtual con formularios
+- Hcer una encuesta con feedback real time
 - Hacer un editor de cartas con firma.

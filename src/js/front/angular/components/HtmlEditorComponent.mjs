@@ -153,14 +153,17 @@ export class HtmlEditorComponentClass {
     const header = '<!DOCTYPE html><html lang="es">';
     const footer = "</html>";
     const response = await ModuloArchivos.uploadFile({
+      subDomainPrefix: "/p/ejfdelgado",
       own: false,
       path: "index.html",
       data: `${header}${markup}${footer}`,
     });
     const partesId = /(\d+)\/index\.html/.exec(response.key);
-    const pgid = partesId[1];
-    const pubUrl = `${location.origin}${location.pathname}pg${pgid}/`;
-    response.pubUrl = pubUrl;
+    if (partesId != null) {
+      const pgid = partesId[1];
+      const pubUrl = `${location.origin}${location.pathname}pg${pgid}/`;
+      response.pubUrl = pubUrl;
+    }
     actividad.resolve();
   }
 }

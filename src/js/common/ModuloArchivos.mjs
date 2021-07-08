@@ -50,6 +50,7 @@ export class ModuloArchivos {
     const options = Object.assign(
       {
         own: true,
+        subDomainPrefix: null,
         path: null,
         data: null, // String, Blob, Canvas
       },
@@ -86,6 +87,7 @@ export class ModuloArchivos {
     options.path = Utilidades.trimSlashes(options.path);
 
     const isNew = Utilidades.getBucketKey(options.path) == null;
+    const useSubDomain = (typeof options.subDomainPrefix == 'string' && options.subDomainPrefix.trim().length > 0);
     if (isNew) {
       // 1.1.
       const epoch = await IdGen.ahora();
@@ -104,16 +106,26 @@ export class ModuloArchivos {
       reemplazos.id = pagina.id;
       reemplazos.usr = pagina.aut;
 
+      // Recordar que reemplazos.key es igual a options.path
+      // y que reemplazos.path es igual al path de la página
       if (options.own) {
         fullFile.path = Utilidades.interpolate(
           "public/usr/${usr}/${path}/pg/${id}/${key}",
           reemplazos
         );
       } else {
-        fullFile.path = Utilidades.interpolate(
-          "public/usr/anonymous/${path}/pg/${id}/${key}",
-          reemplazos
-        );
+        if (useSubDomain && /\.html/i.exec(reemplazos.key) != null) {
+          // Guarda los htmls en la ruta del subdominio
+          fullFile.path = Utilidades.interpolate(
+            "public" + options.subDomainPrefix + "/${key}",
+            reemplazos
+          );
+        } else {
+          fullFile.path = Utilidades.interpolate(
+            "public/usr/anonymous/${path}/pg/${id}/${key}",
+            reemplazos
+          );
+        }
       }
     } else {
       fullFile.path = options.path;

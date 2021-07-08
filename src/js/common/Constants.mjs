@@ -11,10 +11,16 @@ export class Constants {
   static firebase = {
     databaseURL: "https://" + Constants.PROJECT_ID + ".firebaseio.com",
   };
+  static getSubDomainPattern = function () {
+    // sudo vim /etc/hosts
+    return /([^.]+)\.pais\.tv(.*)/;
+  };
   static VALID_BUCKET_KEYS = function () {
     return [
       // Como si fuera simplemente la llave ^public/usr/
       /^(public\/usr\/[^?]+)/,
+      // Como si fuera una llave estática
+      /^(public\/p\/[^?]+)/,
       // Como si fuera una ruta local al api /storage/read?name=public/usr/
       /\/storage\/read\?name=(public\/usr\/[^?]+)$/,
       // Como si fuera https://storage.googleapis.com/[^/]+/public/usr/
@@ -30,7 +36,7 @@ export class Constants {
     return `/usr/anonymous${pathname}pg/${pgid}/index.html`;
   }
   static getSavedTemplateRegexp() {
-    return /^public\/usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+\/index.html$/i;
+    return /^public\/(usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+|p\/.+)\/index.html$/i;
   }
   static TEMPLATED_PATHS = ["/1/html/simple/", "/1/html/cv/"];
   static HTML_EDITOR_PATH = "/1/html/base";
@@ -40,8 +46,7 @@ export class Constants {
     };
     for (let i = 0; i < Constants.TEMPLATED_PATHS.length; i++) {
       const path = Constants.TEMPLATED_PATHS[i];
-      ans[path + "js/index.mjs"] =
-        Constants.HTML_EDITOR_PATH + "/js/index.mjs";
+      ans[path + "js/index.mjs"] = Constants.HTML_EDITOR_PATH + "/js/index.mjs";
       ans[path + "js/index.min.js"] =
         Constants.HTML_EDITOR_PATH + "/js/index.min.js";
       ans[path + "js/dependencies.min.js"] =

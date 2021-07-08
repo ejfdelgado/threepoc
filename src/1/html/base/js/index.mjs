@@ -16,6 +16,7 @@ import { dataSelectImage } from "../../../../js/front/angular/directives/dataSel
 import { templateDiscoverInterceptor } from "../../../../js/front/angular/interceptors/templateDiscover.mjs";
 import { ngifSearch } from "../../../../js/front/angular/services/ngifSearch.mjs";
 import { ngModelDynamic } from "../../../../js/front/angular/directives/ngModelDynamic.mjs";
+import { dataLinkEditor } from "../../../../js/front/angular/directives/dataLinkEditor.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -29,6 +30,7 @@ export const Tuto3Module = angular
   .directive("paistvEditorEditItems", dataEditItems)
   .directive("paistvEditorRepeat", ngRepeatDirective)
   .directive("ngModelDynamic", ngModelDynamic)
+  .directive("paistvEditorLink", dataLinkEditor)
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
   .service("ngifSearch", ngifSearch)

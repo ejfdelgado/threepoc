@@ -22,15 +22,23 @@ export class MainHandler {
     //Leo los parámetros
     const ans = {
       params: {},
-      pathname: localPath.pathname,
-      protocol: localPath.protocol,
-      hostname: localPath.hostname,
+      pathname: localPath.pathname, // /1/html/cv/
+      protocol: localPath.protocol, // http:
+      hostname: localPath.hostname, // proyeccion-colombia1.appspot.com
       query:
         localPath.query != null && localPath.query.length > 0
           ? "?" + localPath.query
           : "",
     };
-    if (Constants.ROOT_FOLDER.trim().length > 0) {
+    const subdominioParts = Constants.getSubDomainPattern().exec(ans.hostname);
+    let prefix = "";
+    let useSubDomain = false;
+    if (subdominioParts != null) {
+      ans.startWithBucket = true;
+      useSubDomain = true;
+      prefix = `/p/${subdominioParts[1]}`;
+    }
+    if (!useSubDomain && Constants.ROOT_FOLDER.trim().length > 0) {
       const partesSiRaiz = /^\/([^/]*)$/.exec(ans.pathname);
       if (partesSiRaiz != null) {
         if (["/", "", "/index.html"].indexOf(ans.pathname) >= 0) {
@@ -48,18 +56,41 @@ export class MainHandler {
       Constants.TEMPLATED_PATHS.indexOf(ans.pathname) >= 0
     ) {
       ans.startWithBucket = true;
+      if (useSubDomain) {
+        files.push(
+          Constants.getSavedTemplateUrl(
+            `${prefix}${localPath.pathname}`,
+            recomputedUrl.pgid
+          )
+        );
+      }
       files.push(
-        Constants.getSavedTemplateUrl(localPath.pathname, recomputedUrl.pgid)
+        Constants.getSavedTemplateUrl(
+          `${localPath.pathname}`,
+          recomputedUrl.pgid
+        )
       );
     }
     if (partesName1.length == 0 && partesName2.length == 0) {
-      files.push("/index.html");
+      if (useSubDomain) {
+        files.push(`${prefix}/index.html`);
+      }
+      files.push(`/index.html`);
     } else if (partesName2.length == 0) {
-      files.push(partesName1 + "/index.html");
+      if (useSubDomain) {
+        files.push(`${prefix}${partesName1}/index.html`);
+      }
+      files.push(`${partesName1}/index.html`);
     } else {
-      files.push(partesName1 + "/" + partesName2);
+      if (useSubDomain) {
+        files.push(`${prefix}${partesName1}/${partesName2}`);
+      }
+      files.push(`${partesName1}/${partesName2}`);
       if (partesName2.indexOf(".") < 0) {
-        files.push(partesName1 + "/" + partesName2 + "/index.html");
+        if (useSubDomain) {
+          files.push(`${prefix}${partesName1}/${partesName2}/index.html`);
+        }
+        files.push(`${partesName1}/${partesName2}/index.html`);
       }
     }
     const HOMOLOGATION_FILES = Constants.HOMOLOGATION_FILES();
@@ -73,6 +104,9 @@ export class MainHandler {
     ans.params = Utilidades.getQueryParams(localPath.query);
     if (extension == null || ["html", "htm"].indexOf(extension[1]) >= 0) {
       // Si no tiene extensión o si es html se termina redirigiendo a la página 404
+      if (useSubDomain) {
+        files.push(`${prefix}${Constants.HTML_404}`);
+      }
       files.push(Constants.HTML_404);
     }
     ans.files = files;
@@ -217,7 +251,6 @@ export class MainHandler {
     const originalUrl = req.getUrl();
     const theUrl = url.parse(originalUrl);
     const localPath = MainHandler.decodeUrl(theUrl);
-    // localPath.originalUrl = originalUrl;
     const encoding = req.query.encoding;
     let firstPromise = MainHandler.resolveFile(localPath, encoding);
     firstPromise.catch((err) => {
