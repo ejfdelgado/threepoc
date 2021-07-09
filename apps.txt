@@ -30,6 +30,9 @@ https://fontawesome.com/v4.7/icons/
 - Permitir que cuando uno guarda una página, esta escriba en la ruta del bucket
 - Dejar un campo para escribir el subdominio a dónde va la página y propagarlo sin la /p/
 - agregar estilos de colores para saber que está guardando.
+- Agregar una ruta /index.html dentro de las propiedades de la página
+
+
 
 
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace

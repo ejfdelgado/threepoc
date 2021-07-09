@@ -176,12 +176,14 @@ export class HtmlEditorComponentClass {
   }
   async save() {
     let publicSubDomain = null;
-    if (
-      this.domains &&
-      this.domains.content &&
-      this.domains.content.subdomain
-    ) {
-      publicSubDomain = this.domains.content.subdomain;
+    let publicPath = "index.html";
+    if (this.domains && this.domains.content) {
+      if (this.domains.content.subdomain) {
+        publicSubDomain = this.domains.content.subdomain;
+      }
+      if (this.domains.content.bucketPath) {
+        publicPath = this.domains.content.bucketPath;
+      }
     }
     let markup = document.documentElement.innerHTML;
 
@@ -222,7 +224,7 @@ export class HtmlEditorComponentClass {
     const response = await ModuloArchivos.uploadFile({
       subDomainPrefix: `/p/${publicSubDomain}`,
       own: false,
-      path: "index.html",
+      path: publicPath,
       data: `${header}${markup}${footer}`,
     });
     const partesId = /(\d+)\/index\.html/.exec(response.key);
