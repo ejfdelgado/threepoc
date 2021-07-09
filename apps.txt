@@ -32,7 +32,7 @@ https://fontawesome.com/v4.7/icons/
 - agregar estilos de colores para saber que está guardando.
 
 
-- Permitir abrir el archivo del subdominio ejfdelgado/pais.tv
+- Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - Permitir tener un arbol de archivos que explore el bucket
 - Hacer ng-if del mapa de google
 - Permitir modificar el mapa de google
@@ -40,7 +40,7 @@ https://fontawesome.com/v4.7/icons/
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Hacer el envío de correo
-- Permitir almacenar información como de una encuesta o invitación
+- Permitir almacenar información de una encuesta o invitación, dónde?
 
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
