@@ -56,8 +56,8 @@
                 <p>PHONE : <span paistv-editor-text ng-model="$ctrl.domains.content.data.phone" default="+1 123 000 4444">+1 123 000 4444</span></p>
                 <p>MAIL : <span paistv-editor-text ng-model="$ctrl.domains.content.data.mail" default="your@example.com">your@example.com</span></p>
                 <p>Location : <span paistv-editor-text ng-model="$ctrl.domains.content.data.location" default="California, USA">California, USA</span></p>
-                <button class="btn btn-download-cv btn-primary rounded-pill"> <img src="/z/cv/images/download.svg" alt="download"
-                    class="btn-img">DOWNLOAD CV </button>
+                <a paistv-editor-download-link ng-model="$ctrl.domains.content.data.downloadfile" class="btn btn-download-cv btn-primary rounded-pill" href="#"> <img src="/z/cv/images/download.svg" alt="download"
+                    class="btn-img">DOWNLOAD CV </a>
             </div>
         </div>
         <div class="widget card">
