@@ -1,5 +1,6 @@
 export class Constants {
   static SITE_NAME = "País TV";
+  static EMAIL_SENDER = "info@pais.tv";
   static ROOT_FOLDER = "/1/html/simple";
   static PROJECT_ID = "proyeccion-colombia1";
   //static PROJECT_ID = "paistv";

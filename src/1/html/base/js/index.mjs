@@ -18,6 +18,8 @@ import { ngifSearch } from "../../../../js/front/angular/services/ngifSearch.mjs
 import { ngModelDynamic } from "../../../../js/front/angular/directives/ngModelDynamic.mjs";
 import { dataLinkEditor } from "../../../../js/front/angular/directives/dataLinkEditor.mjs";
 import { dataDownloadLinkEditor } from "../../../../js/front/angular/directives/dataDownloadLinkEditor.mjs";
+import { mailService } from "../../../../js/front/angular/services/mailService.mjs";
+import { dataContactMeForm } from "../../../../js/front/angular/directives/dataContactMeForm.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -33,9 +35,11 @@ export const Tuto3Module = angular
   .directive("ngModelDynamic", ngModelDynamic)
   .directive("paistvEditorLink", dataLinkEditor)
   .directive("paistvEditorDownloadLink", dataDownloadLinkEditor)
+  .directive("publicContactMeForm", dataContactMeForm)
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
   .service("ngifSearch", ngifSearch)
+  .service("mailService", mailService)
   .config([
     "$stateProvider",
     "$urlRouterProvider",

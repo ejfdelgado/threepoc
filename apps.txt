@@ -32,11 +32,13 @@ https://fontawesome.com/v4.7/icons/
 - agregar estilos de colores para saber que está guardando.
 - Agregar una ruta /index.html dentro de las propiedades de la página
 - Editor de enlace con archivo para descargar (Download CV)
-
 - Hacer ng-if del mapa de google
 - Permitir modificar el mapa de google
 - Hacer el envío de correo
 
+--------------------------------------------
+
+- Validar que el envío de correos funciona desde la página plana
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - Permitir tener un arbol de archivos que explore el bucket
 - Hacer un componente angular que reciba el JSON de la data.

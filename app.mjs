@@ -8,6 +8,7 @@ import storageHandler from "./src/js/services/StorageHandler.mjs";
 import mainHandler from "./src/js/services/MainHandler.mjs";
 import shortUrlHandler from "./src/js/services/ShortUrlHandler.mjs";
 import pageHandler from "./src/js/services/PageHandler.mjs";
+import emailHandler from "./src/js/services/EmailHandler.mjs";
 import { Usuario } from "./src/js/services/AdminHandler.mjs";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/api/tup", Usuario.authDecorator, tuplaHandler);
 app.use("/adm", adminHandler);
 app.use("/a", shortUrlHandler);
 app.use("/storage", Usuario.authDecorator, storageHandler);
+app.use("/mail", emailHandler);
 app.use("/", mainHandler);
 
 app.use((error, req, res, next) => {

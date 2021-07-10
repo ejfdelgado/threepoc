@@ -113,3 +113,5 @@ src/1/**/js/index-public.min.js
 .DS_Store
 
 /llaves
+
+env_variables.yaml
