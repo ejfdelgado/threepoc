@@ -35,13 +35,14 @@ https://fontawesome.com/v4.7/icons/
 - Hacer ng-if del mapa de google
 - Permitir modificar el mapa de google
 - Hacer el envío de correo
+- Validar que el envío de correos funciona desde la página plana
 
 --------------------------------------------
 
-- Validar que el envío de correos funciona desde la página plana
+- Que cuando se borra el contenido muestre el valor por defecto!
+- Hacer un componente angular que reciba el JSON de la data.
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - Permitir tener un arbol de archivos que explore el bucket
-- Hacer un componente angular que reciba el JSON de la data.
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Permitir almacenar información de una encuesta o invitación, dónde?
 

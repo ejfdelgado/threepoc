@@ -81,7 +81,15 @@ export class TuplaHandler {
         if (dominio != undefined) {
           existente.d = dominio;
         }
-        amodificar.push(existente);
+        amodificar.push({
+          key: existente[datastore.KEY],
+          data: {
+            k: existente.k,
+            sd: existente.sd,
+            v: existente.v,
+            d: existente.d,
+          },
+        });
       }
     }
 
@@ -117,6 +125,9 @@ export class TuplaHandler {
 
     for (let k = 0; k < amodificar.length; k++) {
       const entidad = amodificar[k];
+      if (typeof entidad.data.v == "string" && entidad.data.v.length > 1500) {
+        entidad.excludeFromIndexes = ["v"];
+      }
       await datastore.save(entidad);
     }
 
