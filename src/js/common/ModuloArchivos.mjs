@@ -46,6 +46,27 @@ export class ModuloArchivos {
     });
   }
 
+  /*
+  {
+    "YYYY":2021,
+    "MM":"07",
+    "DD":10,
+    "HH":14,
+    "mm":55,
+    "ss":55,
+    "zz":330,
+    "EPOCH":1625946955330,
+    "yyyy":2021,
+    "dd":10,
+    "random":"00g0clpwhwia",
+    "key":"mifile.txt",
+    "name":"License premium.txt",
+    "extension":"txt",
+    "path":"1/html/cv",
+    "id":"5731346630574080",
+    "usr":"google.com/edgar.jose.fernando.delgado@gmail.com"
+  }
+  */
   static async uploadFile(optionsIn = {}) {
     const options = Object.assign(
       {
@@ -87,7 +108,9 @@ export class ModuloArchivos {
     options.path = Utilidades.trimSlashes(options.path);
 
     const isNew = Utilidades.getBucketKey(options.path) == null;
-    const useSubDomain = (typeof options.subDomainPrefix == 'string' && options.subDomainPrefix.trim().length > 0);
+    const useSubDomain =
+      typeof options.subDomainPrefix == "string" &&
+      options.subDomainPrefix.trim().length > 0;
     if (isNew) {
       // 1.1.
       const epoch = await IdGen.ahora();
@@ -96,6 +119,11 @@ export class ModuloArchivos {
       reemplazos.key = options.path;
       if (options.data.name) {
         reemplazos.name = options.data.name;
+        reemplazos.extension = "";
+        const partesExtension = /\.([^\.]*)$/.exec(reemplazos.name);
+        if (partesExtension != null) {
+          reemplazos.extension = partesExtension[1];
+        }
       }
       reemplazos.key = Utilidades.interpolate(reemplazos.key, reemplazos);
 

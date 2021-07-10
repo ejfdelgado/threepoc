@@ -31,18 +31,16 @@ https://fontawesome.com/v4.7/icons/
 - Dejar un campo para escribir el subdominio a dónde va la página y propagarlo sin la /p/
 - agregar estilos de colores para saber que está guardando.
 - Agregar una ruta /index.html dentro de las propiedades de la página
+- Editor de enlace con archivo para descargar (Download CV)
 
-
-
+- Hacer ng-if del mapa de google
+- Permitir modificar el mapa de google
+- Hacer el envío de correo
 
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - Permitir tener un arbol de archivos que explore el bucket
-- Hacer ng-if del mapa de google
-- Permitir modificar el mapa de google
-- Editor de enlace con archivo para descargar (Download CV)
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
-- Hacer el envío de correo
 - Permitir almacenar información de una encuesta o invitación, dónde?
 
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.

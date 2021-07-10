@@ -1,5 +1,4 @@
-import { ModuloModales } from "../../common/ModuloModales.mjs";
-import { ModuloHtml } from "../../common/ModuloHtml.mjs";
+import { ModuloArchivos } from "../../../common/ModuloArchivos.mjs";
 
 export const dataDownloadLinkEditor = [
   "$compile",
@@ -8,10 +7,27 @@ export const dataDownloadLinkEditor = [
       restrict: "A",
       require: "ngModel",
       link: function (scope, element, attrs, ngModel) {
+        ngModel.$render = function () {
+          if (ngModel.$viewValue) {
+            $(element).attr("href", ngModel.$viewValue.url);
+          }
+        };
+
         element.on("click", async (e) => {
           e.preventDefault();
           // Se debe solicitar el archivo y cargarlo
-          alert("hey");
+          const datos = await ModuloArchivos.uploadFile({
+            own: false,
+            path: "/mifile.${extension}",
+          });
+          console.log(JSON.stringify(datos));
+          ngModel.$setViewValue({
+            url: datos.pub,
+          });
+          ngModel.$render();
+          try {
+            scope.$digest();
+          } catch (e) {}
         });
       },
     };
