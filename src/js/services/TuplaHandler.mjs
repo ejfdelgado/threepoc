@@ -125,7 +125,7 @@ export class TuplaHandler {
 
     for (let k = 0; k < amodificar.length; k++) {
       const entidad = amodificar[k];
-      if (typeof entidad.data.v == "string" && entidad.data.v.length > 1500) {
+      if (typeof entidad.data.v == "string" && entidad.data.v.length > 1000) {
         entidad.excludeFromIndexes = ["v"];
       }
       await datastore.save(entidad);
