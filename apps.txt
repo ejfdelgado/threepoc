@@ -39,6 +39,7 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- Corregir el bug de que la pagina html generada tiene atributos con comillas incompletas, y que angular daña cosas.
 - Que cuando se borra el contenido muestre el valor por defecto!
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace

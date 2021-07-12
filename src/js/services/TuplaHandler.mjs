@@ -20,6 +20,7 @@ const datastore = new Datastore();
 // https://cloud.google.com/datastore/docs/concepts/entities
 
 export class TuplaHandler {
+  static MAX_LENGTH_FOR_INDEXING = 12;
   static KIND_TUPLA = "Tupla";
   static VACIOS = [null, "", undefined];
   static VACIOS2 = [null, undefined];
@@ -125,7 +126,7 @@ export class TuplaHandler {
 
     for (let k = 0; k < amodificar.length; k++) {
       const entidad = amodificar[k];
-      if (typeof entidad.data.v == "string" && entidad.data.v.length > 1000) {
+      if (typeof entidad.data.v == "string" && entidad.data.v.length > TuplaHandler.MAX_LENGTH_FOR_INDEXING) {
         entidad.excludeFromIndexes = ["v"];
       }
       await datastore.save(entidad);

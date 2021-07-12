@@ -9,7 +9,7 @@ export function mailService() {
       const body = {
         to: to,
         subject: "País - TV Some one is looking form you!",
-        template: "/mail/contact-me.html",
+        template: "/z/mail/contact-me.html",
         params: {
           name: name,
           email: email,
