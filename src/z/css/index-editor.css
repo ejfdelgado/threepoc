@@ -1,4 +1,9 @@
 
+.carousel .carousel-control-prev, .carousel .carousel-control-next {
+  top: 45%;
+  align-items: start;
+}
+
 @keyframes pending_color_indicator {
   from {background-color: #dedede;}
   to {background-color: #7d7d7d;}
