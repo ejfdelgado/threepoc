@@ -42,10 +42,11 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- que el regex de remplazo de "message" sirva si está antes o después
 - Que cuando se borra el contenido muestre el valor por defecto!
-- Permitir tener un arbol de archivos que explore el bucket
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Permitir almacenar información de una encuesta o invitación, dónde?
+- Permitir tener un arbol de archivos que explore el bucket
 
 - Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
 - Permitir hacer shift+ctrl+c, shift+ctrl+v

@@ -421,8 +421,8 @@ export const ngRepeatDirective = [
                     </button>\
                     <div class="dropdown-menu">\
                       <a class="manito dropdown-item pais-tv-menu-item" ng-click="addItem(value.order)">Agregar</a>\
-                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveUpItem(value.order)">Mover arriba</a>\
-                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveDownItem(value.order)">Mover abajo</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveUpItem(value.order)">Mover adelante</a>\
+                      <a class="manito dropdown-item pais-tv-menu-item" ng-click="moveDownItem(value.order)">Mover atrás</a>\
                       <a class="manito dropdown-item pais-tv-menu-item" ng-click="removeItem(value.order)">Borrar</a>\
                     </div>\
                     <!-- paistv-editor } -->\

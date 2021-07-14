@@ -53,6 +53,10 @@
   
 }
 
+.paistv-editor-repeat-action .dropdown-item {
+  padding: 0;
+}
+
 .paistv-editor-repeat-action .dropdown-item.pais-tv-menu-item {
   font-size: 0.8rem;
 }
