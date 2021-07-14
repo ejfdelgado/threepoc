@@ -51,11 +51,11 @@
         <div class="widget">
             <h5 class="widget-title">personal information</h5>
             <div class="widget-content">
-                <p>BIRTHDAY : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.birtday" default="15 April 1990">15 April 1990</span></p>
-                <p>WEBSITE : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.website" default="www.example.com">www.example.com</span></p>
-                <p>PHONE : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.phone" default="+1 123 000 4444">+1 123 000 4444</span></p>
-                <p>MAIL : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.mail" default="your@example.com">your@example.com</span></p>
-                <p>Location : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.location" default="California, USA">California, USA</span></p>
+                <p class="paistv-word-break">BIRTHDAY : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.birtday" default="15 April 1990">15 April 1990</span></p>
+                <p class="paistv-word-break">WEBSITE : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.website" default="www.example.com">www.example.com</span></p>
+                <p class="paistv-word-break">PHONE : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.phone" default="+1 123 000 4444">+1 123 000 4444</span></p>
+                <p class="paistv-word-break">MAIL : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.mail" default="your@example.com">your@example.com</span></p>
+                <p class="paistv-word-break">Location : <span dir-ptv-editor-text ng-model="$ctrl.domains.content.data.location" default="California, USA">California, USA</span></p>
                 <a dir-ptv-editor-download-link ng-model="$ctrl.domains.content.data.downloadfile" class="btn btn-download-cv btn-primary rounded-pill" href="#" target="_blank"> <img src="/z/cv/images/download.svg" alt="download"
                     class="btn-img">DOWNLOAD CV </a>
             </div>
@@ -172,6 +172,14 @@
                 <ol class="carousel-indicators">
                     <li data-target="#testimonialCarousel" data-slide-to="{{ $$index }}" ng-class="{'active': $last}" ng-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index"></li>
                 </ol>
+                <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </section>
         <section class="contact-section">

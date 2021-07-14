@@ -187,6 +187,12 @@ export class HtmlEditorComponentClass {
     }
     let markup = document.documentElement.innerHTML;
 
+    // Se inserta el controlador general público
+    markup = markup.replace(
+      /(<body)/,
+      '$1 ng-controller="PaistvPublicController"'
+    );
+
     // Se quita todo lo que hay entre <!-- paistv-editor { --> y <!-- paistv-editor } -->
     markup = markup.replace(
       /<!--[\s]*paistv-editor[\s]*{[\s]*-->[\s\S]*?<!--[\s]*paistv-editor[\s]*}[\s]*-->/g,
@@ -220,6 +226,7 @@ export class HtmlEditorComponentClass {
       "ng-click",
       "ng-class",
       "ng-repeat",
+      "ng-non-bindable",
     ];
     for (let i = 0; i < directivasAngular.length; i++) {
       const directiva = directivasAngular[i];
@@ -261,7 +268,7 @@ export class HtmlEditorComponentClass {
     const json_model = JSON.stringify(this.domains);
     markup = markup.replace(
       "<head>",
-      `<head><script>const ALL_MODEL=${json_model}</script>`
+      `<head><script>window.ALL_MODEL=${json_model}</script>`
     );
 
     const actividad = ModuloActividad.on();
