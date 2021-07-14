@@ -30,7 +30,7 @@
   align-items: stretch;
 }
 
-[paistv-editor-navbar] {
+[dir-ptv-editor-navbar] {
   z-index: 9999;
   background: #7386d5;
 }
@@ -77,11 +77,11 @@
   opacity: 0.5;
 }
 
-[paistv-editor-repeat] {
+[dir-ptv-editor-repeat] {
   position: relative;
 }
 
-[paistv-editor-repeat] .paistv-editor-repeat-action {
+[dir-ptv-editor-repeat] .paistv-editor-repeat-action {
   position: absolute;
   right: 0;
   top: 0;

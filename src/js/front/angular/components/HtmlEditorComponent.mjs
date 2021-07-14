@@ -193,20 +193,66 @@ export class HtmlEditorComponentClass {
       ""
     );
 
+    // Se quitan todos los comentarios
+    markup = markup.replace(/<!--.*?-->/gi, "");
+
     // Se quitan todos los contenteditable
-    markup = markup.replace(/contenteditable=["'][^"']+["']/gi, "");
+    markup = markup.replace(/contenteditable(=["'][^"']*["'])?/gi, "");
 
     // Se quitan los ng-if que tengan message al lado
     markup = markup.replace(/ng-if="[^"]+"[^>]+message="[^"]+"/gi, "");
 
-    // Se quitan todos los atributos que comienzan con paistv-editor-algo
-    markup = markup.replace(/paistv-editor-[^\s]+/gi, "");
+    // dir-ptv-editor-image
+    // dir-ptv-editor-text
+    // dir-ptv-editor-link
+    // dir-ptv-editor-download-link
+    // dir-ptv-editor-repeat=""
+    // dir-ptv-editor-html
+    // dir-ptv-editor-select-image
+    // dir-ptv-editor-text
+    // Se quitan todos los atributos que comienzan con paistv-editor-algo dirPtvEditor
+    markup = markup.replace(/dir-ptv-editor-[^\s>=]+(="[^"]*")?/gi, "");
+    // Se quitan directivas de angular
+    const directivasAngular = [
+      "ng-bind-html",
+      "ng-model",
+      "ng-if",
+      "ng-click",
+      "ng-class",
+      "ng-repeat",
+    ];
+    for (let i = 0; i < directivasAngular.length; i++) {
+      const directiva = directivasAngular[i];
+      const regexp = new RegExp(`${directiva}(="[^"]*")?`, "ig");
+      markup = markup.replace(regexp, "");
+    }
 
     // Se remplaza todas las clases que tienen paistv-only-editor con invisible
     markup = markup.replace(
       /(class="[^"]*?)(paistv-only-editor)([^"]*?")/g,
       "$1invisible$3"
     );
+    const clasesAngular = [
+      "ng-pristine",
+      "ng-dirty",
+      "ng-untouched",
+      "ng-valid",
+      "ng-not-empty",
+      "ng-scope",
+      "ng-isolate-scope",
+      "ng-binding",
+      "ng-touched",
+      "ng-invalid",
+      "ng-valid-required",
+      "ng-invalid-required",
+      "ng-empty",
+    ];
+    for (let i = 0; i < clasesAngular.length; i++) {
+      const clase = clasesAngular[i];
+      const regexp = new RegExp(`(class="[^"]*?)(${clase})([^"]*?")`, "ig");
+      markup = markup.replace(regexp, "$1$3");
+    }
+
     // Se eliminan el script de dependencias
     markup = markup.replace(
       /<script\s+src=["']\.\/js\/dependencies\.min\.js["']\s+>\s+<\/script>/i,

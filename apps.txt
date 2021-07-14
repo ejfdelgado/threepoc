@@ -36,10 +36,10 @@ https://fontawesome.com/v4.7/icons/
 - Permitir modificar el mapa de google
 - Hacer el envío de correo
 - Validar que el envío de correos funciona desde la página plana
+- Corregir el bug de que la pagina html generada tiene atributos con comillas incompletas, y que angular daña cosas.
 
 --------------------------------------------
 
-- Corregir el bug de que la pagina html generada tiene atributos con comillas incompletas, y que angular daña cosas.
 - Que cuando se borra el contenido muestre el valor por defecto!
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace

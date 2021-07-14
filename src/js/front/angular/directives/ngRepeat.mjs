@@ -56,7 +56,7 @@ export const ngRepeatDirective = [
       priority: 1000,
       $$tlb: true,
       compile: function ngRepeatCompile($element, $attr) {
-        var expression = $attr.paistvEditorRepeat;
+        var expression = $attr.dirPtvEditorRepeat;
         var predefined = $attr.predefined;
         var ngRepeatEndComment = $compile.$$createComment(
           "end ngRepeat",
