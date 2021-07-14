@@ -28,9 +28,20 @@ export class HtmlEditorComponentClass {
       ModuloPagina.showSearchPages();
     });
     $rootScope.$on("viewPage", async function (datos) {
-      // TODO usar el subdominio
-      const ref = await ModuloPagina.leer();
-      const pubUrl = `${location.origin}${location.pathname}pg${ref.valor.id}/`;
+      // const ref = await ModuloPagina.leer();
+      const subdomain = $scope.$ctrl.domains.content.subdomain;
+      const bucketPath = $scope.$ctrl.domains.content.bucketPath;
+      let path = "";
+      if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {
+        path = bucketPath
+          .replace(/\/?(.*?)\/?(index.html)/, "/$1/")
+          .replace("//", "/");
+      }
+      let domain = location.origin;
+      const pubUrl = domain.replace(
+        /(https?:\/\/)([^/]*)/,
+        `$1${subdomain}.$2${path}`
+      );
       window.open(pubUrl, "_blank");
     });
     $rootScope.$on("editPageOptions", async function () {
@@ -181,8 +192,9 @@ export class HtmlEditorComponentClass {
       if (this.domains.content.subdomain) {
         publicSubDomain = this.domains.content.subdomain;
       }
-      if (this.domains.content.bucketPath) {
-        publicPath = this.domains.content.bucketPath;
+      const bucketPath = this.domains.content.bucketPath;
+      if (typeof bucketPath == "string" && bucketPath.length > 0) {
+        publicPath = bucketPath.replace(/\/?(.*)/, "$1");
       }
     }
     let markup = document.documentElement.innerHTML;

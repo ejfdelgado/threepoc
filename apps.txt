@@ -38,23 +38,23 @@ https://fontawesome.com/v4.7/icons/
 - Validar que el envío de correos funciona desde la página plana
 - Corregir el bug de que la pagina html generada tiene atributos con comillas incompletas, y que angular daña cosas.
 - Hacer un componente angular que reciba el JSON de la data.
+- Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 
 --------------------------------------------
 
 - Que cuando se borra el contenido muestre el valor por defecto!
-- Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - Permitir tener un arbol de archivos que explore el bucket
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
 - Permitir almacenar información de una encuesta o invitación, dónde?
 
+- Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
+- Permitir hacer shift+ctrl+c, shift+ctrl+v
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
 - Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
-- Permitir hacer shift+ctrl+c, shift+ctrl+v
 - Hacer una directiva para editar un modelo 3d.
 - Hacer una directiva para cargar archivos de sonido.
 
-- Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
 - Cache...
 - Incluir permisos en la edición de la página.
 - Incluir la edición de la imágen de la página, que sea pública.
