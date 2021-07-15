@@ -149,6 +149,7 @@ sudo vi /etc/pf.conf
 sudo pfctl -ef /etc/pf.conf
 
 gsutil cors get gs://paistv.appspot.com
+
 gsutil cors set cors.json gs://paistv.appspot.com
 gsutil cors set cors.json gs://proyeccion-colombia1.appspot.com
 gsutil cors set cors.json gs://proyeccion-colombia1-cdn

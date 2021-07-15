@@ -39,17 +39,29 @@ https://fontawesome.com/v4.7/icons/
 - Corregir el bug de que la pagina html generada tiene atributos con comillas incompletas, y que angular daña cosas.
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
+- La imagen de los testimonios se debe poder cargar, además el texto está pequeño
 
 --------------------------------------------
 
+- Agregar el mailto el call phone
+- Dividir en dos columnas el trabajo y estudios?
+
+
+bootstrap personal templates:
+https://preview.themeforest.net/item/bolby-portfoliocvresume-wordpress-theme/full_screen_preview/25981387?clickid=0glxVO2IOxyLU52wUx0Mo3YjUkByBlSH-xp5W40&iradid=275988&iradtype=ONLINE_TRACKING_LINK&irgwc=1&irmptype=mediapartner&irpid=369282&mp_value1=&utm_campaign=af_impact_radius_369282&utm_medium=affiliate&utm_source=impact_radius
+
+
+- Permitir almacenar información de una encuesta o invitación, dónde? que se pueda luego ver y descargar
+- Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
+
+- Hacer una directiva que permita hacer edición del fondo.
+- Permitir hacer shift+ctrl+c, shift+ctrl+v
 - que el regex de remplazo de "message" sirva si está antes o después
 - Que cuando se borra el contenido muestre el valor por defecto!
 - Permitir borrar una página de la cuál soy dueño., borrar las tuplas en cascada.
-- Permitir almacenar información de una encuesta o invitación, dónde?
 - Permitir tener un arbol de archivos que explore el bucket
 
-- Que se haga paginado de subdominio de tupla; para hacer edicion de permisos por usuario.
-- Permitir hacer shift+ctrl+c, shift+ctrl+v
+- Permitir subir imágen a partir de la cámara.
 - La nueva página se crea mal, porque no termina de preguntar los datos y ya la está creando.
 - Permitir que la directiva myImage pueda subir y bajar svg's, permitir las transparecencias
 - Agregar directiva que permita editar la imagen de fondo con todos sus atributos background-align, etc
