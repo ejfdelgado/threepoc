@@ -1,9 +1,11 @@
 import { dataContactMeForm } from "../../../../js/front/angular/directives/dataContactMeForm.mjs";
 import { mailService } from "../../../../js/front/angular/services/mailService.mjs";
+import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
 
 export const Tuto3Module = angular
   .module("message", [])
   .directive("publicContactMeForm", dataContactMeForm)
+  .directive("dirPubPtvAnchor", dataAnchorScroll)
   .controller("PaistvPublicController", [
     "$scope",
     function ($scope) {

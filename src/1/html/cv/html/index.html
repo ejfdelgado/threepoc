@@ -87,7 +87,7 @@
             <div dir-ptv-editor-html ng-model="$ctrl.domains.content.texts.presentation" default="<p>I'm Creative</p>">
                 <p>I'm Creative.</p>
             </div>
-            <a href="#contact-me-by-email" class="btn btn-primary btn-hire-me">HIRE ME</a>
+            <a href="#contact-me-by-email" dir-pub-ptv-anchor class="btn btn-primary btn-hire-me">HIRE ME</a>
         </section>
         <section class="resume-section">
             <div class="row">
@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <form class="contact-form" public-contact-me-form destination="{{ $ctrl.domains.content.data.mail }}">
+            <form id="contact-me-by-email" class="contact-form" public-contact-me-form destination="{{ $ctrl.domains.content.data.mail }}">
                 <div class="form-group form-group-name">
                   <label for="name" class="sr-only">Name</label>
                   <input type="text" name="name" class="form-control" placeholder="NAME">

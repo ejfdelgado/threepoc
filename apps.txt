@@ -41,6 +41,7 @@ https://fontawesome.com/v4.7/icons/
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - La imagen de los testimonios se debe poder cargar, además el texto está pequeño
 - Agregar el mailto el call phone
+- El botón de Hire me no lleva hacia abajo
 
 --------------------------------------------
 

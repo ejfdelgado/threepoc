@@ -20,6 +20,7 @@ import { dataLinkEditor } from "../../../../js/front/angular/directives/dataLink
 import { dataDownloadLinkEditor } from "../../../../js/front/angular/directives/dataDownloadLinkEditor.mjs";
 import { mailService } from "../../../../js/front/angular/services/mailService.mjs";
 import { dataContactMeForm } from "../../../../js/front/angular/directives/dataContactMeForm.mjs";
+import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -34,6 +35,7 @@ export const Tuto3Module = angular
   .directive("dirPtvEditorRepeat", ngRepeatDirective)
   .directive("dirPtvEditorLink", dataLinkEditor)
   .directive("dirPtvEditorDownloadLink", dataDownloadLinkEditor)
+  .directive("dirPubPtvAnchor", dataAnchorScroll)
 
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("ngModelDynamic", ngModelDynamic)
