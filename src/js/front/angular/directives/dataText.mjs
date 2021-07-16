@@ -2,6 +2,7 @@ export function dataText() {
   return {
     restrict: "A",
     require: "ngModel",
+    scope: {},
     link: function (scope, element, attrs, ngModel) {
       const predef = $(element).attr("default");
       function read() {

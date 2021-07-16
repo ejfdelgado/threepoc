@@ -5,6 +5,7 @@ export const htmlEditorNavBar = [
   function ($parse) {
     return {
       restrict: "A",
+      scope: {},
       templateUrl: "/js/front/angular/directives/htmlEditorNavBar2.html",
       link: function (scope, element, attrs, ngModel) {
         const botonOpenSidebar = $("#paistv-editor-sidebar-collapse");

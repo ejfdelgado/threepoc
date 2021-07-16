@@ -5,6 +5,7 @@ export const dataDownloadLinkEditor = [
   function ($compile) {
     return {
       restrict: "A",
+      scope: {},
       require: "ngModel",
       link: function (scope, element, attrs, ngModel) {
         ngModel.$render = function () {

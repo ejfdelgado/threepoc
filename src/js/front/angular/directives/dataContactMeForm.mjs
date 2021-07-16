@@ -5,6 +5,7 @@ export const dataContactMeForm = [
   function (mailService) {
     return {
       restrict: "A",
+      scope: {},
       link: function (scope, element, attrs) {
         const params = [
           { name: "name", message: "Name" },
