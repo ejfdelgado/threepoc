@@ -7,11 +7,32 @@ export const dataLinkEditor = [
     return {
       restrict: "A",
       require: "ngModel",
+      scope: {},
       link: function (scope, element, attrs, ngModel) {
+        const elemento = $(element);
+        const predef = elemento.attr("default");
         ngModel.$render = function () {
           if (ngModel.$viewValue) {
-            $(element).attr("href", ngModel.$viewValue.url);
-            $(element).attr("target", ngModel.$viewValue.target);
+            let url = ngModel.$viewValue.url;
+            if (!(typeof url == "string") || url.trim().length == 0) {
+              if (typeof predef == "string") {
+                url = predef;
+              }
+            }
+            const partesMail = /^\s*([^\s@]+@[^\s@]+\.[^\s@]+)\s*$/.exec(url);
+            const partesPhone = /\s*\+?([\d-]+[\d- ]+)\s*/.exec(url);
+            if (partesMail != null) {
+              elemento.attr("href", `mailto:${url}`);
+              elemento.text(url);
+              elemento.removeAttr("target");
+            } else if (partesPhone != null) {
+              elemento.attr("href", `tel:${url}`);
+              elemento.text(url);
+              elemento.removeAttr("target");
+            } else {
+              elemento.attr("href", url);
+              elemento.attr("target", ngModel.$viewValue.target);
+            }
           }
         };
 
@@ -27,7 +48,7 @@ export const dataLinkEditor = [
           scope.refModal.closeFunction();
         };
 
-        element.on("click", async (e) => {
+        elemento.on("click", async (e) => {
           e.preventDefault();
           // Se debe es mostrar un modal donde se pueda editar:
           // - target
@@ -35,7 +56,7 @@ export const dataLinkEditor = [
           const urlTemplate =
             "/js/front/angular/directives/dataLinkEditor.html";
           scope.link = ngModel.$viewValue;
-          if (!scope.link) {
+          if (!scope.link || typeof scope.link != "object") {
             scope.link = {
               url: "",
               target: "_blank",

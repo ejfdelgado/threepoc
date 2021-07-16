@@ -40,12 +40,11 @@ https://fontawesome.com/v4.7/icons/
 - Hacer un componente angular que reciba el JSON de la data.
 - Permitir abrir el archivo del subdominio ejfdelgado.pais.tv desde el enlace
 - La imagen de los testimonios se debe poder cargar, además el texto está pequeño
+- Agregar el mailto el call phone
 
 --------------------------------------------
 
-- Agregar el mailto el call phone
 - Dividir en dos columnas el trabajo y estudios?
-
 
 bootstrap personal templates:
 https://preview.themeforest.net/item/bolby-portfoliocvresume-wordpress-theme/full_screen_preview/25981387?clickid=0glxVO2IOxyLU52wUx0Mo3YjUkByBlSH-xp5W40&iradid=275988&iradtype=ONLINE_TRACKING_LINK&irgwc=1&irmptype=mediapartner&irpid=369282&mp_value1=&utm_campaign=af_impact_radius_369282&utm_medium=affiliate&utm_source=impact_radius
