@@ -42,8 +42,18 @@ https://fontawesome.com/v4.7/icons/
 - La imagen de los testimonios se debe poder cargar, además el texto está pequeño
 - Agregar el mailto el call phone
 - El botón de Hire me no lleva hacia abajo
+- solo aplique cambios hasta guardar
+- Agregar editor de archivos cargados, permitir cargar archivos y referenciarlos. {url:"", name: "", size: 12}
+- editor de archivos debe permitir borrar
 
 --------------------------------------------
+
+editor de enlace:
+- tenga un check y un campo de texto que permita editar el texto que aparece
+- tenga un valor por defecto tipo objeto
+
+- que el editor de imagenes permita hacer un search sobre las imágenes cargadas y las predefinidias.
+- que el editor de pool de imágenes tenga la posibilidad de agregar una nueva imagen y crear tumbnails.
 
 - Dividir en dos columnas el trabajo y estudios?
 

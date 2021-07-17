@@ -1,0 +1,28 @@
+<form>
+  <div class="form-group">
+    <button type="button" class="btn btn-primary" ng-click="addFile()">
+      Agregar
+    </button>
+    <hr>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Enlace</th>
+          <th scope="col">Borrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="archivo in $ctrl.domains.files.lst">
+          <th scope="row">{{ $index + 1 }}</th>
+          <td>{{ archivo.name }}</td>
+          <td><a href="{{ archivo.url }}" target="_blank">Ver</a></td>
+          <td><button type="button" class="btn btn-sm btn-danger" ng-click="removeFile(archivo)">
+            Borrar
+          </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>

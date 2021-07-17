@@ -15,7 +15,7 @@ const bucket = storageInstance.bucket(Constants.DEFAULT_BUCKET);
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    fileSize: Constants.MAX_BYTES_UPLOAD_FILES, // no larger than 5mb, you can change as needed.
   },
 });
 
@@ -67,6 +67,29 @@ export class StorageHandler {
     const file = bucket.file(filePath);
     const contents = (await file.download())[0];
     return contents;
+  }
+
+  static async borrar(key, req, res, next) {
+    const ans = {
+      error: 0,
+    };
+    try {
+      let interpretedFile = key;
+      // https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5731346630574080/00g0jc2o57ga/persona.png?t=1626474511090
+      // public/usr/anonymous/1/html/cv/pg/5731346630574080/00g0jc2o57ga/persona.png
+      const partesPublic = /^https?:\/\/storage.googleapis.com\/[^/]+\/([^?]+)/ig.exec(key);
+      if (partesPublic != null) {
+        interpretedFile = partesPublic[1];
+      }
+      const file = bucket.file(interpretedFile);
+      const response = await file.delete();
+      ans.response = response[0];
+      res.status(200).json(ans).end();
+    } catch (e) {
+      ans.error = 1;
+      ans.message = e.message;
+      res.status(500).json(ans).end();
+    }
   }
 
   /**
@@ -195,6 +218,11 @@ router.get("/read", function (req, res) {
     req.query.encoding
   );
   StorageHandler.makeResponse(req, res, key, readPromise);
+});
+
+router.delete("/borrar", function (req, res, next) {
+  const key = req.query.name;
+  StorageHandler.borrar(key, req, res, next);
 });
 
 router.post("/", multer.single("file-0"), function (req, res, next) {

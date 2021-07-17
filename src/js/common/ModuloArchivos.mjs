@@ -4,8 +4,27 @@ import { guessMimeType } from "./MimeTypeMap.mjs";
 import { ModuloPagina } from "../front/page/ModuloPagina.mjs";
 import { Constants } from "./Constants.mjs";
 import { ModuloActividad } from "../front/common/ModuloActividad.mjs";
+import { ModuloModales } from "../front/common/ModuloModales.mjs";
 
 export class ModuloArchivos {
+  static async borrar(key) {
+    const actividad = ModuloActividad.on();
+    const queryParams = {
+      name: key,
+    };
+    const url = new URL(
+      `${ModuloPagina.LOCATION_WITHOUT_PAGE.origin}/storage/borrar`
+    );
+    url.search = Utilidades.generateQueryParams(queryParams);
+    const response = await fetch(url, {
+      method: "delete",
+    }).then((res) => res.json());
+    actividad.resolve();
+    if (response.error != 0) {
+      throw new Error(response.message);
+    }
+    return response;
+  }
   static async guardarContenidoEstatico() {
     // Debo tomar la url y guardar el archivo basado en eso
     // /ruta/index.htm -> /ruta/index.html (notar la "l")
@@ -18,7 +37,7 @@ export class ModuloArchivos {
     const atributos = Object.assign(
       {
         tipos: [],
-        maximoTamanio: 1024 * 1024,
+        maximoTamanio: Constants.MAX_BYTES_UPLOAD_FILES,
       },
       atributosIn
     );
@@ -59,7 +78,6 @@ export class ModuloArchivos {
     "yyyy":2021,
     "dd":10,
     "random":"00g0clpwhwia",
-    "key":"mifile.txt",
     "name":"License premium.txt",
     "extension":"txt",
     "path":"1/html/cv",
@@ -82,7 +100,7 @@ export class ModuloArchivos {
       try {
         options.data = await ModuloArchivos.askForFile(options);
       } catch (e) {
-        console.log(e);
+        ModuloModales.alert({message: e.message});
         return;
       }
     }

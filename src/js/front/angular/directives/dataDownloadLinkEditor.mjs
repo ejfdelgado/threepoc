@@ -21,7 +21,6 @@ export const dataDownloadLinkEditor = [
             own: false,
             path: "/mifile.${extension}",
           });
-          console.log(JSON.stringify(datos));
           ngModel.$setViewValue({
             url: datos.pub,
           });

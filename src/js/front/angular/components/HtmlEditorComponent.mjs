@@ -60,6 +60,21 @@ export class HtmlEditorComponentClass {
         },
       });
     });
+    $rootScope.$on("editFiles", async function () {
+      const urlTemplate = "/js/front/page/html/editFiles.html";
+      await ModuloModales.basic({
+        title: "Administrar Archivos",
+        message: await ModuloHtml.getHtml(urlTemplate),
+        useHtml: true,
+        preShow: function () {
+          self.$scope.$digest();
+        },
+        angular: {
+          scope: self.$scope,
+          compile: $compile,
+        },
+      });
+    });
 
     $scope.PAIS_EDITOR_POOL_DATABASE = PAIS_EDITOR_POOL_DATABASE;
     this.$scope = $scope;
@@ -98,6 +113,12 @@ export class HtmlEditorComponentClass {
         key: "ifs",
         pred: {},
       },
+      {
+        key: "files",
+        pred: {
+          lst: [],
+        },
+      },
     ];
     for (let i = 0; i < THE_DOMAINS.length; i++) {
       const domainSpec = THE_DOMAINS[i];
@@ -130,6 +151,35 @@ export class HtmlEditorComponentClass {
       },
       true
     );
+    this.$scope.removeFile = async (archivo) => {
+      try {
+        const confirmar = await ModuloModales.confirm();
+        if (!confirmar) {
+          return;
+        }
+        //const response = await ModuloArchivos.borrar(archivo.url);
+        const lista = this.$scope.$ctrl.domains.files.lst;
+        const indice = lista.indexOf(archivo);
+        if (indice >= 0) {
+          lista.splice(indice, 1);
+          this.$scope.$digest();
+        }
+      } catch (e) {
+        ModuloModales.alert({message: e.message});
+      }
+    };
+    this.$scope.addFile = async () => {
+      const datos = await ModuloArchivos.uploadFile({
+        own: false,
+        path: "/${random}/${name}",
+      });
+      const nuevo = {
+        url: datos.pub,
+        name: datos.name,
+      };
+      this.$scope.$ctrl.domains.files.lst.push(nuevo);
+      this.$scope.$digest();
+    };
   }
   $onDestroy() {
     $(document).unbind("keyup keydown", this.keyBoardInterpreter);

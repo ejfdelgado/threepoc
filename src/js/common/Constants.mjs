@@ -12,6 +12,7 @@ export class Constants {
   static firebase = {
     databaseURL: "https://" + Constants.PROJECT_ID + ".firebaseio.com",
   };
+  static MAX_BYTES_UPLOAD_FILES = 10 * 1024 * 1024;
   static getSubDomainPattern = function () {
     // sudo vim /etc/hosts
     return /([^.]+)\.pais\.tv(.*)/;

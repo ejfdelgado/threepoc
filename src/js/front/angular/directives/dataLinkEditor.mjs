@@ -55,13 +55,14 @@ export const dataLinkEditor = [
           // - el enlace en sí
           const urlTemplate =
             "/js/front/angular/directives/dataLinkEditor.html";
-          scope.link = ngModel.$viewValue;
-          if (!scope.link || typeof scope.link != "object") {
-            scope.link = {
+          let valorEditado = ngModel.$viewValue;
+          if (!valorEditado || typeof valorEditado != "object") {
+            valorEditado = {
               url: "",
               target: "_blank",
             };
           }
+          scope.link = JSON.parse(JSON.stringify(valorEditado));
           scope.refModal = await ModuloModales.basic({
             title: "Editor de enlace",
             message: await ModuloHtml.getHtml(urlTemplate),
