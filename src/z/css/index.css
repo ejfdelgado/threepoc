@@ -6,6 +6,15 @@
   cursor: pointer;
 }
 
+@media print {
+  .noprint {
+    display:none;
+  }
+  .newpage {
+    break-after:always;
+  }
+}
+
 .paistv-word-break {
   word-break: break-word;
 }

@@ -11,6 +11,11 @@
             {"src":"/z/cv/images/Clients_2.svg"},
             {"src":"/z/cv/images/Clients_3.svg"},
             {"src":"/z/cv/images/Clients_4.svg"},
+            {"src":"/z/cv/images/wordpress.jpg"},
+            {"src":"/z/cv/images/angular.jpg"},
+            {"src":"/z/cv/images/jee.jpg"},
+            {"src":"/z/cv/images/terraform.jpg"},
+            {"src":"/z/cv/images/bootstrap.jpg"},
         ],
         coloredSvg: [
             {"src":"/z/cv/images/puzzle.svg"},
@@ -42,6 +47,7 @@
             <span class="badge badge-white badge-pill profile-designation" dir-ptv-editor-text ng-model="$ctrl.domains.content.data.profile" default="Full Stack Developer">Full Stack Developer</span>
         </div>
         <nav class="social-links">
+            <a href="#!" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.url.linkedin" class="social-link" ng-if="$ctrl.domains.ifs.social.linkedin" message="Linked In"><i class="fa fa-linkedin"></i></a>
             <a href="#!" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.url.facebook" class="social-link" ng-if="$ctrl.domains.ifs.social.facebook" message="Social Facebook"><i class="fa fa-facebook"></i></a>
             <a href="#!" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.url.twitter" class="social-link" ng-if="$ctrl.domains.ifs.social.twitter" message="Social Twitter"><i class="fa fa-twitter"></i></a>
             <a href="#!" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.url.behance" class="social-link" ng-if="$ctrl.domains.ifs.social.behance" message="Social Behance"><i class="fa fa-behance"></i></a>
@@ -105,7 +111,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 newpage">
                     <h6 class="section-subtitle">RESUME</h6>
                     <h2 class="section-title">Work Hard at</h2>
                     <ul class="time-line">
@@ -122,7 +128,7 @@
             </div>
         </section>
         <section class="services-section">
-            <h6 class="section-subtitle">WHAT I DO</h6>
+            <h6 class="section-subtitle">WHAT I'M</h6>
             <h2 class="section-title">SOFT SKILLS</h2>
             <div class="row">
                 <div class="media service-card col-lg-6" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.skills | orderItem track by $index" predefined='{"title": "web designing", "desc": "<p>My gift</p>"}'>
@@ -143,12 +149,12 @@
             <h2 class="section-title">EXPERIENCE WITH</h2>
             <div class="client-logos-wrapper">
                 <div class="client-logo" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.tools | orderItem track by $index" predefined='{}'>
-                    <img dir-ptv-editor-select-image ng-model="value.img" options='PAIS_EDITOR_POOL_DATABASE.waterMarkIcons' crossorigin="anonymous" class="w-100">
+                    <img width="82" dir-ptv-editor-select-image ng-model="value.img" options='PAIS_EDITOR_POOL_DATABASE.waterMarkIcons' crossorigin="anonymous" class="">
                 </div>
             </div>
         </section>
         <section class="achievements-section">
-            <h6 class="section-subtitle">WHAT I DO</h6>
+            <h6 class="section-subtitle">WHAT I DID</h6>
             <h2 class="section-title">ACHIEVEMENTS</h2>
             <div class="achievement-cards-wrapper">
                 <div class="media achievement-card" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.achieve | orderItem track by $index" predefined='{}'>
@@ -160,13 +166,14 @@
                 </div>
             </div>
         </section>
-        <section class="testimonial-section">
+        <section class="testimonial-section noprint">
             <div id="testimonialCarousel" class="testimonial-carousel carousel slide paistv-class-editor-button-inherit" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item" ng-class="{'active': $last}" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index" predefined='{}'>
                         <p class="testimonial-content" dir-ptv-editor-text ng-model="value.said" default="What some one else says">What some one else says</p>
                         <img dir-ptv-editor-image ng-model="value.img" path="'test_who_'+$index" default="/z/cv/images/Profile.png" crossorigin="anonymous" alt="profile" class="testimonial-img">
-                        <p class="testimonial-name" dir-ptv-editor-text ng-model="value.who" default="Who">Who</p>
+                        <div class="testimonial-name">
+                            <p dir-ptv-editor-text ng-model="value.who" default="Who" style="display: inline;">Who</p>&nbsp;&nbsp;<a class="fa fa-external-link" href="#!" dir-ptv-editor-link ng-model="value.profile" default="https://www.linkedin.com/in/edgar-delgado-54130239/"></a></div>
                     </div>
                 </div>
                 <ol class="carousel-indicators">
@@ -182,7 +189,7 @@
                 </a>
             </div>
         </section>
-        <section class="contact-section">
+        <section class="contact-section noprint">
             <h2 class="section-title">GET IN TOUCH</h2>
             <div dir-ptv-editor-html ng-model="$ctrl.domains.content.texts.contactme" default="<p>Talk with me</p>">
                 <p class="mb-4">Talk with me.</p>

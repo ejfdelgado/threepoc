@@ -20,7 +20,7 @@ export const dataLinkEditor = [
               }
             }
             const partesMail = /^\s*([^\s@]+@[^\s@]+\.[^\s@]+)\s*$/.exec(url);
-            const partesPhone = /\s*\+?([\d-]+[\d- ]+)\s*/.exec(url);
+            const partesPhone = /^\s*\+?([\d-]+[\d- ]+)\s*/.exec(url);
             if (partesMail != null) {
               elemento.attr("href", `mailto:${url}`);
               elemento.text(url);
