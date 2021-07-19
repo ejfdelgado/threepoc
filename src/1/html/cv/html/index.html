@@ -169,15 +169,15 @@
         <section class="testimonial-section noprint">
             <div id="testimonialCarousel" class="testimonial-carousel carousel slide paistv-class-editor-button-inherit" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item" ng-class="{'active': $last}" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index" predefined='{}'>
+                    <div class="carousel-item" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index" predefined='{}'>
                         <p class="testimonial-content" dir-ptv-editor-text ng-model="value.said" default="What some one else says">What some one else says</p>
-                        <img dir-ptv-editor-image ng-model="value.img" path="'test_who_'+$index" default="/z/cv/images/Profile.png" crossorigin="anonymous" alt="profile" class="testimonial-img">
+                        <img dir-ptv-editor-image ng-model="value.img" path="'test_who_${random}'" default="/z/cv/images/Profile.png" crossorigin="anonymous" alt="profile" class="testimonial-img">
                         <div class="testimonial-name">
                             <p dir-ptv-editor-text ng-model="value.who" default="Who" style="display: inline;">Who</p>&nbsp;&nbsp;<a class="fa fa-external-link" href="#!" dir-ptv-editor-link ng-model="value.profile" default="https://www.linkedin.com/in/edgar-delgado-54130239/"></a></div>
                     </div>
                 </div>
                 <ol class="carousel-indicators">
-                    <li data-target="#testimonialCarousel" data-slide-to="{{ $$index }}" ng-class="{'active': $last}" ng-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index"></li>
+                    <li data-target="#testimonialCarousel" data-slide-to="{{ $index }}" ng-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index"></li>
                 </ol>
                 <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

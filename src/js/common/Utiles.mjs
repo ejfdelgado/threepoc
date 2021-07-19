@@ -168,4 +168,18 @@ export class Utiles {
       }
     });
   }
+
+  static ajustarCarusel = function () {
+    $(".carousel-inner").each(function (a, b) {
+      const elem = $(b);
+      setTimeout(function () {
+        const hijos = elem.find(".carousel-item");
+        if (hijos.length > 0) {
+          if (elem.find(".carousel-item.active").length == 0) {
+            $(hijos[0]).addClass("active");
+          }
+        }
+      }, 0);
+    });
+  };
 }

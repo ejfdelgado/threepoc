@@ -1,5 +1,6 @@
 import { ModuloModales } from "../../common/ModuloModales.mjs";
 import { IdGen } from "../../../common/IdGen.mjs";
+import { Utiles } from "../../../common/Utiles.mjs";
 
 let uid;
 const slice = [].slice;
@@ -189,6 +190,9 @@ export const ngRepeatDirective = [
                 break;
               }
             }
+            setTimeout(function() {
+              Utiles.ajustarCarusel();
+            });
           };
           const addItem = async function (afterThisOrder) {
             if ([null, undefined].indexOf(originalCollection) >= 0) {
@@ -427,6 +431,9 @@ export const ngRepeatDirective = [
                     </div>\
                     <!-- paistv-editor } -->\
                   </div>`);
+                  if ($(clone[0]).hasClass('carousel-item')) {
+                    Utiles.ajustarCarusel();
+                  }
                   $(clone[0]).append(nuevoElem);
                   $compile(nuevoElem)(scope);
 

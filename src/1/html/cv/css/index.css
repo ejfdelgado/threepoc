@@ -4823,7 +4823,7 @@ a.close.disabled {
     box-sizing: content-box;
     flex: 0 1 auto;
     width: 30px;
-    height: 3px;
+    height: 8px;
     margin-right: 3px;
     margin-left: 3px;
     text-indent: -999px;
@@ -7759,7 +7759,7 @@ main {
     main .testimonial-carousel .testimonial-content {
       font-size: 14px;
       font-weight: 300;
-      max-width: 280px;
+      max-width: 480px;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 5px; }
@@ -7777,7 +7777,7 @@ main {
       position: static;
       margin-bottom: 0; }
       main .testimonial-carousel .carousel-indicators li {
-        width: 3px;
+        width: 8px;
         border-radius: 50%;
         border: 0; }
   main footer {

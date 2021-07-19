@@ -48,8 +48,6 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
-- bug: cuando se edita el enlace de las imágenes, no se detecta el cambio, toca hacer en digest o no sé qué.
-
 editor de enlace:
 - que el editor de pool de imágenes tenga la posibilidad de agregar una nueva imagen y crear tumbnails.
 - que el editor de imagenes permita hacer un search sobre las imágenes cargadas y las predefinidias.

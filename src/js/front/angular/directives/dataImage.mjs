@@ -4,7 +4,8 @@ import { ModuloImg } from "../../common/ModuloImg.mjs";
 
 export const dataImage = [
   "$compile",
-  function dataImage($compile) {
+  "$rootScope",
+  function dataImage($compile, $rootScope) {
     return {
       restrict: "A",
       require: "ngModel",
@@ -71,7 +72,7 @@ export const dataImage = [
             }
             const rta = await ModuloArchivos.uploadFile({
               own: false,
-              //path: '${YYYY}${MM}${DD}-${HH}${mm}${ss}${zz}.jpg'
+              //path: '${random}${YYYY}${MM}${DD}-${HH}${mm}${ss}${zz}.jpg'
               path: localPath,
               data: canvas,
             });
@@ -80,7 +81,7 @@ export const dataImage = [
           ngModel.$viewValue.alt = scope.content.alt;
           ngModel.$render();
           try {
-            scope.$digest();
+            $rootScope.$digest();
           } catch (e) {}
           scope.refModal.closeFunction();
         };

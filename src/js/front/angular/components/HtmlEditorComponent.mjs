@@ -165,7 +165,7 @@ export class HtmlEditorComponentClass {
           this.$scope.$digest();
         }
       } catch (e) {
-        ModuloModales.alert({message: e.message});
+        ModuloModales.alert({ message: e.message });
       }
     };
     this.$scope.addFile = async () => {
