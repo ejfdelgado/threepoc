@@ -47,8 +47,8 @@ export class MainHandlerReplace {
     }
     const PATRON_LIBS = /<script\s+(.*)src=["']\/node_modules\/([^"']+)["'][^>]*>\s*<\/script>/gi;
     const PATRON_CSS = /<link.*type=["']text\/css["'][^>]*>/gi;
-    const funcionRemplazo = function (a, preserveByDefault) {
-      if (isDebug) {
+    const funcionRemplazo = function (a, preserveByDefault, isCss=false) {
+      if (isDebug || isCss) {
         if (isPubHtml) {
           const partesSubDomain = new RegExp(
             `sub-domain=['"].*${subDomain}.*['"]`
@@ -70,7 +70,7 @@ export class MainHandlerReplace {
       }
     };
     const funcionRemplazoPreserve = function (a) {
-      return funcionRemplazo(a, true);
+      return funcionRemplazo(a, true, true);
     };
     const funcionRemplazoNoPreserve = function (a) {
       return funcionRemplazo(a, false);
