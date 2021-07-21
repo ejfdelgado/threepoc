@@ -126,7 +126,10 @@ export class TuplaHandler {
 
     for (let k = 0; k < amodificar.length; k++) {
       const entidad = amodificar[k];
-      if (typeof entidad.data.v == "string" && entidad.data.v.length > TuplaHandler.MAX_LENGTH_FOR_INDEXING) {
+      if (
+        typeof entidad.data.v == "string" &&
+        entidad.data.v.length > TuplaHandler.MAX_LENGTH_FOR_INDEXING
+      ) {
         entidad.excludeFromIndexes = ["v"];
       }
       await datastore.save(entidad);
@@ -379,12 +382,12 @@ router.get("/all/*", Usuario.authorize("reader"), TuplaHandler.all);
 router.get("/next/*", Usuario.authorize("reader"), TuplaHandler.next);
 router.post(
   /\/(\d+)(\/.*)?/,
-  Usuario.authorize("writer"),
+  Usuario.authorize(["writer", "wd"]),
   TuplaHandler.guardar
 );
 router.delete(
   /\/(\d+)(\/.*)?/,
-  Usuario.authorize("writer"),
+  Usuario.authorize(["writer", "wd"]),
   TuplaHandler.borrar
 );
 

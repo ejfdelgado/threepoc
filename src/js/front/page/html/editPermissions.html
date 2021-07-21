@@ -1,0 +1,41 @@
+<form>
+  <div class="form-group">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="principalUID" placeholder="google.com/edgar@gmail.com">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" ng-click="addPrincipal()">Agregar</button>
+      </div>
+    </div>
+    <hr>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Usuario</th>
+          <th scope="col">rf</th>
+          <th scope="col">wf</th>
+          <th scope="col">rd</th>
+          <th scope="col">wd</th>
+          <th scope="col">rs</th>
+          <th scope="col">ws</th>
+          <th scope="col">Borrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(principal, value) in $ctrl.domains.security">
+          <td scope="row">{{ $index + 1 }}</td>
+          <td scope="row">{{ principal | decodeBase64 }}</td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].rp" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].wp" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].rf" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].wf" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].rd" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><input type="checkbox" class="form-control permission_checkbox" ng-model="$ctrl.permisionMatrix[principal].wd" ng-change="transformarPermisos(principal)"></td>
+          <td scope="row"><button type="button" class="btn btn-sm btn-danger" ng-click="removePrincipal(principal)">
+            Borrar
+          </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>

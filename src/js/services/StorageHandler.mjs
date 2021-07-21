@@ -6,6 +6,7 @@ import { Constants } from "../common/Constants.mjs";
 import { Utilidades } from "../common/Utilidades.mjs";
 import { MalaPeticionException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
+import { Usuario } from "./AdminHandler.mjs";
 
 const { Storage } = storagePackage;
 const storageInstance = new Storage();
@@ -77,7 +78,9 @@ export class StorageHandler {
       let interpretedFile = key;
       // https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5731346630574080/00g0jc2o57ga/persona.png?t=1626474511090
       // public/usr/anonymous/1/html/cv/pg/5731346630574080/00g0jc2o57ga/persona.png
-      const partesPublic = /^https?:\/\/storage.googleapis.com\/[^/]+\/([^?]+)/ig.exec(key);
+      const partesPublic = /^https?:\/\/storage.googleapis.com\/[^/]+\/([^?]+)/gi.exec(
+        key
+      );
       if (partesPublic != null) {
         interpretedFile = partesPublic[1];
       }
@@ -220,13 +223,24 @@ router.get("/read", function (req, res) {
   StorageHandler.makeResponse(req, res, key, readPromise);
 });
 
-router.delete("/borrar", function (req, res, next) {
+router.delete("/borrar", 
+  // Usuario.authorize(["writer", "wf"]), 
+  function (
+  req,
+  res,
+  next
+) {
   const key = req.query.name;
   StorageHandler.borrar(key, req, res, next);
 });
 
-router.post("/", multer.single("file-0"), function (req, res, next) {
-  StorageHandler.escribir(req, res, next);
-});
+router.post(
+  "/",
+  // Usuario.authorize(["writer", "wf"]), 
+  multer.single("file-0"),
+  function (req, res, next) {
+    StorageHandler.escribir(req, res, next);
+  }
+);
 
 export default router;

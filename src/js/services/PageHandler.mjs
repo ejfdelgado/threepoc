@@ -378,7 +378,7 @@ export class PageHandler {
 
 router.get("/q/*", PageHandler.q);
 router.get("/*", Usuario.authorize("reader"), PageHandler.base);
-router.put("/*", Usuario.authorize("owner"), PageHandler.guardar);
-router.delete("/*", Usuario.authorize("owner"), PageHandler.borrar);
+router.put("/*", Usuario.authorize(["owner", "wp"]), PageHandler.guardar);
+router.delete("/*", Usuario.authorize(["owner", "wp"]), PageHandler.borrar);
 
 export default router;

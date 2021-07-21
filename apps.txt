@@ -48,6 +48,17 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- que el editor de texto permita hacer enter
+- que el editor de texto evite los style=""
+
+http://proyeccion-colombia1.appspot.com/1/message/?debug=1#!/
+- Hacer manejo de los permisos públicos "pr"
+- Hacer la GUI del editor de permisos de página
+- Asegurar que solo el dueño de la página o quién esté incluido puede escribir/borrar: 
+- En el bucket
+- En las tuplas
+- En seguridad
+
 editor de enlace:
 - que el editor de pool de imágenes tenga la posibilidad de agregar una nueva imagen y crear tumbnails.
 - que el editor de imagenes permita hacer un search sobre las imágenes cargadas y las predefinidias.

@@ -21,6 +21,7 @@ import { dataDownloadLinkEditor } from "../../../../js/front/angular/directives/
 import { mailService } from "../../../../js/front/angular/services/mailService.mjs";
 import { dataContactMeForm } from "../../../../js/front/angular/directives/dataContactMeForm.mjs";
 import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
+import { decodeBase64 } from "../../../../js/front/angular/filters/decodeBase64.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -40,8 +41,11 @@ export const Tuto3Module = angular
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("ngModelDynamic", ngModelDynamic)
   .directive("paistvDataMessage", dataMessage)
+
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
+  .filter("decodeBase64", decodeBase64)
+  
   .service("ngifSearch", ngifSearch)
   .service("mailService", mailService)
   .config([

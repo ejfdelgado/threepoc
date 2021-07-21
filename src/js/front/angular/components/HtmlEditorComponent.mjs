@@ -65,6 +65,40 @@ export class HtmlEditorComponentClass {
       await ModuloModales.basic({
         title: "Administrar Archivos",
         message: await ModuloHtml.getHtml(urlTemplate),
+        size: "lg",
+        useHtml: true,
+        preShow: function () {
+          self.$scope.$digest();
+        },
+        angular: {
+          scope: self.$scope,
+          compile: $compile,
+        },
+      });
+    });
+    $rootScope.$on("editPermissions", async function () {
+      const urlTemplate = "/js/front/page/html/editPermissions.html";
+      const security = $scope.$ctrl.domains.security;
+      $scope.$ctrl.permisionMatrix = {};
+      const llaves = Object.keys(security);
+      for (let i = 0; i < llaves.length; i++) {
+        const llave = llaves[i];
+        const nuevo = {};
+        const viejo = security[llave];
+        const rolesViejos = viejo.roles;
+        for (let j = 0; j < rolesViejos.length; j++) {
+          const unRolViejo = rolesViejos[j];
+          if (unRolViejo.v) {
+            nuevo[unRolViejo.v] = true;
+          }
+        }
+        $scope.$ctrl.permisionMatrix[llave] = nuevo;
+      }
+
+      await ModuloModales.basic({
+        title: "Permisos",
+        message: await ModuloHtml.getHtml(urlTemplate),
+        size: "lg",
         useHtml: true,
         preShow: function () {
           self.$scope.$digest();
@@ -119,10 +153,19 @@ export class HtmlEditorComponentClass {
           lst: [],
         },
       },
+      {
+        key: "security",
+        useSubDomain: true,
+        pred: {},
+      },
     ];
     for (let i = 0; i < THE_DOMAINS.length; i++) {
       const domainSpec = THE_DOMAINS[i];
-      this.readDomain(domainSpec.key, domainSpec.pred).catch((e) => {});
+      this.readDomain(
+        domainSpec.key,
+        domainSpec.pred,
+        domainSpec.useSubDomain
+      ).catch((e) => {});
     }
     this.$scope.$watch(
       `$ctrl.domainsState`,
@@ -179,6 +222,36 @@ export class HtmlEditorComponentClass {
       };
       this.$scope.$ctrl.domains.files.lst.push(nuevo);
       this.$scope.$digest();
+    };
+    this.$scope.addPrincipal = async () => {
+      const princialUID = $("#principalUID").val();
+      if (!(typeof princialUID == "string") || princialUID.trim().length == 0) {
+        ModuloModales.alert({ message: "Debe proveer un usuario" });
+        return;
+      }
+      const encoded = btoa(princialUID);
+      this.$scope.$ctrl.domains.security[encoded] = { roles: [] };
+    };
+    this.$scope.removePrincipal = async (principal) => {
+      const confirmar = await ModuloModales.confirm();
+      if (!confirmar) {
+        return;
+      }
+      delete this.$scope.$ctrl.domains.security[principal];
+      this.$scope.$digest();
+    };
+    this.$scope.transformarPermisos = (principal) => {
+      const security = this.$scope.$ctrl.domains.security[principal].roles;
+      const actual = this.$scope.$ctrl.permisionMatrix[principal];
+      security.splice(0, security.length);
+      const llaves = Object.keys(actual);
+      for (let i = 0; i < llaves.length; i++) {
+        const llave = llaves[i];
+        const valorActual = actual[llave];
+        if (valorActual) {
+          security.push({ v: llave });
+        }
+      }
     };
   }
   $onDestroy() {

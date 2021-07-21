@@ -69,7 +69,7 @@ export class Usuario {
         return Utilidades.removeDoubles(roles);
       }
     } catch (e) {
-      console.log(req._parsedUrl.href + ' ... ' + e);
+      console.log(req._parsedUrl.href + " ... " + e);
       return roles;
     }
 
@@ -83,7 +83,6 @@ export class Usuario {
     if (req._user == null) {
       return Utilidades.removeDoubles(roles);
     }
-
     // Se revisa si es administrador del sistema
     const userId = req._user.darId();
     if (Usuario.ADMINISTRADORES.indexOf(userId) >= 0) {
@@ -99,7 +98,7 @@ export class Usuario {
     }
 
     // Se complementa con los permisos que el usuario tiene en esa página
-    const paginaKey = datastore.key([PageHandler.KIND, miPage.id]);
+    const paginaKey = datastore.key([PageHandler.KIND, parseInt(miPage.id)]);
     const userIdFix = Buffer.from(userId).toString("base64");
     const queryTupla = datastore
       .createQuery(TuplaHandler.KIND_TUPLA)
@@ -121,7 +120,6 @@ export class Usuario {
         }
       } catch (e) {}
     }
-
     return Utilidades.removeDoubles(roles);
   }
 
