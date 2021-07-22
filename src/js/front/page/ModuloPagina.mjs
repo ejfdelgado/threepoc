@@ -192,6 +192,8 @@ export class ModuloPagina {
         beforeShow: async (element) => {
           //Se valida la lista de permisos
           const page = scope.$ctrl.page.page;
+          scope.$ctrl.url = `${location.origin}${location.pathname}?pg=${page.id}`;
+
           page.pr = ModuloPagina.list2ObjectVal(page.pr);
           page.kw = Utiles.list2Text(page.kw);
           canvasEl = $("canvas.og_page_image_icon");
