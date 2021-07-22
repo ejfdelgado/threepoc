@@ -9,7 +9,7 @@ import mainHandler from "./src/js/services/MainHandler.mjs";
 import shortUrlHandler from "./src/js/services/ShortUrlHandler.mjs";
 import pageHandler from "./src/js/services/PageHandler.mjs";
 import emailHandler from "./src/js/services/EmailHandler.mjs";
-import { Usuario } from "./src/js/services/AdminHandler.mjs";
+import { Usuario } from "./src/js/services/Usuario.mjs";
 
 const app = express();
 

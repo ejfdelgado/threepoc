@@ -6,9 +6,9 @@ import { NoAutorizadoException } from "../common/Errors.mjs";
 import { NoExisteException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
 import { NoHayUsuarioException } from "../common/Errors.mjs";
-import { Usuario } from "./AdminHandler.mjs";
 import { Utiles } from "../common/Utiles.mjs";
 import { Constants } from "../common/Constants.mjs";
+import { Usuario } from "./Usuario.mjs";
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));

@@ -6,7 +6,7 @@ import { Constants } from "../common/Constants.mjs";
 import { Utilidades } from "../common/Utilidades.mjs";
 import { MalaPeticionException } from "../common/Errors.mjs";
 import { ParametrosIncompletosException } from "../common/Errors.mjs";
-import { Usuario } from "./AdminHandler.mjs";
+import { Usuario } from "./Usuario.mjs";
 
 const { Storage } = storagePackage;
 const storageInstance = new Storage();
@@ -223,9 +223,7 @@ router.get("/read", function (req, res) {
   StorageHandler.makeResponse(req, res, key, readPromise);
 });
 
-router.delete("/borrar", 
-  // Usuario.authorize(["writer", "wf"]), 
-  function (
+router.delete("/borrar", Usuario.authorize(["writer", "wf"]), function (
   req,
   res,
   next
@@ -236,7 +234,7 @@ router.delete("/borrar",
 
 router.post(
   "/",
-  // Usuario.authorize(["writer", "wf"]), 
+  Usuario.authorize(["writer", "wf"]),
   multer.single("file-0"),
   function (req, res, next) {
     StorageHandler.escribir(req, res, next);
