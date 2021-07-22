@@ -17,7 +17,10 @@ export class HtmlEditorComponentClass {
       this.save();
     });
     $rootScope.$on("editPage", function (datos) {
-      ModuloPagina.editPage({});
+      ModuloPagina.editPage({
+        $scope: $rootScope,
+        $compile: $compile,
+      });
     });
     $rootScope.$on("newPage", function (datos) {
       ModuloPagina.createNewPage().then((rta) => {

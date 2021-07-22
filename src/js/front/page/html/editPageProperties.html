@@ -5,9 +5,9 @@
         <canvas width="120" height="120" class="og_page_image_icon" style="padding: 10px; cursor: pointer;"></canvas>
       </div>
       <div class="col-xs-6">
-        <p>Propietario: <b ng-data="$ctrl.page.page.aut"></b></p>
-        <p>Fecha creación: <b ng-data="$ctrl.page.page.date"></b></p>
-        <p>Fecha actualización: <b ng-data="$ctrl.page.page.date"></b></p>
+        <p>Propietario: <b>{{ $ctrl.page.page.aut }}</b></p>
+        <p>Fecha creación: <b>{{ $ctrl.page.page.date * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</b></p>
+        <p>Fecha actualización: <b>{{ $ctrl.page.page.act * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</b></p>
       </div>
     </div>
   </div>

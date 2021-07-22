@@ -148,17 +148,14 @@ export class ModuloPagina {
     }).then((res) => res.json());
   }
   static list2ObjectVal(list = []) {
-    console.log(list);
     const ans = {};
     for (let i = 0; i < list.length; i++) {
       const elem = list[i];
       ans[elem] = true;
     }
-    console.log(ans);
     return ans;
   }
   static objectVal2List(objeto = {}) {
-    console.log(objeto);
     const ans = [];
     const llaves = Object.keys(objeto);
     for (let i = 0; i < llaves.length; i++) {
@@ -167,33 +164,36 @@ export class ModuloPagina {
         ans.push(llave);
       }
     }
-    console.log(ans);
     return ans;
   }
   static async editPage(opciones = {}) {
     opciones = Object.assign({}, opciones);
+    const padre = opciones.$scope;
+    const scope = padre.$new();
     const readPagePromise = ModuloPagina.leer();
     const urlTemplate = "/js/front/page/html/editPageProperties.html";
     return new Promise(async (resolve) => {
-      const scope = {
-        $ctrl: {
-          page: {
-            page: (await readPagePromise).valor,
-          },
+      scope.$ctrl = {
+        page: {
+          page: (await readPagePromise).valor,
         },
       };
+
       let edicionesImagen = 0;
       let canvasEl = null;
       await ModuloModales.basic({
         message: await ModuloHtml.getHtml(urlTemplate),
         size: "lg",
         useHtml: true,
+        angular: {
+          scope: scope,
+          compile: opciones.$compile,
+        },
         beforeShow: async (element) => {
           //Se valida la lista de permisos
           const page = scope.$ctrl.page.page;
           page.pr = ModuloPagina.list2ObjectVal(page.pr);
           page.kw = Utiles.list2Text(page.kw);
-          ModuloHtml.modelToHtml(scope, element);
           canvasEl = $("canvas.og_page_image_icon");
           const canvas = canvasEl[0];
           ModuloImg.loadImageOnCanvas(canvas, page.img);
@@ -217,8 +217,7 @@ export class ModuloPagina {
             action: async (close, element) => {
               const actividad = ModuloActividad.on();
               try {
-                const newScope = ModuloHtml.htmlToModel(element);
-                const page = newScope.$ctrl.page.page;
+                const page = scope.$ctrl.page.page;
                 page.pr = ModuloPagina.objectVal2List(page.pr);
                 page.kw = Utiles.text2List(page.kw);
                 // Se mira si el icono cambió, si sí, se escribe:
@@ -231,7 +230,6 @@ export class ModuloPagina {
                   });
                   page.img = rta.pub;
                 }
-                $.extend(true, scope, newScope);
                 await ModuloPagina.guardar(scope.$ctrl.page.page);
                 ModuloPagina.setCurrentValues(scope.$ctrl.page.page);
                 resolve(true);
