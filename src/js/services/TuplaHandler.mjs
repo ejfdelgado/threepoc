@@ -378,17 +378,9 @@ export class TuplaHandler {
   }
 }
 
-router.get("/all/*", Usuario.authorize("reader"), TuplaHandler.all);
-router.get("/next/*", Usuario.authorize("reader"), TuplaHandler.next);
-router.post(
-  /\/(\d+)(\/.*)?/,
-  Usuario.authorize(["writer", "wd"]),
-  TuplaHandler.guardar
-);
-router.delete(
-  /\/(\d+)(\/.*)?/,
-  Usuario.authorize(["writer", "wd"]),
-  TuplaHandler.borrar
-);
+router.get("/all/*", Usuario.authorize(["rd"]), TuplaHandler.all);
+router.get("/next/*", Usuario.authorize(["rd"]), TuplaHandler.next);
+router.post(/\/(\d+)(\/.*)?/, Usuario.authorize(["wd"]), TuplaHandler.guardar);
+router.delete(/\/(\d+)(\/.*)?/, Usuario.authorize(["wd"]), TuplaHandler.borrar);
 
 export default router;

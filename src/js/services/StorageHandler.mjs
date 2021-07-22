@@ -213,7 +213,7 @@ export class StorageHandler {
 /**
  * name=public/hola.txt&type=text&download&encoding=utf8
  */
-router.get("/read", function (req, res) {
+router.get("/read", Usuario.authorize(["rf"]), function (req, res) {
   const key = req.query.name;
   const readPromise = StorageHandler.read(
     key,
@@ -223,22 +223,17 @@ router.get("/read", function (req, res) {
   StorageHandler.makeResponse(req, res, key, readPromise);
 });
 
-router.delete("/borrar", Usuario.authorize(["writer", "wf"]), function (
-  req,
-  res,
-  next
-) {
+router.delete("/borrar", Usuario.authorize(["wf"]), function (req, res, next) {
   const key = req.query.name;
   StorageHandler.borrar(key, req, res, next);
 });
 
-router.post(
-  "/",
-  Usuario.authorize(["writer", "wf"]),
-  multer.single("file-0"),
-  function (req, res, next) {
-    StorageHandler.escribir(req, res, next);
-  }
-);
+router.post("/", Usuario.authorize(["wf"]), multer.single("file-0"), function (
+  req,
+  res,
+  next
+) {
+  StorageHandler.escribir(req, res, next);
+});
 
 export default router;

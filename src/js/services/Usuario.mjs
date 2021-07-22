@@ -5,6 +5,12 @@ import { PageHandler } from "./PageHandler.mjs";
 import { TuplaHandler } from "./TuplaHandler.mjs";
 import { Utilidades } from "../common/Utilidades.mjs";
 
+const ROL_2_PERMISSION = {
+  reader: ["rp", "rf", "rd"],
+  writer: ["wp", "wf", "wd"],
+  admin: ["rp", "rf", "rd", "wp", "wf", "wd"],
+  owner: ["rp", "rf", "rd", "wp", "wf", "wd"],
+};
 const { Datastore } = datastorePackage;
 const datastore = new Datastore();
 
@@ -53,6 +59,20 @@ export class Usuario {
       uid: this.metadatos.user_id,
     };
     return ans;
+  }
+
+  static translateRoles2Permission(roles = []) {
+    const permissions = [];
+    for (let i = 0; i < roles.length; i++) {
+      const rol = roles[i];
+      const permissionsAdded = ROL_2_PERMISSION[rol];
+      if (permissionsAdded) {
+        for (let j = 0; j < permissionsAdded.length; j++) {
+          permissions.push(permissionsAdded[j]);
+        }
+      }
+    }
+    return Utilidades.removeDoubles(permissions);
   }
 
   static async extractRoles(req) {
@@ -117,7 +137,7 @@ export class Usuario {
         }
       } catch (e) {}
     }
-    return Utilidades.removeDoubles(roles);
+    return Usuario.translateRoles2Permission(roles);
   }
 
   static authDecorator(req, res, next) {
