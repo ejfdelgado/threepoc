@@ -45,28 +45,27 @@ https://fontawesome.com/v4.7/icons/
 - solo aplique cambios hasta guardar
 - Agregar editor de archivos cargados, permitir cargar archivos y referenciarlos. {url:"", name: "", size: 12}
 - editor de archivos debe permitir borrar
-
---------------------------------------------
-
-- que el editor de texto permita hacer enter
-- que el editor de texto evite los style=""
-
-http://proyeccion-colombia1.appspot.com/1/message/?debug=1#!/
 - Hacer manejo de los permisos públicos "pr"
 - Hacer la GUI del editor de permisos de página
 - Asegurar que solo el dueño de la página o quién esté incluido puede escribir/borrar: 
 - En el bucket
 - En las tuplas
-- En seguridad
 
-editor de enlace:
+--------------------------------------------
+
+- Facilitar la edición GUI de permisos públicos de la página. (p, d, f), actualmente pasa de un texto a esto: pr: ["rp", "wp"]
+
+- que el editor de texto permita hacer enter
+- que el editor de texto evite los style=""
+
+editor de imagen:
+- que se defina un ancho/largo máximo por imagen
 - que el editor de pool de imágenes tenga la posibilidad de agregar una nueva imagen y crear tumbnails.
 - que el editor de imagenes permita hacer un search sobre las imágenes cargadas y las predefinidias.
 
+editor de enlace:
 - tenga un check y un campo de texto que permita editar el texto que aparece
 - tenga un valor por defecto tipo objeto
-
-- Dividir en dos columnas el trabajo y estudios?
 
 bootstrap personal templates:
 https://preview.themeforest.net/item/bolby-portfoliocvresume-wordpress-theme/full_screen_preview/25981387?clickid=0glxVO2IOxyLU52wUx0Mo3YjUkByBlSH-xp5W40&iradid=275988&iradtype=ONLINE_TRACKING_LINK&irgwc=1&irmptype=mediapartner&irpid=369282&mp_value1=&utm_campaign=af_impact_radius_369282&utm_medium=affiliate&utm_source=impact_radius

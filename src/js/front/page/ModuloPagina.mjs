@@ -147,6 +147,29 @@ export class ModuloPagina {
       method: "GET",
     }).then((res) => res.json());
   }
+  static list2ObjectVal(list = []) {
+    console.log(list);
+    const ans = {};
+    for (let i = 0; i < list.length; i++) {
+      const elem = list[i];
+      ans[elem] = true;
+    }
+    console.log(ans);
+    return ans;
+  }
+  static objectVal2List(objeto = {}) {
+    console.log(objeto);
+    const ans = [];
+    const llaves = Object.keys(objeto);
+    for (let i = 0; i < llaves.length; i++) {
+      const llave = llaves[i];
+      if (objeto[llave]) {
+        ans.push(llave);
+      }
+    }
+    console.log(ans);
+    return ans;
+  }
   static async editPage(opciones = {}) {
     opciones = Object.assign({}, opciones);
     const readPagePromise = ModuloPagina.leer();
@@ -168,7 +191,7 @@ export class ModuloPagina {
         beforeShow: async (element) => {
           //Se valida la lista de permisos
           const page = scope.$ctrl.page.page;
-          page.pr = Utiles.list2Text(page.pr);
+          page.pr = ModuloPagina.list2ObjectVal(page.pr);
           page.kw = Utiles.list2Text(page.kw);
           ModuloHtml.modelToHtml(scope, element);
           canvasEl = $("canvas.og_page_image_icon");
@@ -196,7 +219,7 @@ export class ModuloPagina {
               try {
                 const newScope = ModuloHtml.htmlToModel(element);
                 const page = newScope.$ctrl.page.page;
-                page.pr = Utiles.text2List(page.pr);
+                page.pr = ModuloPagina.objectVal2List(page.pr);
                 page.kw = Utiles.text2List(page.kw);
                 // Se mira si el icono cambió, si sí, se escribe:
                 if (edicionesImagen > 0) {
