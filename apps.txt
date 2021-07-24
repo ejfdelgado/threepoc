@@ -51,13 +51,12 @@ https://fontawesome.com/v4.7/icons/
 - En el bucket
 - En las tuplas
 - Facilitar la edición GUI de permisos públicos de la página. (p, d, f), actualmente pasa de un texto a esto: pr: ["rp", "wp"]
+- que el editor de texto permita hacer enter
+- que el editor de texto evite los style=""
 
 --------------------------------------------
 
 - Permitir compartir la página con un correo y un link.
-
-- que el editor de texto permita hacer enter
-- que el editor de texto evite los style=""
 
 editor de imagen:
 - que se defina un ancho/largo máximo por imagen

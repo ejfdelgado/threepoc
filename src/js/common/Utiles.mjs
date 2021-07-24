@@ -169,7 +169,7 @@ export class Utiles {
     });
   }
 
-  static ajustarCarusel = function () {
+  static ajustarCarusel() {
     $(".carousel-inner").each(function (a, b) {
       const elem = $(b);
       setTimeout(function () {
