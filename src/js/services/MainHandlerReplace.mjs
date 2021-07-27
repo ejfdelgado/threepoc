@@ -144,12 +144,6 @@ export class MainHandlerReplace {
         empty: typeof metadata.img != "string" || metadata.img.length == 0,
       },
       {
-        old: /name="og:site_name"[\s]+content="[^"]*"/,
-        new: `name="og:site_name" content="${Utiles.htmlEntities(
-          Constants.SITE_NAME
-        )}"`,
-      },
-      {
         old: /name="og:url"[\s]+content="[^"]*"/,
         new: `name="og:url" content="${originalUrl}"`,
       },

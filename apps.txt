@@ -53,10 +53,11 @@ https://fontawesome.com/v4.7/icons/
 - Facilitar la edición GUI de permisos públicos de la página. (p, d, f), actualmente pasa de un texto a esto: pr: ["rp", "wp"]
 - que el editor de texto permita hacer enter
 - que el editor de texto evite los style=""
+- cuando muestro la página debo mostrar la última editada, no la última creada
 
 --------------------------------------------
 
-- Permitir compartir la página con un correo y un link.
+- La tupla con subdominio no permite borrar como tal el subdominio :(
 
 editor de imagen:
 - que se defina un ancho/largo máximo por imagen
@@ -66,6 +67,8 @@ editor de imagen:
 editor de enlace:
 - tenga un check y un campo de texto que permita editar el texto que aparece
 - tenga un valor por defecto tipo objeto
+
+- Permitir compartir la página con un correo y un link.
 
 bootstrap personal templates:
 https://preview.themeforest.net/item/bolby-portfoliocvresume-wordpress-theme/full_screen_preview/25981387?clickid=0glxVO2IOxyLU52wUx0Mo3YjUkByBlSH-xp5W40&iradid=275988&iradtype=ONLINE_TRACKING_LINK&irgwc=1&irmptype=mediapartner&irpid=369282&mp_value1=&utm_campaign=af_impact_radius_369282&utm_medium=affiliate&utm_source=impact_radius

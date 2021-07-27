@@ -146,6 +146,9 @@ export class PageHandler {
           .createQuery(PageHandler.KIND)
           .filter("usr", "=", elUsuario)
           .filter("path", "=", elpath)
+          .order('act', {
+            descending: true
+          })
           .limit(1);
         datos = (await query.run())[0];
       }

@@ -21,6 +21,7 @@ https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 
+bash
 source /Users/jose.delgado/.bash_profile_gcp
 export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 export GAE_APPLICATION="proyeccion-colombia1"

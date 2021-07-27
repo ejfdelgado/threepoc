@@ -41,3 +41,10 @@ indexes:
   - name: i
   - name: sd
     direction: desc
+
+- kind: Pagina
+  properties:
+  - name: path
+  - name: usr
+  - name: act
+    direction: desc
