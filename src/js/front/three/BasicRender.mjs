@@ -17,6 +17,19 @@ export class BasicRender {
   constructor(parentContainer) {
     this.parentContainer = parentContainer;
     this.scene = new THREE.Scene();
+    const ahora = new Date().getTime();
+    this.scene.background = new THREE.CubeTextureLoader()
+      .setPath(
+        "https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5677287789821952/360cube/"
+      )
+      .load([
+        "px.jpg?t=" + ahora,
+        "nx.jpg?t=" + ahora,
+        "py.jpg?t=" + ahora,
+        "ny.jpg?t=" + ahora,
+        "pz.jpg?t=" + ahora,
+        "nz.jpg?t=" + ahora,
+      ]);
 
     this.camera = new THREE.PerspectiveCamera(
       40, //fov — Camera frustum vertical field of view, in degrees. Default is 50.
@@ -25,7 +38,7 @@ export class BasicRender {
       100 //far — Camera frustum far plane. Default is 2000.
     );
     this.camera.position.set(5, 2, 8);
-    this.scene.background = new THREE.Color(0xbfe3dd);
+    // this.scene.background = new THREE.Color(0xbfe3dd);
 
     this.scene.add(new THREE.HemisphereLight(0xffffff, 0x000000, 0.4));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1);

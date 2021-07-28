@@ -24,6 +24,7 @@ import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAn
 import { decodeBase64 } from "../../../../js/front/angular/filters/decodeBase64.mjs";
 import { theSize } from "../../../../js/front/angular/filters/theSize.mjs";
 import { dataLoad360Cube } from "../../../../js/front/angular/directives/dataLoad360Cube.mjs";
+import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -52,6 +53,7 @@ export const Tuto3Module = angular
 
   .service("ngifSearch", ngifSearch)
   .service("mailService", mailService)
+  .service("load360ImageService", load360ImageService)
   .config([
     "$stateProvider",
     "$urlRouterProvider",
