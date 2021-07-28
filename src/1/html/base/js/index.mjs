@@ -23,6 +23,7 @@ import { dataContactMeForm } from "../../../../js/front/angular/directives/dataC
 import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
 import { decodeBase64 } from "../../../../js/front/angular/filters/decodeBase64.mjs";
 import { theSize } from "../../../../js/front/angular/filters/theSize.mjs";
+import { dataLoad360Cube } from "../../../../js/front/angular/directives/dataLoad360Cube.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -37,6 +38,7 @@ export const Tuto3Module = angular
   .directive("dirPtvEditorRepeat", ngRepeatDirective)
   .directive("dirPtvEditorLink", dataLinkEditor)
   .directive("dirPtvEditorDownloadLink", dataDownloadLinkEditor)
+  .directive("dirPtvLoad360Cube", dataLoad360Cube)
   .directive("dirPubPtvAnchor", dataAnchorScroll)
 
   .directive("publicContactMeForm", dataContactMeForm)

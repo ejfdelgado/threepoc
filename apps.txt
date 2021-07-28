@@ -59,6 +59,8 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- El load de un enlace debe tener la libertad de cargar archivo con path diferente
+- Permitir importat una imagen 360 y partirla en pedazos
 - Hacer el borrado de una página junto con todas sus tuplas
 
 editor de imagen:
