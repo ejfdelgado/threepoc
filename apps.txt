@@ -55,10 +55,11 @@ https://fontawesome.com/v4.7/icons/
 - que el editor de texto evite los style=""
 - cuando muestro la página debo mostrar la última editada, no la última creada
 - El carrusel debe tener un ng-if para cuando no necesita
+- La tupla con subdominio no permite borrar como tal el subdominio :(
 
 --------------------------------------------
 
-- La tupla con subdominio no permite borrar como tal el subdominio :(
+- Hacer el borrado de una página junto con todas sus tuplas
 
 editor de imagen:
 - que se defina un ancho/largo máximo por imagen

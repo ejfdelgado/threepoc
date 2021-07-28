@@ -217,7 +217,6 @@ export class ModuloTupla {
     var diferidoEliminacion = new Deferred();
 
     var recursivaModificar = async () => {
-      console.log("modificando...");
       var subgrupo = {};
       var conteo = 0;
       for (llave in unionCrearModificar) {
@@ -266,7 +265,6 @@ export class ModuloTupla {
     await recursivaModificar();
 
     var recursivaEliminar = async () => {
-      console.log("eliminando...");
       var subgrupo = payload["-"].splice(0, N);
       if (subgrupo.length == 0) {
         //Se acabo
@@ -275,6 +273,9 @@ export class ModuloTupla {
         //Hace invocacion a servicio
         //console.log('invocando servicio - con', JSON.stringify(subgrupo));
         var payloadLocal = { dat: subgrupo, acc: "-" };
+        if (this.opciones.useSubDomain) {
+          payloadLocal.useSd = true;
+        }
         const url = new URL(
           `${ModuloTupla.LOCATION_WITHOUT_PAGE.origin}/api/tup/${idPagina}${dominio}`
         );
@@ -305,7 +306,6 @@ export class ModuloTupla {
     });
 
     diferido.promise.then(function () {
-      console.log("terminó");
       funcionFinal();
     });
 

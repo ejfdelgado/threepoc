@@ -89,10 +89,12 @@ export class HtmlEditorComponentClass {
         const nuevo = {};
         const viejo = security[llave];
         const rolesViejos = viejo.roles;
-        for (let j = 0; j < rolesViejos.length; j++) {
-          const unRolViejo = rolesViejos[j];
-          if (unRolViejo.v) {
-            nuevo[unRolViejo.v] = true;
+        if (rolesViejos instanceof Array) {
+          for (let j = 0; j < rolesViejos.length; j++) {
+            const unRolViejo = rolesViejos[j];
+            if (unRolViejo.v) {
+              nuevo[unRolViejo.v] = true;
+            }
           }
         }
         $scope.$ctrl.permisionMatrix[llave] = nuevo;
@@ -246,7 +248,12 @@ export class HtmlEditorComponentClass {
     this.$scope.transformarPermisos = (principal) => {
       const security = this.$scope.$ctrl.domains.security[principal].roles;
       const actual = this.$scope.$ctrl.permisionMatrix[principal];
-      security.splice(0, security.length);
+      if (security instanceof Array) {
+        security.splice(0, security.length);
+      } else {
+        security = [];
+        this.$scope.$ctrl.domains.security[principal].roles = security;
+      }
       const llaves = Object.keys(actual);
       for (let i = 0; i < llaves.length; i++) {
         const llave = llaves[i];
