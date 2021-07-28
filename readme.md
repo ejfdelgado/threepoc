@@ -35,8 +35,6 @@ export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/l
 export GAE_APPLICATION="paistv"
 gcloud config set project paistv
 
-gcloud app deploy app.yaml --project paistv --version 2
-
 Para correr el servidor:
 npm run start
 

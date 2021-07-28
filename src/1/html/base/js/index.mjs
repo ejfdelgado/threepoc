@@ -22,6 +22,7 @@ import { mailService } from "../../../../js/front/angular/services/mailService.m
 import { dataContactMeForm } from "../../../../js/front/angular/directives/dataContactMeForm.mjs";
 import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
 import { decodeBase64 } from "../../../../js/front/angular/filters/decodeBase64.mjs";
+import { theSize } from "../../../../js/front/angular/filters/theSize.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -45,7 +46,8 @@ export const Tuto3Module = angular
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
   .filter("decodeBase64", decodeBase64)
-  
+  .filter("thesize", theSize)
+
   .service("ngifSearch", ngifSearch)
   .service("mailService", mailService)
   .config([

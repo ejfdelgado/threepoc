@@ -176,14 +176,14 @@
                             <p dir-ptv-editor-text ng-model="value.who" default="Who" style="display: inline;">Who</p>&nbsp;&nbsp;<a class="fa fa-external-link" href="#!" dir-ptv-editor-link ng-model="value.profile" default="https://www.linkedin.com/in/edgar-delgado-54130239/"></a></div>
                     </div>
                 </div>
-                <ol class="carousel-indicators">
+                <ol ng-if="($ctrl.domains.content.subDomain.testimonial | thesize) > 1" class="carousel-indicators">
                     <li data-target="#testimonialCarousel" data-slide-to="{{ $index }}" ng-repeat="value in $ctrl.domains.content.subDomain.testimonial | orderItem track by $index"></li>
                 </ol>
-                <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
+                <a ng-if="($ctrl.domains.content.subDomain.testimonial | thesize) > 1" class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
+                <a ng-if="($ctrl.domains.content.subDomain.testimonial | thesize) > 1" class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
