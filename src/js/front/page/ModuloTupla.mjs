@@ -12,7 +12,6 @@ export class ModuloTupla {
   constructor(opciones = {}) {
     this.diferidoLectura = null;
     this.memento = null;
-    this.opciones = null;
     this.hashActual = null;
     this.opciones = Object.assign(
       {

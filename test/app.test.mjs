@@ -126,5 +126,23 @@ describe("transformacion_aplanamiento", () => {
       };
       test_transformacion("simple", pool, done, opciones);
     });
+    it("raiz al usar subdominio", (done) => {
+      const pool = [
+        {
+          "Z29vZ2xlLmNvbS9kcm1hcnRpbm4yNUBnbWFpbC5jb20=": {
+            roles: [{ v: "reader" }, { v: "writer" }],
+          },
+          Z29vZ2xlLmNvbS9lZGdhci5qb3NlLmZlcm5hbmRvLmRlbGdhZG9AZ21haWwuY29t: {
+            roles: [{ v: "reader" }],
+          },
+        },
+      ];
+      const opciones = {
+        keysNoBreak: ["^[^.]+\\.[^.]+"],
+        includeBase: true,
+      };
+
+      test_transformacion("simple", pool, done, opciones);
+    });
   });
 });
