@@ -1,19 +1,25 @@
-import { RendererGlobal } from "../../../js/front/three/RendererGlobal.mjs";
-import { RenderCreator } from "../../../js/front/three/RenderCreator.mjs";
-import { Utiles } from "../../../js/common/Utiles.mjs";
+import { ThreejsComponent } from "../../../js/front/angular/components/ThreejsComponent.mjs";
 
-export class App {
-  static recreate() {
-    console.log(Utiles.getCurrentTimeNumber());
-    $("[data-3d-scene]").each(function () {
-      new RenderCreator($(this));
-    });
-    RendererGlobal.fullAnimate();
-    window.addEventListener("resize", RendererGlobal.configureResize, false);
-    window.addEventListener("scroll", RendererGlobal.updateBBox);
-  }
-}
+export const ThreejsModule = angular
+  .module("message", ["ui.router"])
+  .component("threejsComponent", ThreejsComponent)
+  .config([
+    "$stateProvider",
+    "$urlRouterProvider",
+    "$httpProvider",
+    ($stateProvider, $urlRouterProvider, $httpProvider) => {
+      $stateProvider.state("/", {
+        url: "/",
+        component: "threejsComponent",
+        bindings: { page: "page" },
+      });
+      $urlRouterProvider.otherwise("/");
+    },
+  ]).name;
+
+export const AppModule = angular.module("app", [ThreejsModule, "ui.router"])
+  .name;
 
 $(document).ready(function () {
-  App.recreate();
+  angular.bootstrap(document, ["app"]);
 });

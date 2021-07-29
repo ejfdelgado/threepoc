@@ -60,6 +60,7 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- Hacer directiva de vista 3d de 360
 - El load de un enlace debe tener la libertad de cargar archivo con path diferente
 - Hacer el borrado de una página junto con todas sus tuplas
 

@@ -435,7 +435,7 @@ export class HtmlEditorComponentClass {
   }
 }
 
-let RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $("base").attr("href"));
+const RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $("base").attr("href"));
 
 export const HtmlEditorComponent = {
   bindings: {

@@ -16,6 +16,9 @@
 		<meta name="keywords" content="palabras clave">
 		
 		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="/node_modules/angular/angular.min.js" sub-domain="public_html"></script>
+        <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 		<script type="text/javascript" src="./js/index.min.js"></script>
 		
 		<link rel="stylesheet" href="./css/index.css">
@@ -26,5 +29,8 @@
 			<div data-3d-scene="./data/scene/scene02.json"></div>
 			<div data-3d-scene="./data/scene/scene03.json"></div>
 		</div>
+		<div>
+            <div ui-view></div>
+        </div>
 	</body>
 </html>
