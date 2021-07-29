@@ -48,7 +48,7 @@ export class BasicRender {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.sourceJson = this.parentContainer.attr("data-3d-scene");
+    this.sourceJson = this.parentContainer.attr("data3d-scene");
     this.parentContainer.append(this.renderer.domElement);
 
     if (true) {
