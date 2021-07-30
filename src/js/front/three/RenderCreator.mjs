@@ -10,17 +10,28 @@ export class RenderCreator extends BasicRender {
   constructor(parentContainer) {
     super(parentContainer);
     this.camera.position.z = 5;
+    this.lastChange = null;
+    this.lastLocalChange = null;
     this.loadModel();
   }
 
-  async animate() {
-    for (let i = 0; i < this.models.length; i++) {
-      const model = this.models[i];
-      let rotacion = Math.PI * 2 * this.interpolacion;
-      model.rotation.y = rotacion;
+  async animate(params) {
+    if (
+      this.lastChange == null ||
+      this.lastChange != params.changeCount
+      //|| this.lastLocalChange == null
+      //|| this.lastLocalChange != this.localChanges
+    ) {
+      //this.lastLocalChange = this.localChanges;
+      this.lastChange = params.changeCount;
+      for (let i = 0; i < this.models.length; i++) {
+        const model = this.models[i];
+        let rotacion = Math.PI * 2 * this.interpolacion;
+        model.rotation.y = rotacion;
+      }
+      this.getRenderer().render(this.scene, this.camera);
+      this.controls.update();
     }
-    this.getRenderer().render(this.scene, this.camera);
-    this.controls.update();
   }
 
   async loadModel() {

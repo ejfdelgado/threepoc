@@ -13,8 +13,6 @@ export const dataThree360Viewer = [
   },
 ];
 
-setTimeout(() => {
-  RendererGlobal.fullAnimate();
-  window.addEventListener("resize", RendererGlobal.configureResize, false);
-  window.addEventListener("scroll", RendererGlobal.updateBBox);
-}, 4000);
+RendererGlobal.fullAnimate();
+window.addEventListener("resize", RendererGlobal.configureResize, false);
+window.addEventListener("scroll", RendererGlobal.updateBBox);
