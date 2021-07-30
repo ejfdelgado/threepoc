@@ -14,13 +14,13 @@ export class ThreejsComponentClass {
         objects: [],
         size: {
           w: "100%",
-          h: "500",
+          h: "50vh",
         },
         background: {
           url: commonBackground,
         },
         camera: {
-          fov: 40,
+          fov: 80,
           near: 1,
           far: 100,
           position: [0, 0, 0],

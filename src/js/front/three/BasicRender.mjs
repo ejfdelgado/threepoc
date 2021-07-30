@@ -156,10 +156,18 @@ export class BasicRender {
 
   async computeBoundingBox(myparams) {
     if (this.parentContainer != null) {
-      this.bbox = this.parentContainer[0].getBoundingClientRect();
-      const diff1 = this.bbox.height - this.bbox.top;
-      this.interpolacion = diff1 / (myparams.vh + this.bbox.height);
-      this.visible = this.interpolacion > 0 && this.interpolacion < 1;
+      this.bbox = $(this.parentContainer)
+        .find("canvas")[0]
+        .getBoundingClientRect();
+
+      const distanciaAbajoNormalizada = this.bbox.top / myparams.vh;
+      const distanciaArribaNormalizada = this.bbox.height / myparams.vh;
+      const maximoNormalizado = 1 + distanciaArribaNormalizada;
+      const distanciaNormalizadaConOffset =
+        distanciaAbajoNormalizada + distanciaArribaNormalizada;
+      this.interpolacion = distanciaNormalizadaConOffset / maximoNormalizado;
+
+      this.visible = this.interpolacion >= 0 && this.interpolacion <= 1;
     }
   }
 

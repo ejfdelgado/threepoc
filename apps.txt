@@ -62,6 +62,7 @@ https://fontawesome.com/v4.7/icons/
 
 - En la directiva de threejs parametrizar:
     - Verificar que la interpolación se vea bien.
+    - Verificar el indicador de visibilidad
 
 
 - Hacer directiva de vista 3d de 360
