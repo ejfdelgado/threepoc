@@ -1,14 +1,9 @@
 export class RendererGlobal {
   static renders = [];
-  static countChanges = 0;
   constructor() {}
 
-  static setChanged() {
-    RendererGlobal.countChanges++;
-  }
-
   static configureResize() {
-    RendererGlobal.setChanged();
+    RendererGlobal.iterateRenders("setChanged");
     RendererGlobal.iterateRenders("resize");
   }
 
@@ -27,7 +22,7 @@ export class RendererGlobal {
   }
 
   static updateBBox(e) {
-    RendererGlobal.setChanged();
+    RendererGlobal.iterateRenders("setChanged");
     RendererGlobal.iterateRenders(
       "computeBoundingBox",
       RendererGlobal.generateParamsBBox(e)
@@ -36,8 +31,7 @@ export class RendererGlobal {
 
   static fullAnimate() {
     RendererGlobal.iterateRenders("animate", {
-      ifVisible: true,
-      changeCount: RendererGlobal.countChanges,
+      ifVisible: true
     }).then(function () {
       requestAnimationFrame(RendererGlobal.fullAnimate);
     });

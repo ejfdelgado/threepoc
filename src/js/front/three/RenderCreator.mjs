@@ -11,20 +11,12 @@ export class RenderCreator extends BasicRender {
     super(parentContainer);
     this.camera.position.z = 5;
     this.lastChange = null;
-    this.lastLocalChange = null;
     this.loadModel();
   }
 
   async animate(params) {
-    if (
-      this.lastChange == null ||
-      this.lastChange != params.changeCount ||
-      this.lastLocalChange == null ||
-      this.lastLocalChange != this.localChanges
-    ) {
-      console.log("animate!");
-      this.lastLocalChange = this.localChanges;
-      this.lastChange = params.changeCount;
+    if (this.hasChanged()) {
+      this.setNoChanges();
       for (let i = 0; i < this.models.length; i++) {
         const model = this.models[i];
         let rotacion = Math.PI * 2 * this.interpolacion;

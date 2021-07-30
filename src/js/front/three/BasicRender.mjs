@@ -16,6 +16,7 @@ export class BasicRender {
   sourceJson;
   constructor(parentContainer) {
     this.parentContainer = parentContainer;
+    this.lastLocalChanges = null;
     this.localChanges = 0;
     this.scene = new THREE.Scene();
     const ahora = new Date().getTime();
@@ -80,6 +81,14 @@ export class BasicRender {
 
   setChanged() {
     this.localChanges++;
+  }
+
+  hasChanged() {
+    return this.lastLocalChanges != this.localChanges;
+  }
+
+  setNoChanges() {
+    this.lastLocalChanges = this.localChanges;
   }
 
   async resize() {
