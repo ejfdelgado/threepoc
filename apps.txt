@@ -61,7 +61,6 @@ https://fontawesome.com/v4.7/icons/
 --------------------------------------------
 
 - En la directiva de threejs parametrizar:
-    - Permitir que el modelo threejs se vea pequeño.
     - Verificar que la interpolación se vea bien.
 
 

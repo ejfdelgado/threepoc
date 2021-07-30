@@ -10,7 +10,8 @@ const CAMERA_DEFAULT = {
   far: 100, // Camera frustum far plane. Default is 2000.
 };
 const SIZE_DEFAULT = {
-  fullScreen: true,
+  w: "100vw",
+  h: "100vh",
 };
 
 export class BasicRender {
@@ -126,21 +127,31 @@ export class BasicRender {
     this.lastLocalChanges = this.localChanges;
   }
 
+  decodeSize(tam, elemsize) {
+    let partes = /(\d+)(%|vw|vh|)/.exec(tam);
+    if (partes != null) {
+      const numero = parseInt(partes[1]);
+      if (partes[2] == "%") {
+        return (numero * elemsize) / 100;
+      } else if (partes[2] == "vw") {
+        return (numero * window.innerWidth) / 100;
+      } else if (partes[2] == "vh") {
+        return (numero * window.innerHeight) / 100;
+      } else if (partes[2] == "") {
+        return numero;
+      }
+    }
+  }
+
   async resize() {
-    const useFixedSize =
-      typeof this.options.size.w == "number" &&
-      typeof this.options.size.h == "number";
-    if (this.options.size.fullScreen) {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-    } else if (useFixedSize) {
-      this.camera.aspect = this.options.size.w / this.options.size.h;
-    }
+    const parent = $(this.parentContainer);
+    const elemw = parent.width();
+    const elemh = parent.height();
+    const w = this.decodeSize(this.options.size.w, elemw);
+    const h = this.decodeSize(this.options.size.h, elemh);
+    this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
-    if (this.options.size.fullScreen) {
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    } else if (useFixedSize) {
-      this.renderer.setSize(this.options.size.w, this.options.size.h);
-    }
+    this.renderer.setSize(w, h);
   }
 
   async computeBoundingBox(myparams) {

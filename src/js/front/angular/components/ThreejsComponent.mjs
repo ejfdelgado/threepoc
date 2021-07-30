@@ -13,9 +13,8 @@ export class ThreejsComponentClass {
         rotateCameraOnScroll: true,
         objects: [],
         size: {
-          fullScreen: false,
-          w: 500,
-          h: 500,
+          w: "100%",
+          h: "500",
         },
         background: {
           url: commonBackground,
@@ -29,7 +28,6 @@ export class ThreejsComponentClass {
       },
       a2: {
         control: "orbit",
-        size: { fullScreen: true },
         rotateModelsOnScroll: true,
         objects: [
           {
@@ -45,7 +43,6 @@ export class ThreejsComponentClass {
       },
       a3: {
         control: "orbit",
-        size: { fullScreen: true },
         rotateModelsOnScroll: true,
         objects: [
           {
