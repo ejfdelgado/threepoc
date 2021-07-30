@@ -14,7 +14,6 @@ export const ThreejsModule = angular
       $stateProvider.state("/", {
         url: "/",
         component: "threejsComponent",
-        bindings: { page: "page" },
       });
       $urlRouterProvider.otherwise("/");
     },

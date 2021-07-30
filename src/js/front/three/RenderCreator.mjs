@@ -7,28 +7,50 @@ import { Utiles } from "../../common/Utiles.mjs";
 
 export class RenderCreator extends BasicRender {
   models = [];
-  constructor(parentContainer) {
-    super(parentContainer);
-    this.camera.position.z = 5;
+  constructor(parentContainer, options) {
+    super(parentContainer, options);
     this.lastChange = null;
-    this.loadModel();
+    this.loadModels(options);
   }
 
-  async animate(params) {
-    if (this.hasChanged()) {
-      this.setNoChanges();
+  rotateModelsOnScroll() {
+    if (this.options.rotateModelsOnScroll) {
       for (let i = 0; i < this.models.length; i++) {
         const model = this.models[i];
         let rotacion = Math.PI * 2 * this.interpolacion;
         model.rotation.y = rotacion;
       }
-      this.getRenderer().render(this.scene, this.camera);
-      this.controls.update();
     }
   }
 
-  async loadModel() {
-    const descriptor = await Utiles.loadJson(this.sourceJson);
+  rotateCameraOnScroll() {
+    if (this.options.rotateCameraOnScroll) {
+      this.camera.rotation.y = 2 * Math.PI * this.interpolacion;
+    }
+  }
+
+  async animate(params) {
+    if (this.hasChanged()) {
+      this.setNoChanges();
+      this.rotateModelsOnScroll();
+      this.rotateCameraOnScroll();
+      this.getRenderer().render(this.scene, this.camera);
+      if (this.controls != null) {
+        this.controls.update();
+      }
+    }
+  }
+
+  async loadModels(options) {
+    const promesas = [];
+    for (let i = 0; i < options.objects.length; i++) {
+      promesas.push(this.loadModel(options.objects[i]));
+    }
+    return Promise.all(promesas);
+  }
+
+  async loadModel(options) {
+    const descriptor = await Utiles.loadJson(options.url);
     // Instantiate a loader
     const loader = new GLTFLoader();
     const self = this;

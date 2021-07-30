@@ -5,9 +5,12 @@ export const dataThree360Viewer = [
   function () {
     return {
       restrict: "A",
+      scope: {
+        model: "=",
+      },
       link: function (scope, element, attrs) {
         const elemento = $(element);
-        new RenderCreator(elemento);
+        new RenderCreator(elemento, scope.model);
       },
     };
   },

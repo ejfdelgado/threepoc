@@ -2,7 +2,64 @@ import { Utilidades } from "../../../common/Utilidades.mjs";
 
 export class ThreejsComponentClass {
   constructor($scope, $rootScope) {
-    console.log("Hey!");
+    this.$scope = $scope;
+  }
+
+  $onInit() {
+    const commonBackground =
+      "https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5677287789821952/360cube/";
+    this.$scope.$ctrl.models = {
+      a1: {
+        rotateCameraOnScroll: true,
+        objects: [],
+        size: {
+          fullScreen: false,
+          w: 500,
+          h: 500,
+        },
+        background: {
+          url: commonBackground,
+        },
+        camera: {
+          fov: 40,
+          near: 1,
+          far: 100,
+          position: [0, 0, 0],
+        },
+      },
+      a2: {
+        control: "orbit",
+        size: { fullScreen: true },
+        rotateModelsOnScroll: true,
+        objects: [
+          {
+            url: "./data/scene/scene01.json",
+          },
+        ],
+        background: {
+          rgb: 0xbfe3dd,
+        },
+        camera: {
+          position: [5, 2, 8],
+        },
+      },
+      a3: {
+        control: "orbit",
+        size: { fullScreen: true },
+        rotateModelsOnScroll: true,
+        objects: [
+          {
+            url: "./data/scene/scene03.json",
+          },
+        ],
+        background: {
+          url: commonBackground,
+        },
+        camera: {
+          position: [5, 2, 50],
+        },
+      },
+    };
   }
 }
 
@@ -12,9 +69,6 @@ const RECOMPUTED_PATH = Utilidades.recomputeUrl(
 );
 
 export const ThreejsComponent = {
-  bindings: {
-    page: "<",
-  },
   templateUrl: `${RECOMPUTED_PATH.pathname}html/index.html`,
   controller: ["$scope", "$rootScope", ThreejsComponentClass],
 };

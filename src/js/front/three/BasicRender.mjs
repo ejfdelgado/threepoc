@@ -4,6 +4,15 @@ import { TrackballControls } from "../../../node_modules/three/examples/jsm/cont
 
 import { RendererGlobal } from "./RendererGlobal.mjs";
 
+const CAMERA_DEFAULT = {
+  fov: 40, // Camera frustum vertical field of view, in degrees, Default is 50
+  near: 1, // Camera frustum near plane, Default is 0.1.
+  far: 100, // Camera frustum far plane. Default is 2000.
+};
+const SIZE_DEFAULT = {
+  fullScreen: true,
+};
+
 export class BasicRender {
   renderer;
   scene;
@@ -13,39 +22,30 @@ export class BasicRender {
   interpolacion = 0;
   visible = null;
   controls = null;
-  sourceJson;
-  constructor(parentContainer) {
+  constructor(parentContainer, options) {
+    this.options = options;
     this.parentContainer = parentContainer;
     this.lastLocalChanges = null;
     this.localChanges = 0;
     this.scene = new THREE.Scene();
-    const ahora = new Date().getTime();
-    this.scene.background = new THREE.CubeTextureLoader()
-      .setPath(
-        "https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5677287789821952/360cube/"
-      )
-      .load(
-        [
-          "px.jpg?t=" + ahora,
-          "nx.jpg?t=" + ahora,
-          "py.jpg?t=" + ahora,
-          "ny.jpg?t=" + ahora,
-          "pz.jpg?t=" + ahora,
-          "nz.jpg?t=" + ahora,
-        ],
-        () => {
-          this.setChanged();
-        }
-      );
+    this.loadBackground(options);
+
+    options.camera = Object.assign(
+      JSON.parse(JSON.stringify(CAMERA_DEFAULT)),
+      options.camera
+    );
+    options.size = Object.assign(
+      JSON.parse(JSON.stringify(SIZE_DEFAULT)),
+      options.size
+    );
 
     this.camera = new THREE.PerspectiveCamera(
-      40, //fov — Camera frustum vertical field of view, in degrees. Default is 50.
+      options.camera.fov,
       window.innerWidth / window.innerHeight,
-      1, //near — Camera frustum near plane, Default is 0.1.
-      100 //far — Camera frustum far plane. Default is 2000.
+      options.camera.near,
+      options.camera.far
     );
-    this.camera.position.set(5, 2, 8);
-    // this.scene.background = new THREE.Color(0xbfe3dd);
+    this.initializeCamera(options);
 
     this.scene.add(new THREE.HemisphereLight(0xffffff, 0x000000, 0.4));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -54,29 +54,64 @@ export class BasicRender {
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.sourceJson = this.parentContainer.attr("data3d-scene");
+    this.resize();
     this.parentContainer.append(this.renderer.domElement);
 
-    if (true) {
+    if (options.control == "orbit") {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.target.set(0, 0.5, 0);
       this.controls.update();
       this.controls.enablePan = false;
       this.controls.enableDamping = true;
       this.controls.enableZoom = false;
-    } else {
+    } else if (options.control == "trackball") {
       this.controls = new TrackballControls(
         this.camera,
         this.renderer.domElement
       );
       this.controls.noZoom = true;
     }
-    this.controls.addEventListener("change", () => {
-      this.setChanged();
-    });
+    if (this.controls !== null) {
+      this.controls.addEventListener("change", () => {
+        this.setChanged();
+      });
+    }
 
     RendererGlobal.renders.push(this);
+  }
+
+  initializeCamera(options) {
+    const cameraPosition = options.camera.position;
+    if (cameraPosition instanceof Array) {
+      this.camera.position.set(
+        cameraPosition[0],
+        cameraPosition[1],
+        cameraPosition[2]
+      );
+    }
+  }
+
+  loadBackground(options) {
+    const ahora = new Date().getTime();
+    if (typeof options.background.url == "string") {
+      this.scene.background = new THREE.CubeTextureLoader()
+        .setPath(options.background.url)
+        .load(
+          [
+            "px.jpg?t=" + ahora,
+            "nx.jpg?t=" + ahora,
+            "py.jpg?t=" + ahora,
+            "ny.jpg?t=" + ahora,
+            "pz.jpg?t=" + ahora,
+            "nz.jpg?t=" + ahora,
+          ],
+          () => {
+            this.setChanged();
+          }
+        );
+    } else if (typeof options.background.rgb == "number") {
+      this.scene.background = new THREE.Color(options.background.rgb);
+    }
   }
 
   setChanged() {
@@ -92,9 +127,20 @@ export class BasicRender {
   }
 
   async resize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    const useFixedSize =
+      typeof this.options.size.w == "number" &&
+      typeof this.options.size.h == "number";
+    if (this.options.size.fullScreen) {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+    } else if (useFixedSize) {
+      this.camera.aspect = this.options.size.w / this.options.size.h;
+    }
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    if (this.options.size.fullScreen) {
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    } else if (useFixedSize) {
+      this.renderer.setSize(this.options.size.w, this.options.size.h);
+    }
   }
 
   async computeBoundingBox(myparams) {
