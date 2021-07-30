@@ -18,11 +18,12 @@ export class RenderCreator extends BasicRender {
   async animate(params) {
     if (
       this.lastChange == null ||
-      this.lastChange != params.changeCount
-      //|| this.lastLocalChange == null
-      //|| this.lastLocalChange != this.localChanges
+      this.lastChange != params.changeCount ||
+      this.lastLocalChange == null ||
+      this.lastLocalChange != this.localChanges
     ) {
-      //this.lastLocalChange = this.localChanges;
+      console.log("animate!");
+      this.lastLocalChange = this.localChanges;
       this.lastChange = params.changeCount;
       for (let i = 0; i < this.models.length; i++) {
         const model = this.models[i];

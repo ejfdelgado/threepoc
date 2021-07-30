@@ -23,16 +23,19 @@ export class BasicRender {
       .setPath(
         "https://storage.googleapis.com/proyeccion-colombia1.appspot.com/public/usr/anonymous/1/html/cv/pg/5677287789821952/360cube/"
       )
-      .load([
-        "px.jpg?t=" + ahora,
-        "nx.jpg?t=" + ahora,
-        "py.jpg?t=" + ahora,
-        "ny.jpg?t=" + ahora,
-        "pz.jpg?t=" + ahora,
-        "nz.jpg?t=" + ahora,
-      ], () => {
-        this.setChanged();
-      });
+      .load(
+        [
+          "px.jpg?t=" + ahora,
+          "nx.jpg?t=" + ahora,
+          "py.jpg?t=" + ahora,
+          "ny.jpg?t=" + ahora,
+          "pz.jpg?t=" + ahora,
+          "nz.jpg?t=" + ahora,
+        ],
+        () => {
+          this.setChanged();
+        }
+      );
 
     this.camera = new THREE.PerspectiveCamera(
       40, //fov — Camera frustum vertical field of view, in degrees. Default is 50.
@@ -68,13 +71,15 @@ export class BasicRender {
       );
       this.controls.noZoom = true;
     }
-    this.controls.addEventListener("change", this.setChanged);
+    this.controls.addEventListener("change", () => {
+      this.setChanged();
+    });
 
     RendererGlobal.renders.push(this);
   }
 
   setChanged() {
-    // this.localChanges++;
+    this.localChanges++;
   }
 
   async resize() {
