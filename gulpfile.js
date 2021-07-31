@@ -73,6 +73,8 @@ const NODE_FILES = [
 
   "./node_modules/font-awesome/css/font-awesome.css",
   "./node_modules/font-awesome/fonts/**",
+  
+  "./node_modules/interactjs/dist/interact.min.js",
 ];
 
 function bundleJs(filePath, subDomain=null) {

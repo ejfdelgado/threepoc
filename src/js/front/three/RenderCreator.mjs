@@ -25,7 +25,8 @@ export class RenderCreator extends BasicRender {
 
   rotateCameraOnScroll() {
     if (this.options.rotateCameraOnScroll) {
-      this.camera.rotation.y = 6 * Math.PI * this.interpolacion;
+      this.camera.rotation.y =
+        6 * Math.PI * (-this.interpolacion + this.localDrag.x * 0.2);
     }
   }
 

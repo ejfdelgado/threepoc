@@ -24,6 +24,10 @@ export class BasicRender {
   visible = null;
   controls = null;
   isLoaded = false;
+  localDrag = {
+    x: 0,
+    y: 0,
+  };
   constructor(parentContainer, options) {
     this.options = options;
     this.parentContainer = parentContainer;
@@ -90,6 +94,13 @@ export class BasicRender {
         cameraPosition[1],
         cameraPosition[2]
       );
+    }
+  }
+
+  globalDrag(coordinates) {
+    if (this.visible) {
+      this.localDrag.x += coordinates.xd / coordinates.vw;
+      this.localDrag.y += coordinates.yd / coordinates.vh;
     }
   }
 
