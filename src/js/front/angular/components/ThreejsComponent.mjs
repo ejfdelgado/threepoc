@@ -17,7 +17,7 @@ export class ThreejsComponentClass {
           h: "50vh",
         },
         background: {
-          url: commonBackground,
+          url: "/z/img/360/",
         },
         camera: {
           fov: 80,

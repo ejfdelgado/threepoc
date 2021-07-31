@@ -23,13 +23,14 @@ export class BasicRender {
   interpolacion = 0;
   visible = null;
   controls = null;
+  isLoaded = false;
   constructor(parentContainer, options) {
     this.options = options;
     this.parentContainer = parentContainer;
     this.lastLocalChanges = null;
     this.localChanges = 0;
     this.scene = new THREE.Scene();
-    this.loadBackground(options);
+    // this.loadBackground(options);
 
     options.camera = Object.assign(
       JSON.parse(JSON.stringify(CAMERA_DEFAULT)),
@@ -92,27 +93,39 @@ export class BasicRender {
     }
   }
 
-  loadBackground(options) {
-    const ahora = new Date().getTime();
-    if (typeof options.background.url == "string") {
-      this.scene.background = new THREE.CubeTextureLoader()
-        .setPath(options.background.url)
-        .load(
-          [
-            "px.jpg?t=" + ahora,
-            "nx.jpg?t=" + ahora,
-            "py.jpg?t=" + ahora,
-            "ny.jpg?t=" + ahora,
-            "pz.jpg?t=" + ahora,
-            "nz.jpg?t=" + ahora,
-          ],
-          () => {
-            this.setChanged();
-          }
-        );
-    } else if (typeof options.background.rgb == "number") {
-      this.scene.background = new THREE.Color(options.background.rgb);
+  async autoload() {
+    if (this.isLoaded) {
+      return;
     }
+    await this.loadBackground(this.options);
+    this.isLoaded = true;
+  }
+
+  loadBackground(options) {
+    return new Promise((resolve, reject) => {
+      const ahora = new Date().getTime();
+      if (typeof options.background.url == "string") {
+        this.scene.background = new THREE.CubeTextureLoader()
+          .setPath(options.background.url)
+          .load(
+            [
+              "px.jpg?t=" + ahora,
+              "nx.jpg?t=" + ahora,
+              "py.jpg?t=" + ahora,
+              "ny.jpg?t=" + ahora,
+              "pz.jpg?t=" + ahora,
+              "nz.jpg?t=" + ahora,
+            ],
+            () => {
+              this.setChanged();
+              resolve();
+            }
+          );
+      } else if (typeof options.background.rgb == "number") {
+        this.scene.background = new THREE.Color(options.background.rgb);
+        resolve();
+      }
+    });
   }
 
   setChanged() {

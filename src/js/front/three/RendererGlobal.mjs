@@ -30,7 +30,7 @@ export class RendererGlobal {
   }
 
   static fullAnimate() {
-    RendererGlobal.iterateRenders("animate", {
+    RendererGlobal.iterateRenders(["autoload", "animate"], {
       ifVisible: true
     }).then(function () {
       requestAnimationFrame(RendererGlobal.fullAnimate);
@@ -38,6 +38,10 @@ export class RendererGlobal {
   }
 
   static iterateRenders(callbackName, myParams = {}) {
+    let listCallbackName = callbackName;
+    if (!(listCallbackName instanceof Array)) {
+      listCallbackName = [listCallbackName];
+    }
     const lista = RendererGlobal.renders;
     const promesas = [];
     for (let i = 0; i < lista.length; i++) {
@@ -50,10 +54,14 @@ export class RendererGlobal {
           );
         }
         if (someAnimate.visible) {
-          promesas.push(someAnimate[callbackName](myParams));
+          for (let j=0; j<listCallbackName.length; j++) {
+            promesas.push(someAnimate[listCallbackName[j]](myParams));
+          }
         }
       } else {
-        promesas.push(someAnimate[callbackName](myParams));
+        for (let j=0; j<listCallbackName.length; j++) {
+          promesas.push(someAnimate[listCallbackName[j]](myParams));
+        }
       }
     }
     return Promise.all(promesas);
