@@ -325,9 +325,14 @@ export class HtmlEditorComponentClass {
       if (this.domains.content.subdomain) {
         publicSubDomain = this.domains.content.subdomain;
       }
-      const bucketPath = this.domains.content.bucketPath;
-      if (typeof bucketPath == "string" && bucketPath.length > 0) {
-        publicPath = bucketPath.replace(/\/?(.*)/, "$1");
+      if (["oferta"].indexOf(publicSubDomain) >= 0) {
+        const ref = await ModuloPagina.leer();
+        publicPath = `${ref.valor.id}/index.html`;
+      } else {
+        const bucketPath = this.domains.content.bucketPath;
+        if (typeof bucketPath == "string" && bucketPath.length > 0) {
+          publicPath = bucketPath.replace(/\/?(.*)/, "$1");
+        }
       }
     }
     let markup = document.documentElement.innerHTML;
@@ -435,7 +440,10 @@ export class HtmlEditorComponentClass {
   }
 }
 
-const RECOMPUTED_PATH = Utilidades.recomputeUrl(location, $("base").attr("href"));
+const RECOMPUTED_PATH = Utilidades.recomputeUrl(
+  location,
+  $("base").attr("href")
+);
 
 export const HtmlEditorComponent = {
   bindings: {

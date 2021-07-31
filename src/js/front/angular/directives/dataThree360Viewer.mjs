@@ -9,11 +9,20 @@ export const dataThree360Viewer = [
     return {
       restrict: "A",
       scope: {
-        model: "=",
+        modelKeyAng: "=",
+        modelAll: "=",
         fixed: "=",
       },
       link: function (scope, element, attrs) {
         const elemento = $(element);
+        elemento.empty();
+        const key1 = elemento.attr('model-key');
+        const key2 = scope.modelKeyAng;
+        let key = key1;
+        if (key.startsWith("{{")) {
+          key = key2;
+        }
+        scope.model = scope.modelAll[key];
         if (scope.fixed != undefined && scope.fixed != null) {
           Object.assign(scope.model, scope.fixed);
           elemento.css({ height: scope.model.size.h });
@@ -42,3 +51,7 @@ export const dataThree360Viewer = [
     };
   },
 ];
+
+$( document ).ready(function() {
+  RendererGlobal.initialize();
+});

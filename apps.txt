@@ -61,16 +61,16 @@ https://fontawesome.com/v4.7/icons/
 --------------------------------------------
 
 - En la directiva de threejs parametrizar:
+    - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html
     - Permitir editar el camera.fov
     - Que el sistema sepa qué usuario tiene permiso de escribir en qué dominio.
-    - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html
     - Colocar un fondo mientras tanto.
     - No bloquear mientras se carga el fondo.
     - Agregar las imágenes de cuartos svg
         - parqueaderos
         - baños
         - cuartos
-        
+
 
 
 - Hacer directiva de vista 3d de 360
