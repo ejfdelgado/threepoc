@@ -51,9 +51,9 @@
       <div class="container">
 
         <div class="row oferta_fotos">
-          <div class="col-md-12 oferta_foto" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.photos | orderItem track by $index" predefined='{"rotateCameraOnScroll":true,"objects":[],"size":{"w":"100%","h":"50vh"},"background":{"url":"/z/img/360/"},"camera":{"fov":80,"near":1,"far":100,"position":[0,0,0]}}'>
-            <div class="card mb-4 box-shadow">
-              <div data3d-scene model="value"></div>
+          <div class="col-md-12 oferta_foto" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.photos | orderItem track by $index" predefined='{"rotateCameraOnScroll":true,"objects":[],"size":{"w":"100%","h":"80vh"},"background":{"url":"/z/img/360/"},"camera":{"fov":80,"near":1,"far":100,"position":[0,0,0]}}'>
+            <div class="card mb-20 box-shadow">
+              <div data3d-scene model="value" fixed='{"size":{"w":"100%","h":"80vh"}, "camera":{"fov":100}}'></div>
               <div class="card-body">
                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 <div class="d-flex justify-content-between align-items-center">

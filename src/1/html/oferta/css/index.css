@@ -3,9 +3,12 @@
 }
 
 .oferta_fotos .oferta_foto [data3d-scene] {
-  height: 50vh;
   width: 100%;
   display: block;
+}
+
+.mb-20, .my-20 {
+  margin-bottom: 12rem!important;
 }
 
 .jumbotron {

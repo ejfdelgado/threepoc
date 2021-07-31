@@ -10,9 +10,15 @@ export const dataThree360Viewer = [
       restrict: "A",
       scope: {
         model: "=",
+        fixed: "=",
       },
       link: function (scope, element, attrs) {
         const elemento = $(element);
+        console.log(scope.fixed);
+        if (scope.fixed != undefined && scope.fixed != null) {
+          Object.assign(scope.model, scope.fixed);
+          elemento.css({height: scope.model.size.h});
+        }
         scope.renderer = new RenderCreator(elemento, scope.model);
         elemento.on("click", async (e) => {
           if (e.shiftKey) {
