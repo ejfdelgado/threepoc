@@ -33,12 +33,17 @@ export class HtmlEditorComponentClass {
     $rootScope.$on("viewPage", async function (datos) {
       // const ref = await ModuloPagina.leer();
       const subdomain = $scope.$ctrl.domains.content.subdomain;
-      const bucketPath = $scope.$ctrl.domains.content.bucketPath;
       let path = "";
-      if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {
-        path = bucketPath
-          .replace(/\/?(.*?)\/?(index.html)/, "/$1/")
-          .replace("//", "/");
+      if (["oferta"].indexOf(subdomain) >= 0) {
+        const ref = await ModuloPagina.leer();
+        path = `/${ref.valor.id}/index.html`;
+      } else {
+        const bucketPath = $scope.$ctrl.domains.content.bucketPath;
+        if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {
+          path = bucketPath
+            .replace(/\/?(.*?)\/?(index.html)/, "/$1/")
+            .replace("//", "/");
+        }
       }
       let domain = location.origin;
       const pubUrl = domain.replace(
@@ -348,6 +353,9 @@ export class HtmlEditorComponentClass {
       /<!--[\s]*paistv-editor[\s]*{[\s]*-->[\s\S]*?<!--[\s]*paistv-editor[\s]*}[\s]*-->/g,
       ""
     );
+
+    //Ayuda para directiva threejs
+    markup = markup.replace(/(data3d-scene)[^\s]*[\s]+model[^\s]+\s+(model-pub=)/gi, "$1 model=");
 
     // Se quitan todos los comentarios
     markup = markup.replace(/<!--.*?-->/gi, "");

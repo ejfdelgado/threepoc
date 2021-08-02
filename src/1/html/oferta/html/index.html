@@ -53,7 +53,7 @@
         <div class="row oferta_fotos">
           <div class="col-md-12 oferta_foto" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.photos | orderItem track by $index" predefined='{"rotateCameraOnScroll":true,"objects":[],"size":{"w":"100%","h":"80vh"},"background":{"url":"/z/img/360/"},"camera":{"fov":80,"near":1,"far":100,"position":[0,0,0]}}'>
             <div class="card mb-20 box-shadow">
-              <div data3d-scene model-all="$ctrl.domains.content.subDomain.photos" model-key="{{ value.order }}" model-key-ang="value.order" fixed='{"size":{"w":"100%","h":"80vh"}, "camera":{"fov":100}}'></div>
+              <div data3d-scene model="value" model-pub='{{ value | json }}' fixed='{"size":{"w":"100%","h":"80vh"}, "camera":{"fov":100}}'></div>
               <div class="card-body">
                 <p class="card-text" dir-ptv-editor-text ng-model="value.text" default="Espacio">Espacio</p>
                 <div class="d-flex justify-content-between align-items-center">

@@ -3,7 +3,6 @@ export class RendererGlobal {
   constructor() {}
 
   static initialize() {
-    console.log('initialize dfgsdfgdf');
     const temp = RendererGlobal.generateParamsBBox({});
     RendererGlobal.vw = temp.vw;
     RendererGlobal.vh = temp.vh;

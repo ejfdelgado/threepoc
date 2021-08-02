@@ -60,16 +60,30 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- Agregar foto de la persona
+- Agregar iconos para contacto
+- Agregar enlace de whatsapp
+
+- Agregar las imágenes de cuartos svg, ver houm
+    - parqueaderos
+    - baños
+    - cuartos
+
+- npm i js-cookie https://github.com/js-cookie/js-cookie
+- Agregar el corazón de favoritos
+- Agregar una ventana en dónde se puedan ver los favoritos
+- Guardar una cookie con los ids de las páginas favoritas
+- Permitir visualizar los favoritos
+
+
+
 - En la directiva de threejs parametrizar:
     - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html
     - Permitir editar el camera.fov
     - Que el sistema sepa qué usuario tiene permiso de escribir en qué dominio.
     - Colocar un fondo mientras tanto.
     - No bloquear mientras se carga el fondo.
-    - Agregar las imágenes de cuartos svg
-        - parqueaderos
-        - baños
-        - cuartos
+
 
 
 
