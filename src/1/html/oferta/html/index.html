@@ -56,10 +56,19 @@
           </div>
         </div>
         <p class="lead text-muted" dir-ptv-editor-text ng-model="$ctrl.domains.content.general.desc" default="Detalle del inmueble">Detalle del inmueble</p>
-        <p>
-          <a href="#!" class="btn btn-primary my-2" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a>
-          <a href="#!" class="btn btn-secondary my-2" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.mail" default="correo@dominio.com">correo@dominio.com</a>
-        </p>
+        <div class="container atributos">
+          <div class="row">
+            <div class="col-4">
+              <a target="_blank" href='{{ "tel:" + $ctrl.domains.content.data.phone.url.replace("\"", "") }}'><i class="contacto fa fa-phone-square" aria-hidden="true"></i></a>
+            </div>
+            <div class="col-4">
+              <a target="_blank" href='{{ "https://api.whatsapp.com/send?phone="+($ctrl.domains.content.data.phone.url.replace("\"", ""))+"&text=Hola,%20estoy%20interesado%20en%20el%20inmueble" }}'><i class="contacto whatsapp fa fa-whatsapp" aria-hidden="true"></i></a>
+            </div>
+            <div class="col-4">
+              <a target="_blank" href='{{ "mailto:" + $ctrl.domains.content.data.mail.url.replace("\"", "") }}'><i class="contacto fa fa-envelope" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <div class="album py-5 bg-light">
@@ -85,6 +94,10 @@
 
   <footer class="text-muted">
     <div class="container">
+      <p>
+        <a href="#!" class="btn btn-primary my-2" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a>
+        <a href="#!" class="btn btn-secondary my-2" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.mail" default="correo@dominio.com">correo@dominio.com</a>
+      </p>
       <p class="float-right">
         <a href="https://getbootstrap.com/docs/4.0/examples/album/#">Back to top</a>
       </p>
