@@ -1,6 +1,14 @@
 <script>
     const PAIS_EDITOR_POOL_DATABASE = {
-
+      attributes: [
+            {"src":"fa-bed"}, 
+            {"src":"fa-bath"},
+            {"src":"fa-car"},
+            {"src":"fa-building-o"},
+            {"src":"fa-arrows"},
+            {"src":"fa-archive"},
+            {"src":"fa-paw"},
+        ],
     };
 </script>
 <header>
@@ -40,6 +48,13 @@
     <section class="jumbotron text-center">
       <div class="container">
         <h1 class="jumbotron-heading" dir-ptv-editor-text ng-model="$ctrl.domains.content.general.title" default="Mi inmueble">Mi inmueble</h1>
+        <div class="container atributos">
+          <div class="row">
+            <div class="col-6 atributo" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.attr | orderItem track by $index" predefined='{"ico": "fa-bed", "txt": "1 alcoba"}'>
+              <i class="fa icono" ng-class="value.ico.class ? value.ico.class : 'fa-grav'" options="PAIS_EDITOR_POOL_DATABASE.attributes" dir-ptv-editor-select-class ng-model="value.ico" aria-hidden="true"></i><p class="texto" dir-ptv-editor-text ng-model="value.txt" default="1 alcoba">1 alcoba</p>
+            </div>
+          </div>
+        </div>
         <p class="lead text-muted" dir-ptv-editor-text ng-model="$ctrl.domains.content.general.desc" default="Detalle del inmueble">Detalle del inmueble</p>
         <p>
           <a href="#!" class="btn btn-primary my-2" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a>

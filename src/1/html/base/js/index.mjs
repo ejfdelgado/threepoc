@@ -26,6 +26,7 @@ import { theSize } from "../../../../js/front/angular/filters/theSize.mjs";
 import { dataLoad360Cube } from "../../../../js/front/angular/directives/dataLoad360Cube.mjs";
 import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
 import { dataThree360Viewer } from "../../../../js/front/angular/directives/dataThree360Viewer.mjs";
+import { dataSelectClass } from "../../../../js/front/angular/directives/dataSelectClass.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -33,6 +34,7 @@ export const Tuto3Module = angular
 
   .directive("dirPtvEditorImage", dataImage)
   .directive("dirPtvEditorSelectImage", dataSelectImage)
+  .directive("dirPtvEditorSelectClass", dataSelectClass)
   .directive("dirPtvEditorHtml", dataHtml)
   .directive("dirPtvEditorText", dataText)
   .directive("dirPtvEditorNavbar", htmlEditorNavBar)

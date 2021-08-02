@@ -57,6 +57,10 @@ https://fontawesome.com/v4.7/icons/
 - El carrusel debe tener un ng-if para cuando no necesita
 - La tupla con subdominio no permite borrar como tal el subdominio :(
 - Permitir importar una imagen 360 y partirla en pedazos
+- Agregar las imágenes de cuartos svg, ver houm ok
+    - parqueaderos
+    - baños
+    - cuartos
 
 --------------------------------------------
 
@@ -64,16 +68,12 @@ https://fontawesome.com/v4.7/icons/
 - Agregar iconos para contacto
 - Agregar enlace de whatsapp
 
-- Agregar las imágenes de cuartos svg, ver houm
-    - parqueaderos
-    - baños
-    - cuartos
-
-- npm i js-cookie https://github.com/js-cookie/js-cookie
-- Agregar el corazón de favoritos
-- Agregar una ventana en dónde se puedan ver los favoritos
-- Guardar una cookie con los ids de las páginas favoritas
-- Permitir visualizar los favoritos
+- Favoritos:
+    - npm i js-cookie https://github.com/js-cookie/js-cookie
+    - Agregar el corazón de favoritos
+    - Agregar una ventana en dónde se puedan ver los favoritos
+    - Guardar una cookie con los ids de las páginas favoritas
+    - Permitir visualizar los favoritos
 
 
 
