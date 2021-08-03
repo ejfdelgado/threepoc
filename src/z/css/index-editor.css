@@ -1,4 +1,9 @@
 
+[dir-ptv-editor-html-content] .accion_edit {
+  position: absolute;
+  top: -20px;
+}
+
 .carousel .carousel-control-prev, .carousel .carousel-control-next {
   top: 45%;
   align-items: start;

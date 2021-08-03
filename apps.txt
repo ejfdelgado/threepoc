@@ -61,12 +61,18 @@ https://fontawesome.com/v4.7/icons/
     - parqueaderos
     - baños
     - cuartos
+- Mapa de google maps ok
+- Vendo/Arriendo más grande ok
+- Agregar iconos para contacto ok
+- Agregar enlace de whatsapp ok
 
 --------------------------------------------
 
+- Personalizar el camera.fov
+- Indicador de actividad por 1 segundo al llamar o whatsapp
+
+- Hacer un formulario con correo.
 - Agregar foto de la persona
-- Agregar iconos para contacto
-- Agregar enlace de whatsapp
 
 - Favoritos:
     - npm i js-cookie https://github.com/js-cookie/js-cookie

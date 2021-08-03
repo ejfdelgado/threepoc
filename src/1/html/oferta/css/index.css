@@ -1,10 +1,40 @@
 
+button.navbar-toggler i {
+  color: white;
+}
+
+main .location-section {
+  margin-bottom: 10px;
+}
+
+main .location-section .section-title {
+    font-weight: 300;
+    margin: 40px 10px;
+}
+
+main .location-section .map-wrapper {
+  height: 60vh;
+  padding: 0 5px;
+}
+
+.centrado {
+  text-align: center;
+}
+
 .contacto {
   font-size: 5rem;
 }
 
 .contacto.whatsapp {
   color: #25D366;
+}
+
+.contacto.favorito {
+  color: lightgray;
+}
+
+.contacto.favorito.activo {
+  color: red;
 }
 
 .atributos {
@@ -61,7 +91,8 @@
 }
 
 .jumbotron-heading {
-  font-weight: 300;
+  font-weight: 600;
+  color: #057bfe;
 }
 
 .jumbotron .container {

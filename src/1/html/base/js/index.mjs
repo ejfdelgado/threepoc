@@ -27,6 +27,7 @@ import { dataLoad360Cube } from "../../../../js/front/angular/directives/dataLoa
 import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
 import { dataThree360Viewer } from "../../../../js/front/angular/directives/dataThree360Viewer.mjs";
 import { dataSelectClass } from "../../../../js/front/angular/directives/dataSelectClass.mjs";
+import { dataHtmlContent } from "../../../../js/front/angular/directives/dataHtmlContent.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -36,6 +37,7 @@ export const Tuto3Module = angular
   .directive("dirPtvEditorSelectImage", dataSelectImage)
   .directive("dirPtvEditorSelectClass", dataSelectClass)
   .directive("dirPtvEditorHtml", dataHtml)
+  .directive("dirPtvEditorHtmlContent", dataHtmlContent)
   .directive("dirPtvEditorText", dataText)
   .directive("dirPtvEditorNavbar", htmlEditorNavBar)
   .directive("dirPtvEditorEditItems", dataEditItems)
@@ -44,8 +46,8 @@ export const Tuto3Module = angular
   .directive("dirPtvEditorDownloadLink", dataDownloadLinkEditor)
   .directive("dirPtvLoad360Cube", dataLoad360Cube)
   .directive("dirPubPtvAnchor", dataAnchorScroll)
-  .directive("data3dScene", dataThree360Viewer)
 
+  .directive("data3dScene", dataThree360Viewer)
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("ngModelDynamic", ngModelDynamic)
   .directive("paistvDataMessage", dataMessage)

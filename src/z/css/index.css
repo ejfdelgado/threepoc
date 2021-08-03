@@ -1,3 +1,15 @@
+.embed-responsive-local {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+}
+
+.embed-responsive-local .embed-responsive {
+width: 100%;
+height: 100%;
+}
+
 .invisible {
   display: none !important;
 }
