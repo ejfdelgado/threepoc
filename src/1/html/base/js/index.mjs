@@ -53,6 +53,7 @@ export const Tuto3Module = angular
   .directive("data3dScene", dataThree360Viewer)
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("ngModelDynamic", ngModelDynamic)
+  .directive("paistvDataMessage", dataMessage)
   .directive("showActivity", dataShowActivity)
   .directive("miFavorito", dataFavorito)
 

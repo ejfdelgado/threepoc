@@ -4,6 +4,7 @@ import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAn
 import { dataThree360Viewer } from "../../../../js/front/angular/directives/dataThree360Viewer.mjs";
 import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
 import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
+import { dataFavorito } from "../../../../js/front/angular/directives/dataFavorito.mjs";
 
 export const Tuto3Module = angular
   .module("message", [])
