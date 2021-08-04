@@ -97,6 +97,12 @@ export class BasicRender {
     }
   }
 
+  setFovCamera(fov) {
+    this.camera.fov = fov;
+    this.camera.updateProjectionMatrix();
+    this.setChanged();
+  }
+
   globalDrag(coordinates) {
     if (this.visible) {
       this.localDrag.x += coordinates.xd / coordinates.vw;

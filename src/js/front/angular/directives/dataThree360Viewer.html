@@ -1,0 +1,27 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edición de contenido</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <button type="button" class="btn btn-primary" ng-click="load()">Cargar archivo</button>
+            <hr/>
+            <div class="mb-3">
+              <label for="customRange1" class="form-label">Field of View {{ model.camera.fov }}°</label>
+              <br/>
+              <input type="range" class="form-control form-range" ng-model="model.camera.fov" step="1" min="10" max="170" >
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

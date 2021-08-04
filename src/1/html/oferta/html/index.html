@@ -61,7 +61,7 @@
               <a show-activity class="contacto" millis="1500" href='{{ "tel:" + $ctrl.domains.content.data.phone.url.replace("\"", "") }}'><i class="contacto fa fa-phone-square" aria-hidden="true"></i></a>
             </div>
             <div class="col-4">
-              <a target="_blank" class="contacto" show-activity millis="1500" href='{{ "https://api.whatsapp.com/send?phone="+($ctrl.domains.content.data.phone.url.replace("\"", ""))+"&text=Hola,%20estoy%20interesado%20en%20el%20inmueble" }}'><i class="whatsapp fa fa-whatsapp" aria-hidden="true"></i></a>
+              <a target="_blank" class="contacto" show-activity millis="1500" href='{{ "https://api.whatsapp.com/send?phone="+($ctrl.domains.content.data.phone.url.replace("\"", ""))+"&text="+("Cordial saludo, tengo interés en saber más acerca del inmueble de la "+$ctrl.domains.content.general.dir | theEncodeURIComponent ) }}'><i class="whatsapp fa fa-whatsapp" aria-hidden="true"></i></a>
             </div>
             <div class="col-4">
               <a mi-favorito href='#' class="contacto"><i class="favorito fa fa-heart" aria-hidden="true"></i></a>
@@ -76,7 +76,7 @@
         <div class="row oferta_fotos">
           <div class="col-md-12 oferta_foto" dir-ptv-editor-repeat="value in $ctrl.domains.content.subDomain.photos | orderItem track by $index" predefined='{"rotateCameraOnScroll":true,"objects":[],"size":{"w":"100%","h":"80vh"},"background":{"url":"/z/img/360/"},"camera":{"fov":80,"near":1,"far":100,"position":[0,0,0]}}'>
             <div class="card mb-20 box-shadow">
-              <div data3d-scene model="value" model-pub='{{ value | json }}' fixed='{"size":{"w":"100%","h":"80vh"}, "camera":{"fov":100}}'></div>
+              <div data3d-scene model="value" model-pub='{{ value | json }}' fixed='{"size":{"w":"100%","h":"80vh"}}'></div>
               <div class="card-body">
                 <p class="card-text" dir-ptv-editor-text ng-model="value.text" default="Espacio">Espacio</p>
                 <div class="d-flex justify-content-between align-items-center">
@@ -105,7 +105,7 @@
 
   <footer class="text-muted">
     <div class="container">
-      <p>Para más información, llama al <a href="#!" class="" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a> o envía un correo a <a href="#!" class="" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.mail" default="correo@dominio.com">correo@dominio.com</a></p>
+      <p>Para más información, llama al <a href="#!" class="" dir-ptv-editor-link show-activity millis="1500" ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a> o envía un correo a <a href="#!" class="" show-activity millis="1500" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.mail" default="correo@dominio.com">correo@dominio.com</a></p>
       <p class="float-right">
         <a href="#mi_main" dir-pub-ptv-anchor>Regresar arriba</a>
       </p>

@@ -30,6 +30,7 @@ import { dataSelectClass } from "../../../../js/front/angular/directives/dataSel
 import { dataHtmlContent } from "../../../../js/front/angular/directives/dataHtmlContent.mjs";
 import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
 import { dataFavorito } from "../../../../js/front/angular/directives/dataFavorito.mjs";
+import { theEncodeURIComponent } from "../../../../js/front/angular/filters/theEncodeURIComponent.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -61,6 +62,7 @@ export const Tuto3Module = angular
   .filter("orderItem", orderItem)
   .filter("decodeBase64", decodeBase64)
   .filter("thesize", theSize)
+  .filter("theEncodeURIComponent", theEncodeURIComponent)
 
   .service("ngifSearch", ngifSearch)
   .service("mailService", mailService)
