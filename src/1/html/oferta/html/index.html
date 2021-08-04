@@ -58,13 +58,13 @@
         <div class="container atributos">
           <div class="row">
             <div class="col-4">
-              <a target="_blank" href='{{ "tel:" + $ctrl.domains.content.data.phone.url.replace("\"", "") }}'><i class="contacto fa fa-phone-square" aria-hidden="true"></i></a>
+              <a show-activity class="contacto" millis="1500" href='{{ "tel:" + $ctrl.domains.content.data.phone.url.replace("\"", "") }}'><i class="contacto fa fa-phone-square" aria-hidden="true"></i></a>
             </div>
             <div class="col-4">
-              <a target="_blank" href='{{ "https://api.whatsapp.com/send?phone="+($ctrl.domains.content.data.phone.url.replace("\"", ""))+"&text=Hola,%20estoy%20interesado%20en%20el%20inmueble" }}'><i class="contacto whatsapp fa fa-whatsapp" aria-hidden="true"></i></a>
+              <a target="_blank" class="contacto" show-activity millis="1500" href='{{ "https://api.whatsapp.com/send?phone="+($ctrl.domains.content.data.phone.url.replace("\"", ""))+"&text=Hola,%20estoy%20interesado%20en%20el%20inmueble" }}'><i class="whatsapp fa fa-whatsapp" aria-hidden="true"></i></a>
             </div>
             <div class="col-4">
-              <a target="_blank" href='#'><i class="favorito contacto fa fa-heart" aria-hidden="true"></i></a>
+              <a mi-favorito href='#' class="contacto"><i class="favorito fa fa-heart" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>

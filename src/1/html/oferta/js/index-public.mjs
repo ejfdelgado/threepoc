@@ -3,12 +3,17 @@ import { mailService } from "../../../../js/front/angular/services/mailService.m
 import { dataAnchorScroll } from "../../../../js/front/angular/directives/dataAnchorScroll.mjs";
 import { dataThree360Viewer } from "../../../../js/front/angular/directives/dataThree360Viewer.mjs";
 import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
+import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
 
 export const Tuto3Module = angular
   .module("message", [])
+
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("dirPubPtvAnchor", dataAnchorScroll)
   .directive("data3dScene", dataThree360Viewer)
+  .directive("showActivity", dataShowActivity)
+  .directive("miFavorito", dataFavorito)
+
   .controller("PaistvPublicController", [
     "$scope",
     function ($scope) {

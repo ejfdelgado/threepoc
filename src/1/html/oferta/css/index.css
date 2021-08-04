@@ -25,15 +25,15 @@ main .location-section .map-wrapper {
   font-size: 5rem;
 }
 
-.contacto.whatsapp {
+.contacto .whatsapp {
   color: #25D366;
 }
 
-.contacto.favorito {
+.contacto[mi-favorito] {
   color: lightgray;
 }
 
-.contacto.favorito.activo {
+.contacto[mi-favorito].is_my_favorite {
   color: red;
 }
 

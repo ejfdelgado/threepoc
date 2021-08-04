@@ -28,6 +28,8 @@ import { load360ImageService } from "../../../../js/front/angular/services/load3
 import { dataThree360Viewer } from "../../../../js/front/angular/directives/dataThree360Viewer.mjs";
 import { dataSelectClass } from "../../../../js/front/angular/directives/dataSelectClass.mjs";
 import { dataHtmlContent } from "../../../../js/front/angular/directives/dataHtmlContent.mjs";
+import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
+import { dataFavorito } from "../../../../js/front/angular/directives/dataFavorito.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -47,10 +49,12 @@ export const Tuto3Module = angular
   .directive("dirPtvLoad360Cube", dataLoad360Cube)
   .directive("dirPubPtvAnchor", dataAnchorScroll)
 
+  // Directivas públicas
   .directive("data3dScene", dataThree360Viewer)
   .directive("publicContactMeForm", dataContactMeForm)
   .directive("ngModelDynamic", ngModelDynamic)
-  .directive("paistvDataMessage", dataMessage)
+  .directive("showActivity", dataShowActivity)
+  .directive("miFavorito", dataFavorito)
 
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
