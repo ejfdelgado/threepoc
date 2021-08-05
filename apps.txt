@@ -68,17 +68,19 @@ https://fontawesome.com/v4.7/icons/
 - Indicador de actividad por 1 segundo al llamar o whatsapp ok
 - Ajustar el mensaje de whatsapp agregar la dirección del predio.
 - Personalizar el camera.fov
+    - npm i js-cookie https://github.com/js-cookie/js-cookie ok
+    - Agregar el corazón de favoritos ok
+    - Guardar una cookie con los ids de las páginas favoritas ok
 
 --------------------------------------------
 
 - Favoritos:
-    - npm i js-cookie https://github.com/js-cookie/js-cookie
-    - Agregar el corazón de favoritos
     - Agregar una ventana en dónde se puedan ver los favoritos
-    - Guardar una cookie con los ids de las páginas favoritas
     - Permitir visualizar los favoritos
 - El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto.
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
+- Asegurar que la imágen de la descripción del inmueble es estándar.
+- El botón de ver página
 
 
 - Hacer un formulario con correo.

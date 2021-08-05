@@ -1,17 +1,34 @@
 import { Utilidades } from "../../common/Utilidades.mjs";
+import { EventEmitter } from "../../common/EventEmitter.mjs";
 
 export class ModuloCookieStore {
   static LOCATION_WITHOUT_PAGE = Utilidades.recomputeUrl(location);
 
   static lastAction = null;
+  static em = new EventEmitter();
+
+  static notify() {
+    ModuloCookieStore.lastAction.then((data) => {
+      ModuloCookieStore.em.emit("data", data);
+    });
+  }
+
+  static subscribe(callback) {
+    ModuloCookieStore.em.on("data", (data) => {
+      callback(data);
+    });
+  }
+
   static read() {
     if (ModuloCookieStore.lastAction == null) {
       ModuloCookieStore.lastAction = ModuloCookieStore.localRead();
+      ModuloCookieStore.notify();
     }
     return ModuloCookieStore.lastAction;
   }
   static write(objeto) {
     ModuloCookieStore.lastAction = ModuloCookieStore.localWrite(objeto);
+    ModuloCookieStore.notify();
     return ModuloCookieStore.lastAction;
   }
   static async localRead() {

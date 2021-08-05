@@ -68,7 +68,7 @@ export class CookieStoreHandler {
         json: JSON.stringify(peticion),
       },
     };
-    entidad.excludeFromIndexes = ["json"];
+    entity.excludeFromIndexes = ["json"];
     await datastore.save(entity);
     ans.modelo = entity.data;
 

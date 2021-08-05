@@ -5,6 +5,7 @@ import { dataThree360Viewer } from "../../../../js/front/angular/directives/data
 import { load360ImageService } from "../../../../js/front/angular/services/load360ImageService.mjs";
 import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
 import { dataFavorito } from "../../../../js/front/angular/directives/dataFavorito.mjs";
+import { dataFavoritoList } from "../../../../js/front/angular/directives/dataFavoritoList.mjs";
 
 export const Tuto3Module = angular
   .module("message", [])
@@ -14,6 +15,7 @@ export const Tuto3Module = angular
   .directive("data3dScene", dataThree360Viewer)
   .directive("showActivity", dataShowActivity)
   .directive("miFavorito", dataFavorito)
+  .directive("miFavoritoList", dataFavoritoList)
 
   .controller("PaistvPublicController", [
     "$scope",

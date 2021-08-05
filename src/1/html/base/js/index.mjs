@@ -31,6 +31,7 @@ import { dataHtmlContent } from "../../../../js/front/angular/directives/dataHtm
 import { dataShowActivity } from "../../../../js/front/angular/directives/dataShowActivity.mjs";
 import { dataFavorito } from "../../../../js/front/angular/directives/dataFavorito.mjs";
 import { theEncodeURIComponent } from "../../../../js/front/angular/filters/theEncodeURIComponent.mjs";
+import { dataFavoritoList } from "../../../../js/front/angular/directives/dataFavoritoList.mjs";
 
 export const Tuto3Module = angular
   .module("message", ["ui.router", "ui.tinymce"])
@@ -57,6 +58,7 @@ export const Tuto3Module = angular
   .directive("paistvDataMessage", dataMessage)
   .directive("showActivity", dataShowActivity)
   .directive("miFavorito", dataFavorito)
+  .directive("miFavoritoList", dataFavoritoList)
 
   .filter("safeHtml", safeHTML)
   .filter("orderItem", orderItem)
