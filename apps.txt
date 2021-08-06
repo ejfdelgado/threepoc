@@ -76,13 +76,14 @@ https://fontawesome.com/v4.7/icons/
     - Permitir visualizar los favoritos
 - Ajustar el tamaño de letra en mobile de los favoritos ok
 - Quitar el index.html de la ruta ok
+- Corregir bug de esconder menu de favoritos ok
+- Corregir bug de scroll en mobile ok
 
 --------------------------------------------
 
+- Agregar el precio de la oferta del inmueble
 - Agregar una x para borrar de los favoritos
 - Agregar una x para cerrar los favoritos
-- Corregir bug de esconder menu de favoritos
-- Corregir bug de scroll en mobile
 - Sacar el QR code
 
 - El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto.
