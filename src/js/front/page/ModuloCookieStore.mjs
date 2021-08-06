@@ -6,6 +6,7 @@ export class ModuloCookieStore {
 
   static lastAction = null;
   static em = new EventEmitter();
+  static firstTimeNotified = [];
 
   static notify() {
     ModuloCookieStore.lastAction.then((data) => {
@@ -15,19 +16,33 @@ export class ModuloCookieStore {
 
   static subscribe(callback) {
     ModuloCookieStore.em.on("data", (data) => {
+      if (ModuloCookieStore.firstTimeNotified.indexOf(callback) < 0) {
+        ModuloCookieStore.firstTimeNotified.push(callback);
+      }
       callback(data);
     });
+    if (
+      ModuloCookieStore.firstTimeNotified.indexOf(callback) < 0 &&
+      ModuloCookieStore.lastAction !== null
+    ) {
+      ModuloCookieStore.lastAction.then((data) => {
+        ModuloCookieStore.firstTimeNotified.push(callback);
+        callback(data);
+      });
+    }
   }
 
-  static read() {
+  static async read() {
     if (ModuloCookieStore.lastAction == null) {
       ModuloCookieStore.lastAction = ModuloCookieStore.localRead();
+      await ModuloCookieStore.lastAction;
       ModuloCookieStore.notify();
     }
     return ModuloCookieStore.lastAction;
   }
-  static write(objeto) {
+  static async write(objeto) {
     ModuloCookieStore.lastAction = ModuloCookieStore.localWrite(objeto);
+    await ModuloCookieStore.lastAction;
     ModuloCookieStore.notify();
     return ModuloCookieStore.lastAction;
   }

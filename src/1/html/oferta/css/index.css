@@ -1,4 +1,8 @@
 
+.fondo_blanco {
+  background: white;
+}
+
 button.navbar-toggler i {
   color: white;
 }
@@ -83,6 +87,20 @@ main .location-section .map-wrapper {
 
   .atributos {
     width: 60%;
+  }
+
+  .todos_los_favoritos {
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .un_favorito {
+    font-size: 0.8rem;
+  }
+
+  .un_favorito h3 {
+    font-size: 1.1rem;
   }
 }
 

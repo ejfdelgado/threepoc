@@ -8,7 +8,7 @@ export function dataFavorito() {
     scope: {},
     link: function (scope, element, attrs) {
       const jEl = $(element);
-      const idPage = btoa(window.location.pathname);
+      const idPage = btoa(window.location.origin + window.location.pathname);
       let detalle = null;
       ModuloCookieStore.read().then((datos) => {
         detalle = datos;

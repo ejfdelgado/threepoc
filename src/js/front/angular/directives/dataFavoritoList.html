@@ -1,8 +1,15 @@
-<div class="card" style="width: 18rem;" ng-repeat="elem in lista">
-    <img src="{{ elem.img }}" class="card-img-top">
-    <div class="card-body">
-      <h5 class="card-title">{{ elem.tit }}</h5>
-      <p class="card-text">{{ elem.desc }}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="row overflow-aut todos_los_favoritos">
+  <div class="col-md-12 un_favorito" ng-repeat="elem in lista">
+    <div class="fondo_blanco row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <h3 class="mb-0">{{ elem.tit }}</h3>
+        <div class="mb-1 text-muted">{{ elem.d*1000 | date:'dd/MMM/yyyy' }}</div>
+        <p class="card-text mb-auto">{{ elem.desc }}</p>
+        <a target="_blank" href="{{ elem.path }}" class="stretched-link">Ver más</a>
+      </div>
+      <div class="col-auto d-lg-block">
+        <img src="{{ elem.img }}" class="p-3 bd-placeholder-img">
+      </div>
     </div>
+  </div>
   </div>

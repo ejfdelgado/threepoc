@@ -36,7 +36,7 @@ export class HtmlEditorComponentClass {
       let path = "";
       if (["oferta"].indexOf(subdomain) >= 0) {
         const ref = await ModuloPagina.leer();
-        path = `/${ref.valor.id}/index.html`;
+        path = `/${ref.valor.id}/`;
       } else {
         const bucketPath = $scope.$ctrl.domains.content.bucketPath;
         if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {

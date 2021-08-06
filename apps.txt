@@ -71,16 +71,22 @@ https://fontawesome.com/v4.7/icons/
     - npm i js-cookie https://github.com/js-cookie/js-cookie ok
     - Agregar el corazón de favoritos ok
     - Guardar una cookie con los ids de las páginas favoritas ok
-
---------------------------------------------
-
 - Favoritos:
     - Agregar una ventana en dónde se puedan ver los favoritos
     - Permitir visualizar los favoritos
+- Ajustar el tamaño de letra en mobile de los favoritos ok
+- Quitar el index.html de la ruta ok
+
+--------------------------------------------
+
+- Agregar una x para borrar de los favoritos
+- Agregar una x para cerrar los favoritos
+- Corregir bug de esconder menu de favoritos
+- Corregir bug de scroll en mobile
+- Sacar el QR code
+
 - El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto.
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
-- Asegurar que la imágen de la descripción del inmueble es estándar.
-- El botón de ver página
 
 
 - Hacer un formulario con correo.
