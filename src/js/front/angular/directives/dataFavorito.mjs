@@ -44,7 +44,12 @@ export function dataFavorito() {
           estadoActual = !estadoActual;
           // Se debe escribir el nuevo estado
           if (estadoActual) {
+            let img = $('[name="og:image"]').attr("content");
+            img = /storage\.googleapis\.com\/([^?]*)/.exec(img)[1];
             detalle.modelo.json[idPage] = {
+              tit: $('[name="og:title"]').attr("content"),
+              desc: $('[name="og:description"]').attr("content"),
+              img: img,
               d: parseInt(new Date().getTime() / 1000),
             };
           } else {

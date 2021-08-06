@@ -1,1 +1,8 @@
-<pre>{{ model | json }}</pre>
+<div class="card" style="width: 18rem;" ng-repeat="elem in lista">
+    <img src="{{ elem.img }}" class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">{{ elem.tit }}</h5>
+      <p class="card-text">{{ elem.desc }}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
