@@ -78,23 +78,21 @@ https://fontawesome.com/v4.7/icons/
 - Quitar el index.html de la ruta ok
 - Corregir bug de esconder menu de favoritos ok
 - Corregir bug de scroll en mobile ok
+- Agregar el precio de la oferta del inmueble ok
+- Agregar una x para borrar de los favoritos ok
+- Agregar una x para cerrar los favoritos ok
+- El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto. ok
+- Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html ok
 
 --------------------------------------------
 
-- Agregar el precio de la oferta del inmueble
-- Agregar una x para borrar de los favoritos
-- Agregar una x para cerrar los favoritos
-- Sacar el QR code
+- Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
-- El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto.
+- Sacar el QR code.
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
-
-
 - Hacer un formulario con correo.
-- Agregar foto de la persona
 
 - En la directiva de threejs parametrizar:
-    - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html
     - Permitir editar el camera.fov
     - Que el sistema sepa qué usuario tiene permiso de escribir en qué dominio.
     - Colocar un fondo mientras tanto.

@@ -1,13 +1,14 @@
 <div class="row overflow-aut todos_los_favoritos">
   <div class="col-md-12 un_favorito" ng-repeat="elem in lista">
     <div class="fondo_blanco row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-      <div class="col p-4 d-flex flex-column position-static">
+      <div class="col p-4 d-flex flex-column position-relative">
         <h3 class="mb-0">{{ elem.tit }}</h3>
         <div class="mb-1 text-muted">{{ elem.d*1000 | date:'dd/MMM/yyyy' }}</div>
         <p class="card-text mb-auto">{{ elem.desc }}</p>
         <a target="_blank" href="{{ elem.path }}" class="stretched-link">Ver más</a>
       </div>
       <div class="col-auto d-lg-block">
+        <i class="fa fa-times boton_eliminar_favorito" ng-click="eliminar(elem); $event.stopPropagation()"></i>
         <img src="{{ elem.img }}" class="p-3 bd-placeholder-img">
       </div>
     </div>

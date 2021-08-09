@@ -10,12 +10,19 @@
             {"src":"fa-paw"},
         ],
     };
+    $(document).ready(() => {
+      $('.cerrar_favoritos').on('click', () => {
+        $('#navbarHeader').toggleClass('show');
+      });
+      
+    })
 </script>
-<header>
+<header class="inicio_header">
     <div class="bg-dark collapse" id="navbarHeader">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
+            <i class="fa fa-times cerrar_favoritos manito" aria-hidden="true"></i>
             <h4 class="text-white" style="margin-top: 10px;">Favoritos</h4>
             <p class="text-muted">Acá puedes ver los inmuebles favoritos</p>
             <div mi-favorito-list ></div>
@@ -48,6 +55,7 @@
             </div>
           </div>
         </div>
+        <h1 class="jumbotron-heading" dir-ptv-editor-text ng-model="$ctrl.domains.content.general.precio" default="$200'000.000">$200'000.000</h1>
         <div class="container atributos">
           <div class="row">
             <div class="col-4">
@@ -100,7 +108,7 @@
     <div class="container">
       <p>Para más información, llama al <a href="#!" class="" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.phone" default="+57 3183412491">+57 3183412491</a> o envía un correo a <a href="#!" class="" dir-ptv-editor-link ng-model="$ctrl.domains.content.data.mail" default="correo@dominio.com">correo@dominio.com</a></p>
       <p class="float-right">
-        <a href="#mi_main" dir-pub-ptv-anchor>Regresar arriba</a>
+        <a href=".inicio_header" dir-pub-ptv-anchor>Regresar arriba</a>
       </p>
     </div>
   </footer>

@@ -1,4 +1,5 @@
 import { ModuloCookieStore } from "../../page/ModuloCookieStore.mjs";
+import { ModuloModales } from "../../common/ModuloModales.mjs";
 
 export const dataFavoritoList = [
   "$rootScope",
@@ -34,6 +35,22 @@ export const dataFavoritoList = [
           scope.lista.sort((primero, segundo) => {
             return segundo.d - primero.d;
           });
+
+          scope.eliminar = async function (elemento) {
+            const confirmacion = await ModuloModales.confirm({
+              message: "<p>¿Desea continuar?</p>",
+              useHtml: true,
+              title: "Eliminar favorito",
+            });
+
+            if (confirmacion) {
+              const idPage = btoa(elemento.path);
+              delete scope.model.modelo.json[idPage];
+              await ModuloCookieStore.write(scope.model.modelo.json);
+              $(".is_my_favorite").toggleClass("is_my_favorite");
+              scope.$digest();
+            }
+          };
 
           // Renderizar
 
