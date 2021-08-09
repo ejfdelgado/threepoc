@@ -4,6 +4,7 @@ import { MiSeguridad } from "./MiSeguridad.mjs";
 import { Utilidades } from "../../common/Utilidades.mjs";
 import { ModuloPagina } from "../page/ModuloPagina.mjs";
 import { Deferred } from "../../common/Deferred.mjs";
+import { ShortUrl } from "../page/ShortUrl.mjs";
 
 export class ModuloIntMark {
   static RAIZ = "/pgs";
@@ -59,17 +60,7 @@ export class ModuloIntMark {
           slaveUrl +=
             "?" + Utilidades.generateQueryParams({ pg: ctx["id"], sl: "si" });
         }
-        const url = new URL(`${ModuloIntMark.LOCATION_WITHOUT_PAGE.origin}/a/`);
-        const respuesta = await fetch(url, {
-          method: "POST",
-          body: JSON.stringify({
-            theurl: slaveUrl,
-          }),
-          headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json());
-
-        shortSlaveUrl =
-          ModuloIntMark.LOCATION_WITHOUT_PAGE.origin + "/a/" + respuesta["id"];
+        shortSlaveUrl = await ShortUrl.get(slaveUrl);
       }
 
       if (ModuloIntMark.opciones.useFirebase) {

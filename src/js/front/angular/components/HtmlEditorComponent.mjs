@@ -7,6 +7,7 @@ import { ModuloPagina } from "../../page/ModuloPagina.mjs";
 import { ModuloModales } from "../../common/ModuloModales.mjs";
 import { ModuloHtml } from "../../common/ModuloHtml.mjs";
 import { Utiles } from "../../../common/Utiles.mjs";
+import { ModuloQR } from "../../firebase/ModuloQR.mjs";
 
 export class HtmlEditorComponentClass {
   constructor($scope, $rootScope, $filter, $parse, $compile, ngifSearch) {
@@ -50,6 +51,7 @@ export class HtmlEditorComponentClass {
         /(https?:\/\/)([^/]*)/,
         `$1${subdomain}.$2${path}`
       );
+      await ModuloQR.get($('#local_qr_code'), pubUrl);
       window.open(pubUrl, "_blank");
     });
     $rootScope.$on("editPageOptions", async function () {

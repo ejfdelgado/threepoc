@@ -1,4 +1,9 @@
 
+#local_qr_code {
+  text-align: center;
+  padding: 5px;
+}
+
 [dir-ptv-editor-html-content] .accion_edit {
   position: absolute;
   top: -20px;

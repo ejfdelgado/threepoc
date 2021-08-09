@@ -86,9 +86,9 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- Sacar el QR code.
 - Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
-- Sacar el QR code.
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
 - Hacer un formulario con correo.
 

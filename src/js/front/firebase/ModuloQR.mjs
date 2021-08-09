@@ -1,6 +1,17 @@
 import { ModuloIntMark } from "./ModuloIntMark.mjs";
+import { ShortUrl } from "../page/ShortUrl.mjs";
 
 export class ModuloQR {
+  static VECES = 3;
+  static async get(jElement, url) {
+    const shortUrl = await ShortUrl.get(url);
+    jElement.qrcode({
+      width: 41 * ModuloQR.VECES,
+      height: 41 * ModuloQR.VECES,
+      text: shortUrl,
+    });
+    jElement.attr('href', shortUrl);
+  }
   static async showQR() {
     const datos = await ModuloIntMark.getDiferidoIntMark();
     console.log("diferidoId ok");
@@ -13,10 +24,9 @@ export class ModuloQR {
       divSlave.remove();
       var elemQrCode = $("#qrcode");
       if (elemQrCode.length > 0) {
-        const veces = 3;
         elemQrCode.qrcode({
-          width: 41 * veces,
-          height: 41 * veces,
+          width: 41 * ModuloQR.VECES,
+          height: 41 * ModuloQR.VECES,
           text: datos.slaveUrl,
         });
         elemQrCode.on("click", function () {
