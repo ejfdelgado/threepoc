@@ -40,7 +40,12 @@ export class Constants {
   static getSavedTemplateRegexp() {
     return /^public\/(usr\/anonymous\/[\d]+\/.+\/pg\/[\d]+|p\/.+)\/index.html$/i;
   }
-  static TEMPLATED_PATHS = ["/1/html/simple/", "/1/html/cv/", "/1/html/oferta/"];
+  static TEMPLATE_AUTO_INDEX_PATHS = ["oferta"];
+  static TEMPLATED_PATHS = [
+    "/1/html/simple/",
+    "/1/html/cv/",
+    "/1/html/oferta/",
+  ];
   static HTML_EDITOR_PATH = "/1/html/base";
   static HOMOLOGATION_FILES() {
     const ans = {

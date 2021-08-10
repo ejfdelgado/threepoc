@@ -85,28 +85,21 @@ https://fontawesome.com/v4.7/icons/
 - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html ok
 - Sacar el QR code. ok
 - Hacer un servicio que permita renderizar un html y se le puedan pasar parámetros.
+- En la directiva de threejs parametrizar:
+    - Permitir editar el camera.fov ok
+- Quitar el +57 del celular. ok
+- Que el QR code no se agrege indefinidamente, sino que se genere y se borre. ok
+- Que haya una opción de menú solo para imprimir Poster. ok
+- Que el jspdf genere tamaños de textos variables dado el contenido. ok
 
 --------------------------------------------
-
-- Que el jspdf genere tamaños de textos variables dado el contenido.
-- Que el QR code no se agrege indefinidamente, sino que se genere y se borre.
-- Que haya una opción de menú solo para imprimir Poster.
 
 - Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
-- Hacer un formulario con correo.
 
-- En la directiva de threejs parametrizar:
-    - Permitir editar el camera.fov
-    - Que el sistema sepa qué usuario tiene permiso de escribir en qué dominio.
-    - Colocar un fondo mientras tanto.
-    - No bloquear mientras se carga el fondo.
+- Que el sistema sepa qué usuario tiene permiso de escribir en qué dominio.
 
-
-
-
-- Hacer directiva de vista 3d de 360
 - El load de un enlace debe tener la libertad de cargar archivo con path diferente
 - Hacer el borrado de una página junto con todas sus tuplas
 
@@ -155,11 +148,14 @@ Lectura de estáticos
 - Leer variables de entorno: https://cloud.google.com/appengine/docs/standard/nodejs/runtime
 
 APPS:
-- Hacer un simple page editor (wip)
+- CMS (ok)
+- Editor de hoja de vida (ok)
+- Conversor de html a pdf para hoja de vida (ok)
+- Visualizador de inmuebles 360 (ok)
+- Editor de notas
 - Servicio de conteo de días hábiles en Colombia
 - Servicio de firmar archivos pdf con clave y firma digital
-- Conversor de html a pdf para hoja de vida
 - Chat
-- Hacer una tarjeta virtual con formularios
-- Hcer una encuesta con feedback real time
-- Hacer un editor de cartas con firma.
+- Tarjeta virtual con formularios
+- Encuesta con feedback real time
+- Editor de cartas con firma.

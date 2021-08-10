@@ -9,6 +9,7 @@ import { ModuloHtml } from "../../common/ModuloHtml.mjs";
 import { Utiles } from "../../../common/Utiles.mjs";
 import { ModuloQR } from "../../firebase/ModuloQR.mjs";
 import { jsPdfLocal } from "../../../common/jsPdf.mjs";
+import { Constants } from "../../../common/Constants.mjs";
 
 export class HtmlEditorComponentClass {
   constructor($scope, $rootScope, $filter, $parse, $compile, ngifSearch) {
@@ -32,38 +33,20 @@ export class HtmlEditorComponentClass {
     $rootScope.$on("searchPages", function (datos) {
       ModuloPagina.showSearchPages();
     });
+    $rootScope.$on("printPoster", async function (datos) {
+      const pubUrl = await HtmlEditorComponentClass.getPublicUrl($scope);
+      HtmlEditorComponentClass.generateQRPdf({
+        pubUrl: pubUrl,
+        title: $scope.$ctrl.domains.content.general.title.replaceAll(
+          /<\/?br\/?>/gi,
+          ""
+        ),
+        phone: $scope.$ctrl.domains.content.data.phone,
+      });
+    });
     $rootScope.$on("viewPage", async function (datos) {
-      // const ref = await ModuloPagina.leer();
-      const subdomain = $scope.$ctrl.domains.content.subdomain;
-      let path = "";
-      if (["oferta"].indexOf(subdomain) >= 0) {
-        const ref = await ModuloPagina.leer();
-        path = `/${ref.valor.id}/`;
-      } else {
-        const bucketPath = $scope.$ctrl.domains.content.bucketPath;
-        if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {
-          path = bucketPath
-            .replace(/\/?(.*?)\/?(index.html)/, "/$1/")
-            .replace("//", "/");
-        }
-      }
-      let domain = location.origin;
-      const pubUrl = domain.replace(
-        /(https?:\/\/)([^/]*)/,
-        `$1${subdomain}.$2${path}`
-      );
-      if (["oferta"].indexOf(subdomain) >= 0) {
-        HtmlEditorComponentClass.generateQRPdf({
-          pubUrl: pubUrl,
-          title: $scope.$ctrl.domains.content.general.title.replaceAll(
-            /<\/?br\/?>/gi,
-            ""
-          ),
-          phone: $scope.$ctrl.domains.content.data.phone,
-        });
-      } else {
-        window.open(pubUrl, "_blank");
-      }
+      const pubUrl = await HtmlEditorComponentClass.getPublicUrl($scope);
+      window.open(pubUrl, "_blank");
     });
     $rootScope.$on("editPageOptions", async function () {
       const urlTemplate = "/js/front/page/html/editPageOptions.html";
@@ -136,12 +119,49 @@ export class HtmlEditorComponentClass {
     $scope.PAIS_EDITOR_POOL_DATABASE = PAIS_EDITOR_POOL_DATABASE;
     this.$scope = $scope;
   }
+  static async getPublicUrl($scope) {
+    const subdomain = $scope.$ctrl.domains.content.subdomain;
+    let path = "";
+    if (Constants.TEMPLATE_AUTO_INDEX_PATHS.indexOf(subdomain) >= 0) {
+      const ref = await ModuloPagina.leer();
+      path = `/${ref.valor.id}/`;
+    } else {
+      const bucketPath = $scope.$ctrl.domains.content.bucketPath;
+      if (typeof bucketPath == "string" && bucketPath.trim().length > 0) {
+        path = bucketPath
+          .replace(/\/?(.*?)\/?(index.html)/, "/$1/")
+          .replace("//", "/");
+      }
+    }
+    let domain = location.origin;
+    const pubUrl = domain.replace(
+      /(https?:\/\/)([^/]*)/,
+      `$1${subdomain}.$2${path}`
+    );
+    return pubUrl;
+  }
+  static getFontSize(text) {
+    const total = text.length;
+    const sinEspacios = text.replace(/[\s]/g, "").length;
+    const espacios = total - sinEspacios;
+    // Se asume que un espacio es como media letra
+    const cantidad = 2 * sinEspacios + espacios;
+    // SE ARRIENDA = 10*2 + 1 = 21 = 250
+    // 3183412491 = 10*2      = 20 = 300
+    // SE VENDE = 7*2 + 1     = 15 = 350
+    return parseInt(-14.51613 * cantidad + 570.96774);
+  }
   static async generateQRPdf(params) {
-    const jElement = $("#local_qr_code");
+    const jElement = $('<div class="invisible"></div>');
+    $("body").append(jElement);
     await ModuloQR.get(jElement, params.pubUrl);
     const canvas = jElement.find("canvas");
     var dataURL = canvas[0].toDataURL("image/png", 1.0);
+    jElement.remove();
     params.qr = dataURL;
+    const sizeTitle = HtmlEditorComponentClass.getFontSize(params.title);
+    const textNumber = params.phone.url.replace(/^\s*\+57\s*/gi, "");
+    const sizeNumber = HtmlEditorComponentClass.getFontSize(textNumber);
     const body = {
       options: { orientation: "portrait", unit: "mm", format: [1000, 700] },
       elements: [
@@ -157,16 +177,16 @@ export class HtmlEditorComponentClass {
           type: "txt",
           data: params.title,
           x: 350,
-          y: 150,
-          size: 300,
+          y: 125,
+          size: sizeTitle,
           align: "center",
         },
         {
           type: "txt",
-          data: params.phone.url,
+          data: textNumber,
           x: 350,
-          y: 900,
-          size: 200,
+          y: 950,
+          size: sizeNumber,
           align: "center",
         },
       ],
