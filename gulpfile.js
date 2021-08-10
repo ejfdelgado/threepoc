@@ -76,6 +76,8 @@ const NODE_FILES = [
   
   "./node_modules/interactjs/dist/interact.min.js",
   "./node_modules/jspdf/dist/jspdf.es.min.js",
+  "./node_modules/jspdf/dist/jspdf.umd.min.js",
+  "./node_modules/jspdf/dist/jspdf.node.min.js",
 ];
 
 function bundleJs(filePath, subDomain=null) {

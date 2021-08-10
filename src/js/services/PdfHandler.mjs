@@ -1,6 +1,7 @@
-import jsPDF from "jspdf";
+import jsPDF from "jspdf/dist/jspdf.node.min.js";
 import express from "express";
 import bodyParser from "body-parser";
+import { jsPdfLocal } from "../common/jsPdf.mjs";
 
 const router = express.Router();
 
@@ -9,18 +10,8 @@ router.use(bodyParser.json());
 
 export class PdfHandler {
   static async render(req, res) {
-    const body = {
-      elements: [
-        {
-          type: "img",
-          data: "",
-        }
-      ]
-    };
-    const imgData = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==";
-    const doc = new jsPDF.jsPDF();
-    doc.text("SE VENDE", 10, 10);
-    doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
+    const body = req.body;
+    const doc = jsPdfLocal.process(jsPDF.jsPDF, body);
     const data = doc.output();
     res.write(data, "utf8", () => {
       res.end();
@@ -28,6 +19,6 @@ export class PdfHandler {
   }
 }
 
-router.get("/render", PdfHandler.render);
+router.post("/render", PdfHandler.render);
 
 export default router;

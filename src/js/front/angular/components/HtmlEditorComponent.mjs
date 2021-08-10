@@ -8,6 +8,7 @@ import { ModuloModales } from "../../common/ModuloModales.mjs";
 import { ModuloHtml } from "../../common/ModuloHtml.mjs";
 import { Utiles } from "../../../common/Utiles.mjs";
 import { ModuloQR } from "../../firebase/ModuloQR.mjs";
+import { jsPdfLocal } from "../../../common/jsPdf.mjs";
 
 export class HtmlEditorComponentClass {
   constructor($scope, $rootScope, $filter, $parse, $compile, ngifSearch) {
@@ -51,8 +52,54 @@ export class HtmlEditorComponentClass {
         /(https?:\/\/)([^/]*)/,
         `$1${subdomain}.$2${path}`
       );
-      await ModuloQR.get($('#local_qr_code'), pubUrl);
-      window.open(pubUrl, "_blank");
+      async function generateQRPdf(params) {
+        const jElement = $("#local_qr_code");
+        await ModuloQR.get(jElement, pubUrl);
+        const canvas = jElement.find("canvas");
+        var dataURL = canvas[0].toDataURL("image/png", 1.0);
+        params.qr = dataURL;
+        const body = {
+          options: { orientation: "portrait", unit: "mm", format: [1000, 700] },
+          elements: [
+            {
+              type: "img",
+              x: 50,
+              y: 200,
+              w: 600,
+              h: 600,
+              data: params.qr,
+            },
+            {
+              type: "txt",
+              data: params.title,
+              x: 350,
+              y: 150,
+              size: 300,
+              align: "center",
+            },
+            {
+              type: "txt",
+              data: params.phone.url,
+              x: 350,
+              y: 900,
+              size: 200,
+              align: "center",
+            },
+          ],
+        };
+        const doc = jsPdfLocal.process(jspdf.jsPDF, body);
+        doc.save("algo.pdf");
+      }
+      if (["oferta"].indexOf(subdomain) >= 0) {
+        generateQRPdf({
+          title: $scope.$ctrl.domains.content.general.title.replaceAll(
+            /<\/?br\/?>/gi,
+            ""
+          ),
+          phone: $scope.$ctrl.domains.content.data.phone,
+        });
+      }
+      //window.open(pubUrl, "_blank");
     });
     $rootScope.$on("editPageOptions", async function () {
       const urlTemplate = "/js/front/page/html/editPageOptions.html";
@@ -357,7 +404,10 @@ export class HtmlEditorComponentClass {
     );
 
     //Ayuda para directiva threejs
-    markup = markup.replace(/(data3d-scene)[^\s]*[\s]+model[^\s]+\s+(model-pub=)/gi, "$1 model=");
+    markup = markup.replace(
+      /(data3d-scene)[^\s]*[\s]+model[^\s]+\s+(model-pub=)/gi,
+      "$1 model="
+    );
 
     // Se quitan todos los comentarios
     markup = markup.replace(/<!--.*?-->/gi, "");
