@@ -84,10 +84,14 @@ https://fontawesome.com/v4.7/icons/
 - El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto. ok
 - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html ok
 - Sacar el QR code. ok
+- Hacer un servicio que permita renderizar un html y se le puedan pasar parámetros.
 
 --------------------------------------------
 
-- Hacer un servicio que permita renderizar un html y se le puedan pasar parámetros.
+- Que el jspdf genere tamaños de textos variables dado el contenido.
+- Que el QR code no se agrege indefinidamente, sino que se genere y se borre.
+- Que haya una opción de menú solo para imprimir Poster.
+
 - Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.

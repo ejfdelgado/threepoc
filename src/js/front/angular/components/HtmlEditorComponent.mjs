@@ -52,54 +52,18 @@ export class HtmlEditorComponentClass {
         /(https?:\/\/)([^/]*)/,
         `$1${subdomain}.$2${path}`
       );
-      async function generateQRPdf(params) {
-        const jElement = $("#local_qr_code");
-        await ModuloQR.get(jElement, pubUrl);
-        const canvas = jElement.find("canvas");
-        var dataURL = canvas[0].toDataURL("image/png", 1.0);
-        params.qr = dataURL;
-        const body = {
-          options: { orientation: "portrait", unit: "mm", format: [1000, 700] },
-          elements: [
-            {
-              type: "img",
-              x: 50,
-              y: 200,
-              w: 600,
-              h: 600,
-              data: params.qr,
-            },
-            {
-              type: "txt",
-              data: params.title,
-              x: 350,
-              y: 150,
-              size: 300,
-              align: "center",
-            },
-            {
-              type: "txt",
-              data: params.phone.url,
-              x: 350,
-              y: 900,
-              size: 200,
-              align: "center",
-            },
-          ],
-        };
-        const doc = jsPdfLocal.process(jspdf.jsPDF, body);
-        doc.save("algo.pdf");
-      }
       if (["oferta"].indexOf(subdomain) >= 0) {
-        generateQRPdf({
+        HtmlEditorComponentClass.generateQRPdf({
+          pubUrl: pubUrl,
           title: $scope.$ctrl.domains.content.general.title.replaceAll(
             /<\/?br\/?>/gi,
             ""
           ),
           phone: $scope.$ctrl.domains.content.data.phone,
         });
+      } else {
+        window.open(pubUrl, "_blank");
       }
-      //window.open(pubUrl, "_blank");
     });
     $rootScope.$on("editPageOptions", async function () {
       const urlTemplate = "/js/front/page/html/editPageOptions.html";
@@ -171,6 +135,44 @@ export class HtmlEditorComponentClass {
 
     $scope.PAIS_EDITOR_POOL_DATABASE = PAIS_EDITOR_POOL_DATABASE;
     this.$scope = $scope;
+  }
+  static async generateQRPdf(params) {
+    const jElement = $("#local_qr_code");
+    await ModuloQR.get(jElement, params.pubUrl);
+    const canvas = jElement.find("canvas");
+    var dataURL = canvas[0].toDataURL("image/png", 1.0);
+    params.qr = dataURL;
+    const body = {
+      options: { orientation: "portrait", unit: "mm", format: [1000, 700] },
+      elements: [
+        {
+          type: "img",
+          x: 50,
+          y: 200,
+          w: 600,
+          h: 600,
+          data: params.qr,
+        },
+        {
+          type: "txt",
+          data: params.title,
+          x: 350,
+          y: 150,
+          size: 300,
+          align: "center",
+        },
+        {
+          type: "txt",
+          data: params.phone.url,
+          x: 350,
+          y: 900,
+          size: 200,
+          align: "center",
+        },
+      ],
+    };
+    const doc = jsPdfLocal.process(jspdf.jsPDF, body);
+    doc.save("Poster.pdf");
   }
   $onInit() {
     this.domains = {};
