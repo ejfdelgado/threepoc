@@ -83,10 +83,11 @@ https://fontawesome.com/v4.7/icons/
 - Agregar una x para cerrar los favoritos ok
 - El scroll to debería ir hasta arriba arriba, esta yendo hasta el contacto. ok
 - Que el sistema permita saber qué path /1/html/oferta escribe con index.html o ${idPage}.html ok
+- Sacar el QR code. ok
 
 --------------------------------------------
 
-- Sacar el QR code.
+- Hacer un servicio que permita renderizar un html y se le puedan pasar parámetros.
 - Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.

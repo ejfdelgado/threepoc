@@ -11,6 +11,7 @@ import pageHandler from "./src/js/services/PageHandler.mjs";
 import emailHandler from "./src/js/services/EmailHandler.mjs";
 import { Usuario } from "./src/js/services/Usuario.mjs";
 import cookieStoreHandler from "./src/js/services/CookieStoreHandler.mjs";
+import pdfHandler from "./src/js/services/PdfHandler.mjs";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/xpage", Usuario.authDecorator, pageHandler);
 app.use("/api/utiles", utiles);
 app.use("/api/tup", Usuario.authDecorator, tuplaHandler);
 app.use("/api/cookie", cookieStoreHandler);
+app.use("/api/pdf", pdfHandler);
 app.use("/adm", adminHandler);
 app.use("/a", shortUrlHandler);
 app.use("/storage", Usuario.authDecorator, storageHandler);
