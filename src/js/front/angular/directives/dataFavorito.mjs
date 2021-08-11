@@ -8,7 +8,8 @@ export function dataFavorito() {
     scope: {},
     link: function (scope, element, attrs) {
       const jEl = $(element);
-      const idPage = btoa(window.location.origin + window.location.pathname);
+      const idPageRead = window.location.origin + window.location.pathname;
+      const idPage = btoa(idPageRead);
       let detalle = null;
       ModuloCookieStore.read().then((datos) => {
         detalle = datos;
@@ -44,6 +45,9 @@ export function dataFavorito() {
           estadoActual = !estadoActual;
           // Se debe escribir el nuevo estado
           if (estadoActual) {
+            if (typeof gtag !== undefined) {
+              gtag('event', 'love', { 'path': idPageRead });
+            }
             let img = $('[name="og:image"]').attr("content");
             img = /storage\.googleapis\.com\/([^?]*)/.exec(img)[1];
             detalle.modelo.json[idPage] = {

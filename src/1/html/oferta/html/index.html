@@ -1,21 +1,30 @@
 <script>
-    const PAIS_EDITOR_POOL_DATABASE = {
-      attributes: [
-            {"src":"fa-bed"}, 
-            {"src":"fa-bath"},
-            {"src":"fa-car"},
-            {"src":"fa-building-o"},
-            {"src":"fa-arrows"},
-            {"src":"fa-archive"},
-            {"src":"fa-paw"},
-        ],
-    };
-    $(document).ready(() => {
-      $('.cerrar_favoritos').on('click', () => {
-        $('#navbarHeader').toggleClass('show');
-      });
-      
-    })
+const PAIS_EDITOR_POOL_DATABASE = {
+  attributes: [
+    { src: "fa-bed" },
+    { src: "fa-bath" },
+    { src: "fa-car" },
+    { src: "fa-building-o" },
+    { src: "fa-arrows" },
+    { src: "fa-archive" },
+    { src: "fa-paw" },
+  ],
+};
+
+$(document).ready(() => {
+  $(".cerrar_favoritos").on("click", () => {
+    $("#navbarHeader").toggleClass("show");
+  });
+});
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NL2CPJQLDD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NL2CPJQLDD');
 </script>
 <header class="inicio_header">
     <div class="bg-dark collapse" id="navbarHeader">

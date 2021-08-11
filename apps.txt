@@ -94,6 +94,14 @@ https://fontawesome.com/v4.7/icons/
 
 --------------------------------------------
 
+- Agregar google analytics
+- Agregar evento de like a analytics
+G-NL2CPJQLDD
+
+- Agregar formato de captura de nuevos clientes.
+
+- De alguna manera poder agregar puntos de excepción como un plugin.
+
 - Agregar iconos a las ventanas de cookies (galletas) y eliminar favorito (caneca).
 
 - Hacer una acción si no se lograron cargar las imagenes del 360 viewer.
@@ -155,7 +163,7 @@ APPS:
 - Editor de notas
 - Servicio de conteo de días hábiles en Colombia
 - Servicio de firmar archivos pdf con clave y firma digital
+- Editor de cartas con firma.
 - Chat
 - Tarjeta virtual con formularios
 - Encuesta con feedback real time
-- Editor de cartas con firma.
