@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <base>
+    </base>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Título</title>
+    <meta name="og:title" content="Título" />
+    <meta name="og:description" content="Descripción" />
+    <meta name="og:image" content="/z/img/favicon.ico" />
+    <meta name="og:site_name" content="PaisTv" />
+    <meta name="og:url" content="https://www.pais.tv" />
+    <meta name="og:type" content="website" />
+    <meta name="og:background_image" content="/z/img/back.jpg" />
+    <meta name="keywords" content="palabras clave">
+
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script>var exports = {};</script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        function MyApp() {
+            return <h1>Hello, world!</h1>;
+        }
+        const container = document.getElementById('test');
+        const root = ReactDOM.createRoot(container);
+        root.render(<MyApp />);
+    </script>
+    <script type="text/javascript" src="/node_modules/react/umd/react.production.min.js"></script>
+    <script type="text/javascript" src="/node_modules/react-dom/umd/react-dom.production.min.js"></script>
+    <script type="text/javascript" src="./js/index.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+
+</html>

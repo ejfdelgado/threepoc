@@ -1,6 +1,18 @@
 
 TODO
 
+Error: gcs-upload@paistv.iam.gserviceaccount.com does not have storage.objects.get access to the Google Cloud Storage object.
+https://askubuntu.com/questions/1409458/openssl-config-cuases-error-in-node-js-crypto-how-should-the-config-be-updated
+sudo nano /etc/ssl/openssl.cnf
+Buscar esta línea y comentarearla:
+[openssl_init]
+#providers = provider_sect (esta!)
+ssl_conf = ssl_sect
+
+export OPENSSL_CONF=/dev/null
+
+gcloud projects get-iam-policy paistv
+
 https://fontawesome.com/v4.7/icons/
 
 gcloud datastore indexes create index.yaml --project paistv
@@ -17,23 +29,17 @@ https://cloud.google.com/nodejs/docs/reference
 https://github.com/GoogleCloudPlatform/nodejs-docs-samples
 https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
-
-
-export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
-
-bash
-source /Users/jose.delgado/.bash_profile_gcp
-export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
-export GAE_APPLICATION="proyeccion-colombia1"
-gcloud config set project proyeccion-colombia1
-npm run start
-
 gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
 
 export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
-export GOOGLE_APPLICATION_CREDENTIALS='/Users/jose.delgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
+export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
 export GAE_APPLICATION="paistv"
 gcloud config set project paistv
+
+npm run build_html_base
+npm run build_html_oferta_public
+npm run node_modules
+
 
 Para correr el servidor:
 npm run start

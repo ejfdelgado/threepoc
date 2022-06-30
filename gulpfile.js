@@ -22,6 +22,11 @@ const NODE_FILES = [
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js",
   "./node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
 
+  "./node_modules/react/cjs/react.production.min.js",
+  "./node_modules/react-dom/cjs/react-dom.production.min.js",
+  "./node_modules/react/umd/react.production.min.js",
+  "./node_modules/react-dom/umd/react-dom.production.min.js",
+
   "./node_modules/firebase/firebase-auth.js",
   "./node_modules/firebase/firebase-auth.js.map",
   "./node_modules/firebase/firebase-app.js",
@@ -157,6 +162,7 @@ function es6Bundle(opciones = {}) {
       global: true,
       sourceType: "unambiguous",
       presets: [
+        "@babel/preset-react",
         [
           "@babel/preset-env",
           {

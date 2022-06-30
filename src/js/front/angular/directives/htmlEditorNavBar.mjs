@@ -33,8 +33,10 @@ export const htmlEditorNavBar = [
         };
 
         MiSeguridad.buscarUsuario().then(function (ans) {
-          scope.user.displayName = ans.usr.displayName;
-          scope.user.photoURL = ans.usr.photoURL;
+          if (ans) {
+            scope.user.displayName = ans.usr.displayName;
+            scope.user.photoURL = ans.usr.photoURL;
+          }
         });
       },
     };

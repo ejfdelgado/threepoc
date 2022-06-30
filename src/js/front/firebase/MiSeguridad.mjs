@@ -106,7 +106,9 @@ export class MiSeguridad {
               MiSeguridad.borrarDatos();
               reject(MiSeguridad.datosLocales);
             });
-            promesaIdentidad = promesaIdentidad.then((datos) => datos.json());
+            promesaIdentidad = promesaIdentidad.then((datos) => {
+              return datos.json();
+            });
             promesaIdentidad.then((msg) => {
               Object.assign(MiSeguridad.datosLocales, msg);
               resolve(MiSeguridad.datosLocales);
