@@ -31,18 +31,14 @@ https://medium.com/google-cloud/app-engine-project-cleanup-9647296e796a
 
 gcloud app deploy app.yaml --project proyeccion-colombia1 --version 2
 
-export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/paistv-5087a82b438a.json'
-export GOOGLE_APPLICATION_CREDENTIALS='/home/ejfdelgado/desarrollo/threepoc/llaves/proyeccion-colombia1-b492ce8a0bae.json'
-export GAE_APPLICATION="paistv"
-gcloud config set project paistv
-
 npm run build_html_base
 npm run build_html_oferta_public
 npm run node_modules
-
+npm run build_react
 
 Para correr el servidor:
-npm run start
+./run.sh
+http://proyeccion-colombia1.appspot.com:8081/1/react/
 
 ------------------------------------------------------------------------------------------------------------------------>>
 

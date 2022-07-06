@@ -83,6 +83,9 @@ const NODE_FILES = [
   "./node_modules/jspdf/dist/jspdf.es.min.js",
   "./node_modules/jspdf/dist/jspdf.umd.min.js",
   "./node_modules/jspdf/dist/jspdf.node.min.js",
+
+  "./node_modules/node-audiorecorder/library/index.js",
+  "./node_modules/mic-recorder/dist/**",
 ];
 
 function bundleJs(filePath, subDomain=null) {
