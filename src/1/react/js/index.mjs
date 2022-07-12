@@ -1,37 +1,21 @@
 import { createRoot } from 'react-dom/client';
-import { useState } from 'react';
-
-function App() {
-  return <div>Hello World</div>;
-}
-
-function Counter() {
-  const [count, setCount] = useState(0);
-  return (
-    <>
-      <h1>{count}</h1>
-      <button onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
-    </>
-  );
-}
-
-function Form() {
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log('You clicked submit.');
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-
+import Form from "../js/modules/Form.mjs"
+import Hello from "../js/modules/Hello.mjs"
+import Counter from "../js/modules/Counter.mjs"
+import AutoCounterClass from "../js/modules/AutoCounterClass.mjs"
+import AutoCounterFunction from "../js/modules/AutoCounterFunction.mjs"
 
 $(function () {
-  const root = createRoot(document.getElementById('root'));
-  root.render(<Form />);
+  function placeComponent(id, tag) {
+    const container = document.getElementById(id);
+    const root = createRoot(container);
+    root.render(tag);
+  }
+
+  placeComponent('hello', <Hello />);
+  placeComponent('form', <Form />);
+  placeComponent('counter', <Counter />);
+  placeComponent('autoCounterClass', <AutoCounterClass prefix="Contador es:" />);
+  placeComponent('autoCounterFunction', <AutoCounterFunction prefix="Contador es:" />);
+
 });
