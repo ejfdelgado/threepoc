@@ -86,6 +86,16 @@ const NODE_FILES = [
 
   "./node_modules/node-audiorecorder/library/index.js",
   "./node_modules/mic-recorder/dist/**",
+
+  "./node_modules/@tensorflow/tfjs/dist/**",
+  "./node_modules/@tensorflow/tfjs-backend-cpu/dist/**",
+  "./node_modules/@tensorflow/tfjs-backend-webgl/dist/**",
+  "./node_modules/@tensorflow/tfjs-converter/dist/**",
+  "./node_modules/@tensorflow/tfjs-core/dist/**",
+  "./node_modules/@tensorflow/tfjs-data/dist/**",
+  "./node_modules/@tensorflow/tfjs-layers/dist/**",
+  "./node_modules/@tensorflow/tfjs-vis/dist/**",
+  
 ];
 
 function bundleJs(filePath, subDomain=null) {

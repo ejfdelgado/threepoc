@@ -2,8 +2,7 @@ import { createRoot } from 'react-dom/client';
 import Form from "../js/modules/Form.mjs"
 import Hello from "../js/modules/Hello.mjs"
 import Counter from "../js/modules/Counter.mjs"
-import AutoCounterClass from "../js/modules/AutoCounterClass.mjs"
-import AutoCounterFunction from "../js/modules/AutoCounterFunction.mjs"
+import CompositeClass from "../js/modules/CompositeClass.mjs"
 
 $(function () {
   function placeComponent(id, tag) {
@@ -12,10 +11,12 @@ $(function () {
     root.render(tag);
   }
 
+  // https://es.reactjs.org/docs/render-props.html
+  // https://reactnative.dev/docs/intro-react
+  // https://es.reactjs.org/docs/hooks-custom.html
   placeComponent('hello', <Hello />);
   placeComponent('form', <Form />);
   placeComponent('counter', <Counter />);
-  placeComponent('autoCounterClass', <AutoCounterClass prefix="Contador es:" />);
-  placeComponent('autoCounterFunction', <AutoCounterFunction prefix="Contador es:" />);
+  placeComponent('compositeClass', <CompositeClass/>);
 
 });
